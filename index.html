@@ -873,19 +873,15 @@ function getEmailContent(email, language) {
   return templates[language] || templates['en'];
 }
 
-// ── SEND CONFIRMATION EMAIL VIA RESEND (Direct API) ──
+// ── SEND CONFIRMATION EMAIL VIA NETLIFY FUNCTION ──
 async function sendWelcomeEmail(email, language) {
   const content = getEmailContent(email, language);
   try {
-    const response = await fetch('https://api.resend.com/emails', {
+    const response = await fetch('/.netlify/functions/send-email', {
       method: 'POST',
-      headers: {
-        'Authorization': 'Bearer re_jmWjLnKV_7DTXj2sfp6irpvjFzWcVAxcA',
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: 'Flexori <hola@flexori.work>',
-        to: [email],
+        to: email,
         subject: content.subject,
         html: content.html
       })
