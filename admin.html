@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Flexori — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--black:#0D1321;--green:#1D9E75;--green-light:#24C48F;--gray:#A8A69E;--white:#FFFFFF;--surface:#131B2E;--surface2:#1A2338;--border:rgba(255,255,255,0.07);--border-green:rgba(29,158,117,0.25);--green-dim:rgba(29,158,117,0.12)}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;min-height:100vh;padding:40px 20px}
+.logo{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--green);text-align:center;margin-bottom:4px}
+.subtitle{font-size:12px;color:var(--gray);letter-spacing:2px;text-transform:uppercase;text-align:center;margin-bottom:32px}
+
+/* LOGIN */
+#login-screen{width:100%;max-width:400px;margin:0 auto}
+.card{background:var(--surface);border:1px solid var(--border-green);border-radius:20px;padding:36px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.card h2{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:24px;text-align:center}
+input[type=password]{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;padding:13px 16px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;transition:border-color .2s;margin-bottom:14px}
+input[type=password]:focus{border-color:var(--border-green)}
+.btn{width:100%;background:var(--green);color:var(--black);border:none;border-radius:12px;padding:13px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s}
+.btn:hover{background:var(--green-light)}
+.error{color:#ff6b6b;font-size:13px;text-align:center;margin-top:10px;display:none}
+
+/* DASHBOARD */
+#dashboard{width:100%;max-width:1100px;margin:0 auto;display:none}
+.dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+.dash-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800}
+.logout-btn{background:transparent;border:1px solid var(--border);color:var(--gray);border-radius:100px;padding:8px 18px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s}
+.logout-btn:hover{border-color:var(--border-green);color:var(--white)}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:28px}
+.tab{padding:12px 24px;cursor:pointer;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--gray);border-bottom:2px solid transparent;transition:all .2s}
+.tab:hover{color:var(--white)}
+.tab.active{color:var(--green);border-bottom-color:var(--green)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center}
+.stat-n{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--green)}
+.stat-l{font-size:11px;color:var(--gray);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px}
+
+/* TABLE */
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.table-header{display:grid;gap:12px;padding:12px 20px;border-bottom:1px solid var(--border);font-size:11px;color:var(--gray);letter-spacing:2px;text-transform:uppercase}
+.waitlist-header{grid-template-columns:1fr 140px 80px}
+.jobs-header{grid-template-columns:1fr 120px 100px 80px 100px}
+.table-row{display:grid;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border);font-size:13px;transition:background .15s;align-items:center}
+.table-row:last-child{border-bottom:none}
+.table-row:hover{background:rgba(29,158,117,0.03)}
+.waitlist-row{grid-template-columns:1fr 140px 80px}
+.jobs-row{grid-template-columns:1fr 120px 100px 80px 100px}
+.email-cell{color:var(--white);font-weight:500}
+.date-cell{color:var(--gray);font-size:12px}
+.lang-badge,.status-badge{display:inline-flex;align-items:center;justify-content:center;border-radius:100px;padding:3px 10px;font-size:11px;font-weight:500;text-transform:uppercase}
+.lang-badge{background:var(--green-dim);border:1px solid var(--border-green);color:var(--green)}
+.status-pending{background:rgba(255,165,0,0.12);border:1px solid rgba(255,165,0,0.25);color:orange}
+.status-approved{background:var(--green-dim);border:1px solid var(--border-green);color:var(--green)}
+.status-rejected{background:rgba(255,80,80,0.12);border:1px solid rgba(255,80,80,0.2);color:#ff6b6b}
+.empty{text-align:center;padding:48px 24px;color:var(--gray)}
+.empty-icon{font-size:36px;margin-bottom:10px}
+.loading{text-align:center;padding:48px;color:var(--gray)}
+.export-btn{background:transparent;border:1px solid var(--border-green);color:var(--green);border-radius:100px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s}
+.export-btn:hover{background:var(--green-dim)}
+.action-btn{border:none;border-radius:100px;padding:4px 12px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s}
+.approve-btn{background:var(--green-dim);color:var(--green);border:1px solid var(--border-green)}
+.approve-btn:hover{background:rgba(29,158,117,0.25)}
+.reject-btn{background:rgba(255,80,80,0.1);color:#ff6b6b;border:1px solid rgba(255,80,80,0.2)}
+.reject-btn:hover{background:rgba(255,80,80,0.2)}
+
+/* JOB DETAIL EXPAND */
+.job-detail{display:none;background:rgba(29,158,117,0.04);border-top:1px solid var(--border);padding:16px 20px;font-size:13px;color:var(--gray);line-height:1.7}
+.job-detail.open{display:block}
+.job-detail strong{color:var(--white)}
+
+@media(max-width:700px){
+  .stats{grid-template-columns:1fr 1fr}
+  .jobs-header,.jobs-row{grid-template-columns:1fr 80px 80px}
+  .jobs-row .hide-mobile{display:none}
+  .jobs-header .hide-mobile{display:none}
+  .waitlist-header,.waitlist-row{grid-template-columns:1fr 80px}
+  .waitlist-row .hide-mobile{display:none}
+  .waitlist-header .hide-mobile{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="logo">F · Flexori</div>
+<div class="subtitle">Admin Panel</div>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="card">
+    <h2>🔒 Access</h2>
+    <input type="password" id="pwd-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkLogin()"/>
+    <button class="btn" onclick="checkLogin()">Enter</button>
+    <p class="error" id="login-error">Incorrect password</p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="dash-header">
+    <span class="dash-title">Dashboard</span>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="export-btn" onclick="exportCSV()">⬇ Export Waitlist</button>
+      <button class="logout-btn" onclick="logout()">Log out</button>
+    </div>
+  </div>
+
+  <!-- GLOBAL STATS -->
+  <div class="stats">
+    <div class="stat-card"><div class="stat-n" id="total-wait">—</div><div class="stat-l">Total Waitlist</div></div>
+    <div class="stat-card"><div class="stat-n" id="today-wait">—</div><div class="stat-l">Today</div></div>
+    <div class="stat-card"><div class="stat-n" id="total-jobs">—</div><div class="stat-l">Job Postings</div></div>
+    <div class="stat-card"><div class="stat-n" id="pending-jobs">—</div><div class="stat-l">Pending Review</div></div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('waitlist')">📧 Waitlist</div>
+    <div class="tab" onclick="switchTab('jobs')">💼 Job Postings</div>
+  </div>
+
+  <!-- WAITLIST TAB -->
+  <div class="tab-content active" id="tab-waitlist">
+    <div class="table-wrap">
+      <div class="table-header waitlist-header">
+        <span>Email</span>
+        <span>Date</span>
+        <span class="hide-mobile">Lang</span>
+      </div>
+      <div id="waitlist-body"><div class="loading">Loading...</div></div>
+    </div>
+  </div>
+
+  <!-- JOBS TAB -->
+  <div class="tab-content" id="tab-jobs">
+    <div class="table-wrap">
+      <div class="table-header jobs-header">
+        <span>Job / Company</span>
+        <span>Type</span>
+        <span class="hide-mobile">Email</span>
+        <span>Date</span>
+        <span>Actions</span>
+      </div>
+      <div id="jobs-body"><div class="loading">Loading...</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL='https://kkkgtwripyaxgmmdsqhg.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0.XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU';
+const ADMIN_PASSWORD='Flexori2026!';
+
+let waitlistData=[], jobsData=[];
+
+function checkLogin(){
+  const pwd=document.getElementById('pwd-input').value;
+  if(pwd===ADMIN_PASSWORD){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('dashboard').style.display='block';
+    loadAll();
+  } else {
+    document.getElementById('login-error').style.display='block';
+    document.getElementById('pwd-input').value='';
+  }
+}
+
+function logout(){
+  document.getElementById('login-screen').style.display='block';
+  document.getElementById('dashboard').style.display='none';
+  document.getElementById('pwd-input').value='';
+}
+
+async function loadAll(){
+  await Promise.all([loadWaitlist(), loadJobs()]);
+}
+
+async function loadWaitlist(){
+  try{
+    const res=await fetch(`${SUPABASE_URL}/rest/v1/waitlist?select=*&order=created_at.desc`,{
+      headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`}
+    });
+    waitlistData=await res.json();
+    renderWaitlist();
+    renderStats();
+  }catch(e){
+    document.getElementById('waitlist-body').innerHTML='<div class="empty"><div class="empty-icon">⚠️</div><p>Error loading waitlist</p></div>';
+  }
+}
+
+async function loadJobs(){
+  try{
+    const res=await fetch(`${SUPABASE_URL}/rest/v1/job_postings?select=*&order=created_at.desc`,{
+      headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`}
+    });
+    jobsData=await res.json();
+    renderJobs();
+    renderStats();
+  }catch(e){
+    document.getElementById('jobs-body').innerHTML='<div class="empty"><div class="empty-icon">⚠️</div><p>Error loading job postings</p></div>';
+  }
+}
+
+function renderStats(){
+  const now=new Date();
+  const todayWait=waitlistData.filter(r=>new Date(r.created_at).toDateString()===now.toDateString());
+  const pendingJobs=jobsData.filter(r=>r.status==='pending');
+  document.getElementById('total-wait').textContent=waitlistData.length;
+  document.getElementById('today-wait').textContent=todayWait.length;
+  document.getElementById('total-jobs').textContent=jobsData.length;
+  document.getElementById('pending-jobs').textContent=pendingJobs.length;
+  if(pendingJobs.length>0){
+    document.getElementById('pending-jobs').style.color='orange';
+  }
+}
+
+function renderWaitlist(){
+  const body=document.getElementById('waitlist-body');
+  if(!waitlistData.length){
+    body.innerHTML='<div class="empty"><div class="empty-icon">📭</div><p>No emails yet. Share the landing page!</p></div>';
+    return;
+  }
+  body.innerHTML=waitlistData.map(r=>{
+    const date=new Date(r.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    return `<div class="table-row waitlist-row">
+      <span class="email-cell">${r.email}</span>
+      <span class="date-cell">${date}</span>
+      <span class="hide-mobile"><span class="lang-badge">${r.lang||'en'}</span></span>
+    </div>`;
+  }).join('');
+}
+
+function renderJobs(){
+  const body=document.getElementById('jobs-body');
+  if(!jobsData.length){
+    body.innerHTML='<div class="empty"><div class="empty-icon">📭</div><p>No job postings yet.</p></div>';
+    return;
+  }
+  body.innerHTML=jobsData.map((r,i)=>{
+    const date=new Date(r.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    const statusClass=r.status==='approved'?'status-approved':r.status==='rejected'?'status-rejected':'status-pending';
+    const actions=r.status==='pending'
+      ?`<div style="display:flex;gap:6px">
+          <button class="action-btn approve-btn" onclick="updateJobStatus('${r.id}','approved')">✓ Approve</button>
+          <button class="action-btn reject-btn" onclick="updateJobStatus('${r.id}','rejected')">✕</button>
+        </div>`
+      :`<span class="lang-badge ${statusClass}">${r.status}</span>`;
+    return `
+      <div>
+        <div class="table-row jobs-row" onclick="toggleDetail('detail-${i}')" style="cursor:pointer">
+          <span>
+            <div style="font-weight:500;color:var(--white)">${r.title||'—'}</div>
+            <div style="font-size:11px;color:var(--gray);margin-top:2px">${r.company||'—'}</div>
+          </span>
+          <span><span class="lang-badge">${r.type||'—'}</span></span>
+          <span class="hide-mobile date-cell" style="font-size:11px">${r.email||'—'}</span>
+          <span class="date-cell">${date}</span>
+          <span>${actions}</span>
+        </div>
+        <div class="job-detail" id="detail-${i}">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+            ${r.salary?`<div><strong>Salary:</strong> ${r.salary}</div>`:''}
+            ${r.location?`<div><strong>Location:</strong> ${r.location}</div>`:''}
+            ${r.url?`<div><strong>Apply URL:</strong> <a href="${r.url}" target="_blank" style="color:var(--green)">${r.url}</a></div>`:''}
+            ${r.lang?`<div><strong>Language:</strong> ${r.lang}</div>`:''}
+          </div>
+          ${r.description?`<div><strong>Description:</strong><br>${r.description.slice(0,500)}${r.description.length>500?'...':''}</div>`:''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function toggleDetail(id){
+  const el=document.getElementById(id);
+  if(el) el.classList.toggle('open');
+}
+
+async function updateJobStatus(id, status){
+  try{
+    await fetch(`${SUPABASE_URL}/rest/v1/job_postings?id=eq.${id}`,{
+      method:'PATCH',
+      headers:{
+        'Content-Type':'application/json',
+        'apikey':SUPABASE_KEY,
+        'Authorization':`Bearer ${SUPABASE_KEY}`,
+        'Prefer':'return=minimal'
+      },
+      body:JSON.stringify({status})
+    });
+    await loadJobs();
+  }catch(e){
+    alert('Error updating status');
+  }
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['waitlist','jobs'][i]===tab));
+  document.getElementById('tab-waitlist').classList.toggle('active',tab==='waitlist');
+  document.getElementById('tab-jobs').classList.toggle('active',tab==='jobs');
+}
+
+function exportCSV(){
+  if(!waitlistData.length){alert('No emails yet.');return;}
+  const csv=['Email,Date,Language',...waitlistData.map(r=>`${r.email},${new Date(r.created_at).toISOString()},${r.lang||'en'}`)].join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download=`flexori-waitlist-${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+}
+
+document.getElementById('pwd-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkLogin();});
+</script>
+</body>
+</html>

@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HFYKRPJN1E"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-HFYKRPJN1E');</script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Find remote jobs worldwide. Browse hundreds of verified remote opportunities on Flexori — the global remote careers platform."/>
+<meta name="keywords" content="remote jobs, trabajo remoto, empleos remotos, remote work, flexori jobs"/>
+<link rel="canonical" href="https://flexori.work/jobs.html"/>
+<meta property="og:title" content="Remote Jobs — Flexori"/>
+<meta property="og:description" content="Find your next remote opportunity. Hundreds of real remote jobs updated daily."/>
+<meta property="og:url" content="https://flexori.work/jobs.html"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231D9E75'/><text x='16' y='23' font-family='Arial' font-size='20' font-weight='bold' fill='%230D1321' text-anchor='middle'>F</text></svg>"/>
+<title>Remote Jobs — Flexori</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden}
+body{background:#0D1321;color:#fff;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6}
+:root{
+  --black:#0D1321;--green:#1D9E75;--green-light:#24C48F;--blue:#1D5FA3;
+  --gray:#A8A69E;--white:#fff;--surface:#131B2E;--surface2:#1A2338;
+  --green-dim:rgba(29,158,117,0.12);--border:rgba(255,255,255,0.07);
+  --border-green:rgba(29,158,117,0.25);
+}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#0D1321}
+::-webkit-scrollbar-thumb{background:#1D9E75;border-radius:3px}
+
+/* GRID BG */
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(29,158,117,0.04) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(29,158,117,0.04) 1px,transparent 1px);
+  background-size:60px 60px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;
+  justify-content:space-between;padding:0 48px;height:68px;
+  background:rgba(13,19,33,0.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.nav-f{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#1D9E75;line-height:1}
+.nav-brand{display:flex;flex-direction:column}
+.nav-name{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:#fff;line-height:1.2}
+.nav-tag{font-size:9px;color:#A8A69E;letter-spacing:2.5px;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:24px;list-style:none}
+.nav-links a{color:#A8A69E;text-decoration:none;font-size:14px;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav-links a.active{color:#1D9E75;font-weight:500}
+.nav-right{display:flex;align-items:center;gap:10px}
+.btn-green{background:#1D9E75;color:#0D1321;border:none;border-radius:100px;
+  padding:9px 22px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;
+  cursor:pointer;text-decoration:none;transition:all .2s;white-space:nowrap;display:inline-block}
+.btn-green:hover{background:#24C48F}
+.btn-ghost{border:1px solid rgba(29,158,117,0.35);color:#1D9E75;background:transparent;
+  border-radius:100px;padding:9px 20px;font-family:'DM Sans',sans-serif;font-size:14px;
+  cursor:pointer;text-decoration:none;transition:all .2s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.btn-ghost:hover{background:rgba(29,158,117,0.1)}
+
+/* LANG */
+.lang-wrap{position:relative}
+.lang-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:7px 12px;
+  cursor:pointer;font-size:13px;color:#fff;font-family:'DM Sans',sans-serif}
+.lang-arr{color:#A8A69E;font-size:9px;transition:transform .2s}
+.lang-wrap.open .lang-arr{transform:rotate(180deg)}
+.lang-drop{display:none;position:absolute;top:calc(100% + 8px);right:0;
+  background:#131B2E;border:1px solid rgba(255,255,255,0.07);border-radius:14px;
+  overflow:hidden;min-width:150px;box-shadow:0 20px 60px rgba(0,0,0,0.6);z-index:300}
+.lang-wrap.open .lang-drop{display:block}
+.lang-opt{display:flex;align-items:center;gap:9px;padding:10px 14px;cursor:pointer;
+  font-size:13px;color:#A8A69E;transition:all .15s}
+.lang-opt:hover{background:rgba(29,158,117,0.1);color:#fff}
+.lang-opt.active{color:#1D9E75}
+.lang-opt .ln{font-size:11px;margin-left:auto;opacity:.6}
+
+/* HAMBURGER */
+.ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.ham span{width:22px;height:2px;background:#fff;border-radius:2px}
+.mobile-menu{display:none;position:fixed;inset:0;top:68px;background:rgba(13,19,33,0.98);
+  backdrop-filter:blur(20px);z-index:190;flex-direction:column;align-items:center;
+  justify-content:center;gap:28px}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:#fff;text-decoration:none;font-size:20px;font-family:'Syne',sans-serif;font-weight:700}
+
+/* PAGE WRAPPER */
+.page{padding-top:68px;position:relative;z-index:1}
+
+/* HERO */
+.hero{max-width:1200px;margin:0 auto;padding:48px 48px 32px}
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;
+  gap:24px;margin-bottom:28px;flex-wrap:wrap}
+.hero-left{flex:1;min-width:0}
+.hero-lbl{font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:#1D9E75;margin-bottom:12px;font-weight:500}
+.hero-title{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,48px);
+  font-weight:800;line-height:1.08;letter-spacing:-0.5px;color:#fff;margin-bottom:12px}
+.hero-title .green{color:#1D9E75}
+.hero-sub{font-size:15px;color:#A8A69E;max-width:480px;line-height:1.7}
+
+/* SEARCH */
+.search-box{background:#131B2E;border:1px solid rgba(29,158,117,0.3);
+  border-radius:14px;padding:10px 12px;display:flex;align-items:center;
+  gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.search-icon{color:#A8A69E;flex-shrink:0;display:flex;align-items:center}
+.search-input{flex:1;min-width:180px;background:transparent;border:none;outline:none;
+  color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;padding:4px 0}
+.search-input::placeholder{color:#A8A69E}
+.search-divider{width:1px;height:28px;background:rgba(255,255,255,0.07);flex-shrink:0}
+.search-btn{background:#1D9E75;color:#0D1321;border:none;border-radius:100px;
+  padding:10px 24px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;
+  cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.search-btn:hover{background:#24C48F}
+
+/* FILTERS */
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.f-select{background:#131B2E;border:1px solid rgba(255,255,255,0.1);border-radius:100px;
+  padding:7px 14px;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;
+  outline:none;cursor:pointer;transition:border-color .2s;
+  appearance:none;-webkit-appearance:none;padding-right:28px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23A8A69E' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center}
+.f-select:focus{border-color:rgba(29,158,117,0.5)}
+.f-select option{background:#131B2E;color:#fff}
+.f-clear{background:transparent;border:1px solid rgba(255,255,255,0.1);border-radius:100px;
+  padding:7px 14px;color:#A8A69E;font-family:'DM Sans',sans-serif;font-size:13px;
+  cursor:pointer;transition:all .2s}
+.f-clear:hover{border-color:rgba(29,158,117,0.4);color:#fff}
+
+/* MAIN */
+.main{max-width:1200px;margin:0 auto;padding:0 48px 80px}
+.meta-row{display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:20px;flex-wrap:wrap;gap:8px}
+.meta-count{font-size:14px;color:#A8A69E}
+.meta-count strong{color:#fff}
+.meta-live{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(168,166,158,0.6)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#1D9E75;
+  animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* JOBS GRID */
+.jobs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.job-card{background:#131B2E;border:1px solid rgba(255,255,255,0.07);
+  border-radius:16px;padding:22px;display:flex;flex-direction:column;
+  gap:12px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.job-card:hover{border-color:rgba(29,158,117,0.4);transform:translateY(-2px)}
+.job-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,#1D9E75,transparent);
+  opacity:0;transition:opacity .2s}
+.job-card:hover::before{opacity:1}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.card-logo{width:44px;height:44px;border-radius:10px;background:#1A2338;
+  border:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;
+  justify-content:center;font-family:'Syne',sans-serif;font-size:14px;
+  font-weight:800;color:#1D9E75;flex-shrink:0;overflow:hidden}
+.card-logo img{width:100%;height:100%;object-fit:cover;border-radius:9px}
+.card-new{background:rgba(29,158,117,0.15);border:1px solid rgba(29,158,117,0.3);
+  border-radius:100px;padding:3px 10px;font-size:10px;color:#1D9E75;font-weight:600;flex-shrink:0}
+.card-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
+  color:#fff;line-height:1.3;margin-bottom:3px}
+.card-company{font-size:12px;color:#A8A69E}
+.card-tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{font-size:11px;padding:3px 8px;border-radius:100px}
+.tag-g{background:rgba(29,158,117,0.12);color:#1D9E75;border:1px solid rgba(29,158,117,0.2)}
+.tag-b{background:rgba(29,95,163,0.12);color:#6ba3d6;border:1px solid rgba(29,95,163,0.2)}
+.tag-gray{background:rgba(255,255,255,0.05);color:#A8A69E;border:1px solid rgba(255,255,255,0.07)}
+.card-footer{display:flex;align-items:center;justify-content:space-between;
+  padding-top:10px;border-top:1px solid rgba(255,255,255,0.07);margin-top:auto}
+.card-date{font-size:11px;color:#A8A69E}
+.card-cta{font-size:12px;color:#1D9E75;font-weight:600}
+
+/* SKELETON */
+.skeleton{background:#131B2E;border:1px solid rgba(255,255,255,0.07);
+  border-radius:16px;padding:22px;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:12px}
+.skeleton::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.04) 50%,transparent 100%);
+  animation:shimmer 1.8s ease-in-out infinite}
+.skeleton-line{background:rgba(255,255,255,0.06);border-radius:6px}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+/* LOAD MORE */
+.load-wrap{text-align:center;margin-top:40px}
+.btn-more{border:1px solid rgba(29,158,117,0.35);color:#1D9E75;background:transparent;
+  border-radius:100px;padding:12px 32px;font-family:'Syne',sans-serif;font-size:14px;
+  font-weight:700;cursor:pointer;transition:all .2s}
+.btn-more:hover{background:rgba(29,158,117,0.1)}
+
+/* EMPTY */
+.empty{text-align:center;padding:80px 24px;display:none}
+.empty-icon{font-size:48px;margin-bottom:16px}
+.empty-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;
+  color:#fff;margin-bottom:8px}
+.empty-sub{color:#A8A69E;margin-bottom:24px}
+
+/* JOB MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);
+  z-index:500;backdrop-filter:blur(4px)}
+.job-modal{display:none;position:fixed;top:0;right:0;bottom:0;
+  width:min(620px,100vw);background:#131B2E;z-index:501;overflow-y:auto;
+  border-left:1px solid rgba(29,158,117,0.25);box-shadow:-24px 0 60px rgba(0,0,0,0.5)}
+.modal-inner{padding:32px}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.modal-logo{width:52px;height:52px;border-radius:12px;background:#1A2338;
+  border:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;
+  justify-content:center;font-family:'Syne',sans-serif;font-size:16px;
+  font-weight:800;color:#1D9E75;overflow:hidden;flex-shrink:0}
+.modal-logo img{width:100%;height:100%;object-fit:cover;border-radius:11px}
+.modal-close{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  border-radius:50%;width:36px;height:36px;display:flex;align-items:center;
+  justify-content:center;cursor:pointer;color:#A8A69E;font-size:20px;
+  transition:all .2s;flex-shrink:0}
+.modal-close:hover{background:rgba(255,255,255,0.1);color:#fff}
+.modal-title{font-family:'Syne',sans-serif;font-size:clamp(18px,3vw,26px);
+  font-weight:800;color:#fff;line-height:1.2;margin-bottom:14px}
+.modal-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.modal-meta-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);
+  border-radius:10px;padding:12px}
+.modal-meta-label{font-size:10px;color:#A8A69E;letter-spacing:1px;
+  text-transform:uppercase;margin-bottom:4px}
+.modal-meta-value{font-size:14px;color:#fff;font-weight:500}
+.modal-section{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  color:#A8A69E;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.modal-desc{font-size:14px;color:#A8A69E;line-height:1.8;
+  max-height:280px;overflow-y:auto;margin-bottom:20px}
+.modal-apply{display:block;background:#1D9E75;color:#0D1321;border:none;
+  border-radius:100px;padding:14px 28px;font-family:'Syne',sans-serif;
+  font-size:15px;font-weight:700;text-align:center;text-decoration:none;
+  transition:all .2s;cursor:pointer;margin-bottom:10px}
+.modal-apply:hover{background:#24C48F}
+.modal-alert{background:rgba(29,95,163,0.08);border:1px solid rgba(29,95,163,0.2);
+  border-radius:14px;padding:18px;margin-bottom:16px}
+.modal-alert-title{font-size:13px;color:#6ba3d6;font-weight:500;margin-bottom:4px}
+.modal-alert-sub{font-size:12px;color:#A8A69E;margin-bottom:12px}
+.modal-register{display:block;background:transparent;color:#1D9E75;
+  border:1px solid rgba(29,158,117,0.35);border-radius:100px;padding:11px 28px;
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:700;
+  text-align:center;text-decoration:none;transition:all .2s}
+.modal-register:hover{background:rgba(29,158,117,0.1)}
+.modal-source{font-size:11px;color:rgba(168,166,158,0.4);text-align:center;margin-top:12px}
+
+/* POST JOB MODAL */
+.post-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;backdrop-filter:blur(4px)}
+.post-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:min(560px,95vw);max-height:90vh;overflow-y:auto;background:#131B2E;
+  z-index:501;border-radius:24px;border:1px solid rgba(29,158,117,0.3);
+  box-shadow:0 40px 80px rgba(0,0,0,0.6)}
+.post-inner{padding:36px}
+.form-row{display:flex;flex-direction:column;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.f-label{font-size:11px;color:#A8A69E;letter-spacing:1.5px;text-transform:uppercase}
+.f-input{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+  border-radius:10px;padding:11px 14px;color:#fff;font-family:'DM Sans',sans-serif;
+  font-size:14px;outline:none;transition:border-color .2s;width:100%}
+.f-input:focus{border-color:rgba(29,158,117,0.5)}
+.f-input::placeholder{color:#A8A69E}
+.f-select-form{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+  border-radius:10px;padding:11px 14px;color:#fff;font-family:'DM Sans',sans-serif;
+  font-size:14px;outline:none;appearance:none;width:100%;transition:border-color .2s}
+.f-select-form:focus{border-color:rgba(29,158,117,0.5)}
+.f-select-form option{background:#131B2E}
+.f-textarea{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+  border-radius:10px;padding:11px 14px;color:#fff;font-family:'DM Sans',sans-serif;
+  font-size:14px;outline:none;resize:vertical;width:100%;transition:border-color .2s}
+.f-textarea:focus{border-color:rgba(29,158,117,0.5)}
+.f-textarea::placeholder{color:#A8A69E}
+.f-submit{width:100%;background:#1D9E75;color:#0D1321;border:none;border-radius:100px;
+  padding:14px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
+  cursor:pointer;margin-top:20px;transition:all .2s}
+.f-submit:hover{background:#24C48F}
+.f-success{display:none;background:rgba(29,158,117,0.1);border:1px solid rgba(29,158,117,0.25);
+  border-radius:12px;padding:16px;text-align:center;margin-top:16px}
+
+/* FOOTER */
+footer{border-top:1px solid rgba(255,255,255,0.07);padding:32px 48px;
+  display:flex;justify-content:space-between;align-items:center;
+  position:relative;z-index:1;flex-wrap:wrap;gap:16px}
+.foot-logo{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#fff}
+.foot-logo span{color:#1D9E75}
+.foot-links{display:flex;gap:20px;list-style:none;flex-wrap:wrap}
+.foot-links a{color:#A8A69E;text-decoration:none;font-size:13px;transition:color .2s}
+.foot-links a:hover{color:#fff}
+.foot-copy{font-size:12px;color:#A8A69E}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .jobs-grid{grid-template-columns:1fr}
+}
+@media(max-width:860px){
+  nav{padding:0 24px}
+  .nav-links,.nav-right .btn-green,.nav-right .btn-ghost{display:none}
+  .ham{display:flex}
+  .hero{padding:36px 24px 24px}
+  .main{padding:0 24px 60px}
+  .hero-top{flex-direction:column}
+  .modal-grid{grid-template-columns:1fr}
+  footer{flex-direction:column;text-align:center;padding:28px 24px}
+  .search-box{flex-direction:column;align-items:stretch}
+  .search-divider{display:none}
+  .search-btn{width:100%;text-align:center}
+}
+@media(max-width:520px){
+  nav{padding:0 16px}
+  .hero{padding:28px 16px 20px}
+  .main{padding:0 16px 48px}
+  .hero-title{font-size:26px}
+  footer{padding:24px 16px}
+  .filters{gap:6px}
+  .post-inner{padding:24px}
+  .form-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="/index.html" class="nav-logo">
+    <span class="nav-f">F</span>
+    <div class="nav-brand">
+      <span class="nav-name">Flexori</span>
+      <span class="nav-tag" id="nav-tag-txt">Remote Careers Platform</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/index.html" id="nav-home-txt">Home</a></li>
+    <li><a href="/jobs.html" class="active" id="nav-jobs-txt">Jobs</a></li>
+    <li><a href="/index.html#features" id="nav-feat-txt">Features</a></li>
+    <li><a href="/index.html#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-wrap" id="lw">
+      <button class="lang-btn" onclick="toggleLang()">
+        <span id="cf">🇺🇸</span><span id="cl">EN</span><span class="lang-arr">▼</span>
+      </button>
+      <div class="lang-drop">
+        <div class="lang-opt active" onclick="setLang('en')">🇺🇸 <span>EN</span><span class="ln">English</span></div>
+        <div class="lang-opt" onclick="setLang('es')">🇪🇸 <span>ES</span><span class="ln">Español</span></div>
+        <div class="lang-opt" onclick="setLang('fr')">🇫🇷 <span>FR</span><span class="ln">Français</span></div>
+        <div class="lang-opt" onclick="setLang('pt')">🇧🇷 <span>PT</span><span class="ln">Português</span></div>
+      </div>
+    </div>
+    <a href="/index.html#waitlist" class="btn-green" id="nav-join-txt">Start Free</a>
+    <button class="ham" onclick="toggleMobile()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/index.html" onclick="toggleMobile()" id="mob-home">Home</a>
+  <a href="/jobs.html" onclick="toggleMobile()" id="mob-jobs">Jobs</a>
+  <a href="/index.html#features" onclick="toggleMobile()" id="mob-feat">Features</a>
+  <a href="/index.html#faq" onclick="toggleMobile()">FAQ</a>
+  <a href="/index.html#waitlist" onclick="toggleMobile()" class="btn-green" style="margin-top:8px" id="mob-join">Start Free</a>
+</div>
+
+<div class="page">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-top">
+      <div class="hero-left">
+        <p class="hero-lbl" id="h-lbl">Remote Jobs</p>
+        <h1 class="hero-title" id="h-title">Find your next <span class="green">remote opportunity.</span></h1>
+        <p class="hero-sub" id="h-sub">Real jobs updated daily from companies worldwide. Free to browse, free to apply.</p>
+      </div>
+      <button class="btn-ghost" onclick="openPostModal()" id="post-btn" style="margin-top:8px">
+        <span>🏢</span><span id="post-btn-txt">Post a Job — Free</span>
+      </button>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-box">
+      <div class="search-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <input type="text" id="job-search" class="search-input" oninput="debounce()" id="job-search"/>
+      <div class="search-divider"></div>
+      <button class="search-btn" onclick="filterJobs()" id="search-btn-txt">Search</button>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filters">
+      <select id="f-cat" class="f-select" onchange="filterJobs()">
+        <option value="" id="cat-all">All Categories</option>
+        <option value="software" id="cat-sw">Software Dev</option>
+        <option value="design" id="cat-des">Design</option>
+        <option value="marketing" id="cat-mkt">Marketing</option>
+        <option value="sales" id="cat-sal">Sales</option>
+        <option value="finance" id="cat-fin">Finance</option>
+        <option value="data" id="cat-data">Data / AI</option>
+        <option value="product" id="cat-prod">Product</option>
+        <option value="customer" id="cat-cx">Customer Support</option>
+        <option value="writing" id="cat-wri">Writing</option>
+        <option value="devops" id="cat-dev">DevOps</option>
+      </select>
+      <select id="f-type" class="f-select" onchange="filterJobs()">
+        <option value="" id="type-all">All Types</option>
+        <option value="full" id="type-ft">Full Time</option>
+        <option value="part" id="type-pt">Part Time</option>
+        <option value="contract" id="type-ct">Contract</option>
+        <option value="freelance" id="type-fl">Freelance</option>
+      </select>
+      <select id="f-reg" class="f-select" onchange="filterJobs()">
+        <option value="" id="reg-all">All Regions</option>
+        <option value="worldwide" id="reg-ww">Worldwide</option>
+        <option value="latam" id="reg-la">LATAM</option>
+        <option value="europe" id="reg-eu">Europe</option>
+        <option value="usa" id="reg-us">USA / Canada</option>
+        <option value="asia" id="reg-as">Asia Pacific</option>
+      </select>
+      <button class="f-clear" onclick="clearFilters()" id="clear-btn-txt">✕ Clear</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="meta-row">
+      <span class="meta-count" id="jobs-count">Loading jobs...</span>
+      <span class="meta-live"><span class="live-dot"></span><span id="source-txt">Live · Remotive + Jobicy + Arbeitnow</span></span>
+    </div>
+
+    <!-- SKELETON -->
+    <div id="skeleton" class="jobs-grid">
+      <div class="skeleton"></div><div class="skeleton"></div>
+      <div class="skeleton"></div><div class="skeleton"></div>
+      <div class="skeleton"></div><div class="skeleton"></div>
+    </div>
+
+    <!-- GRID -->
+    <div id="jobs-grid" class="jobs-grid" style="display:none"></div>
+
+    <!-- LOAD MORE -->
+    <div class="load-wrap">
+      <button id="load-more" class="btn-more" onclick="loadMore()" style="display:none" id="load-more-txt">Load more →</button>
+    </div>
+
+    <!-- EMPTY -->
+    <div class="empty" id="empty-state">
+      <div class="empty-icon">🔍</div>
+      <div class="empty-title" id="empty-title">No jobs found</div>
+      <p class="empty-sub" id="empty-sub">Try different filters or search terms.</p>
+      <button class="f-clear" onclick="clearFilters()" style="padding:10px 24px" id="empty-clear">Clear filters</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="foot-logo"><span>F</span>lexori</div>
+    <ul class="foot-links">
+      <li><a href="/index.html" id="foot-home">Home</a></li>
+      <li><a href="/jobs.html" id="foot-jobs">Jobs</a></li>
+      <li><a href="/index.html#features" id="foot-feat">Features</a></li>
+      <li><a href="/index.html#faq">FAQ</a></li>
+      <li><a href="mailto:hola@flexori.work">Contact</a></li>
+    </ul>
+    <p class="foot-copy">© 2026 Flexori · flexori.work</p>
+  </footer>
+</div>
+
+<!-- JOB DETAIL MODAL -->
+<div class="overlay" id="job-overlay" onclick="closeJobModal()"></div>
+<div class="job-modal" id="job-modal">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="modal-logo" id="m-logo"></div>
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700" id="m-company"></div>
+          <div style="font-size:12px;color:#A8A69E" id="m-location"></div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeJobModal()">×</button>
+    </div>
+    <h2 class="modal-title" id="m-title"></h2>
+    <div class="modal-tags" id="m-tags"></div>
+    <div class="modal-grid" id="m-meta"></div>
+    <div style="height:1px;background:rgba(255,255,255,0.07);margin-bottom:20px"></div>
+    <div class="modal-section" id="m-about-lbl">About the Role</div>
+    <div class="modal-desc" id="m-desc"></div>
+    <a class="modal-apply" id="m-apply" href="#" target="_blank" rel="noopener">Apply for this Position →</a>
+    <div class="modal-alert">
+      <div class="modal-alert-title" id="m-alert-title">Get alerts for jobs like this</div>
+      <div class="modal-alert-sub" id="m-alert-sub">Join Flexori free and receive personalized remote job alerts.</div>
+      <a href="/index.html#waitlist" onclick="closeJobModal()" class="modal-register" id="m-register">Start Free — Get Job Alerts →</a>
+    </div>
+    <p class="modal-source">Source: Remotive · Jobicy · Arbeitnow · Flexori aggregates remote jobs from trusted sources</p>
+  </div>
+</div>
+
+<!-- POST JOB MODAL -->
+<div class="post-overlay" id="post-overlay" onclick="closePostModal()"></div>
+<div class="post-modal" id="post-modal">
+  <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#1D9E75;border-radius:24px 24px 0 0"></div>
+  <div class="post-inner">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px">
+      <div>
+        <h2 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px" id="pm-title">Post a Remote Job</h2>
+        <p style="font-size:13px;color:#A8A69E" id="pm-sub">Reach thousands of remote professionals. Free.</p>
+      </div>
+      <button class="modal-close" onclick="closePostModal()">×</button>
+    </div>
+    <form onsubmit="submitJob(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="f-label" id="fl-company">Company Name *</label>
+          <input type="text" id="f-company" required class="f-input" placeholder="e.g. Acme Corp"/>
+        </div>
+        <div class="form-group">
+          <label class="f-label" id="fl-title">Job Title *</label>
+          <input type="text" id="f-title" required class="f-input" placeholder="e.g. Senior Product Designer"/>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="f-label" id="fl-type">Job Type *</label>
+            <select id="f-jtype" required class="f-select-form">
+              <option value="">Select...</option>
+              <option value="Full-time" id="pf-ft">Full-time</option>
+              <option value="Part-time" id="pf-pt">Part-time</option>
+              <option value="Contract" id="pf-ct">Contract</option>
+              <option value="Freelance" id="pf-fl">Freelance</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="f-label" id="fl-salary">Salary Range</label>
+            <input type="text" id="f-salary" class="f-input" placeholder="e.g. $60k–$80k"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="f-label" id="fl-loc">Location / Timezone</label>
+          <input type="text" id="f-loc" class="f-input" placeholder="e.g. Worldwide, LATAM, Europe"/>
+        </div>
+        <div class="form-group">
+          <label class="f-label" id="fl-desc">Job Description *</label>
+          <textarea id="f-desc" required rows="5" class="f-textarea" placeholder="Describe the role, responsibilities and requirements..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="f-label" id="fl-email">Contact Email *</label>
+          <input type="email" id="f-email" required class="f-input" placeholder="hiring@yourcompany.com"/>
+        </div>
+        <div class="form-group">
+          <label class="f-label" id="fl-url">Application URL</label>
+          <input type="url" id="f-url" class="f-input" placeholder="https://yourcompany.com/apply"/>
+        </div>
+      </div>
+      <div class="f-success" id="f-success">
+        <p style="color:#1D9E75;font-weight:600;margin-bottom:4px" id="fs-title">✓ Job received!</p>
+        <p style="color:#A8A69E;font-size:13px" id="fs-sub">We'll review and publish within 24 hours.</p>
+      </div>
+      <button type="submit" class="f-submit" id="f-submit-btn">Submit Job Posting →</button>
+      <p style="font-size:11px;color:rgba(168,166,158,0.4);text-align:center;margin-top:8px" id="f-note">Free to post. Published within 24 hours.</p>
+    </form>
+  </div>
+</div>
+
+<script>
+// ── TRANSLATIONS ──
+const T = {
+en:{
+  navTag:"Remote Careers Platform",navHome:"Home",navJobs:"Jobs",navFeat:"Features",navJoin:"Start Free",
+  hLbl:"Remote Jobs",hTitle:'Find your next <span class="green">remote opportunity.</span>',
+  hSub:"Real jobs updated daily from companies worldwide. Free to browse, free to apply.",
+  postBtn:"Post a Job — Free",searchBtn:"Search",searchPh:"Search jobs, companies, skills...",
+  catAll:"All Categories",catSw:"Software Dev",catDes:"Design",catMkt:"Marketing",catSal:"Sales",
+  catFin:"Finance",catData:"Data / AI",catProd:"Product",catCx:"Customer Support",catWri:"Writing",catDev:"DevOps",
+  typeAll:"All Types",typeFt:"Full Time",typePt:"Part Time",typeCt:"Contract",typeFl:"Freelance",
+  regAll:"All Regions",regWw:"Worldwide",regLa:"LATAM",regEu:"Europe",regUs:"USA / Canada",regAs:"Asia Pacific",
+  clearBtn:"✕ Clear",sourceTxt:"Live · Remotive + Jobicy + Arbeitnow",loadMore:"Load more →",
+  emptyTitle:"No jobs found",emptySub:"Try different filters or search terms.",
+  mAbout:"About the Role",mApply:"Apply for this Position →",
+  mAlertTitle:"Get alerts for jobs like this",mAlertSub:"Join Flexori free and receive personalized remote job alerts.",
+  mRegister:"Start Free — Get Job Alerts →",
+  pmTitle:"Post a Remote Job",pmSub:"Reach thousands of remote professionals. Free.",
+  flCompany:"Company Name *",flTitle:"Job Title *",flType:"Job Type *",flSalary:"Salary Range",
+  flLoc:"Location / Timezone",flDesc:"Job Description *",flEmail:"Contact Email *",flUrl:"Application URL",
+  pfFt:"Full-time",pfPt:"Part-time",pfCt:"Contract",pfFl:"Freelance",
+  fsTitle:"✓ Job received!",fsSub:"We'll review and publish within 24 hours.",
+  fSubmit:"Submit Job Posting →",fNote:"Free to post. Published within 24 hours.",
+  countFound:" remote jobs found",footHome:"Home",footJobs:"Jobs",footFeat:"Features",
+  today:"Today",dayAgo:"day ago",daysAgo:"days ago",wAgo:"w ago",moAgo:"mo ago"
+},
+es:{
+  navTag:"Plataforma de Empleos Remotos",navHome:"Inicio",navJobs:"Empleos",navFeat:"Características",navJoin:"Empieza Gratis",
+  hLbl:"Empleos Remotos",hTitle:'Encuentra tu próxima <span class="green">oportunidad remota.</span>',
+  hSub:"Empleos reales actualizados diariamente de empresas en todo el mundo. Gratis para buscar y aplicar.",
+  postBtn:"Publicar Empleo — Gratis",searchBtn:"Buscar",searchPh:"Busca empleos, empresas, habilidades...",
+  catAll:"Todas las Categorías",catSw:"Desarrollo de Software",catDes:"Diseño",catMkt:"Marketing",catSal:"Ventas",
+  catFin:"Finanzas",catData:"Datos / IA",catProd:"Producto",catCx:"Atención al Cliente",catWri:"Redacción",catDev:"DevOps",
+  typeAll:"Todos los Tipos",typeFt:"Tiempo Completo",typePt:"Medio Tiempo",typeCt:"Contrato",typeFl:"Freelance",
+  regAll:"Todas las Regiones",regWw:"Mundial",regLa:"LATAM",regEu:"Europa",regUs:"EE.UU. / Canadá",regAs:"Asia Pacífico",
+  clearBtn:"✕ Limpiar",sourceTxt:"En vivo · Remotive + Jobicy + Arbeitnow",loadMore:"Ver más →",
+  emptyTitle:"No se encontraron empleos",emptySub:"Prueba con otros filtros o términos de búsqueda.",
+  mAbout:"Sobre el Rol",mApply:"Aplicar a esta Posición →",
+  mAlertTitle:"Recibe alertas de empleos como este",mAlertSub:"Únete a Flexori gratis y recibe alertas de empleos remotos personalizadas.",
+  mRegister:"Empieza Gratis — Recibe Alertas →",
+  pmTitle:"Publicar Empleo Remoto",pmSub:"Llega a miles de profesionales remotos. Gratis.",
+  flCompany:"Nombre de la Empresa *",flTitle:"Título del Puesto *",flType:"Tipo de Empleo *",flSalary:"Rango Salarial",
+  flLoc:"Ubicación / Zona Horaria",flDesc:"Descripción del Puesto *",flEmail:"Email de Contacto *",flUrl:"URL de Aplicación",
+  pfFt:"Tiempo Completo",pfPt:"Medio Tiempo",pfCt:"Contrato",pfFl:"Freelance",
+  fsTitle:"✓ ¡Empleo recibido!",fsSub:"Revisaremos y publicaremos en 24 horas.",
+  fSubmit:"Enviar Publicación →",fNote:"Gratis para publicar. Publicado en 24 horas.",
+  countFound:" empleos remotos encontrados",footHome:"Inicio",footJobs:"Empleos",footFeat:"Características",
+  today:"Hoy",dayAgo:"día",daysAgo:"días",wAgo:"sem",moAgo:"mes"
+},
+fr:{
+  navTag:"Plateforme Carrières à Distance",navHome:"Accueil",navJobs:"Emplois",navFeat:"Fonctionnalités",navJoin:"Commencer",
+  hLbl:"Emplois à Distance",hTitle:'Trouvez votre prochaine <span class="green">opportunité à distance.</span>',
+  hSub:"Offres réelles mises à jour quotidiennement. Gratuit pour parcourir et postuler.",
+  postBtn:"Publier un Emploi — Gratuit",searchBtn:"Rechercher",searchPh:"Rechercher emplois, entreprises...",
+  catAll:"Toutes les Catégories",catSw:"Développement",catDes:"Design",catMkt:"Marketing",catSal:"Ventes",
+  catFin:"Finance",catData:"Données / IA",catProd:"Produit",catCx:"Support Client",catWri:"Rédaction",catDev:"DevOps",
+  typeAll:"Tous les Types",typeFt:"Temps Plein",typePt:"Temps Partiel",typeCt:"Contrat",typeFl:"Freelance",
+  regAll:"Toutes les Régions",regWw:"Mondial",regLa:"Amérique Latine",regEu:"Europe",regUs:"USA / Canada",regAs:"Asie Pacifique",
+  clearBtn:"✕ Effacer",sourceTxt:"En direct · Remotive + Jobicy + Arbeitnow",loadMore:"Voir plus →",
+  emptyTitle:"Aucun emploi trouvé",emptySub:"Essayez d'autres filtres.",
+  mAbout:"À propos du Rôle",mApply:"Postuler →",
+  mAlertTitle:"Recevoir des alertes",mAlertSub:"Rejoignez Flexori gratuitement pour des alertes personnalisées.",
+  mRegister:"Commencer Gratuitement →",
+  pmTitle:"Publier un Emploi",pmSub:"Atteignez des milliers de professionnels. Gratuit.",
+  flCompany:"Nom de l'Entreprise *",flTitle:"Titre du Poste *",flType:"Type d'Emploi *",flSalary:"Fourchette Salariale",
+  flLoc:"Lieu / Fuseau Horaire",flDesc:"Description du Poste *",flEmail:"Email de Contact *",flUrl:"URL de Candidature",
+  pfFt:"Temps Plein",pfPt:"Temps Partiel",pfCt:"Contrat",pfFl:"Freelance",
+  fsTitle:"✓ Emploi reçu !",fsSub:"Nous publierons dans 24 heures.",
+  fSubmit:"Soumettre →",fNote:"Gratuit. Publié dans 24 heures.",
+  countFound:" emplois trouvés",footHome:"Accueil",footJobs:"Emplois",footFeat:"Fonctionnalités",
+  today:"Aujourd'hui",dayAgo:"jour",daysAgo:"jours",wAgo:"sem",moAgo:"mois"
+},
+pt:{
+  navTag:"Plataforma de Carreiras Remotas",navHome:"Início",navJobs:"Vagas",navFeat:"Funcionalidades",navJoin:"Começar",
+  hLbl:"Vagas Remotas",hTitle:'Encontre sua próxima <span class="green">oportunidade remota.</span>',
+  hSub:"Vagas reais atualizadas diariamente de empresas do mundo todo. Grátis para buscar e candidatar.",
+  postBtn:"Publicar Vaga — Grátis",searchBtn:"Buscar",searchPh:"Buscar vagas, empresas, habilidades...",
+  catAll:"Todas as Categorias",catSw:"Desenvolvimento",catDes:"Design",catMkt:"Marketing",catSal:"Vendas",
+  catFin:"Finanças",catData:"Dados / IA",catProd:"Produto",catCx:"Suporte ao Cliente",catWri:"Redação",catDev:"DevOps",
+  typeAll:"Todos os Tipos",typeFt:"Tempo Integral",typePt:"Meio Período",typeCt:"Contrato",typeFl:"Freelance",
+  regAll:"Todas as Regiões",regWw:"Mundial",regLa:"América Latina",regEu:"Europa",regUs:"EUA / Canadá",regAs:"Ásia Pacífico",
+  clearBtn:"✕ Limpar",sourceTxt:"Ao vivo · Remotive + Jobicy + Arbeitnow",loadMore:"Ver mais →",
+  emptyTitle:"Nenhuma vaga encontrada",emptySub:"Tente outros filtros ou termos de busca.",
+  mAbout:"Sobre a Vaga",mApply:"Candidatar-se →",
+  mAlertTitle:"Receber alertas de vagas",mAlertSub:"Junte-se ao Flexori gratuitamente para alertas personalizados.",
+  mRegister:"Começar Gratuitamente →",
+  pmTitle:"Publicar Vaga Remota",pmSub:"Alcance milhares de profissionais. Grátis.",
+  flCompany:"Nome da Empresa *",flTitle:"Título da Vaga *",flType:"Tipo de Vaga *",flSalary:"Faixa Salarial",
+  flLoc:"Localização / Fuso Horário",flDesc:"Descrição da Vaga *",flEmail:"Email de Contato *",flUrl:"URL de Candidatura",
+  pfFt:"Tempo Integral",pfPt:"Meio Período",pfCt:"Contrato",pfFl:"Freelance",
+  fsTitle:"✓ Vaga recebida!",fsSub:"Revisaremos e publicaremos em 24 horas.",
+  fSubmit:"Enviar Vaga →",fNote:"Grátis para publicar. Publicado em 24 horas.",
+  countFound:" vagas remotas encontradas",footHome:"Início",footJobs:"Vagas",footFeat:"Funcionalidades",
+  today:"Hoje",dayAgo:"dia",daysAgo:"dias",wAgo:"sem",moAgo:"mês"
+}
+};
+
+const FL={en:'🇺🇸',es:'🇪🇸',fr:'🇫🇷',pt:'🇧🇷'};
+const FC={en:'EN',es:'ES',fr:'FR',pt:'PT'};
+let lang='en';
+const bl=navigator.language||'en';
+if(bl.startsWith('es'))lang='es';
+else if(bl.startsWith('fr'))lang='fr';
+else if(bl.startsWith('pt'))lang='pt';
+
+function applyLang(l){
+  const t=T[l];
+  // Nav
+  document.getElementById('nav-tag-txt').textContent=t.navTag;
+  document.getElementById('nav-home-txt').textContent=t.navHome;
+  document.getElementById('nav-jobs-txt').textContent=t.navJobs;
+  document.getElementById('nav-feat-txt').textContent=t.navFeat;
+  document.getElementById('nav-join-txt').textContent=t.navJoin;
+  document.getElementById('mob-home').textContent=t.navHome;
+  document.getElementById('mob-jobs').textContent=t.navJobs;
+  document.getElementById('mob-feat').textContent=t.navFeat;
+  document.getElementById('mob-join').textContent=t.navJoin;
+  // Hero
+  document.getElementById('h-lbl').textContent=t.hLbl;
+  document.getElementById('h-title').innerHTML=t.hTitle;
+  document.getElementById('h-sub').textContent=t.hSub;
+  document.getElementById('post-btn-txt').textContent=t.postBtn;
+  // Search
+  document.getElementById('job-search').placeholder=t.searchPh;
+  document.getElementById('search-btn-txt').textContent=t.searchBtn;
+  // Filter options
+  document.getElementById('cat-all').textContent=t.catAll;
+  document.getElementById('cat-sw').textContent=t.catSw;
+  document.getElementById('cat-des').textContent=t.catDes;
+  document.getElementById('cat-mkt').textContent=t.catMkt;
+  document.getElementById('cat-sal').textContent=t.catSal;
+  document.getElementById('cat-fin').textContent=t.catFin;
+  document.getElementById('cat-data').textContent=t.catData;
+  document.getElementById('cat-prod').textContent=t.catProd;
+  document.getElementById('cat-cx').textContent=t.catCx;
+  document.getElementById('cat-wri').textContent=t.catWri;
+  document.getElementById('cat-dev').textContent=t.catDev;
+  document.getElementById('type-all').textContent=t.typeAll;
+  document.getElementById('type-ft').textContent=t.typeFt;
+  document.getElementById('type-pt').textContent=t.typePt;
+  document.getElementById('type-ct').textContent=t.typeCt;
+  document.getElementById('type-fl').textContent=t.typeFl;
+  document.getElementById('reg-all').textContent=t.regAll;
+  document.getElementById('reg-ww').textContent=t.regWw;
+  document.getElementById('reg-la').textContent=t.regLa;
+  document.getElementById('reg-eu').textContent=t.regEu;
+  document.getElementById('reg-us').textContent=t.regUs;
+  document.getElementById('reg-as').textContent=t.regAs;
+  document.getElementById('clear-btn-txt').textContent=t.clearBtn;
+  document.getElementById('source-txt').textContent=t.sourceTxt;
+  document.getElementById('load-more').textContent=t.loadMore;
+  document.getElementById('empty-title').textContent=t.emptyTitle;
+  document.getElementById('empty-sub').textContent=t.emptySub;
+  document.getElementById('empty-clear').textContent=t.clearBtn;
+  // Modal
+  document.getElementById('m-about-lbl').textContent=t.mAbout;
+  document.getElementById('m-apply').textContent=t.mApply;
+  document.getElementById('m-alert-title').textContent=t.mAlertTitle;
+  document.getElementById('m-alert-sub').textContent=t.mAlertSub;
+  document.getElementById('m-register').textContent=t.mRegister;
+  // Post modal
+  document.getElementById('pm-title').textContent=t.pmTitle;
+  document.getElementById('pm-sub').textContent=t.pmSub;
+  document.getElementById('fl-company').textContent=t.flCompany;
+  document.getElementById('fl-title').textContent=t.flTitle;
+  document.getElementById('fl-type').textContent=t.flType;
+  document.getElementById('fl-salary').textContent=t.flSalary;
+  document.getElementById('fl-loc').textContent=t.flLoc;
+  document.getElementById('fl-desc').textContent=t.flDesc;
+  document.getElementById('fl-email').textContent=t.flEmail;
+  document.getElementById('fl-url').textContent=t.flUrl;
+  document.getElementById('pf-ft').textContent=t.pfFt;
+  document.getElementById('pf-pt').textContent=t.pfPt;
+  document.getElementById('pf-ct').textContent=t.pfCt;
+  document.getElementById('pf-fl').textContent=t.pfFl;
+  document.getElementById('fs-title').textContent=t.fsTitle;
+  document.getElementById('fs-sub').textContent=t.fsSub;
+  document.getElementById('f-submit-btn').textContent=t.fSubmit;
+  document.getElementById('f-note').textContent=t.fNote;
+  // Footer
+  document.getElementById('foot-home').textContent=t.footHome;
+  document.getElementById('foot-jobs').textContent=t.footJobs;
+  document.getElementById('foot-feat').textContent=t.footFeat;
+  // Count
+  if(filteredJobs.length>0) renderCount();
+}
+
+function setLang(l){
+  lang=l;
+  document.getElementById('cf').textContent=FL[l];
+  document.getElementById('cl').textContent=FC[l];
+  document.querySelectorAll('.lang-opt').forEach((el,i)=>el.classList.toggle('active',['en','es','fr','pt'][i]===l));
+  document.documentElement.lang=l;
+  document.getElementById('lw').classList.remove('open');
+  applyLang(l);
+}
+function toggleLang(){document.getElementById('lw').classList.toggle('open')}
+document.addEventListener('click',e=>{if(!e.target.closest('#lw'))document.getElementById('lw').classList.remove('open')});
+function toggleMobile(){document.getElementById('mobileMenu').classList.toggle('open')}
+
+// ── JOBS ENGINE ──
+let allJobs=[],filteredJobs=[],displayedCount=0;
+const PAGE=12;
+
+const CAT={
+  software:['software','developer','engineer','backend','frontend','fullstack','web','mobile','ios','android','react','node','python','java','ruby','php','golang','rust'],
+  design:['design','ui','ux','graphic','figma','creative','visual','brand','motion'],
+  marketing:['marketing','seo','content','social','growth','email','ads','campaign','copywriter'],
+  sales:['sales','account','business development','revenue','crm','bdr','sdr'],
+  finance:['finance','accounting','bookkeeping','payroll','tax','financial'],
+  data:['data','analyst','analytics','machine learning','ai','ml','bi','sql','scientist'],
+  product:['product','pm','product manager','roadmap','agile','scrum'],
+  customer:['customer','support','success','service','help desk','cx','community'],
+  writing:['writer','writing','copywriter','editor','content','journalist'],
+  devops:['devops','sre','cloud','aws','docker','kubernetes','infrastructure','ops']
+};
+
+const REG={
+  worldwide:['worldwide','anywhere','global','remote'],
+  latam:['latam','latin','americas','colombia','mexico','argentina','brazil','chile','peru'],
+  europe:['europe','eu','uk','germany','france','spain','italy','netherlands','portugal'],
+  usa:['usa','united states','canada','north america'],
+  asia:['asia','apac','pacific','india','singapore','japan','australia']
+};
+
+async function fetchAll(){
+  const [r1,r2,r3]=await Promise.allSettled([fetchRemotive(),fetchJobicy(),fetchArbeitnow()]);
+  let jobs=[];
+  [r1,r2,r3].forEach(r=>{if(r.status==='fulfilled')jobs=jobs.concat(r.value);});
+  const seen=new Set();
+  jobs=jobs.filter(j=>{
+    const k=(j.title+j.company).toLowerCase().replace(/\s/g,'');
+    if(seen.has(k))return false;
+    seen.add(k);return true;
+  });
+  jobs.sort((a,b)=>new Date(b.date)-new Date(a.date));
+  return jobs.length?jobs:getFallback();
+}
+
+async function fetchRemotive(){
+  const r=await fetch('https://remotive.com/api/remote-jobs?limit=150',{headers:{Accept:'application/json'}});
+  if(!r.ok)throw new Error();
+  const d=await r.json();
+  return (d.jobs||[]).map(j=>({id:'rm'+j.id,title:j.title,company:j.company_name,logo:j.company_logo||'',category:j.category||'',tags:j.tags||[],type:j.job_type||'full_time',url:j.url,date:j.publication_date,salary:j.salary||'',location:j.candidate_required_location||'Worldwide',description:j.description||'',source:'Remotive'}));
+}
+
+async function fetchJobicy(){
+  const r=await fetch('https://jobicy.com/api/v2/remote-jobs?count=100');
+  if(!r.ok)throw new Error();
+  const d=await r.json();
+  return (d.jobs||[]).map(j=>({id:'jc'+j.id,title:j.jobTitle,company:j.companyName,logo:j.companyLogo||'',category:j.jobIndustry||'',tags:[j.jobType,j.jobLevel].filter(Boolean),type:j.jobType||'full_time',url:j.url,date:j.pubDate||new Date().toISOString(),salary:'',location:j.jobGeo||'Worldwide',description:j.jobExcerpt||'',source:'Jobicy'}));
+}
+
+async function fetchArbeitnow(){
+  const r=await fetch('https://www.arbeitnow.com/api/job-board-api?remote=true');
+  if(!r.ok)throw new Error();
+  const d=await r.json();
+  return (d.data||[]).map(j=>({id:'an'+j.slug,title:j.title,company:j.company_name,logo:j.company_logo||'',category:'',tags:(j.tags||[]).slice(0,4),type:'full_time',url:j.url,date:j.created_at||new Date().toISOString(),salary:'',location:j.location||'Remote',description:j.description||'',source:'Arbeitnow'}));
+}
+
+function getFallback(){
+  return [{id:'f1',title:'Senior Frontend Developer',company:'Automattic',logo:'',category:'Software Development',tags:['React','TypeScript'],type:'full_time',url:'https://automattic.com/work-with-us/',date:new Date().toISOString(),salary:'$90k–$130k',location:'Worldwide',description:'Work on WordPress.com and other products used by millions worldwide. We are a distributed team and have been fully remote since 2005. Requirements: 5+ years React experience, TypeScript, modern CSS, web performance, accessibility.',source:'Flexori'},{id:'f2',title:'Product Designer',company:'Buffer',logo:'',category:'Design',tags:['Figma','UX'],type:'full_time',url:'https://buffer.com/journey/',date:new Date().toISOString(),salary:'$85k–$110k',location:'Worldwide',description:'Help shape the future of social media tools for creators and businesses. You will collaborate with engineers and product managers to design intuitive experiences. Portfolio showing end-to-end product design work required.',source:'Flexori'},{id:'f3',title:'Backend Engineer',company:'GitLab',logo:'',category:'Software Development',tags:['Python','PostgreSQL'],type:'full_time',url:'https://about.gitlab.com/jobs/',date:new Date().toISOString(),salary:'$95k–$140k',location:'EMEA / Americas',description:'Build and maintain APIs on our core platform. Contribute to open-source codebase. Requirements: Strong Python experience, Django or FastAPI, PostgreSQL and Redis.',source:'Flexori'},{id:'f4',title:'Growth Marketing Manager',company:'Hotjar',logo:'',category:'Marketing',tags:['Growth','Analytics'],type:'full_time',url:'https://www.hotjar.com/jobs/',date:new Date().toISOString(),salary:'$75k–$95k',location:'Europe',description:'Drive user acquisition and revenue growth. Own key growth channels, run experiments, and analyze data to optimize funnel. 4+ years in growth marketing required.',source:'Flexori'},{id:'f5',title:'Data Scientist',company:'Zapier',logo:'',category:'Data Science',tags:['Python','SQL','ML'],type:'full_time',url:'https://zapier.com/jobs/',date:new Date().toISOString(),salary:'$100k–$140k',location:'Americas',description:'Build predictive models, user segmentation, and business intelligence tools. Strong Python and SQL skills required. Experience with ML frameworks a plus.',source:'Flexori'},{id:'f6',title:'Customer Success Manager',company:'Intercom',logo:'',category:'Customer Service',tags:['SaaS','CRM'],type:'full_time',url:'https://www.intercom.com/careers/',date:new Date().toISOString(),salary:'$70k–$90k',location:'Worldwide',description:'Manage a portfolio of accounts, drive adoption, and ensure renewals. 3+ years in customer success or account management. Experience with SaaS products required.',source:'Flexori'},{id:'f7',title:'DevOps Engineer',company:'Cloudflare',logo:'',category:'DevOps',tags:['AWS','Kubernetes'],type:'full_time',url:'https://www.cloudflare.com/careers/',date:new Date().toISOString(),salary:'$110k–$150k',location:'Americas / Europe',description:'Manage Kubernetes clusters, build CI/CD pipelines, improve system reliability. Experience with AWS or GCP, Terraform, and strong scripting skills required.',source:'Flexori'},{id:'f8',title:'Content Strategist',company:'HubSpot',logo:'',category:'Writing',tags:['SEO','Content'],type:'full_time',url:'https://www.hubspot.com/careers/',date:new Date().toISOString(),salary:'$65k–$85k',location:'Worldwide',description:'Drive content marketing efforts. Develop content strategies, manage editorial calendar, create content that drives organic traffic. 4+ years in content marketing required.',source:'Flexori'},{id:'f9',title:'iOS Developer',company:'Shopify',logo:'',category:'Software Development',tags:['Swift','iOS'],type:'full_time',url:'https://www.shopify.com/careers/',date:new Date().toISOString(),salary:'$100k–$135k',location:'Americas',description:'Build world-class mobile experiences for millions of merchants. Work on the Shopify iOS app. 4+ years of iOS development with Swift required.',source:'Flexori'},{id:'f10',title:'UX Researcher',company:'InVision',logo:'',category:'Design',tags:['Research','UX'],type:'full_time',url:'https://www.invisionapp.com/careers/',date:new Date().toISOString(),salary:'$80k–$105k',location:'Worldwide',description:'Plan and conduct user research, synthesize insights, work closely with product and design teams. 3+ years of UX research experience required.',source:'Flexori'},{id:'f11',title:'Sales Development Rep',company:'Calendly',logo:'',category:'Sales',tags:['SaaS','Outbound'],type:'full_time',url:'https://calendly.com/careers/',date:new Date().toISOString(),salary:'$55k–$75k',location:'Americas',description:'Prospect new accounts, qualify leads, and set meetings for Account Executive team. 1+ years in sales or business development required.',source:'Flexori'},{id:'f12',title:'Finance Manager',company:'Stripe',logo:'',category:'Finance',tags:['Finance','Reporting'],type:'full_time',url:'https://stripe.com/jobs/',date:new Date().toISOString(),salary:'$90k–$120k',location:'Americas / Europe',description:'Own financial reporting, support month-end close, provide insights to business partners. CPA or equivalent, 5+ years in finance required.',source:'Flexori'}];
+}
+
+function initials(c){return (c||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();}
+
+function ago(ds){
+  const t=T[lang];
+  const d=Math.floor((new Date()-new Date(ds))/(864e5));
+  if(d===0)return t.today;
+  if(d===1)return `1 ${t.dayAgo}`;
+  if(d<7)return `${d} ${t.daysAgo}`;
+  if(d<30)return `${Math.floor(d/7)} ${t.wAgo}`;
+  return `${Math.floor(d/30)} ${t.moAgo}`;
+}
+
+function matchCat(j,c){
+  if(!c)return true;
+  const kws=CAT[c]||[];
+  const txt=(j.title+' '+j.category+' '+(j.tags||[]).join(' ')).toLowerCase();
+  return kws.some(k=>txt.includes(k));
+}
+
+function matchReg(j,r){
+  if(!r)return true;
+  const kws=REG[r]||[];
+  return kws.some(k=>(j.location||'').toLowerCase().includes(k));
+}
+
+function matchType(j,t){
+  if(!t)return true;
+  return (j.type||'').toLowerCase().replace(/_/g,' ').includes(t.replace(/_/g,' '));
+}
+
+function filterJobs(){
+  const s=document.getElementById('job-search').value.toLowerCase().trim();
+  const c=document.getElementById('f-cat').value;
+  const tp=document.getElementById('f-type').value;
+  const r=document.getElementById('f-reg').value;
+  filteredJobs=allJobs.filter(j=>{
+    const txt=(j.title+' '+j.company+' '+(j.tags||[]).join(' ')).toLowerCase();
+    return (!s||txt.includes(s))&&matchCat(j,c)&&matchType(j,tp)&&matchReg(j,r);
+  });
+  displayedCount=0;
+  render(true);
+}
+
+function renderCount(){
+  const t=T[lang];
+  document.getElementById('jobs-count').innerHTML=`<strong>${filteredJobs.length}</strong>${t.countFound}`;
+}
+
+function render(reset){
+  const grid=document.getElementById('jobs-grid');
+  const sk=document.getElementById('skeleton');
+  const em=document.getElementById('empty-state');
+  const lb=document.getElementById('load-more');
+  if(sk) sk.style.display='none';
+  if(em) em.style.display='none';
+  renderCount();
+  if(!filteredJobs.length){
+    if(grid) grid.style.display='none';
+    if(em) em.style.display='block';
+    if(lb) lb.style.display='none';
+    return;
+  }
+  const slice=filteredJobs.slice(displayedCount,displayedCount+PAGE);
+  displayedCount+=slice.length;
+  if(reset && grid) grid.innerHTML='';
+  if(grid) grid.style.display='grid';
+  slice.forEach(j=>{
+    const isNew=new Date()-new Date(j.date)<7*864e5;
+    const tags=(j.tags||[]).slice(0,3);
+    const el=document.createElement('div');
+    el.className='job-card';
+    el.onclick=()=>openModal(j);
+    el.innerHTML=`
+      <div class="card-top">
+        <div class="card-logo">${j.logo?`<img src="${j.logo}" alt="${j.company}" onerror="this.parentElement.textContent='${initials(j.company)}'">`:initials(j.company)}</div>
+        ${isNew?'<span class="card-new">NEW</span>':''}
+      </div>
+      <div><div class="card-title">${j.title}</div><div class="card-company">${j.company} · ${j.location||'Remote'}</div></div>
+      <div class="card-tags">
+        ${j.salary?`<span class="tag tag-g">${j.salary}</span>`:''}
+        <span class="tag tag-b">${(String(j.type||'Full-time')).replace(/_/g,' ')}</span>
+        ${tags.map(t=>`<span class="tag tag-gray">${t}</span>`).join('')}
+      </div>
+      <div class="card-footer"><span class="card-date">${ago(j.date)}</span><span class="card-cta">Ver →</span></div>`;
+    grid.appendChild(el);
+  });
+  lb.style.display=displayedCount<filteredJobs.length?'inline-block':'none';
+}
+
+function loadMore(){render(false);}
+
+function clearFilters(){
+  ['job-search','f-cat','f-type','f-reg'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  filterJobs();
+}
+
+let st;
+function debounce(){clearTimeout(st);st=setTimeout(filterJobs,350);}
+
+// ── JOB MODAL ──
+function openModal(j){
+  const t=T[lang];
+  const logo=document.getElementById('m-logo');
+  logo.innerHTML=j.logo?`<img src="${j.logo}" alt="${j.company}" onerror="this.parentElement.textContent='${initials(j.company)}'">`:initials(j.company);
+  document.getElementById('m-company').textContent=j.company;
+  document.getElementById('m-location').textContent='📍 '+(j.location||'Remote');
+  document.getElementById('m-title').textContent=j.title;
+  document.getElementById('m-tags').innerHTML=`${j.salary?`<span class="tag tag-g">${j.salary}</span>`:''}<span class="tag tag-b">${(String(j.type||'Full-time')).replace(/_/g,' ')}</span>${(j.tags||[]).slice(0,4).map(tg=>`<span class="tag tag-gray">${tg}</span>`).join('')}`;
+  document.getElementById('m-meta').innerHTML=`
+    <div class="modal-meta-card"><div class="modal-meta-label">Type</div><div class="modal-meta-value">${(String(j.type||'Full-time')).replace(/_/g,' ')}</div></div>
+    <div class="modal-meta-card"><div class="modal-meta-label">Location</div><div class="modal-meta-value">${j.location||'Worldwide'}</div></div>
+    ${j.salary?`<div class="modal-meta-card" style="border-color:rgba(29,158,117,0.3)"><div class="modal-meta-label">Salary</div><div class="modal-meta-value" style="color:#1D9E75">${j.salary}</div></div>`:''}
+    <div class="modal-meta-card"><div class="modal-meta-label">Posted</div><div class="modal-meta-value">${ago(j.date)}</div></div>`;
+  const clean=(j.description||'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim();
+  document.getElementById('m-desc').textContent=clean||'Visit the company website for the full job description.';
+  document.getElementById('m-apply').href=j.url;
+  document.getElementById('m-apply').textContent=t.mApply;
+  document.getElementById('job-overlay').style.display='block';
+  const modal=document.getElementById('job-modal');
+  modal.style.display='block';
+  document.body.style.overflow='hidden';
+  modal.style.transform='translateX(100%)';
+  requestAnimationFrame(()=>{modal.style.transition='transform .3s ease';modal.style.transform='translateX(0)';});
+}
+
+function closeJobModal(){
+  const m=document.getElementById('job-modal');
+  m.style.transform='translateX(100%)';
+  setTimeout(()=>{m.style.display='none';document.getElementById('job-overlay').style.display='none';document.body.style.overflow='';},300);
+}
+
+// ── POST MODAL ──
+function openPostModal(){
+  document.getElementById('post-modal').style.display='block';
+  document.getElementById('post-overlay').style.display='block';
+  document.body.style.overflow='hidden';
+}
+function closePostModal(){
+  document.getElementById('post-modal').style.display='none';
+  document.getElementById('post-overlay').style.display='none';
+  document.body.style.overflow='';
+}
+
+async function submitJob(e){
+  e.preventDefault();
+  const btn=document.getElementById('f-submit-btn');
+  btn.disabled=true;btn.textContent='...';
+  const data={company:document.getElementById('f-company').value,title:document.getElementById('f-title').value,type:document.getElementById('f-jtype').value,salary:document.getElementById('f-salary').value,location:document.getElementById('f-loc').value,description:document.getElementById('f-desc').value,email:document.getElementById('f-email').value,url:document.getElementById('f-url').value,submitted_at:new Date().toISOString(),lang};
+  try{
+    await fetch('https://kkkgtwripyaxgmmdsqhg.supabase.co/rest/v1/job_postings',{method:'POST',headers:{'Content-Type':'application/json','apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0.XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0.XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU','Prefer':'return=minimal'},body:JSON.stringify(data)});
+  }catch(err){}
+  document.getElementById('f-success').style.display='block';
+  btn.style.display='none';
+  setTimeout(closePostModal,3000);
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeJobModal();closePostModal();}});
+
+// ── INIT ──
+async function init(){
+  setLang(lang);
+  const skeleton = document.getElementById('skeleton');
+  const grid = document.getElementById('jobs-grid');
+  const empty = document.getElementById('empty-state');
+  const loadBtn = document.getElementById('load-more');
+  const countEl = document.getElementById('jobs-count');
+
+  // Show animated skeleton
+  skeleton.style.display = 'grid';
+  grid.style.display = 'none';
+  if(empty) empty.style.display = 'none';
+
+  // Fetch from all APIs
+  allJobs = await fetchAll();
+  filteredJobs = [...allJobs];
+
+  // Hide skeleton
+  skeleton.style.display = 'none';
+
+  if(!allJobs.length){
+    if(empty) empty.style.display = 'block';
+    if(countEl) countEl.innerHTML = '0 jobs found';
+    return;
+  }
+
+  // Render first page
+  renderCount();
+  const firstPage = filteredJobs.slice(0, PAGE);
+  displayedCount = firstPage.length;
+  grid.innerHTML = '';
+  grid.style.display = 'grid';
+
+  firstPage.forEach(j => {
+    const isNew = new Date() - new Date(j.date) < 7*864e5;
+    const tags = (j.tags||[]).slice(0,3);
+    const el = document.createElement('div');
+    el.className = 'job-card';
+    el.onclick = () => openModal(j);
+    el.innerHTML = `
+      <div class="card-top">
+        <div class="card-logo">${j.logo ? `<img src="${j.logo}" alt="${j.company}" onerror="this.parentElement.textContent='${initials(j.company)}'">` : initials(j.company)}</div>
+        ${isNew ? '<span class="card-new">NEW</span>' : ''}
+      </div>
+      <div>
+        <div class="card-title">${j.title}</div>
+        <div class="card-company">${j.company} · ${j.location||'Remote'}</div>
+      </div>
+      <div class="card-tags">
+        ${j.salary ? `<span class="tag tag-g">${j.salary}</span>` : ''}
+        <span class="tag tag-b">${(String(j.type||'Full-time')).replace(/_/g,' ')}</span>
+        ${tags.map(t => `<span class="tag tag-gray">${t}</span>`).join('')}
+      </div>
+      <div class="card-footer">
+        <span class="card-date">${ago(j.date)}</span>
+        <span class="card-cta">Ver →</span>
+      </div>`;
+    grid.appendChild(el);
+  });
+
+  if(loadBtn) loadBtn.style.display = displayedCount < filteredJobs.length ? 'inline-block' : 'none';
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
