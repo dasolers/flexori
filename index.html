@@ -41,6 +41,9 @@ nav{padding:20px 0;border-bottom:1px solid rgba(29,158,117,0.1)}
 .nav-content{display:flex;justify-content:space-between;align-items:center}
 .logo{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--white);text-decoration:none}
 .logo span{color:var(--green-primary)}
+.nav-links{display:flex;gap:30px;align-items:center}
+.nav-links a{color:var(--text-gray);text-decoration:none;font-weight:500}
+.nav-links a:hover{color:var(--white)}
 
 /* Hero */
 .hero{padding:80px 0 60px;text-align:center}
@@ -49,10 +52,11 @@ nav{padding:20px 0;border-bottom:1px solid rgba(29,158,117,0.1)}
 .hero h1 span{color:var(--green-primary)}
 .hero p{font-size:20px;color:var(--text-gray);max-width:700px;margin:0 auto 40px}
 .cta-group{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
-.btn{padding:16px 32px;border-radius:8px;font-weight:600;text-decoration:none;cursor:pointer;border:none;font-size:16px;transition:all 0.3s}
+.btn{padding:16px 32px;border-radius:8px;font-weight:600;text-decoration:none;cursor:pointer;border:none;font-size:16px;transition:all 0.3s;font-family:'DM Sans',sans-serif}
 .btn-primary{background:var(--green-primary);color:var(--white)}
 .btn-primary:hover{background:var(--green-hover);transform:translateY(-2px)}
 .btn-secondary{background:transparent;color:var(--white);border:2px solid var(--green-primary)}
+.btn-secondary:hover{background:rgba(29,158,117,0.1)}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;margin-top:60px}
 .stat-card{background:var(--surface);padding:30px;border-radius:12px;border:1px solid rgba(29,158,117,0.1)}
 .stat-card h3{font-size:36px;color:var(--green-primary);margin-bottom:8px}
@@ -67,18 +71,58 @@ nav{padding:20px 0;border-bottom:1px solid rgba(29,158,117,0.1)}
 .score-big{font-size:72px;font-weight:800;color:var(--green-primary);margin:20px 0}
 .gap-item{background:rgba(29,158,117,0.05);padding:16px;border-radius:8px;margin:12px 0;border-left:3px solid var(--green-primary)}
 
+/* Jobs Section */
+.jobs-section{padding:80px 0;background:rgba(19,27,46,0.5)}
+.jobs-section h2{text-align:center;font-size:40px;margin-bottom:16px}
+.jobs-subtitle{text-align:center;color:var(--text-gray);margin-bottom:40px}
+.jobs-counter{text-align:center;font-size:14px;color:var(--green-hover);margin-bottom:30px}
+.jobs-filters{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.jobs-filters input,.jobs-filters select{background:var(--surface);border:1px solid rgba(29,158,117,0.2);color:var(--white);padding:12px 16px;border-radius:8px;font-family:'DM Sans',sans-serif}
+.jobs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:24px;margin-bottom:40px}
+.job-card{background:var(--surface);padding:24px;border-radius:12px;border:1px solid rgba(29,158,117,0.1);transition:all 0.3s;cursor:pointer}
+.job-card:hover{border-color:var(--green-primary);transform:translateY(-4px)}
+.job-card h3{font-size:20px;margin-bottom:8px;color:var(--white)}
+.job-company{color:var(--green-primary);font-weight:600;margin-bottom:12px}
+.job-tags{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.job-tag{background:rgba(29,158,117,0.1);color:var(--green-hover);padding:4px 12px;border-radius:16px;font-size:12px}
+.job-salary{color:var(--text-gray);font-size:14px}
+.load-more{display:block;margin:0 auto}
+
 /* FAQ */
 .faq{padding:80px 0}
 .faq h2{text-align:center;font-size:40px;margin-bottom:50px}
 .faq-item{background:var(--surface);margin-bottom:16px;border-radius:8px;border:1px solid rgba(29,158,117,0.1);overflow:hidden}
 .faq-q{padding:24px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600}
-.faq-a{padding:0 24px;max-height:0;overflow:hidden;transition:max-height 0.3s;color:var(--text-gray)}
+.faq-a{padding:0 24px;max-height:0;overflow:hidden;transition:max-height 0.3s,color 0.3s;color:var(--text-gray)}
 .faq-item.active.faq-a{padding:0 24px 24px;max-height:500px}
+
+/* Modal Score */
+.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(13,19,33,0.95);overflow:auto}
+.modal-content{background:var(--surface);margin:5% auto;padding:40px;border-radius:16px;max-width:600px;border:1px solid rgba(29,158,117,0.2);position:relative}
+.close{position:absolute;right:20px;top:20px;font-size:32px;cursor:pointer;color:var(--text-gray)}
+.close:hover{color:var(--white)}
+.modal h2{margin-bottom:24px}
+.question{display:none}
+.question.active{display:block}
+.question h3{margin-bottom:20px;font-size:20px}
+.options{display:flex;flex-direction:column;gap:12px;margin-bottom:30px}
+.option{background:var(--bg-main);padding:16px;border-radius:8px;border:2px solid transparent;cursor:pointer;transition:all 0.3s}
+.option:hover{border-color:var(--green-primary)}
+.option.selected{border-color:var(--green-primary);background:rgba(29,158,117,0.1)}
+.modal-actions{display:flex;justify-content:space-between}
+.email-gate{display:none}
+.email-gate.active{display:block}
+.email-gate input{width:100%;padding:16px;background:var(--bg-main);border:1px solid rgba(29,158,117,0.2);border-radius:8px;color:var(--white);font-size:16px;margin-bottom:16px}
+
+/* Footer */
+footer{padding:40px 0;text-align:center;border-top:1px solid rgba(29,158,117,0.1);color:var(--text-gray);font-size:14px}
 
 /* Mobile */
 @media(max-width:768px){
- .hero h1{font-size:36px}
- .hero p{font-size:16px}
+.hero h1{font-size:36px}
+.hero p{font-size:16px}
+.nav-links{display:none}
+.jobs-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -90,7 +134,11 @@ nav{padding:20px 0;border-bottom:1px solid rgba(29,158,117,0.1)}
 <nav>
   <div class="container nav-content">
     <a href="/" class="logo">Flexori<span>.</span></a>
-    <a href="#score" class="btn btn-primary">Calcula tu Score Gratis</a>
+    <div class="nav-links">
+      <a href="#jobs">Empleos</a>
+      <a href="#faq">FAQ</a>
+      <button class="btn btn-primary" onclick="openScoreModal()">Calcula tu Score Gratis</button>
+    </div>
   </div>
 </nav>
 
@@ -101,8 +149,8 @@ nav{padding:20px 0;border-bottom:1px solid rgba(29,158,117,0.1)}
     <p>LinkedIn mide tu CV. Indeed mide keywords. <strong>Flexori mide si sabes trabajar solo.</strong> Descubre tu Remote Score en 2 minutos + plan exacto para subir a 80+.</p>
 
     <div class="cta-group">
-      <a href="#score" class="btn btn-primary">Calcula tu Score Gratis →</a>
-      <a href="jobs.html" class="btn btn-secondary">Ver Empleos Remotos</a>
+      <button class="btn btn-primary" onclick="openScoreModal()">Calcula tu Score Gratis →</button>
+      <a href="#jobs" class="btn btn-secondary">Ver Empleos Remotos</a>
     </div>
 
     <div class="stats">
@@ -131,6 +179,35 @@ nav{padding:20px 0;border-bottom:1px solid rgba(29,158,117,0.1)}
   </div>
 </section>
 
+<section class="jobs-section" id="jobs">
+  <div class="container">
+    <h2>Empleos Remotos en Vivo</h2>
+    <p class="jobs-subtitle">Actualizados cada hora desde Remotive + Workana pronto</p>
+    <div class="jobs-counter" id="jobsCounter">Cargando empleos...</div>
+    
+    <div class="jobs-filters">
+      <input type="text" id="searchJobs" placeholder="Buscar por título o skill...">
+      <select id="categoryFilter">
+        <option value="">Todas las categorías</option>
+        <option value="software-dev">Desarrollo</option>
+        <option value="design">Diseño</option>
+        <option value="marketing">Marketing</option>
+        <option value="sales">Ventas</option>
+        <option value="customer-service">Customer Service</option>
+      </select>
+      <select id="typeFilter">
+        <option value="">Tipo de contrato</option>
+        <option value="full-time">Full-time</option>
+        <option value="part-time">Part-time</option>
+        <option value="contract">Contrato</option>
+      </select>
+    </div>
+
+    <div class="jobs-grid" id="jobsGrid"></div>
+    <button class="btn btn-secondary load-more" id="loadMore" style="display:none">Cargar más empleos</button>
+  </div>
+</section>
+
 <section class="faq" id="faq">
   <div class="container">
     <h2>Preguntas Frecuentes</h2>
@@ -153,10 +230,126 @@ nav{padding:20px 0;border-bottom:1px solid rgba(29,158,117,0.1)}
   <div class="container">
     <h2 style="font-size:40px;margin-bottom:20px">Calcula tu Score Ahora</h2>
     <p style="color:var(--text-gray);margin-bottom:40px">8 preguntas. 2 minutos. Resultado inmediato a tu correo.</p>
-    <!-- Aquí va tu form de Supabase actual. Solo cambié el botón: -->
-    <button class="btn btn-primary" style="font-size:18px;padding:20px 40px">Ver Mi Score Gratis →</button>
+    <button class="btn btn-primary" onclick="openScoreModal()" style="font-size:18px;padding:20px 40px">Ver Mi Score Gratis →</button>
   </div>
 </section>
+
+<!-- Score Modal -->
+<div id="scoreModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeScoreModal()">&times;</span>
+    <h2 id="modalTitle">¿Qué tan listo estás para remoto?</h2>
+    
+    <div id="questionsContainer">
+      <!-- Pregunta 1 -->
+      <div class="question active" data-q="1">
+        <h3>1. ¿Cuántos años llevas trabajando 100% remoto?</h3>
+        <div class="options">
+          <div class="option" data-value="0">0 años</div>
+          <div class="option" data-value="1">1-2 años</div>
+          <div class="option" data-value="2">3-5 años</div>
+          <div class="option" data-value="3">5+ años</div>
+        </div>
+      </div>
+      
+      <!-- Pregunta 2 -->
+      <div class="question" data-q="2">
+        <h3>2. ¿Has liderado un proyecto async sin reuniones diarias?</h3>
+        <div class="options">
+          <div class="option" data-value="3">Sí, múltiples veces</div>
+          <div class="option" data-value="2">Sí, una vez</div>
+          <div class="option" data-value="1">No, pero me interesa</div>
+          <div class="option" data-value="0">No</div>
+        </div>
+      </div>
+
+      <!-- Pregunta 3 -->
+      <div class="question" data-q="3">
+        <h3>3. ¿Qué herramientas dominas?</h3>
+        <div class="options">
+          <div class="option" data-value="3">Notion + Slack + Loom + Linear/Jira</div>
+          <div class="option" data-value="2">3 de las anteriores</div>
+          <div class="option" data-value="1">1-2 de las anteriores</div>
+          <div class="option" data-value="0">Ninguna</div>
+        </div>
+      </div>
+
+      <!-- Pregunta 4 -->
+      <div class="question" data-q="4">
+        <h3>4. ¿Cuándo fue tu último update escrito de proyecto?</h3>
+        <div class="options">
+          <div class="option" data-value="3">Esta semana</div>
+          <div class="option" data-value="2">Este mes</div>
+          <div class="option" data-value="1">Hace +1 mes</div>
+          <div class="option" data-value="0">No hago updates escritos</div>
+        </div>
+      </div>
+
+      <!-- Pregunta 5 -->
+      <div class="question" data-q="5">
+        <h3>5. ¿Tienes portfolio con casos de proyectos ejecutados solo?</h3>
+        <div class="options">
+          <div class="option" data-value="3">Sí, con timeline y resultados</div>
+          <div class="option" data-value="2">Sí, solo código/diseño</div>
+          <div class="option" data-value="1">En construcción</div>
+          <div class="option" data-value="0">No</div>
+        </div>
+      </div>
+
+      <!-- Pregunta 6 -->
+      <div class="question" data-q="6">
+        <h3>6. ¿Tu setup de trabajo es profesional?</h3>
+        <div class="options">
+          <div class="option" data-value="3">Dedicado, ergonómico, fibra óptica</div>
+          <div class="option" data-value="2">Dedicado pero básico</div>
+          <div class="option" data-value="1">Compartido con familia</div>
+          <div class="option" data-value="0">Trabajo desde cama/café</div>
+        </div>
+      </div>
+
+      <!-- Pregunta 7 -->
+      <div class="question" data-q="7">
+        <h3>7. Nivel de inglés escrito</h3>
+        <div class="options">
+          <div class="option" data-value="3">Nativo/C2</div>
+          <div class="option" data-value="2">Avanzado C1</div>
+          <div class="option" data-value="1">Intermedio B2</div>
+          <div class="option" data-value="0">Básico</div>
+        </div>
+      </div>
+
+      <!-- Pregunta 8 -->
+      <div class="question" data-q="8">
+        <h3>8. ¿Qué tan flexible eres con horarios?</h3>
+        <div class="options">
+          <div class="option" data-value="3">Overlap 4h+ con cualquier zona</div>
+          <div class="option" data-value="2">Overlap 2-4h</div>
+          <div class="option" data-value="1">Solo mi zona horaria</div>
+          <div class="option" data-value="0">Horario fijo inflexible</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Email Gate -->
+    <div class="email-gate" id="emailGate">
+      <h3>🎯 Tu Score está listo</h3>
+      <p style="color:var(--text-gray);margin-bottom:20px">Déjanos tu email y te enviamos tu resultado + plan para subir a 80+</p>
+      <input type="email" id="userEmail" placeholder="tu@email.com" required>
+      <button class="btn btn-primary" style="width:100%" onclick="submitScore()">Enviar mi Score Gratis</button>
+    </div>
+
+    <div class="modal-actions" id="modalActions">
+      <button class="btn btn-secondary" id="prevBtn" onclick="changeQuestion(-1)" style="display:none">Anterior</button>
+      <button class="btn btn-primary" id="nextBtn" onclick="changeQuestion(1)">Siguiente</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Flexori. Remote Digital Passport. Hecho con ❤️ para trabajadores remotos LATAM.</p>
+  </div>
+</footer>
 
 <script>
 // FAQ Accordion
@@ -165,6 +358,189 @@ document.querySelectorAll('.faq-q').forEach(q => {
     q.parentElement.classList.toggle('active');
   });
 });
+
+// Score Modal Logic
+let currentQ = 1;
+let answers = {};
+const totalQ = 8;
+
+function openScoreModal() {
+  document.getElementById('scoreModal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  showQuestion(1);
+}
+
+function closeScoreModal() {
+  document.getElementById('scoreModal').style.display = 'none';
+  document.body.style.overflow = 'auto';
+  // Reset
+  currentQ = 1;
+  answers = {};
+  document.getElementById('emailGate').classList.remove('active');
+  document.getElementById('questionsContainer').style.display = 'block';
+  document.getElementById('modalActions').style.display = 'flex';
+  document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
+  document.querySelector('.question[data-q="1"]').classList.add('active');
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+}
+
+function showQuestion(n) {
+  document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
+  document.querySelector(`.question[data-q="${n}"]`).classList.add('active');
+  
+  document.getElementById('prevBtn').style.display = n === 1? 'none' : 'block';
+  document.getElementById('nextBtn').textContent = n === totalQ? 'Finalizar' : 'Siguiente';
+}
+
+function changeQuestion(n) {
+  if(n > 0 &&!answers[currentQ]) {
+    alert('Selecciona una opción para continuar');
+    return;
+  }
+  
+  currentQ += n;
+  
+  if(currentQ > totalQ) {
+    // Show email gate
+    document.getElementById('questionsContainer').style.display = 'none';
+    document.getElementById('modalActions').style.display = 'none';
+    document.getElementById('emailGate').classList.add('active');
+    return;
+  }
+  
+  showQuestion(currentQ);
+}
+
+// Option selection
+document.querySelectorAll('.option').forEach(opt => {
+  opt.addEventListener('click', function() {
+    const q = this.closest('.question').dataset.q;
+    this.parentElement.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    this.classList.add('selected');
+    answers[q] = parseInt(this.dataset.value);
+  });
+});
+
+// Calculate and submit score
+async function submitScore() {
+  const email = document.getElementById('userEmail').value;
+  if(!email ||!email.includes('@')) {
+    alert('Ingresa un email válido');
+    return;
+  }
+  
+  // Calculate score 0-100
+  const totalPoints = Object.values(answers).reduce((a,b) => a+b, 0);
+  const score = Math.round((totalPoints / 24) * 100);
+  
+  // Identify weakest 3 dimensions
+  const dimensions = [
+    {name: 'Remote History', score: answers[1] || 0, desc: 'Poca experiencia 100% remoto', fix: 'Acepta 1 proyecto freelance corto'},
+    {name: 'Async Communication', score: answers[2] || 0, desc: 'No tienes evidencia de trabajo escrito', fix: 'Publica 1 update semanal en LinkedIn'},
+    {name: 'Tools', score: answers[3] || 0, desc: 'No dominas Notion/Slack/Linear', fix: 'Curso gratis 2h YouTube + agrégalo a CV'},
+    {name: 'Reliability', score: answers[4] || 0, desc: 'No comunicas progreso por escrito', fix: 'Manda 1 Loom semanal a tu equipo'},
+    {name: 'Portfolio', score: answers[5] || 0, desc: 'Tu CV no muestra proyectos solo', fix: 'Documenta 1 side project en Notion'},
+    {name: 'Setup', score: answers[6] || 0, desc: 'Tu espacio de trabajo no es profesional', fix: 'Invierte $50 en silla + luz'},
+    {name: 'Languages', score: answers[7] || 0, desc: 'Inglés escrito débil', fix: 'Escribe 1 post/semana en inglés en LinkedIn'},
+    {name: 'Flexibility', score: answers[8] || 0, desc: 'No tienes overlap con US/EU', fix: 'Ajusta 2h de tu día para overlap'}
+  ];
+  
+  const gaps = dimensions.sort((a,b) => a.score - b.score).slice(0,3);
+  
+  // Send to backend
+  try {
+    const res = await fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        email: email,
+        score: score,
+        lang: 'es',
+        gaps: gaps
+      })
+    });
+    
+    if(res.ok) {
+      alert(`¡Listo! Tu Score ${score}/100 va a tu correo en 30 segundos. Revisa spam si no llega.`);
+      closeScoreModal();
+      gtag('event', 'score_completed', {value: score});
+    } else {
+      alert('Error enviando email. Intenta de nuevo.');
+    }
+  } catch(e) {
+    alert('Error de conexión. Intenta de nuevo.');
+  }
+}
+
+// Jobs Engine
+let allJobs = [];
+let displayedJobs = 0;
+const jobsPerPage = 12;
+
+async function loadJobs() {
+  try {
+    const res = await fetch('https://remotive.com/api/remote-jobs?limit=100');
+    const data = await res.json();
+    allJobs = data.jobs || [];
+    document.getElementById('jobsCounter').textContent = `${allJobs.length} empleos remotos disponibles`;
+    displayJobs();
+  } catch(e) {
+    // Fallback hardcoded
+    allJobs = [
+      {title:'Senior React Developer',company_name:'Toptal',category:'Software Development',job_type:'full_time',salary:'$80k-$120k',candidate_required_location:'Worldwide',url:'#'},
+      {title:'Product Designer',company_name:'GitLab',category:'Design',job_type:'full_time',salary:'$70k-$100k',candidate_required_location:'Americas',url:'#'},
+      {title:'Content Marketing Manager',company_name:'Buffer',category:'Marketing',job_type:'full_time',salary:'$60k-$90k',candidate_required_location:'Worldwide',url:'#'}
+    ];
+    document.getElementById('jobsCounter').textContent = `${allJobs.length} empleos disponibles`;
+    displayJobs();
+  }
+}
+
+function displayJobs() {
+  const grid = document.getElementById('jobsGrid');
+  const search = document.getElementById('searchJobs').value.toLowerCase();
+  const category = document.getElementById('categoryFilter').value;
+  const type = document.getElementById('typeFilter').value;
+  
+  let filtered = allJobs.filter(job => {
+    const matchSearch =!search || job.title.toLowerCase().includes(search) || job.company_name.toLowerCase().includes(search);
+    const matchCat =!category || job.category.toLowerCase().includes(category.toLowerCase());
+    const matchType =!type || job.job_type === type;
+    return matchSearch && matchCat && matchType;
+  });
+  
+  const jobsToShow = filtered.slice(0, displayedJobs + jobsPerPage);
+  grid.innerHTML = jobsToShow.map(job => `
+    <div class="job-card" onclick="window.open('${job.url}', '_blank')">
+      <h3>${job.title}</h3>
+      <div class="job-company">${job.company_name}</div>
+      <div class="job-tags">
+        <span class="job-tag">${job.category}</span>
+        <span class="job-tag">${job.job_type.replace('_', ' ')}</span>
+      </div>
+      <div class="job-salary">${job.salary || 'Salario no especificado'}</div>
+      <div class="job-salary">${job.candidate_required_location || 'Worldwide'}</div>
+    </div>
+  `).join('');
+  
+  displayedJobs = jobsToShow.length;
+  document.getElementById('loadMore').style.display = displayedJobs < filtered.length? 'block' : 'none';
+}
+
+document.getElementById('searchJobs').addEventListener('input', () => {displayedJobs=0;displayJobs()});
+document.getElementById('categoryFilter').addEventListener('change', () => {displayedJobs=0;displayJobs()});
+document.getElementById('typeFilter').addEventListener('change', () => {displayedJobs=0;displayJobs()});
+document.getElementById('loadMore').addEventListener('click', displayJobs);
+
+// Init
+loadJobs();
+
+// Close modal on outside click
+window.onclick = function(e) {
+  if(e.target.classList.contains('modal')) {
+    closeScoreModal();
+  }
+}
 </script>
 
 </body>
