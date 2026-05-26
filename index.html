@@ -24,7 +24,9 @@
 <title>Flexori — Remote Careers Platform</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="dns-prefetch" href="//remotive.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap&font-display=swap" rel="stylesheet">
 <!-- ✅ CAMBIO 1: EmailJS eliminado — ahora se usa Resend via Netlify Function -->
 <style>
 /* ── RESET ── */
@@ -420,7 +422,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
     <div class="hero-ctas">
       <button id="score-cta-btn" class="btn-solid" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;padding:12px 26px;font-size:15px">⚡ <span data-i="cta_score">Get My Free Score</span></button>
       <a href="#waitlist" class="btn-outline" style="padding:12px 26px;font-size:15px" data-i="cta_join">Join Free →</a>
-      <a href="/jobs.html" style="display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:100px;padding:12px 26px;color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;text-decoration:none;transition:all .2s" onmouseover="this.style.borderColor='rgba(29,158,117,0.5)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)'" data-i="cta_jobs">Browse Jobs →</a>
+      <a href="/jobs.html" style="display:inline-flex;align-items:center;gap:8px;background:rgba(29,158,117,0.12);border:1.5px solid rgba(29,158,117,0.5);border-radius:100px;padding:12px 26px;color:#1D9E75;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(29,158,117,0.22)';this.style.borderColor='#1D9E75'" onmouseout="this.style.background='rgba(29,158,117,0.12)';this.style.borderColor='rgba(29,158,117,0.5)'" data-i="cta_jobs">Browse Jobs →</a>
     </div>
     <div class="hero-stats">
       <div class="hstat"><div class="hstat-n" id="jobs-stat">500<span>+</span></div><div class="hstat-l" data-i="s4">Live Jobs</div></div>
@@ -477,9 +479,9 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
         <a href="#waitlist" class="btn-solid" data-i="cand_cta">Join for Free →</a>
       </div>
       <div class="aud-visual">
-        <div class="job-card"><div class="job-logo">🎨</div><div class="job-info"><div class="job-title">Senior UX Designer</div><div class="job-co">Figma · Remote Worldwide</div><div class="job-tags"><span class="tag tag-green">$95k–$130k</span><span class="tag tag-blue">Full-time</span><span class="tag tag-gray">Design</span></div></div><div class="job-score"><div class="job-score-n">94</div><div class="job-score-l">match</div></div></div>
-        <div class="job-card"><div class="job-logo">⚙️</div><div class="job-info"><div class="job-title">Backend Engineer</div><div class="job-co">Stripe · Remote LATAM</div><div class="job-tags"><span class="tag tag-green">$80k–$110k</span><span class="tag tag-blue">Full-time</span><span class="tag tag-gray">Engineering</span></div></div><div class="job-score"><div class="job-score-n">88</div><div class="job-score-l">match</div></div></div>
-        <div class="job-card"><div class="job-logo">📊</div><div class="job-info"><div class="job-title">Product Manager</div><div class="job-co">Notion · Remote Europe</div><div class="job-tags"><span class="tag tag-green">$85k–$120k</span><span class="tag tag-blue">Full-time</span><span class="tag tag-gray">Product</span></div></div><div class="job-score"><div class="job-score-n">81</div><div class="job-score-l">match</div></div></div>
+        <div class="job-card"><div class="job-logo">🎨</div><div class="job-info"><div class="job-title">Senior UX Designer <span style="font-size:9px;background:rgba(29,158,117,0.15);color:#1D9E75;border-radius:4px;padding:1px 5px;margin-left:4px">EJEMPLO</span></div><div class="job-co">Figma · Remote Worldwide</div><div class="job-tags"><span class="tag tag-green">$95k–$130k</span><span class="tag tag-blue">Full-time</span><span class="tag tag-gray">Design</span></div></div><div class="job-score"><div class="job-score-n">94</div><div class="job-score-l">match</div></div></div>
+        <div class="job-card"><div class="job-logo">⚙️</div><div class="job-info"><div class="job-title">Backend Engineer <span style="font-size:9px;background:rgba(29,158,117,0.15);color:#1D9E75;border-radius:4px;padding:1px 5px;margin-left:4px">EJEMPLO</span></div><div class="job-co">Stripe · Remote LATAM</div><div class="job-tags"><span class="tag tag-green">$80k–$110k</span><span class="tag tag-blue">Full-time</span><span class="tag tag-gray">Engineering</span></div></div><div class="job-score"><div class="job-score-n">88</div><div class="job-score-l">match</div></div></div>
+        <div class="job-card"><div class="job-logo">📊</div><div class="job-info"><div class="job-title">Product Manager <span style="font-size:9px;background:rgba(29,158,117,0.15);color:#1D9E75;border-radius:4px;padding:1px 5px;margin-left:4px">EJEMPLO</span></div><div class="job-co">Notion · Remote Europe</div><div class="job-tags"><span class="tag tag-green">$85k–$120k</span><span class="tag tag-blue">Full-time</span><span class="tag tag-gray">Product</span></div></div><div class="job-score"><div class="job-score-n">81</div><div class="job-score-l">match</div></div></div>
       </div>
     </div>
     <!-- COMPANIES -->
@@ -974,7 +976,7 @@ const CATEGORY_MAP = {
 
 async function fetchJobs() {
   try {
-    const res = await fetch('https://remotive.com/api/remote-jobs?limit=100', {
+    const res = await fetch('https://remotive.com/api/remote-jobs?limit=5', {
       headers: { 'Accept': 'application/json' }
     });
     if (!res.ok) throw new Error('API error');
@@ -1132,6 +1134,8 @@ function clearFilters() {
 
 async function initJobs() {
   allJobs = await fetchJobs();
+  // Ordenar por fecha más reciente primero
+  allJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
   filteredJobs = [...allJobs];
   renderJobs(true);
 }
@@ -1150,7 +1154,7 @@ document.addEventListener('DOMContentLoaded', () => {
       searchTimer = setTimeout(filterJobs, 350);
     });
   }
-  initJobs();
+  setTimeout(initJobs, 300);
 });
 
 window._L = {};
