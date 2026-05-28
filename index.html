@@ -944,6 +944,81 @@ async function sendWelcomeEmail(email, language) {
   }
 }
 
+
+// ── SEND SCORE EMAIL ──
+async function sendScoreEmail(email, language, finalScore, breakdown) {
+  const scoreColor = finalScore >= 80 ? '#1D9E75' : finalScore >= 60 ? '#24C48F' : finalScore >= 40 ? '#F59E0B' : '#EF4444';
+  const deg = Math.round((finalScore / 100) * 360);
+
+  const labels = {
+    en: { title: 'Your Remote Employability Score', level: finalScore >= 80 ? 'Remote Expert 🏆' : finalScore >= 60 ? 'Remote Ready ✅' : finalScore >= 40 ? 'In Progress 📈' : 'Getting Started 🚀', breakdown: 'Score Breakdown', reco: 'Your Top Recommendations', cta: 'Improve my score on Flexori', subject: `Your Flexori Score: ${finalScore}/100` },
+    es: { title: 'Tu Score de Empleabilidad Remota', level: finalScore >= 80 ? 'Experto Remoto 🏆' : finalScore >= 60 ? 'Listo para Remoto ✅' : finalScore >= 40 ? 'En Desarrollo 📈' : 'Comenzando 🚀', breakdown: 'Desglose del Score', reco: 'Tus Recomendaciones', cta: 'Mejorar mi score en Flexori', subject: `Tu Score Flexori: ${finalScore}/100` },
+    fr: { title: 'Votre Score d'Employabilité', level: finalScore >= 80 ? 'Expert 🏆' : finalScore >= 60 ? 'Prêt ✅' : finalScore >= 40 ? 'En cours 📈' : 'Débutant 🚀', breakdown: 'Détail du Score', reco: 'Vos Recommandations', cta: 'Améliorer mon score', subject: `Votre Score Flexori: ${finalScore}/100` },
+    pt: { title: 'Seu Score de Empregabilidade', level: finalScore >= 80 ? 'Especialista 🏆' : finalScore >= 60 ? 'Pronto ✅' : finalScore >= 40 ? 'Em Desenvolvimento 📈' : 'Iniciante 🚀', breakdown: 'Detalhamento', reco: 'Suas Recomendações', cta: 'Melhorar meu score', subject: `Seu Score Flexori: ${finalScore}/100` }
+  };
+  const t = labels[language] || labels['en'];
+
+  const dimLabels = {
+    en: {'Remote History':'Remote History','Remote Tools':'Remote Tools','Communication':'Communication','Reliability':'Reliability','Setup':'Workspace','Languages':'Languages','Portfolio':'Portfolio','Flexibility':'Flexibility'},
+    es: {'Remote History':'Historial Remoto','Remote Tools':'Herramientas','Communication':'Comunicación','Reliability':'Confiabilidad','Setup':'Espacio de Trabajo','Languages':'Idiomas','Portfolio':'Portafolio','Flexibility':'Flexibilidad'},
+    fr: {'Remote History':'Historique','Remote Tools':'Outils','Communication':'Communication','Reliability':'Fiabilité','Setup':'Configuration','Languages':'Langues','Portfolio':'Portfolio','Flexibility':'Flexibilité'},
+    pt: {'Remote History':'Histórico','Remote Tools':'Ferramentas','Communication':'Comunicação','Reliability':'Confiabilidade','Setup':'Configuração','Languages':'Idiomas','Portfolio':'Portfólio','Flexibility':'Flexibilidade'}
+  }[language] || {};
+
+  let barsHtml = '';
+  (breakdown || []).forEach(b => {
+    const pct = Math.round((b.score / b.max) * 100);
+    const barColor = pct >= 80 ? '#1D9E75' : pct >= 55 ? '#F59E0B' : '#EF4444';
+    const dimName = dimLabels[b.dimension] || b.dimension;
+    barsHtml += `<tr><td style="padding:6px 0;font-size:13px;color:#A8A69E;">${dimName}</td><td style="padding:6px 0;text-align:right;font-size:13px;font-weight:600;color:${barColor};">${pct}%</td></tr><tr><td colspan="2" style="padding-bottom:8px;"><div style="height:4px;background:rgba(255,255,255,0.07);border-radius:2px;"><div style="height:4px;width:${pct}%;background:${barColor};border-radius:2px;"></div></div></td></tr>`;
+  });
+
+  const html = `<div style="background:#0D1321;padding:40px 20px;font-family:'Helvetica Neue',Arial,sans-serif;">
+    <div style="max-width:560px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:32px;">
+        <div style="display:inline-flex;align-items:center;gap:10px;background:#131B2E;border:1px solid rgba(29,158,117,0.25);border-radius:100px;padding:10px 24px;">
+          <span style="font-size:22px;font-weight:900;color:#1D9E75;">F</span>
+          <span style="font-size:16px;font-weight:700;color:#fff;">Flexori</span>
+        </div>
+      </div>
+      <div style="background:#131B2E;border:1px solid rgba(29,158,117,0.2);border-radius:20px;overflow:hidden;">
+        <div style="height:3px;background:linear-gradient(90deg,transparent,${scoreColor},transparent);"></div>
+        <div style="padding:36px;">
+          <div style="text-align:center;margin-bottom:28px;">
+            <div style="width:110px;height:110px;border-radius:50%;background:conic-gradient(${scoreColor} 0deg ${deg}deg,rgba(255,255,255,0.06) ${deg}deg 360deg);display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px;">
+              <div style="width:80px;height:80px;background:#131B2E;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                <span style="font-size:28px;font-weight:800;color:${scoreColor};line-height:1;">${finalScore}</span>
+                <span style="font-size:10px;color:#A8A69E;">/ 100</span>
+              </div>
+            </div>
+            <div style="display:inline-block;background:rgba(29,158,117,0.1);border:1px solid rgba(29,158,117,0.25);border-radius:100px;padding:4px 16px;font-size:13px;color:${scoreColor};font-weight:600;margin-bottom:8px;">${t.level}</div>
+            <p style="font-size:18px;font-weight:700;color:#fff;margin:0;">${t.title}</p>
+          </div>
+          <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:18px;margin-bottom:20px;">
+            <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#A8A69E;margin:0 0 14px;font-weight:600;">${t.breakdown}</p>
+            <table style="width:100%;border-collapse:collapse;">${barsHtml}</table>
+          </div>
+          <div style="text-align:center;">
+            <a href="https://flexori.work?score=true" style="display:inline-block;background:#1D9E75;color:#0D1321;border-radius:100px;padding:14px 32px;font-size:15px;font-weight:700;text-decoration:none;">${t.cta} →</a>
+          </div>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:24px;font-size:12px;color:rgba(168,166,158,0.5);">© 2026 Flexori · <a href="https://flexori.work" style="color:rgba(168,166,158,0.5);">flexori.work</a></p>
+    </div>
+  </div>`;
+
+  try {
+    await fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ to: email, subject: t.subject, html })
+    });
+    console.log('Score email sent to', email);
+  } catch(e) {
+    console.error('Score email error:', e);
+  }
+}
+
 // ── WAITLIST JOIN ──
 async function join(n){
   const inp=document.getElementById('em'+n);
@@ -1880,19 +1955,24 @@ async function revealScore() {
   if (!finalScore) return;
 
   try {
+    // Guardar en waitlist
     await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Prefer': 'return=minimal' },
       body: JSON.stringify({ email, lang: l })
     });
+    // Guardar score CON email para poder enviar después
     await fetch(`${SUPABASE_URL}/rest/v1/employability_scores`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Prefer': 'return=minimal' },
-      body: JSON.stringify({ score: finalScore, lang: l, answers: scoreAnswers, created_at: new Date().toISOString() })
+      body: JSON.stringify({ email, score: finalScore, lang: l, answers: scoreAnswers, created_at: new Date().toISOString() })
     });
   } catch(e) {}
 
+  // Enviar email de bienvenida genérico
   sendWelcomeEmail(email, l);
+  // Enviar email personalizado con el Score completo
+  sendScoreEmail(email, l, finalScore, breakdown);
   showFullScore(finalScore, breakdown, l);
 }
 
