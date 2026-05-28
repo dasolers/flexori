@@ -953,7 +953,7 @@ async function sendScoreEmail(email, language, finalScore, breakdown) {
   const labels = {
     en: { title: 'Your Remote Employability Score', level: finalScore >= 80 ? 'Remote Expert 🏆' : finalScore >= 60 ? 'Remote Ready ✅' : finalScore >= 40 ? 'In Progress 📈' : 'Getting Started 🚀', breakdown: 'Score Breakdown', reco: 'Your Top Recommendations', cta: 'Improve my score on Flexori', subject: `Your Flexori Score: ${finalScore}/100` },
     es: { title: 'Tu Score de Empleabilidad Remota', level: finalScore >= 80 ? 'Experto Remoto 🏆' : finalScore >= 60 ? 'Listo para Remoto ✅' : finalScore >= 40 ? 'En Desarrollo 📈' : 'Comenzando 🚀', breakdown: 'Desglose del Score', reco: 'Tus Recomendaciones', cta: 'Mejorar mi score en Flexori', subject: `Tu Score Flexori: ${finalScore}/100` },
-    fr: { title: 'Votre Score d'Employabilité', level: finalScore >= 80 ? 'Expert 🏆' : finalScore >= 60 ? 'Prêt ✅' : finalScore >= 40 ? 'En cours 📈' : 'Débutant 🚀', breakdown: 'Détail du Score', reco: 'Vos Recommandations', cta: 'Améliorer mon score', subject: `Votre Score Flexori: ${finalScore}/100` },
+    fr: { title: 'Votre Score d\'Employabilité', level: finalScore >= 80 ? 'Expert 🏆' : finalScore >= 60 ? 'Prêt ✅' : finalScore >= 40 ? 'En cours 📈' : 'Débutant 🚀', breakdown: 'Détail du Score', reco: 'Vos Recommandations', cta: 'Améliorer mon score', subject: `Votre Score Flexori: ${finalScore}/100` },
     pt: { title: 'Seu Score de Empregabilidade', level: finalScore >= 80 ? 'Especialista 🏆' : finalScore >= 60 ? 'Pronto ✅' : finalScore >= 40 ? 'Em Desenvolvimento 📈' : 'Iniciante 🚀', breakdown: 'Detalhamento', reco: 'Suas Recomendações', cta: 'Melhorar meu score', subject: `Seu Score Flexori: ${finalScore}/100` }
   };
   const t = labels[language] || labels['en'];
