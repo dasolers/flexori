@@ -6,7 +6,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="description" content="Find remote jobs worldwide. Browse hundreds of verified remote opportunities on Flexori — the global remote careers platform."/>
-<meta name="keywords" content="remote jobs, trabajo remoto, empleos remotos, remote work, flexori jobs"/>
+<meta name="keywords" content="remote jobs, trabajo remoto, empleos remotos, remote work, flexori jobs, virtual assistant, asistente virtual, customer support, trabajo remoto latam"/>
 <link rel="canonical" href="https://flexori.work/jobs.html"/>
 <meta property="og:title" content="Remote Jobs — Flexori"/>
 <meta property="og:description" content="Find your next remote opportunity. Hundreds of real remote jobs updated daily."/>
@@ -29,14 +29,10 @@ body{background:#0D1321;color:#fff;font-family:'DM Sans',sans-serif;font-size:16
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:#0D1321}
 ::-webkit-scrollbar-thumb{background:#1D9E75;border-radius:3px}
-
-/* GRID BG */
 .grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;
   background-image:linear-gradient(rgba(29,158,117,0.04) 1px,transparent 1px),
   linear-gradient(90deg,rgba(29,158,117,0.04) 1px,transparent 1px);
   background-size:60px 60px}
-
-/* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;
   justify-content:space-between;padding:0 48px;height:68px;
   background:rgba(13,19,33,0.95);backdrop-filter:blur(20px);
@@ -59,8 +55,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   border-radius:100px;padding:9px 20px;font-family:'DM Sans',sans-serif;font-size:14px;
   cursor:pointer;text-decoration:none;transition:all .2s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
 .btn-ghost:hover{background:rgba(29,158,117,0.1)}
-
-/* LANG */
 .lang-wrap{position:relative}
 .lang-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.05);
   border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:7px 12px;
@@ -76,8 +70,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .lang-opt:hover{background:rgba(29,158,117,0.1);color:#fff}
 .lang-opt.active{color:#1D9E75}
 .lang-opt .ln{font-size:11px;margin-left:auto;opacity:.6}
-
-/* HAMBURGER */
 .ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
 .ham span{width:22px;height:2px;background:#fff;border-radius:2px}
 .mobile-menu{display:none;position:fixed;inset:0;top:68px;background:rgba(13,19,33,0.98);
@@ -85,11 +77,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   justify-content:center;gap:28px}
 .mobile-menu.open{display:flex}
 .mobile-menu a{color:#fff;text-decoration:none;font-size:20px;font-family:'Syne',sans-serif;font-weight:700}
-
-/* PAGE WRAPPER */
 .page{padding-top:68px;position:relative;z-index:1}
-
-/* HERO */
 .hero{max-width:1200px;margin:0 auto;padding:48px 48px 32px}
 .hero-top{display:flex;align-items:flex-start;justify-content:space-between;
   gap:24px;margin-bottom:28px;flex-wrap:wrap}
@@ -100,8 +88,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   font-weight:800;line-height:1.08;letter-spacing:-0.5px;color:#fff;margin-bottom:12px}
 .hero-title .green{color:#1D9E75}
 .hero-sub{font-size:15px;color:#A8A69E;max-width:480px;line-height:1.7}
-
-/* SEARCH */
 .search-box{background:#131B2E;border:1px solid rgba(29,158,117,0.3);
   border-radius:14px;padding:10px 12px;display:flex;align-items:center;
   gap:10px;margin-bottom:14px;flex-wrap:wrap}
@@ -114,8 +100,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   padding:10px 24px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;
   cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
 .search-btn:hover{background:#24C48F}
-
-/* FILTERS */
 .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
 .f-select{background:#131B2E;border:1px solid rgba(255,255,255,0.1);border-radius:100px;
   padding:7px 14px;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;
@@ -129,19 +113,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   padding:7px 14px;color:#A8A69E;font-family:'DM Sans',sans-serif;font-size:13px;
   cursor:pointer;transition:all .2s}
 .f-clear:hover{border-color:rgba(29,158,117,0.4);color:#fff}
-
-/* MAIN */
 .main{max-width:1200px;margin:0 auto;padding:0 48px 80px}
 .meta-row{display:flex;justify-content:space-between;align-items:center;
   margin-bottom:20px;flex-wrap:wrap;gap:8px}
 .meta-count{font-size:14px;color:#A8A69E}
 .meta-count strong{color:#fff}
 .meta-live{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(168,166,158,0.6)}
-.live-dot{width:6px;height:6px;border-radius:50%;background:#1D9E75;
-  animation:blink 2s infinite}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#1D9E75;animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-
-/* JOBS GRID */
 .jobs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .job-card{background:#131B2E;border:1px solid rgba(255,255,255,0.07);
   border-radius:16px;padding:22px;display:flex;flex-direction:column;
@@ -167,12 +146,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .tag-g{background:rgba(29,158,117,0.12);color:#1D9E75;border:1px solid rgba(29,158,117,0.2)}
 .tag-b{background:rgba(29,95,163,0.12);color:#6ba3d6;border:1px solid rgba(29,95,163,0.2)}
 .tag-gray{background:rgba(255,255,255,0.05);color:#A8A69E;border:1px solid rgba(255,255,255,0.07)}
+.tag-lang{background:rgba(245,158,11,0.12);color:#F59E0B;border:1px solid rgba(245,158,11,0.2)}
 .card-footer{display:flex;align-items:center;justify-content:space-between;
   padding-top:10px;border-top:1px solid rgba(255,255,255,0.07);margin-top:auto}
 .card-date{font-size:11px;color:#A8A69E}
 .card-cta{font-size:12px;color:#1D9E75;font-weight:600}
-
-/* SKELETON */
 .skeleton{background:#131B2E;border:1px solid rgba(255,255,255,0.07);
   border-radius:16px;padding:22px;position:relative;overflow:hidden;
   display:flex;flex-direction:column;gap:12px}
@@ -181,24 +159,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   animation:shimmer 1.8s ease-in-out infinite}
 .skeleton-line{background:rgba(255,255,255,0.06);border-radius:6px}
 @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
-
-/* LOAD MORE */
 .load-wrap{text-align:center;margin-top:40px}
 .btn-more{border:1px solid rgba(29,158,117,0.35);color:#1D9E75;background:transparent;
   border-radius:100px;padding:12px 32px;font-family:'Syne',sans-serif;font-size:14px;
   font-weight:700;cursor:pointer;transition:all .2s}
 .btn-more:hover{background:rgba(29,158,117,0.1)}
-
-/* EMPTY */
 .empty{text-align:center;padding:80px 24px;display:none}
 .empty-icon{font-size:48px;margin-bottom:16px}
-.empty-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;
-  color:#fff;margin-bottom:8px}
+.empty-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:8px}
 .empty-sub{color:#A8A69E;margin-bottom:24px}
-
-/* JOB MODAL */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);
-  z-index:500;backdrop-filter:blur(4px)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;backdrop-filter:blur(4px)}
 .job-modal{display:none;position:fixed;top:0;right:0;bottom:0;
   width:min(620px,100vw);background:#131B2E;z-index:501;overflow-y:auto;
   border-left:1px solid rgba(29,158,117,0.25);box-shadow:-24px 0 60px rgba(0,0,0,0.5)}
@@ -211,44 +181,35 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .modal-logo img{width:100%;height:100%;object-fit:cover;border-radius:11px}
 .modal-close{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
   border-radius:50%;width:36px;height:36px;display:flex;align-items:center;
-  justify-content:center;cursor:pointer;color:#A8A69E;font-size:20px;
-  transition:all .2s;flex-shrink:0}
+  justify-content:center;cursor:pointer;color:#A8A69E;font-size:20px;transition:all .2s;flex-shrink:0}
 .modal-close:hover{background:rgba(255,255,255,0.1);color:#fff}
 .modal-title{font-family:'Syne',sans-serif;font-size:clamp(18px,3vw,26px);
   font-weight:800;color:#fff;line-height:1.2;margin-bottom:14px}
 .modal-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
 .modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.modal-meta-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);
-  border-radius:10px;padding:12px}
-.modal-meta-label{font-size:10px;color:#A8A69E;letter-spacing:1px;
-  text-transform:uppercase;margin-bottom:4px}
+.modal-meta-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:12px}
+.modal-meta-label{font-size:10px;color:#A8A69E;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
 .modal-meta-value{font-size:14px;color:#fff;font-weight:500}
 .modal-section{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
   color:#A8A69E;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
-.modal-desc{font-size:14px;color:#A8A69E;line-height:1.8;
-  max-height:280px;overflow-y:auto;margin-bottom:20px}
+.modal-desc{font-size:14px;color:#A8A69E;line-height:1.8;max-height:280px;overflow-y:auto;margin-bottom:20px}
 .modal-apply{display:block;background:#1D9E75;color:#0D1321;border:none;
   border-radius:100px;padding:14px 28px;font-family:'Syne',sans-serif;
   font-size:15px;font-weight:700;text-align:center;text-decoration:none;
   transition:all .2s;cursor:pointer;margin-bottom:10px}
 .modal-apply:hover{background:#24C48F}
-.modal-alert{background:rgba(29,95,163,0.08);border:1px solid rgba(29,95,163,0.2);
-  border-radius:14px;padding:18px;margin-bottom:16px}
+.modal-alert{background:rgba(29,95,163,0.08);border:1px solid rgba(29,95,163,0.2);border-radius:14px;padding:18px;margin-bottom:16px}
 .modal-alert-title{font-size:13px;color:#6ba3d6;font-weight:500;margin-bottom:4px}
 .modal-alert-sub{font-size:12px;color:#A8A69E;margin-bottom:12px}
 .modal-register{display:block;background:transparent;color:#1D9E75;
   border:1px solid rgba(29,158,117,0.35);border-radius:100px;padding:11px 28px;
-  font-family:'Syne',sans-serif;font-size:14px;font-weight:700;
-  text-align:center;text-decoration:none;transition:all .2s}
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:700;text-align:center;text-decoration:none;transition:all .2s}
 .modal-register:hover{background:rgba(29,158,117,0.1)}
 .modal-source{font-size:11px;color:rgba(168,166,158,0.4);text-align:center;margin-top:12px}
-
-/* POST JOB MODAL */
 .post-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;backdrop-filter:blur(4px)}
 .post-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
   width:min(560px,95vw);max-height:90vh;overflow-y:auto;background:#131B2E;
-  z-index:501;border-radius:24px;border:1px solid rgba(29,158,117,0.3);
-  box-shadow:0 40px 80px rgba(0,0,0,0.6)}
+  z-index:501;border-radius:24px;border:1px solid rgba(29,158,117,0.3);box-shadow:0 40px 80px rgba(0,0,0,0.6)}
 .post-inner{padding:36px}
 .form-row{display:flex;flex-direction:column;gap:14px}
 .form-group{display:flex;flex-direction:column;gap:6px}
@@ -270,27 +231,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .f-textarea:focus{border-color:rgba(29,158,117,0.5)}
 .f-textarea::placeholder{color:#A8A69E}
 .f-submit{width:100%;background:#1D9E75;color:#0D1321;border:none;border-radius:100px;
-  padding:14px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
-  cursor:pointer;margin-top:20px;transition:all .2s}
+  padding:14px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:20px;transition:all .2s}
 .f-submit:hover{background:#24C48F}
-.f-success{display:none;background:rgba(29,158,117,0.1);border:1px solid rgba(29,158,117,0.25);
-  border-radius:12px;padding:16px;text-align:center;margin-top:16px}
-
-/* FOOTER */
+.f-success{display:none;background:rgba(29,158,117,0.1);border:1px solid rgba(29,158,117,0.25);border-radius:12px;padding:16px;text-align:center;margin-top:16px}
 footer{border-top:1px solid rgba(255,255,255,0.07);padding:32px 48px;
-  display:flex;justify-content:space-between;align-items:center;
-  position:relative;z-index:1;flex-wrap:wrap;gap:16px}
+  display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;flex-wrap:wrap;gap:16px}
 .foot-logo{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#fff}
 .foot-logo span{color:#1D9E75}
 .foot-links{display:flex;gap:20px;list-style:none;flex-wrap:wrap}
 .foot-links a{color:#A8A69E;text-decoration:none;font-size:13px;transition:color .2s}
 .foot-links a:hover{color:#fff}
 .foot-copy{font-size:12px;color:#A8A69E}
-
-/* RESPONSIVE */
-@media(max-width:1024px){
-  .jobs-grid{grid-template-columns:1fr}
-}
+@media(max-width:1024px){.jobs-grid{grid-template-columns:1fr}}
 @media(max-width:860px){
   nav{padding:0 24px}
   .nav-links,.nav-right .btn-green,.nav-right .btn-ghost{display:none}
@@ -369,7 +321,7 @@ footer{border-top:1px solid rgba(255,255,255,0.07);padding:32px 48px;
         <h1 class="hero-title" id="h-title">Find your next <span class="green">remote opportunity.</span></h1>
         <p class="hero-sub" id="h-sub">Real jobs updated daily from companies worldwide. Free to browse, free to apply.</p>
       </div>
-      <button class="btn-ghost" onclick="openPostModal()" id="post-btn" style="margin-top:8px">
+      <button class="btn-ghost" onclick="openPostModal()" id="post-btn">
         <span>🏢</span><span id="post-btn-txt">Post a Job — Free</span>
       </button>
     </div>
@@ -379,13 +331,14 @@ footer{border-top:1px solid rgba(255,255,255,0.07);padding:32px 48px;
       <div class="search-icon">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </div>
-      <input type="text" id="job-search" class="search-input" oninput="debounce()" id="job-search"/>
+      <input type="text" id="job-search" class="search-input" oninput="debounce()"/>
       <div class="search-divider"></div>
       <button class="search-btn" onclick="filterJobs()" id="search-btn-txt">Search</button>
     </div>
 
     <!-- FILTERS -->
     <div class="filters">
+      <!-- CATEGORÍA -->
       <select id="f-cat" class="f-select" onchange="filterJobs()">
         <option value="" id="cat-all">All Categories</option>
         <option value="software" id="cat-sw">Software Dev</option>
@@ -396,9 +349,16 @@ footer{border-top:1px solid rgba(255,255,255,0.07);padding:32px 48px;
         <option value="data" id="cat-data">Data / AI</option>
         <option value="product" id="cat-prod">Product</option>
         <option value="customer" id="cat-cx">Customer Support</option>
+        <option value="virtual" id="cat-va">Virtual Assistant</option>
+        <option value="admin" id="cat-adm">Administrative</option>
+        <option value="community" id="cat-com">Community Manager</option>
         <option value="writing" id="cat-wri">Writing</option>
+        <option value="translation" id="cat-tra">Translation</option>
+        <option value="dataentry" id="cat-de">Data Entry</option>
         <option value="devops" id="cat-dev">DevOps</option>
       </select>
+
+      <!-- TIPO -->
       <select id="f-type" class="f-select" onchange="filterJobs()">
         <option value="" id="type-all">All Types</option>
         <option value="full" id="type-ft">Full Time</option>
@@ -406,6 +366,8 @@ footer{border-top:1px solid rgba(255,255,255,0.07);padding:32px 48px;
         <option value="contract" id="type-ct">Contract</option>
         <option value="freelance" id="type-fl">Freelance</option>
       </select>
+
+      <!-- REGIÓN -->
       <select id="f-reg" class="f-select" onchange="filterJobs()">
         <option value="" id="reg-all">All Regions</option>
         <option value="worldwide" id="reg-ww">Worldwide</option>
@@ -414,6 +376,16 @@ footer{border-top:1px solid rgba(255,255,255,0.07);padding:32px 48px;
         <option value="usa" id="reg-us">USA / Canada</option>
         <option value="asia" id="reg-as">Asia Pacific</option>
       </select>
+
+      <!-- IDIOMA — NUEVO -->
+      <select id="f-lang" class="f-select" onchange="filterJobs()">
+        <option value="" id="lang-all">All Languages</option>
+        <option value="en" id="lang-en">🇺🇸 English</option>
+        <option value="es" id="lang-es">🇪🇸 Español</option>
+        <option value="fr" id="lang-fr">🇫🇷 Français</option>
+        <option value="pt" id="lang-pt">🇧🇷 Português</option>
+      </select>
+
       <button class="f-clear" onclick="clearFilters()" id="clear-btn-txt">✕ Clear</button>
     </div>
   </div>
@@ -425,22 +397,18 @@ footer{border-top:1px solid rgba(255,255,255,0.07);padding:32px 48px;
       <span class="meta-live"><span class="live-dot"></span><span id="source-txt">Live · Remotive + Jobicy + Arbeitnow</span></span>
     </div>
 
-    <!-- SKELETON -->
     <div id="skeleton" class="jobs-grid">
       <div class="skeleton"></div><div class="skeleton"></div>
       <div class="skeleton"></div><div class="skeleton"></div>
       <div class="skeleton"></div><div class="skeleton"></div>
     </div>
 
-    <!-- GRID -->
     <div id="jobs-grid" class="jobs-grid" style="display:none"></div>
 
-    <!-- LOAD MORE -->
     <div class="load-wrap">
       <button id="load-more" class="btn-more" onclick="loadMore()" style="display:none" id="load-more-txt">Load more →</button>
     </div>
 
-    <!-- EMPTY -->
     <div class="empty" id="empty-state">
       <div class="empty-icon">🔍</div>
       <div class="empty-title" id="empty-title">No jobs found</div>
@@ -566,9 +534,12 @@ en:{
   hSub:"Real jobs updated daily from companies worldwide. Free to browse, free to apply.",
   postBtn:"Post a Job — Free",searchBtn:"Search",searchPh:"Search jobs, companies, skills...",
   catAll:"All Categories",catSw:"Software Dev",catDes:"Design",catMkt:"Marketing",catSal:"Sales",
-  catFin:"Finance",catData:"Data / AI",catProd:"Product",catCx:"Customer Support",catWri:"Writing",catDev:"DevOps",
+  catFin:"Finance",catData:"Data / AI",catProd:"Product",catCx:"Customer Support",
+  catVa:"Virtual Assistant",catAdm:"Administrative",catCom:"Community Manager",
+  catWri:"Writing",catTra:"Translation",catDe:"Data Entry",catDev:"DevOps",
   typeAll:"All Types",typeFt:"Full Time",typePt:"Part Time",typeCt:"Contract",typeFl:"Freelance",
   regAll:"All Regions",regWw:"Worldwide",regLa:"LATAM",regEu:"Europe",regUs:"USA / Canada",regAs:"Asia Pacific",
+  langAll:"All Languages",langEn:"🇺🇸 English",langEs:"🇪🇸 Español",langFr:"🇫🇷 Français",langPt:"🇧🇷 Português",
   clearBtn:"✕ Clear",sourceTxt:"Live · Remotive + Jobicy + Arbeitnow",loadMore:"Load more →",
   emptyTitle:"No jobs found",emptySub:"Try different filters or search terms.",
   mAbout:"About the Role",mApply:"Apply for this Position →",
@@ -589,13 +560,16 @@ es:{
   hSub:"Empleos reales actualizados diariamente de empresas en todo el mundo. Gratis para buscar y aplicar.",
   postBtn:"Publicar Empleo — Gratis",searchBtn:"Buscar",searchPh:"Busca empleos, empresas, habilidades...",
   catAll:"Todas las Categorías",catSw:"Desarrollo de Software",catDes:"Diseño",catMkt:"Marketing",catSal:"Ventas",
-  catFin:"Finanzas",catData:"Datos / IA",catProd:"Producto",catCx:"Atención al Cliente",catWri:"Redacción",catDev:"DevOps",
+  catFin:"Finanzas",catData:"Datos / IA",catProd:"Producto",catCx:"Atención al Cliente",
+  catVa:"Asistente Virtual",catAdm:"Administrativo",catCom:"Community Manager",
+  catWri:"Redacción",catTra:"Traducción",catDe:"Entrada de Datos",catDev:"DevOps",
   typeAll:"Todos los Tipos",typeFt:"Tiempo Completo",typePt:"Medio Tiempo",typeCt:"Contrato",typeFl:"Freelance",
   regAll:"Todas las Regiones",regWw:"Mundial",regLa:"LATAM",regEu:"Europa",regUs:"EE.UU. / Canadá",regAs:"Asia Pacífico",
+  langAll:"Todos los Idiomas",langEn:"🇺🇸 Inglés",langEs:"🇪🇸 Español",langFr:"🇫🇷 Francés",langPt:"🇧🇷 Portugués",
   clearBtn:"✕ Limpiar",sourceTxt:"En vivo · Remotive + Jobicy + Arbeitnow",loadMore:"Ver más →",
   emptyTitle:"No se encontraron empleos",emptySub:"Prueba con otros filtros o términos de búsqueda.",
   mAbout:"Sobre el Rol",mApply:"Aplicar a esta Posición →",
-  mAlertTitle:"Recibe alertas de empleos como este",mAlertSub:"Únete a Flexori gratis y recibe alertas de empleos remotos personalizadas.",
+  mAlertTitle:"Recibe alertas de empleos como este",mAlertSub:"Únete a Flexori gratis y recibe alertas personalizadas.",
   mRegister:"Empieza Gratis — Recibe Alertas →",
   pmTitle:"Publicar Empleo Remoto",pmSub:"Llega a miles de profesionales remotos. Gratis.",
   flCompany:"Nombre de la Empresa *",flTitle:"Título del Puesto *",flType:"Tipo de Empleo *",flSalary:"Rango Salarial",
@@ -612,9 +586,12 @@ fr:{
   hSub:"Offres réelles mises à jour quotidiennement. Gratuit pour parcourir et postuler.",
   postBtn:"Publier un Emploi — Gratuit",searchBtn:"Rechercher",searchPh:"Rechercher emplois, entreprises...",
   catAll:"Toutes les Catégories",catSw:"Développement",catDes:"Design",catMkt:"Marketing",catSal:"Ventes",
-  catFin:"Finance",catData:"Données / IA",catProd:"Produit",catCx:"Support Client",catWri:"Rédaction",catDev:"DevOps",
+  catFin:"Finance",catData:"Données / IA",catProd:"Produit",catCx:"Support Client",
+  catVa:"Assistant Virtuel",catAdm:"Administratif",catCom:"Community Manager",
+  catWri:"Rédaction",catTra:"Traduction",catDe:"Saisie de Données",catDev:"DevOps",
   typeAll:"Tous les Types",typeFt:"Temps Plein",typePt:"Temps Partiel",typeCt:"Contrat",typeFl:"Freelance",
   regAll:"Toutes les Régions",regWw:"Mondial",regLa:"Amérique Latine",regEu:"Europe",regUs:"USA / Canada",regAs:"Asie Pacifique",
+  langAll:"Toutes les Langues",langEn:"🇺🇸 Anglais",langEs:"🇪🇸 Espagnol",langFr:"🇫🇷 Français",langPt:"🇧🇷 Portugais",
   clearBtn:"✕ Effacer",sourceTxt:"En direct · Remotive + Jobicy + Arbeitnow",loadMore:"Voir plus →",
   emptyTitle:"Aucun emploi trouvé",emptySub:"Essayez d'autres filtres.",
   mAbout:"À propos du Rôle",mApply:"Postuler →",
@@ -635,9 +612,12 @@ pt:{
   hSub:"Vagas reais atualizadas diariamente de empresas do mundo todo. Grátis para buscar e candidatar.",
   postBtn:"Publicar Vaga — Grátis",searchBtn:"Buscar",searchPh:"Buscar vagas, empresas, habilidades...",
   catAll:"Todas as Categorias",catSw:"Desenvolvimento",catDes:"Design",catMkt:"Marketing",catSal:"Vendas",
-  catFin:"Finanças",catData:"Dados / IA",catProd:"Produto",catCx:"Suporte ao Cliente",catWri:"Redação",catDev:"DevOps",
+  catFin:"Finanças",catData:"Dados / IA",catProd:"Produto",catCx:"Suporte ao Cliente",
+  catVa:"Assistente Virtual",catAdm:"Administrativo",catCom:"Community Manager",
+  catWri:"Redação",catTra:"Tradução",catDe:"Entrada de Dados",catDev:"DevOps",
   typeAll:"Todos os Tipos",typeFt:"Tempo Integral",typePt:"Meio Período",typeCt:"Contrato",typeFl:"Freelance",
   regAll:"Todas as Regiões",regWw:"Mundial",regLa:"América Latina",regEu:"Europa",regUs:"EUA / Canadá",regAs:"Ásia Pacífico",
+  langAll:"Todos os Idiomas",langEn:"🇺🇸 Inglês",langEs:"🇪🇸 Espanhol",langFr:"🇫🇷 Francês",langPt:"🇧🇷 Português",
   clearBtn:"✕ Limpar",sourceTxt:"Ao vivo · Remotive + Jobicy + Arbeitnow",loadMore:"Ver mais →",
   emptyTitle:"Nenhuma vaga encontrada",emptySub:"Tente outros filtros ou termos de busca.",
   mAbout:"Sobre a Vaga",mApply:"Candidatar-se →",
@@ -664,7 +644,6 @@ else if(bl.startsWith('pt'))lang='pt';
 
 function applyLang(l){
   const t=T[l];
-  // Nav
   document.getElementById('nav-tag-txt').textContent=t.navTag;
   document.getElementById('nav-home-txt').textContent=t.navHome;
   document.getElementById('nav-jobs-txt').textContent=t.navJobs;
@@ -674,15 +653,12 @@ function applyLang(l){
   document.getElementById('mob-jobs').textContent=t.navJobs;
   document.getElementById('mob-feat').textContent=t.navFeat;
   document.getElementById('mob-join').textContent=t.navJoin;
-  // Hero
   document.getElementById('h-lbl').textContent=t.hLbl;
   document.getElementById('h-title').innerHTML=t.hTitle;
   document.getElementById('h-sub').textContent=t.hSub;
   document.getElementById('post-btn-txt').textContent=t.postBtn;
-  // Search
   document.getElementById('job-search').placeholder=t.searchPh;
   document.getElementById('search-btn-txt').textContent=t.searchBtn;
-  // Filter options
   document.getElementById('cat-all').textContent=t.catAll;
   document.getElementById('cat-sw').textContent=t.catSw;
   document.getElementById('cat-des').textContent=t.catDes;
@@ -692,7 +668,12 @@ function applyLang(l){
   document.getElementById('cat-data').textContent=t.catData;
   document.getElementById('cat-prod').textContent=t.catProd;
   document.getElementById('cat-cx').textContent=t.catCx;
+  document.getElementById('cat-va').textContent=t.catVa;
+  document.getElementById('cat-adm').textContent=t.catAdm;
+  document.getElementById('cat-com').textContent=t.catCom;
   document.getElementById('cat-wri').textContent=t.catWri;
+  document.getElementById('cat-tra').textContent=t.catTra;
+  document.getElementById('cat-de').textContent=t.catDe;
   document.getElementById('cat-dev').textContent=t.catDev;
   document.getElementById('type-all').textContent=t.typeAll;
   document.getElementById('type-ft').textContent=t.typeFt;
@@ -705,19 +686,22 @@ function applyLang(l){
   document.getElementById('reg-eu').textContent=t.regEu;
   document.getElementById('reg-us').textContent=t.regUs;
   document.getElementById('reg-as').textContent=t.regAs;
+  document.getElementById('lang-all').textContent=t.langAll;
+  document.getElementById('lang-en').textContent=t.langEn;
+  document.getElementById('lang-es').textContent=t.langEs;
+  document.getElementById('lang-fr').textContent=t.langFr;
+  document.getElementById('lang-pt').textContent=t.langPt;
   document.getElementById('clear-btn-txt').textContent=t.clearBtn;
   document.getElementById('source-txt').textContent=t.sourceTxt;
   document.getElementById('load-more').textContent=t.loadMore;
   document.getElementById('empty-title').textContent=t.emptyTitle;
   document.getElementById('empty-sub').textContent=t.emptySub;
   document.getElementById('empty-clear').textContent=t.clearBtn;
-  // Modal
   document.getElementById('m-about-lbl').textContent=t.mAbout;
   document.getElementById('m-apply').textContent=t.mApply;
   document.getElementById('m-alert-title').textContent=t.mAlertTitle;
   document.getElementById('m-alert-sub').textContent=t.mAlertSub;
   document.getElementById('m-register').textContent=t.mRegister;
-  // Post modal
   document.getElementById('pm-title').textContent=t.pmTitle;
   document.getElementById('pm-sub').textContent=t.pmSub;
   document.getElementById('fl-company').textContent=t.flCompany;
@@ -736,12 +720,10 @@ function applyLang(l){
   document.getElementById('fs-sub').textContent=t.fsSub;
   document.getElementById('f-submit-btn').textContent=t.fSubmit;
   document.getElementById('f-note').textContent=t.fNote;
-  // Footer
   document.getElementById('foot-home').textContent=t.footHome;
   document.getElementById('foot-jobs').textContent=t.footJobs;
   document.getElementById('foot-feat').textContent=t.footFeat;
-  // Count
-  if(filteredJobs.length>0) renderCount();
+  if(filteredJobs.length>0)renderCount();
 }
 
 function setLang(l){
@@ -769,9 +751,21 @@ const CAT={
   finance:['finance','accounting','bookkeeping','payroll','tax','financial'],
   data:['data','analyst','analytics','machine learning','ai','ml','bi','sql','scientist'],
   product:['product','pm','product manager','roadmap','agile','scrum'],
-  customer:['customer','support','success','service','help desk','cx','community'],
-  writing:['writer','writing','copywriter','editor','content','journalist'],
+  customer:['customer','support','success','service','help desk','cx','helpdesk'],
+  virtual:['virtual assistant','va ','executive assistant','personal assistant','remote assistant','administrative support'],
+  admin:['administrative','admin','office','coordinator','operations','back office','office manager','executive support'],
+  community:['community','community manager','social media manager','moderator','engagement','community moderator'],
+  writing:['writer','writing','copywriter','editor','content','journalist','blogger','proofreader'],
+  translation:['translation','translator','interpreter','localization','bilingual','multilingual','language specialist'],
+  dataentry:['data entry','transcription','transcriber','typing','clerical','form filling','data processing'],
   devops:['devops','sre','cloud','aws','docker','kubernetes','infrastructure','ops']
+};
+
+const LANG={
+  en:['english','english speaking','english required','fluent english','native english','english proficiency'],
+  es:['español','spanish','habla hispana','hispanohablante','castellano','latam','latin america','hablante de español','bilingue español','bilingual spanish'],
+  fr:['français','french','francophone','france','bilingual french','french speaking'],
+  pt:['português','portuguese','brazil','brasil','pt-br','portuguese speaking','bilingual portuguese']
 };
 
 const REG={
@@ -818,7 +812,20 @@ async function fetchArbeitnow(){
 }
 
 function getFallback(){
-  return [{id:'f1',title:'Senior Frontend Developer',company:'Automattic',logo:'',category:'Software Development',tags:['React','TypeScript'],type:'full_time',url:'https://automattic.com/work-with-us/',date:new Date().toISOString(),salary:'$90k–$130k',location:'Worldwide',description:'Work on WordPress.com and other products used by millions worldwide. We are a distributed team and have been fully remote since 2005. Requirements: 5+ years React experience, TypeScript, modern CSS, web performance, accessibility.',source:'Flexori'},{id:'f2',title:'Product Designer',company:'Buffer',logo:'',category:'Design',tags:['Figma','UX'],type:'full_time',url:'https://buffer.com/journey/',date:new Date().toISOString(),salary:'$85k–$110k',location:'Worldwide',description:'Help shape the future of social media tools for creators and businesses. You will collaborate with engineers and product managers to design intuitive experiences. Portfolio showing end-to-end product design work required.',source:'Flexori'},{id:'f3',title:'Backend Engineer',company:'GitLab',logo:'',category:'Software Development',tags:['Python','PostgreSQL'],type:'full_time',url:'https://about.gitlab.com/jobs/',date:new Date().toISOString(),salary:'$95k–$140k',location:'EMEA / Americas',description:'Build and maintain APIs on our core platform. Contribute to open-source codebase. Requirements: Strong Python experience, Django or FastAPI, PostgreSQL and Redis.',source:'Flexori'},{id:'f4',title:'Growth Marketing Manager',company:'Hotjar',logo:'',category:'Marketing',tags:['Growth','Analytics'],type:'full_time',url:'https://www.hotjar.com/jobs/',date:new Date().toISOString(),salary:'$75k–$95k',location:'Europe',description:'Drive user acquisition and revenue growth. Own key growth channels, run experiments, and analyze data to optimize funnel. 4+ years in growth marketing required.',source:'Flexori'},{id:'f5',title:'Data Scientist',company:'Zapier',logo:'',category:'Data Science',tags:['Python','SQL','ML'],type:'full_time',url:'https://zapier.com/jobs/',date:new Date().toISOString(),salary:'$100k–$140k',location:'Americas',description:'Build predictive models, user segmentation, and business intelligence tools. Strong Python and SQL skills required. Experience with ML frameworks a plus.',source:'Flexori'},{id:'f6',title:'Customer Success Manager',company:'Intercom',logo:'',category:'Customer Service',tags:['SaaS','CRM'],type:'full_time',url:'https://www.intercom.com/careers/',date:new Date().toISOString(),salary:'$70k–$90k',location:'Worldwide',description:'Manage a portfolio of accounts, drive adoption, and ensure renewals. 3+ years in customer success or account management. Experience with SaaS products required.',source:'Flexori'},{id:'f7',title:'DevOps Engineer',company:'Cloudflare',logo:'',category:'DevOps',tags:['AWS','Kubernetes'],type:'full_time',url:'https://www.cloudflare.com/careers/',date:new Date().toISOString(),salary:'$110k–$150k',location:'Americas / Europe',description:'Manage Kubernetes clusters, build CI/CD pipelines, improve system reliability. Experience with AWS or GCP, Terraform, and strong scripting skills required.',source:'Flexori'},{id:'f8',title:'Content Strategist',company:'HubSpot',logo:'',category:'Writing',tags:['SEO','Content'],type:'full_time',url:'https://www.hubspot.com/careers/',date:new Date().toISOString(),salary:'$65k–$85k',location:'Worldwide',description:'Drive content marketing efforts. Develop content strategies, manage editorial calendar, create content that drives organic traffic. 4+ years in content marketing required.',source:'Flexori'},{id:'f9',title:'iOS Developer',company:'Shopify',logo:'',category:'Software Development',tags:['Swift','iOS'],type:'full_time',url:'https://www.shopify.com/careers/',date:new Date().toISOString(),salary:'$100k–$135k',location:'Americas',description:'Build world-class mobile experiences for millions of merchants. Work on the Shopify iOS app. 4+ years of iOS development with Swift required.',source:'Flexori'},{id:'f10',title:'UX Researcher',company:'InVision',logo:'',category:'Design',tags:['Research','UX'],type:'full_time',url:'https://www.invisionapp.com/careers/',date:new Date().toISOString(),salary:'$80k–$105k',location:'Worldwide',description:'Plan and conduct user research, synthesize insights, work closely with product and design teams. 3+ years of UX research experience required.',source:'Flexori'},{id:'f11',title:'Sales Development Rep',company:'Calendly',logo:'',category:'Sales',tags:['SaaS','Outbound'],type:'full_time',url:'https://calendly.com/careers/',date:new Date().toISOString(),salary:'$55k–$75k',location:'Americas',description:'Prospect new accounts, qualify leads, and set meetings for Account Executive team. 1+ years in sales or business development required.',source:'Flexori'},{id:'f12',title:'Finance Manager',company:'Stripe',logo:'',category:'Finance',tags:['Finance','Reporting'],type:'full_time',url:'https://stripe.com/jobs/',date:new Date().toISOString(),salary:'$90k–$120k',location:'Americas / Europe',description:'Own financial reporting, support month-end close, provide insights to business partners. CPA or equivalent, 5+ years in finance required.',source:'Flexori'}];
+  return [
+    {id:'f1',title:'Virtual Assistant',company:'Remote Team Co',logo:'',category:'Virtual Assistant',tags:['Admin','Remote','Async'],type:'part_time',url:'https://flexori.work',date:new Date().toISOString(),salary:'$15–$25/hr',location:'Worldwide',description:'We are looking for a detail-oriented Virtual Assistant to support our remote team. Tasks include email management, calendar scheduling, data entry, research, and administrative support. Excellent written English required. Experience with Google Workspace and Slack preferred.',source:'Flexori'},
+    {id:'f2',title:'Bilingual Customer Support Agent',company:'SupportHub',logo:'',category:'Customer Service',tags:['Spanish','English','Support'],type:'full_time',url:'https://flexori.work',date:new Date().toISOString(),salary:'$1,200–$1,800/mo',location:'LATAM',description:'Join our bilingual support team helping customers in Spanish and English. You will handle tickets, live chat, and email support. Strong communication skills in both languages required. Previous customer service experience preferred.',source:'Flexori'},
+    {id:'f3',title:'Administrative Assistant',company:'Global Remote Inc',logo:'',category:'Administrative',tags:['Admin','Coordination','Remote'],type:'full_time',url:'https://flexori.work',date:new Date().toISOString(),salary:'$800–$1,200/mo',location:'Worldwide',description:'Remote Administrative Assistant needed to support our leadership team. Responsibilities include document management, meeting coordination, travel arrangements, and general office support. Proficiency in Microsoft Office and Google Workspace required.',source:'Flexori'},
+    {id:'f4',title:'Community Manager',company:'TechStartup',logo:'',category:'Community',tags:['Social Media','Community','Content'],type:'full_time',url:'https://flexori.work',date:new Date().toISOString(),salary:'$1,500–$2,500/mo',location:'Worldwide',description:'Manage and grow our online community across Discord, Twitter, and LinkedIn. Create engaging content, moderate discussions, and build meaningful relationships with our users. Experience in community management and excellent communication skills required.',source:'Flexori'},
+    {id:'f5',title:'Data Entry Specialist',company:'DataFlow Corp',logo:'',category:'Data Entry',tags:['Data Entry','Excel','Remote'],type:'contract',url:'https://flexori.work',date:new Date().toISOString(),salary:'$10–$15/hr',location:'Worldwide',description:'We need accurate and fast data entry specialists for an ongoing remote project. Tasks include entering, updating, and verifying data in our systems. Attention to detail and proficiency in Excel or Google Sheets required. Flexible hours.',source:'Flexori'},
+    {id:'f6',title:'Spanish-English Translator',company:'LinguaRemote',logo:'',category:'Translation',tags:['Spanish','English','Translation'],type:'freelance',url:'https://flexori.work',date:new Date().toISOString(),salary:'$0.08–$0.12/word',location:'Worldwide',description:'Freelance translator needed for Spanish-English and English-Spanish document translation. Topics include marketing, legal, and technical content. Native or near-native proficiency in both languages required. CAT tool experience preferred.',source:'Flexori'},
+    {id:'f7',title:'Senior Frontend Developer',company:'Automattic',logo:'',category:'Software Development',tags:['React','TypeScript'],type:'full_time',url:'https://automattic.com/work-with-us/',date:new Date().toISOString(),salary:'$90k–$130k',location:'Worldwide',description:'Work on WordPress.com and other products used by millions worldwide.',source:'Flexori'},
+    {id:'f8',title:'Product Designer',company:'Buffer',logo:'',category:'Design',tags:['Figma','UX'],type:'full_time',url:'https://buffer.com/journey/',date:new Date().toISOString(),salary:'$85k–$110k',location:'Worldwide',description:'Help shape the future of social media tools for creators and businesses.',source:'Flexori'},
+    {id:'f9',title:'Growth Marketing Manager',company:'Hotjar',logo:'',category:'Marketing',tags:['Growth','Analytics'],type:'full_time',url:'https://www.hotjar.com/jobs/',date:new Date().toISOString(),salary:'$75k–$95k',location:'Europe',description:'Drive user acquisition and revenue growth. Own key growth channels.',source:'Flexori'},
+    {id:'f10',title:'Customer Success Manager',company:'Intercom',logo:'',category:'Customer Service',tags:['SaaS','CRM'],type:'full_time',url:'https://www.intercom.com/careers/',date:new Date().toISOString(),salary:'$70k–$90k',location:'Worldwide',description:'Manage a portfolio of accounts, drive adoption, and ensure renewals.',source:'Flexori'},
+    {id:'f11',title:'Executive Virtual Assistant',company:'C-Suite Support',logo:'',category:'Virtual Assistant',tags:['Executive','Calendar','Remote'],type:'part_time',url:'https://flexori.work',date:new Date().toISOString(),salary:'$20–$35/hr',location:'USA / Canada',description:'Executive VA needed for C-level support. Calendar management, travel coordination, meeting preparation, and confidential document handling. Minimum 3 years EA experience required.',source:'Flexori'},
+    {id:'f12',title:'Social Media Manager',company:'BrandBoost',logo:'',category:'Community',tags:['Instagram','TikTok','Content'],type:'full_time',url:'https://flexori.work',date:new Date().toISOString(),salary:'$1,800–$2,800/mo',location:'LATAM',description:'Manage social media presence across Instagram, TikTok, and Facebook for our brand portfolio. Create content calendars, design posts, and grow engagement. Spanish content creation required.',source:'Flexori'}
+  ];
 }
 
 function initials(c){return (c||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();}
@@ -836,7 +843,7 @@ function ago(ds){
 function matchCat(j,c){
   if(!c)return true;
   const kws=CAT[c]||[];
-  const txt=(j.title+' '+j.category+' '+(j.tags||[]).join(' ')).toLowerCase();
+  const txt=(j.title+' '+j.category+' '+(j.tags||[]).join(' ')+' '+(j.description||'').slice(0,200)).toLowerCase();
   return kws.some(k=>txt.includes(k));
 }
 
@@ -851,14 +858,22 @@ function matchType(j,t){
   return (j.type||'').toLowerCase().replace(/_/g,' ').includes(t.replace(/_/g,' '));
 }
 
+function matchLang(j,l){
+  if(!l)return true;
+  const kws=LANG[l]||[];
+  const txt=(j.title+' '+(j.description||'').slice(0,500)+' '+(j.tags||[]).join(' ')+' '+(j.location||'')).toLowerCase();
+  return kws.some(k=>txt.includes(k));
+}
+
 function filterJobs(){
   const s=document.getElementById('job-search').value.toLowerCase().trim();
   const c=document.getElementById('f-cat').value;
   const tp=document.getElementById('f-type').value;
   const r=document.getElementById('f-reg').value;
+  const lg=document.getElementById('f-lang').value;
   filteredJobs=allJobs.filter(j=>{
     const txt=(j.title+' '+j.company+' '+(j.tags||[]).join(' ')).toLowerCase();
-    return (!s||txt.includes(s))&&matchCat(j,c)&&matchType(j,tp)&&matchReg(j,r);
+    return (!s||txt.includes(s))&&matchCat(j,c)&&matchType(j,tp)&&matchReg(j,r)&&matchLang(j,lg);
   });
   displayedCount=0;
   render(true);
@@ -874,19 +889,19 @@ function render(reset){
   const sk=document.getElementById('skeleton');
   const em=document.getElementById('empty-state');
   const lb=document.getElementById('load-more');
-  if(sk) sk.style.display='none';
-  if(em) em.style.display='none';
+  if(sk)sk.style.display='none';
+  if(em)em.style.display='none';
   renderCount();
   if(!filteredJobs.length){
-    if(grid) grid.style.display='none';
-    if(em) em.style.display='block';
-    if(lb) lb.style.display='none';
+    if(grid)grid.style.display='none';
+    if(em)em.style.display='block';
+    if(lb)lb.style.display='none';
     return;
   }
   const slice=filteredJobs.slice(displayedCount,displayedCount+PAGE);
   displayedCount+=slice.length;
-  if(reset && grid) grid.innerHTML='';
-  if(grid) grid.style.display='grid';
+  if(reset&&grid)grid.innerHTML='';
+  if(grid)grid.style.display='grid';
   slice.forEach(j=>{
     const isNew=new Date()-new Date(j.date)<7*864e5;
     const tags=(j.tags||[]).slice(0,3);
@@ -902,7 +917,7 @@ function render(reset){
       <div class="card-tags">
         ${j.salary?`<span class="tag tag-g">${j.salary}</span>`:''}
         <span class="tag tag-b">${(String(j.type||'Full-time')).replace(/_/g,' ')}</span>
-        ${tags.map(t=>`<span class="tag tag-gray">${t}</span>`).join('')}
+        ${tags.map(tg=>`<span class="tag tag-gray">${tg}</span>`).join('')}
       </div>
       <div class="card-footer"><span class="card-date">${ago(j.date)}</span><span class="card-cta">Ver →</span></div>`;
     grid.appendChild(el);
@@ -913,14 +928,13 @@ function render(reset){
 function loadMore(){render(false);}
 
 function clearFilters(){
-  ['job-search','f-cat','f-type','f-reg'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['job-search','f-cat','f-type','f-reg','f-lang'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   filterJobs();
 }
 
 let st;
 function debounce(){clearTimeout(st);st=setTimeout(filterJobs,350);}
 
-// ── JOB MODAL ──
 function openModal(j){
   const t=T[lang];
   const logo=document.getElementById('m-logo');
@@ -952,7 +966,6 @@ function closeJobModal(){
   setTimeout(()=>{m.style.display='none';document.getElementById('job-overlay').style.display='none';document.body.style.overflow='';},300);
 }
 
-// ── POST MODAL ──
 function openPostModal(){
   document.getElementById('post-modal').style.display='block';
   document.getElementById('post-overlay').style.display='block';
@@ -979,71 +992,53 @@ async function submitJob(e){
 
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeJobModal();closePostModal();}});
 
-// ── INIT ──
 async function init(){
   setLang(lang);
-  const skeleton = document.getElementById('skeleton');
-  const grid = document.getElementById('jobs-grid');
-  const empty = document.getElementById('empty-state');
-  const loadBtn = document.getElementById('load-more');
-  const countEl = document.getElementById('jobs-count');
-
-  // Show animated skeleton
-  skeleton.style.display = 'grid';
-  grid.style.display = 'none';
-  if(empty) empty.style.display = 'none';
-
-  // Fetch from all APIs
-  allJobs = await fetchAll();
-  filteredJobs = [...allJobs];
-
-  // Hide skeleton
-  skeleton.style.display = 'none';
-
+  const skeleton=document.getElementById('skeleton');
+  const grid=document.getElementById('jobs-grid');
+  const empty=document.getElementById('empty-state');
+  const loadBtn=document.getElementById('load-more');
+  const countEl=document.getElementById('jobs-count');
+  skeleton.style.display='grid';
+  grid.style.display='none';
+  if(empty)empty.style.display='none';
+  allJobs=await fetchAll();
+  filteredJobs=[...allJobs];
+  skeleton.style.display='none';
   if(!allJobs.length){
-    if(empty) empty.style.display = 'block';
-    if(countEl) countEl.innerHTML = '0 jobs found';
+    if(empty)empty.style.display='block';
+    if(countEl)countEl.innerHTML='0 jobs found';
     return;
   }
-
-  // Render first page
   renderCount();
-  const firstPage = filteredJobs.slice(0, PAGE);
-  displayedCount = firstPage.length;
-  grid.innerHTML = '';
-  grid.style.display = 'grid';
-
-  firstPage.forEach(j => {
-    const isNew = new Date() - new Date(j.date) < 7*864e5;
-    const tags = (j.tags||[]).slice(0,3);
-    const el = document.createElement('div');
-    el.className = 'job-card';
-    el.onclick = () => openModal(j);
-    el.innerHTML = `
+  const firstPage=filteredJobs.slice(0,PAGE);
+  displayedCount=firstPage.length;
+  grid.innerHTML='';
+  grid.style.display='grid';
+  firstPage.forEach(j=>{
+    const isNew=new Date()-new Date(j.date)<7*864e5;
+    const tags=(j.tags||[]).slice(0,3);
+    const el=document.createElement('div');
+    el.className='job-card';
+    el.onclick=()=>openModal(j);
+    el.innerHTML=`
       <div class="card-top">
-        <div class="card-logo">${j.logo ? `<img src="${j.logo}" alt="${j.company}" onerror="this.parentElement.textContent='${initials(j.company)}'">` : initials(j.company)}</div>
-        ${isNew ? '<span class="card-new">NEW</span>' : ''}
+        <div class="card-logo">${j.logo?`<img src="${j.logo}" alt="${j.company}" onerror="this.parentElement.textContent='${initials(j.company)}'">`:initials(j.company)}</div>
+        ${isNew?'<span class="card-new">NEW</span>':''}
       </div>
-      <div>
-        <div class="card-title">${j.title}</div>
-        <div class="card-company">${j.company} · ${j.location||'Remote'}</div>
-      </div>
+      <div><div class="card-title">${j.title}</div><div class="card-company">${j.company} · ${j.location||'Remote'}</div></div>
       <div class="card-tags">
-        ${j.salary ? `<span class="tag tag-g">${j.salary}</span>` : ''}
+        ${j.salary?`<span class="tag tag-g">${j.salary}</span>`:''}
         <span class="tag tag-b">${(String(j.type||'Full-time')).replace(/_/g,' ')}</span>
-        ${tags.map(t => `<span class="tag tag-gray">${t}</span>`).join('')}
+        ${tags.map(tg=>`<span class="tag tag-gray">${tg}</span>`).join('')}
       </div>
-      <div class="card-footer">
-        <span class="card-date">${ago(j.date)}</span>
-        <span class="card-cta">Ver →</span>
-      </div>`;
+      <div class="card-footer"><span class="card-date">${ago(j.date)}</span><span class="card-cta">Ver →</span></div>`;
     grid.appendChild(el);
   });
-
-  if(loadBtn) loadBtn.style.display = displayedCount < filteredJobs.length ? 'inline-block' : 'none';
+  if(loadBtn)loadBtn.style.display=displayedCount<filteredJobs.length?'inline-block':'none';
 }
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded',init);
 </script>
 </body>
 </html>
