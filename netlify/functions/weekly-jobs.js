@@ -1,46 +1,145 @@
 const AUDIENCE_ID = '6e26b2aa-f4b4-4214-8b62-201be98e1a25';
 
-async function fetchJobs() {
+// Categorías operativas que queremos priorizar
+const OPERATIVE_CATEGORIES = [
+  'customer-support',
+  'marketing', 
+  'sales',
+  'writing',
+  'hr',
+  'business'
+];
+
+// Keywords operativas para filtrar
+const OPERATIVE_KEYWORDS = [
+  'virtual assistant', 'customer support', 'customer service',
+  'community manager', 'social media', 'content writer',
+  'copywriter', 'data entry', 'administrative', 'marketing',
+  'sales', 'account manager', 'support specialist', 'success manager',
+  'bilingual', 'spanish', 'español', 'coordinator', 'operations',
+  'recruiter', 'hr', 'human resources', 'project manager',
+  'product manager', 'growth', 'email marketing', 'seo'
+];
+
+async function fetchOperativeJobs() {
+  const jobs = [];
+
+  // Buscar por cada categoría operativa en Remotive
   try {
-    const res = await fetch('https://remotive.com/api/remote-jobs?limit=20', {
-      headers: { 'Accept': 'application/json' }
+    const promises = OPERATIVE_CATEGORIES.map(cat =>
+      fetch(`https://remotive.com/api/remote-jobs?category=${cat}&limit=10`, {
+        headers: { 'Accept': 'application/json' }
+      }).then(r => r.json()).catch(() => ({ jobs: [] }))
+    );
+
+    const results = await Promise.all(promises);
+    results.forEach(data => {
+      (data.jobs || []).forEach(j => {
+        jobs.push({
+          title: j.title,
+          company: j.company_name,
+          location: j.candidate_required_location || 'Worldwide',
+          salary: j.salary || '',
+          url: j.url,
+          type: (j.job_type || 'full_time').replace(/_/g, '-'),
+          category: j.category || ''
+        });
+      });
     });
-    const data = await res.json();
-    return (data.jobs || []).slice(0, 5).map(j => ({
-      title: j.title,
-      company: j.company_name,
-      location: j.candidate_required_location || 'Worldwide',
-      salary: j.salary || '',
-      url: j.url,
-      type: j.job_type || 'Full-time'
-    }));
-  } catch(e) {
-    return [
-      { title: 'Virtual Assistant', company: 'Remote Team', location: 'Worldwide', salary: '$800/mes', url: 'https://flexori.work/jobs.html', type: 'Part-time' },
-      { title: 'Customer Support Agent', company: 'Global SaaS', location: 'LATAM', salary: '$1,200/mes', url: 'https://flexori.work/jobs.html', type: 'Full-time' },
-      { title: 'Community Manager', company: 'Tech Startup', location: 'Remote', salary: '$1,500/mes', url: 'https://flexori.work/jobs.html', type: 'Full-time' },
-      { title: 'Content Writer', company: 'Digital Agency', location: 'Worldwide', salary: '$1,000/mes', url: 'https://flexori.work/jobs.html', type: 'Freelance' },
-      { title: 'Data Entry Specialist', company: 'DataCorp', location: 'Worldwide', salary: '$600/mes', url: 'https://flexori.work/jobs.html', type: 'Part-time' }
-    ];
+  } catch(e) {}
+
+  // Filtrar por keywords operativas
+  const filtered = jobs.filter(j => {
+    const text = (j.title + ' ' + j.category).toLowerCase();
+    return OPERATIVE_KEYWORDS.some(kw => text.includes(kw));
+  });
+
+  // Deduplicar por título + empresa
+  const seen = new Set();
+  const unique = filtered.filter(j => {
+    const key = (j.title + j.company).toLowerCase().replace(/\s/g, '');
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  // Si hay suficientes operativos, usar esos. Si no, completar con fallback
+  if (unique.length >= 5) {
+    return unique.slice(0, 5);
   }
+
+  // Fallback con empleos operativos curados
+  const fallback = [
+    { title: 'Virtual Assistant', company: 'Remote Team Co', location: 'Worldwide', salary: '$800–$1,200/mes', url: 'https://flexori.work/jobs.html', type: 'part-time' },
+    { title: 'Bilingual Customer Support', company: 'SupportHub', location: 'LATAM', salary: '$1,200–$1,800/mes', url: 'https://flexori.work/jobs.html', type: 'full-time' },
+    { title: 'Community Manager', company: 'Tech Startup', location: 'Remote', salary: '$1,500–$2,000/mes', url: 'https://flexori.work/jobs.html', type: 'full-time' },
+    { title: 'Content Writer (Spanish)', company: 'Digital Agency', location: 'Worldwide', salary: '$1,000–$1,500/mes', url: 'https://flexori.work/jobs.html', type: 'freelance' },
+    { title: 'Data Entry Specialist', company: 'DataCorp', location: 'Worldwide', salary: '$600–$900/mes', url: 'https://flexori.work/jobs.html', type: 'part-time' }
+  ];
+
+  // Mezclar los únicos encontrados con fallback hasta tener 5
+  const combined = [...unique, ...fallback];
+  const seenFinal = new Set();
+  return combined.filter(j => {
+    const key = (j.title + j.company).toLowerCase().replace(/\s/g, '');
+    if (seenFinal.has(key)) return false;
+    seenFinal.add(key);
+    return true;
+  }).slice(0, 5);
 }
 
 function buildEmailHTML(jobs, lang) {
   const t = {
-    es: { subject: '🌍 Empleos Remotos de la Semana — Flexori', title: 'Los mejores empleos remotos', subtitle: 'de esta semana', intro: 'Seleccionamos los mejores empleos remotos para ti. Actualizados cada lunes.', apply: 'Ver empleo →', more: 'Ver todos los empleos →', unsub: 'Cancelar suscripción', footer: 'Eres parte de la comunidad Flexori' },
-    en: { subject: '🌍 Remote Jobs of the Week — Flexori', title: 'Best remote jobs', subtitle: 'this week', intro: 'We handpicked the best remote jobs for you. Updated every Monday.', apply: 'View job →', more: 'View all jobs →', unsub: 'Unsubscribe', footer: 'You are part of the Flexori community' },
-    fr: { subject: '🌍 Emplois à Distance de la Semaine — Flexori', title: 'Meilleurs emplois à distance', subtitle: 'cette semaine', intro: 'Nous avons sélectionné les meilleurs emplois à distance pour vous.', apply: 'Voir l\'emploi →', more: 'Voir tous les emplois →', unsub: 'Se désabonner', footer: 'Vous faites partie de la communauté Flexori' },
-    pt: { subject: '🌍 Vagas Remotas da Semana — Flexori', title: 'Melhores vagas remotas', subtitle: 'desta semana', intro: 'Selecionamos as melhores vagas remotas para você. Atualizadas toda segunda-feira.', apply: 'Ver vaga →', more: 'Ver todas as vagas →', unsub: 'Cancelar inscrição', footer: 'Você faz parte da comunidade Flexori' }
-  }[lang] || { subject: '🌍 Remote Jobs of the Week — Flexori', title: 'Best remote jobs', subtitle: 'this week', intro: 'We handpicked the best remote jobs for you. Updated every Monday.', apply: 'View job →', more: 'View all jobs →', unsub: 'Unsubscribe', footer: 'You are part of the Flexori community' };
+    es: {
+      subject: '🌍 Empleos Remotos de la Semana — Flexori',
+      title: 'Los mejores empleos remotos',
+      subtitle: 'de esta semana',
+      intro: 'Seleccionamos empleos para todos los perfiles — desde básicos hasta avanzados. Actualizados cada lunes.',
+      apply: 'Ver empleo →',
+      more: 'Ver todos los empleos →',
+      unsub: 'Cancelar suscripción',
+      footer: 'Eres parte de la comunidad Flexori'
+    },
+    en: {
+      subject: '🌍 Remote Jobs of the Week — Flexori',
+      title: 'Best remote jobs',
+      subtitle: 'this week',
+      intro: 'We handpicked remote jobs for all profiles — from entry level to senior. Updated every Monday.',
+      apply: 'View job →',
+      more: 'View all jobs →',
+      unsub: 'Unsubscribe',
+      footer: 'You are part of the Flexori community'
+    },
+    fr: {
+      subject: '🌍 Emplois à Distance de la Semaine — Flexori',
+      title: 'Meilleurs emplois à distance',
+      subtitle: 'cette semaine',
+      intro: 'Nous avons sélectionné des emplois pour tous les profils. Mis à jour chaque lundi.',
+      apply: "Voir l'emploi →",
+      more: 'Voir tous les emplois →',
+      unsub: 'Se désabonner',
+      footer: 'Vous faites partie de la communauté Flexori'
+    },
+    pt: {
+      subject: '🌍 Vagas Remotas da Semana — Flexori',
+      title: 'Melhores vagas remotas',
+      subtitle: 'desta semana',
+      intro: 'Selecionamos vagas para todos os perfis. Atualizadas toda segunda-feira.',
+      apply: 'Ver vaga →',
+      more: 'Ver todas as vagas →',
+      unsub: 'Cancelar inscrição',
+      footer: 'Você faz parte da comunidade Flexori'
+    }
+  }[lang] || {};
 
   const jobCards = jobs.map(j => `
     <div style="background:#1A2338;border:1px solid rgba(29,158,117,0.2);border-radius:14px;padding:20px;margin-bottom:14px;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-        <div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;">
+        <div style="flex:1;min-width:0;">
           <div style="font-size:15px;font-weight:700;color:#ffffff;margin-bottom:4px;">${j.title}</div>
           <div style="font-size:13px;color:#A8A69E;">${j.company} · ${j.location}</div>
         </div>
-        ${j.salary ? `<span style="background:rgba(29,158,117,0.15);color:#1D9E75;border:1px solid rgba(29,158,117,0.3);border-radius:100px;padding:4px 12px;font-size:12px;font-weight:600;white-space:nowrap;">${j.salary}</span>` : ''}
+        ${j.salary ? `<span style="background:rgba(29,158,117,0.15);color:#1D9E75;border:1px solid rgba(29,158,117,0.3);border-radius:100px;padding:4px 12px;font-size:12px;font-weight:600;white-space:nowrap;flex-shrink:0;">${j.salary}</span>` : ''}
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;">
         <span style="background:rgba(107,163,214,0.15);color:#6ba3d6;border:1px solid rgba(107,163,214,0.3);border-radius:100px;padding:3px 10px;font-size:11px;">${j.type}</span>
@@ -89,24 +188,21 @@ exports.handler = async function(event, context) {
     'Content-Type': 'application/json'
   };
 
-  // Verificar que sea lunes o que sea una llamada manual autorizada
-  const now = new Date();
-  const isMonday = now.getDay() === 1;
+  const isMonday = new Date().getDay() === 1;
   const isManual = event.queryStringParameters?.manual === 'true';
 
   if (!isMonday && !isManual) {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ message: 'Not Monday, skipping. Use ?manual=true to force.' })
+      body: JSON.stringify({ message: 'Not Monday. Use ?manual=true to force.' })
     };
   }
 
   try {
     const RESEND_KEY_FULL = process.env.RESEND_API_KEY_FULL;
-    const RESEND_KEY = process.env.RESEND_API_KEY;
 
-    // 1. Obtener lista de contactos del Audience
+    // Obtener contactos del Audience
     const contactsRes = await fetch(`https://api.resend.com/audiences/${AUDIENCE_ID}/contacts`, {
       headers: { 'Authorization': `Bearer ${RESEND_KEY_FULL}` }
     });
@@ -121,10 +217,10 @@ exports.handler = async function(event, context) {
       };
     }
 
-    // 2. Obtener empleos frescos
-    const jobs = await fetchJobs();
+    // Obtener empleos operativos
+    const jobs = await fetchOperativeJobs();
 
-    // 3. Crear y enviar Broadcast via Resend
+    // Crear y enviar Broadcast
     const emailContent = buildEmailHTML(jobs, 'es');
 
     const broadcastRes = await fetch('https://api.resend.com/broadcasts', {
@@ -151,7 +247,7 @@ exports.handler = async function(event, context) {
         success: true,
         broadcast_id: broadcastData.id,
         contacts_count: contacts.length,
-        jobs_count: jobs.length,
+        jobs_shown: jobs.map(j => j.title),
         message: `Weekly email sent to ${contacts.length} contacts`
       })
     };
