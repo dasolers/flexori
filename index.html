@@ -2137,7 +2137,19 @@ document.addEventListener('keydown', e => {
 // Auto-abrir Score modal si URL tiene ?score=true
 document.addEventListener('DOMContentLoaded', () => {
   if (window.location.search.includes('score=true') || window.location.hash === '#score') {
-    setTimeout(() => openScoreModal(), 600);
+    // Esperar a que jobs carguen y todo esté listo
+    setTimeout(() => {
+      if (typeof openScoreModal === 'function') {
+        openScoreModal();
+      }
+    }, 1200);
+  }
+});
+
+// También detectar si el usuario llega via hash #score después de cargar
+window.addEventListener('hashchange', () => {
+  if (window.location.hash === '#score') {
+    openScoreModal();
   }
 });
 
