@@ -188,10 +188,12 @@ exports.handler = async function(event, context) {
     'Content-Type': 'application/json'
   };
 
+  // Aceptar: llamada scheduled de Netlify, lunes, o ?manual=true
+  const isScheduled = !event.httpMethod; // Netlify scheduled functions no tienen httpMethod
   const isMonday = new Date().getDay() === 1;
   const isManual = event.queryStringParameters?.manual === 'true';
 
-  if (!isMonday && !isManual) {
+  if (!isScheduled && !isMonday && !isManual) {
     return {
       statusCode: 200,
       headers,
