@@ -22,10 +22,27 @@ exports.handler = async function(event, context) {
   };
 
   try {
-    const { to, subject, html } = JSON.parse(event.body);
-
+    const { to, subject, html, addToAudience } = JSON.parse(event.body);
     const RESEND_API_KEY = process.env.RESEND_API_KEY;
+    const RESEND_API_KEY_FULL = process.env.RESEND_API_KEY_FULL;
+    const AUDIENCE_ID = '6e26b2aa-f4b4-4214-8b62-201be98e1a25';
 
+    // Agregar al Audience de Resend si se solicita
+    if (addToAudience && to && RESEND_API_KEY_FULL) {
+      await fetch(`https://api.resend.com/audiences/${AUDIENCE_ID}/contacts`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${RESEND_API_KEY_FULL}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: to,
+          unsubscribed: false
+        })
+      });
+    }
+
+    // Enviar email
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
