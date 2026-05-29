@@ -788,6 +788,24 @@ function resetAnalysis() {
 
 // ── STRIPE CONFIG ──
 const STRIPE_PK = 'pk_live_51TcF92KCK5PGV3GQqSsQKaNnFhiu4gtNo4t7bqc45l9skzPOhhXsx1D3ISqwinroLrvHXT2UZKikdaQYLktjttiu00SXoDIvxo';
+
+// Show local prices based on timezone
+(function() {
+  try {
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    var isCO = tz.includes('Bogota') || tz.includes('Colombia');
+    var isMX = tz.includes('Mexico') || tz.includes('Monterrey') || tz.includes('Mazatlan');
+    var proDiv = document.getElementById('price-local-pro');
+    var plusDiv = document.getElementById('price-local-plus');
+    if (isCO) {
+      if (proDiv) { proDiv.textContent = 'COP $39,900 / mes'; proDiv.style.display = 'block'; }
+      if (plusDiv) { plusDiv.textContent = 'COP $29,900 / mes'; plusDiv.style.display = 'block'; }
+    } else if (isMX) {
+      if (proDiv) { proDiv.textContent = 'MXN $199 / mes'; proDiv.style.display = 'block'; }
+      if (plusDiv) { plusDiv.textContent = 'MXN $299 / mes'; plusDiv.style.display = 'block'; }
+    }
+  } catch(e) {}
+})();
 const PRICES = {
   pro:  'price_1TcFW7GfNZBTeRMjBlECcgkb',
   plus: 'price_1TcFZCGfNZBTeRMjUj5zozE7'
