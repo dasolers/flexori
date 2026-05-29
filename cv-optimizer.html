@@ -376,13 +376,59 @@ footer{border-top:1px solid var(--border);padding:32px 48px;display:flex;
 
     <div id="results-content"></div>
 
-    <div class="result-cta">
-      <h3>¿Listo para aplicar con tu CV optimizado?</h3>
-      <p>Revisa los empleos remotos que mejor se ajustan a tu perfil actualizado y empieza a aplicar hoy.</p>
-      <div class="cta-buttons">
+    <!-- PRICING CARDS -->
+    <div style="margin-top:24px">
+      <p style="text-align:center;font-size:13px;color:var(--gray);margin-bottom:20px;text-transform:uppercase;letter-spacing:2px;font-weight:600">¿Quieres ir más lejos?</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+
+        <!-- PRO -->
+        <div style="background:var(--surface);border:1px solid rgba(29,158,117,0.3);border-radius:20px;padding:24px;position:relative;overflow:hidden">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#1D9E75,transparent)"></div>
+          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:600;margin-bottom:8px">Flexori Pro</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;margin-bottom:4px">$11.99<span style="font-size:14px;font-weight:400;color:var(--gray)">/mes</span></div>
+          <div style="font-size:12px;color:var(--gray);margin-bottom:16px">COP $19,900 · MXN $199</div>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:18px">
+            <div style="font-size:13px;color:#ccc;display:flex;gap:6px;align-items:flex-start"><span style="color:var(--green);flex-shrink:0">→</span>CV reescrito completo</div>
+            <div style="font-size:13px;color:#ccc;display:flex;gap:6px;align-items:flex-start"><span style="color:var(--green);flex-shrink:0">→</span>Traducción al inglés</div>
+            <div style="font-size:13px;color:#ccc;display:flex;gap:6px;align-items:flex-start"><span style="color:var(--green);flex-shrink:0">→</span>Descarga PDF</div>
+          </div>
+          <button id="btn-pro" onclick="startCheckout('pro')"
+            style="width:100%;background:#1D9E75;color:#0D1321;border:none;border-radius:100px;padding:12px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s"
+            onmouseover="this.style.background='#24C48F'" onmouseout="this.style.background='#1D9E75'">
+            Suscribirse a Pro →
+          </button>
+        </div>
+
+        <!-- PLUS -->
+        <div style="background:var(--surface);border:1px solid rgba(107,163,214,0.3);border-radius:20px;padding:24px;position:relative;overflow:hidden">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#6ba3d6,transparent)"></div>
+          <div style="position:absolute;top:12px;right:12px;background:rgba(107,163,214,0.15);border:1px solid rgba(107,163,214,0.3);border-radius:100px;padding:3px 10px;font-size:10px;color:#6ba3d6;font-weight:600">POPULAR</div>
+          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#6ba3d6;font-weight:600;margin-bottom:8px">Flexori Plus</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;margin-bottom:4px">$19<span style="font-size:14px;font-weight:400;color:var(--gray)">/mes</span></div>
+          <div style="font-size:12px;color:var(--gray);margin-bottom:16px">COP $29,900 · MXN $299</div>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:18px">
+            <div style="font-size:13px;color:#ccc;display:flex;gap:6px;align-items:flex-start"><span style="color:#6ba3d6;flex-shrink:0">→</span>Todo Pro ilimitado</div>
+            <div style="font-size:13px;color:#ccc;display:flex;gap:6px;align-items:flex-start"><span style="color:#6ba3d6;flex-shrink:0">→</span>Score tracker semanal</div>
+            <div style="font-size:13px;color:#ccc;display:flex;gap:6px;align-items:flex-start"><span style="color:#6ba3d6;flex-shrink:0">→</span>Cover Letter por empleo</div>
+          </div>
+          <button id="btn-plus" onclick="startCheckout('plus')"
+            style="width:100%;background:#6ba3d6;color:#0D1321;border:none;border-radius:100px;padding:12px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s"
+            onmouseover="this.style.background='#88b8e0'" onmouseout="this.style.background='#6ba3d6'">
+            Suscribirse a Plus →
+          </button>
+        </div>
+      </div>
+
+      <!-- Free actions -->
+      <div style="text-align:center;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
         <a href="/jobs.html" class="btn-primary">Ver empleos remotos →</a>
         <button onclick="resetAnalysis()" class="btn-secondary">Analizar otro CV</button>
       </div>
+
+      <p style="text-align:center;font-size:12px;color:rgba(168,166,158,0.5);margin-top:16px">
+        Sin compromisos · Cancela cuando quieras · Pago seguro con Stripe
+      </p>
     </div>
   </div>
 
@@ -733,6 +779,41 @@ function resetAnalysis() {
   });
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── STRIPE CONFIG ──
+const STRIPE_PK = 'pk_test_51TcF9AGfNZBTeRMjl0whzqc818dO4tE9YwltiXD8lgkMmBZj1SQVKPdhBEF4ONOEMAhvjHX29phQIlqxnaGNheib00BAyb4lo6';
+const PRICES = {
+  pro:  'price_1TcFW7GfNZBTeRMjBlECcgkb',
+  plus: 'price_1TcFZCGfNZBTeRMjUj5zozE7'
+};
+
+async function startCheckout(plan) {
+  const btn = document.getElementById(`btn-${plan}`);
+  if (btn) { btn.disabled = true; btn.textContent = 'Redirigiendo...'; }
+
+  try {
+    const email = localStorage.getItem('flexori_email') || '';
+    const response = await fetch('/.netlify/functions/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        priceId: PRICES[plan],
+        email,
+        successUrl: 'https://flexori.work/success.html?session_id={CHECKOUT_SESSION_ID}',
+        cancelUrl: 'https://flexori.work/cv-optimizer.html'
+      })
+    });
+    const data = await response.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      throw new Error(data.error || 'Error al crear sesión de pago');
+    }
+  } catch(err) {
+    alert('Error al procesar el pago. Intenta de nuevo.');
+    if (btn) { btn.disabled = false; btn.textContent = plan === 'pro' ? 'Suscribirse a Pro — $11.99/mes' : 'Suscribirse a Plus — $19/mes'; }
+  }
 }
 
 // ── INIT ──
