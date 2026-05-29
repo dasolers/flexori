@@ -9,7 +9,7 @@ exports.handler = async function(event, context) {
   if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
 
   const SUPABASE_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
-  const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY;
+  const SUPABASE_JWT = process.env.SUPABASE_JWT_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODk4ODI0MSwiZXhwIjoyMDk0NTY0MjQxfQ.5MyM-1gMnXGDr55CVNE9ca-sTZS8WpVgKoYE1tvwSVM';
 
   try {
     let token = null;
@@ -20,26 +20,20 @@ exports.handler = async function(event, context) {
     }
 
     if (!token) {
-      return { statusCode: 200, headers, body: JSON.stringify({ valid: false, plan: 'free', error: 'No token' }) };
-    }
-
-    if (!SUPABASE_KEY) {
-      console.log('No Supabase key configured');
-      return { statusCode: 200, headers, body: JSON.stringify({ valid: false, plan: 'free', error: 'Config error' }) };
+      return { statusCode: 200, headers, body: JSON.stringify({ valid: false, plan: 'free' }) };
     }
 
     const url = SUPABASE_URL + '/rest/v1/subscribers?access_token=eq.' + encodeURIComponent(token) + '&select=email,plan,status,token_expires_at';
     
     const res = await fetch(url, {
       headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY
+        'apikey': SUPABASE_JWT,
+        'Authorization': 'Bearer ' + SUPABASE_JWT
       }
     });
 
-    console.log('Supabase status:', res.status);
     const data = await res.json();
-    console.log('Supabase data:', JSON.stringify(data));
+    console.log('Supabase response:', res.status, JSON.stringify(data).slice(0,200));
 
     if (!data || !Array.isArray(data) || data.length === 0) {
       return { statusCode: 200, headers, body: JSON.stringify({ valid: false, plan: 'free' }) };
