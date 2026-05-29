@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centro de Carrera Remota — Flexori</title>
+<meta name="description" content="Tu ruta personalizada de 4 semanas para conseguir trabajo remoto. Basada en tu Score de Empleabilidad.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HFYKRPJN1E"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-HFYKRPJN1E');</script>
+<style>
+:root {
+  --bg: #0D1321;
+  --surface: #131B2E;
+  --surface2: #1A2540;
+  --green: #1D9E75;
+  --green2: #24C48F;
+  --blue: #1D5FA3;
+  --text: #F0EEE6;
+  --muted: #A8A69E;
+  --border: rgba(255,255,255,0.07);
+  --border-green: rgba(29,158,117,0.3);
+  --gold: #F59E0B;
+  --red: #EF4444;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,19,33,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--green));border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#fff}
+.nav-logo-text{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--text)}
+.nav-logo-sub{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.btn-nav{padding:8px 20px;border-radius:100px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;transition:all .2s}
+.btn-nav-outline{background:transparent;border:1px solid var(--border-green);color:var(--green)}
+.btn-nav-solid{background:var(--green);color:#0D1321;border:none}
+.btn-nav-solid:hover{background:var(--green2)}
+
+/* HERO */
+.hero{padding:120px 48px 60px;max-width:1200px;margin:0 auto;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(29,158,117,0.1);border:1px solid var(--border-green);border-radius:100px;padding:6px 16px;font-size:12px;color:var(--green);font-weight:600;letter-spacing:.5px;margin-bottom:24px}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(36px,5vw,64px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:16px}
+.hero h1 span{color:var(--green)}
+.hero p{font-size:17px;color:var(--muted);max-width:580px;margin:0 auto 40px;line-height:1.7}
+
+/* SCORE CARD */
+.score-banner{background:var(--surface);border:1px solid var(--border-green);border-radius:20px;padding:24px 32px;max-width:700px;margin:0 auto 60px;display:flex;align-items:center;gap:24px;text-align:left}
+.score-circle{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Syne',sans-serif;font-weight:800;font-size:22px;border:3px solid var(--green)}
+.score-info h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:4px}
+.score-info p{font-size:13px;color:var(--muted);line-height:1.5}
+.score-info .btn-score{display:inline-block;margin-top:10px;background:var(--green);color:#0D1321;border-radius:100px;padding:7px 18px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;text-decoration:none;cursor:pointer;border:none}
+
+/* WEEK TABS */
+.week-nav{max-width:900px;margin:0 auto 48px;display:flex;gap:8px;padding:0 48px;overflow-x:auto;scrollbar-width:none}
+.week-nav::-webkit-scrollbar{display:none}
+.week-tab{flex-shrink:0;padding:10px 24px;border-radius:100px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:1px solid var(--border);color:var(--muted);background:transparent;transition:all .2s;position:relative}
+.week-tab.active{background:var(--green);color:#0D1321;border-color:var(--green)}
+.week-tab.locked{opacity:.5;cursor:default}
+.week-tab .lock-icon{font-size:10px;margin-left:4px}
+
+/* CONTENT */
+.learn-content{max-width:900px;margin:0 auto;padding:0 48px 80px}
+
+/* DIMENSION CARD */
+.week-section{display:none}
+.week-section.active{display:block}
+.week-header{margin-bottom:32px}
+.week-header h2{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-1px;margin-bottom:8px}
+.week-header p{color:var(--muted);font-size:15px;line-height:1.6}
+
+.dim-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-bottom:20px;overflow:hidden;transition:border-color .2s}
+.dim-card:hover{border-color:var(--border-green)}
+.dim-card-header{padding:20px 24px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.dim-card-left{display:flex;align-items:center;gap:14px}
+.dim-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.dim-card-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700}
+.dim-score-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;margin-top:3px;display:inline-block}
+.score-high{background:rgba(29,158,117,0.15);color:var(--green)}
+.score-mid{background:rgba(245,158,11,0.15);color:var(--gold)}
+.score-low{background:rgba(239,68,68,0.15);color:var(--red)}
+.dim-chevron{color:var(--muted);transition:transform .3s;font-size:12px}
+.dim-card.open .dim-chevron{transform:rotate(180deg)}
+
+.dim-card-body{display:none;padding:0 24px 24px;border-top:1px solid var(--border)}
+.dim-card.open .dim-card-body{display:block}
+
+/* ARTICLE */
+.flexori-article{background:rgba(29,158,117,0.05);border:1px solid var(--border-green);border-radius:12px;padding:20px;margin:16px 0}
+.flexori-article-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--green);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px}
+.flexori-article h4{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:8px}
+.flexori-article p{font-size:13px;color:var(--muted);line-height:1.7}
+
+/* RESOURCES */
+.resources-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.resource-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;text-decoration:none;transition:border-color .2s;display:block}
+.resource-card:hover{border-color:var(--border-green)}
+.resource-type{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:4px}
+.resource-title{font-size:13px;font-weight:600;color:var(--text);line-height:1.4}
+.resource-source{font-size:11px;color:var(--muted);margin-top:4px}
+
+/* EXERCISE */
+.exercise-card{background:rgba(29,95,163,0.08);border:1px solid rgba(29,95,163,0.25);border-radius:12px;padding:18px;margin:16px 0}
+.exercise-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#6BA3D6;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+.exercise-card h4{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:6px}
+.exercise-card p{font-size:13px;color:var(--muted);line-height:1.6}
+.exercise-card ul{margin:8px 0 0 16px}
+.exercise-card ul li{font-size:13px;color:var(--muted);line-height:1.8}
+
+/* LOCKED OVERLAY */
+.locked-content{position:relative}
+.locked-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,19,33,0) 0%,rgba(13,19,33,0.97) 40%);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:24px;text-align:center}
+.locked-overlay-inner{max-width:320px}
+.locked-overlay h4{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:6px}
+.locked-overlay p{font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.5}
+.btn-unlock{display:inline-block;background:var(--green);color:#0D1321;border-radius:100px;padding:10px 24px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;text-decoration:none;cursor:pointer;border:none}
+
+/* PROGRESS */
+.progress-bar-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:32px;display:flex;align-items:center;gap:16px}
+.progress-bar-bg{flex:1;height:6px;background:rgba(255,255,255,0.08);border-radius:100px;overflow:hidden}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:100px;transition:width .6s ease}
+.progress-label{font-size:12px;color:var(--muted);white-space:nowrap}
+
+/* MOBILE */
+@media(max-width:860px){
+  nav{padding:0 20px}
+  .nav-links,.nav-right .btn-nav-outline{display:none}
+  .hero{padding:100px 20px 40px}
+  .score-banner{flex-direction:column;text-align:center;padding:20px}
+  .week-nav{padding:0 20px}
+  .learn-content{padding:0 20px 60px}
+  .resources-grid{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+  .hero h1{font-size:32px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">F</div>
+    <div><div class="nav-logo-text">Flexori</div><div class="nav-logo-sub">Remote Careers Platform</div></div>
+  </a>
+  <div class="nav-links">
+    <a href="/jobs.html">Empleos</a>
+    <a href="/cv-optimizer.html">CV Optimizer ✨</a>
+    <a href="/learn.html" class="active">Aprende</a>
+  </div>
+  <div class="nav-right">
+    <a href="/cv-optimizer.html" class="btn-nav btn-nav-solid">CV Optimizer</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">🎯 Centro de Carrera Remota</div>
+  <h1>Tu ruta hacia el<br><span>trabajo remoto</span></h1>
+  <p>Basada en tu Score de Empleabilidad. 4 semanas, paso a paso, con recursos curados y ejercicios prácticos para convertirte en el candidato ideal.</p>
+</section>
+
+<!-- SCORE BANNER -->
+<div style="max-width:900px;margin:0 auto;padding:0 48px">
+  <div class="score-banner" id="score-banner">
+    <div class="score-circle" id="learn-score-circle" style="border-color:var(--muted);color:var(--muted)">?</div>
+    <div class="score-info">
+      <h3 id="learn-score-title">Haz tu Score primero</h3>
+      <p id="learn-score-desc">Tu ruta se personaliza según tus resultados. Toma 3 minutos y es gratis.</p>
+      <button class="btn-score" onclick="window.location.href='/?score=true'">⚡ Obtener mi Score</button>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK TABS -->
+<div class="week-nav" id="week-nav">
+  <button class="week-tab active" onclick="switchWeek(1,this)" data-week="1">Semana 1 — Diagnóstico</button>
+  <button class="week-tab locked" onclick="showUpgrade()" data-week="2">Semana 2 — Fundamentos <span class="lock-icon">🔒</span></button>
+  <button class="week-tab locked" onclick="showUpgrade()" data-week="3">Semana 3 — Optimización <span class="lock-icon">🔒</span></button>
+  <button class="week-tab locked" onclick="showUpgrade()" data-week="4">Semana 4 — Lanzamiento <span class="lock-icon">🔒</span></button>
+</div>
+
+<div class="learn-content">
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-bar-wrap">
+    <span style="font-size:13px;color:var(--muted);white-space:nowrap">Tu progreso</span>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill" style="width:25%"></div></div>
+    <span class="progress-label" id="progress-label">Semana 1 de 4</span>
+  </div>
+
+  <!-- WEEK 1 - FREE -->
+  <div class="week-section active" id="week-1">
+    <div class="week-header">
+      <h2>Semana 1 — Diagnóstico y Base</h2>
+      <p>Entiende tu punto de partida. Esta semana exploramos tus 8 dimensiones, identificamos tus fortalezas y priorizamos qué mejorar primero.</p>
+    </div>
+
+    <!-- DIMENSION 1: Remote History -->
+    <div class="dim-card" id="dim-remote-history">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(29,158,117,0.12)">🌐</div>
+          <div>
+            <div class="dim-card-title">Historial Remoto</div>
+            <span class="dim-score-badge score-mid" id="badge-remote-history">Sin Score aún</span>
+          </div>
+        </div>
+        <span class="dim-chevron">▼</span>
+      </div>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">📄 Artículo exclusivo Flexori</div>
+          <h4>Cómo construir historial remoto desde cero</h4>
+          <p>No necesitas haber trabajado remotamente antes para tener historial remoto. Aprende a documentar proyectos freelance, voluntariados digitales y trabajo asíncrono de manera que los empleadores globales lo reconozcan y valoren. Los reclutadores remotos buscan evidencia de autonomía, no solo títulos de trabajo.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="https://www.youtube.com/results?search_query=how+to+get+remote+work+experience" target="_blank" class="resource-card">
+            <div class="resource-type">📹 Video</div>
+            <div class="resource-title">Cómo conseguir experiencia remota sin experiencia previa</div>
+            <div class="resource-source">YouTube</div>
+          </a>
+          <a href="https://www.upwork.com/resources/beginners-guide-to-freelancing" target="_blank" class="resource-card">
+            <div class="resource-type">📖 Guía</div>
+            <div class="resource-title">Guía para principiantes en trabajo freelance</div>
+            <div class="resource-source">Upwork</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">✏️ Ejercicio práctico</div>
+          <h4>Lista tus experiencias remotas ocultas</h4>
+          <p>Escribe 3-5 proyectos o tareas que hayas realizado de forma digital o asíncrona (aunque no las llames "trabajo remoto"). Incluye:</p>
+          <ul>
+            <li>Herramientas que usaste</li>
+            <li>Con quién colaboraste (y desde dónde)</li>
+            <li>Resultado o entregable concreto</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIMENSION 2: Remote Tools -->
+    <div class="dim-card" id="dim-remote-tools">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(29,95,163,0.12)">🛠️</div>
+          <div>
+            <div class="dim-card-title">Herramientas Remotas</div>
+            <span class="dim-score-badge score-mid" id="badge-remote-tools">Sin Score aún</span>
+          </div>
+        </div>
+        <span class="dim-chevron">▼</span>
+      </div>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">📄 Artículo exclusivo Flexori</div>
+          <h4>El stack de herramientas que todo profesional remoto debe dominar en 2025</h4>
+          <p>Slack, Notion, Zoom y Asana son el mínimo. Los candidatos que destacan demuestran profundidad: saben configurar flujos de trabajo, integrar herramientas y documentar procesos. Descubre qué herramientas buscan las empresas según su tamaño y sector, y cómo demostrar tu dominio sin certificaciones costosas.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="https://www.notion.so/help/guides" target="_blank" class="resource-card">
+            <div class="resource-type">📖 Guía oficial</div>
+            <div class="resource-title">Domina Notion — Guías completas</div>
+            <div class="resource-source">Notion</div>
+          </a>
+          <a href="https://slack.com/resources/using-slack/how-to-use-slack" target="_blank" class="resource-card">
+            <div class="resource-type">📖 Tutorial</div>
+            <div class="resource-title">Cómo usar Slack como un profesional</div>
+            <div class="resource-source">Slack</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">✏️ Ejercicio práctico</div>
+          <h4>Audita tu stack actual</h4>
+          <p>Crea una lista de todas las herramientas que usas actualmente. Para cada una, evalúa tu nivel (básico / intermedio / avanzado) e identifica cuáles necesitas aprender según los empleos que te interesan.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIMENSION 3: Communication -->
+    <div class="dim-card" id="dim-communication">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(245,158,11,0.12)">💬</div>
+          <div>
+            <div class="dim-card-title">Comunicación</div>
+            <span class="dim-score-badge score-mid" id="badge-communication">Sin Score aún</span>
+          </div>
+        </div>
+        <span class="dim-chevron">▼</span>
+      </div>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">📄 Artículo exclusivo Flexori</div>
+          <h4>Comunicación asíncrona: la habilidad #1 que buscan los equipos remotos</h4>
+          <p>En el trabajo remoto, cómo escribes es tan importante como qué dices. Los equipos distribuidos necesitan profesionales que comuniquen con claridad, contexto y concisión. Aprende a escribir mensajes que no generen reuniones innecesarias, a estructurar updates de proyecto y a adaptar tu tono según la cultura del equipo.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="https://www.coursera.org/learn/remote-work-communication" target="_blank" class="resource-card">
+            <div class="resource-type">🎓 Curso</div>
+            <div class="resource-title">Comunicación efectiva para trabajo remoto</div>
+            <div class="resource-source">Coursera</div>
+          </a>
+          <a href="https://www.youtube.com/results?search_query=async+communication+remote+work" target="_blank" class="resource-card">
+            <div class="resource-type">📹 Video</div>
+            <div class="resource-title">Comunicación asíncrona explicada</div>
+            <div class="resource-source">YouTube</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">✏️ Ejercicio práctico</div>
+          <h4>Escribe tu primer update asíncrono</h4>
+          <p>Elige un proyecto actual o pasado y escribe un update de estado de máximo 5 líneas que incluya: qué hiciste, qué sigue, si necesitas algo de alguien. Compártelo con alguien y pide feedback sobre claridad.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIMENSION 4: Reliability -->
+    <div class="dim-card" id="dim-reliability">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(29,158,117,0.12)">✅</div>
+          <div>
+            <div class="dim-card-title">Confiabilidad</div>
+            <span class="dim-score-badge score-mid" id="badge-reliability">Sin Score aún</span>
+          </div>
+        </div>
+        <span class="dim-chevron">▼</span>
+      </div>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">📄 Artículo exclusivo Flexori</div>
+          <h4>Cómo demostrar confiabilidad antes de que te contraten</h4>
+          <p>La confiabilidad es el activo más valioso en el trabajo remoto — y también el más difícil de demostrar en un proceso de selección. Los mejores candidatos construyen evidencia de confiabilidad antes de la entrevista: referencias concretas, historial documentado de entregas y testimonios que hablen por ellos.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="https://www.linkedin.com/learning/remote-work-foundations" target="_blank" class="resource-card">
+            <div class="resource-type">🎓 Curso</div>
+            <div class="resource-title">Fundamentos del trabajo remoto profesional</div>
+            <div class="resource-source">LinkedIn Learning</div>
+          </a>
+          <a href="https://www.youtube.com/results?search_query=how+to+be+reliable+remote+worker" target="_blank" class="resource-card">
+            <div class="resource-type">📹 Video</div>
+            <div class="resource-title">Ser el empleado remoto más confiable del equipo</div>
+            <div class="resource-source">YouTube</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">✏️ Ejercicio práctico</div>
+          <h4>Construye tu evidencia de confiabilidad</h4>
+          <p>Lista 3 momentos donde cumpliste un compromiso bajo presión o anticipaste un problema. Escríbelos en formato STAR (Situación, Tarea, Acción, Resultado) para usarlos en entrevistas.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIMENSION 5: Setup -->
+    <div class="dim-card" id="dim-setup">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(29,95,163,0.12)">🖥️</div>
+          <div>
+            <div class="dim-card-title">Espacio de Trabajo</div>
+            <span class="dim-score-badge score-mid" id="badge-setup">Sin Score aún</span>
+          </div>
+        </div>
+        <span class="dim-chevron">▼</span>
+      </div>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">📄 Artículo exclusivo Flexori</div>
+          <h4>El setup remoto que impresiona en videollamadas y aumenta tu productividad</h4>
+          <p>Tu setup habla antes de que abras la boca. Una buena iluminación, audio claro y un fondo profesional comunican que eres serio con el trabajo remoto. Pero más allá de la apariencia, un workspace optimizado reduce la fatiga cognitiva y te permite sostener jornadas de alto rendimiento desde cualquier lugar.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="https://www.youtube.com/results?search_query=home+office+setup+professional+2024" target="_blank" class="resource-card">
+            <div class="resource-type">📹 Video</div>
+            <div class="resource-title">Setup de home office profesional — Guía completa</div>
+            <div class="resource-source">YouTube</div>
+          </a>
+          <a href="https://www.rtings.com/headphones/reviews/best/for-office-work" target="_blank" class="resource-card">
+            <div class="resource-type">📖 Review</div>
+            <div class="resource-title">Los mejores auriculares para trabajo remoto</div>
+            <div class="resource-source">RTINGS</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">✏️ Ejercicio práctico</div>
+          <h4>Audita tu setup en 10 minutos</h4>
+          <p>Haz una videollamada de prueba y grábate. Evalúa: ¿se te escucha bien? ¿la imagen es clara? ¿el fondo es profesional? ¿la iluminación está de frente o de espaldas? Identifica los 2 cambios más impactantes que puedes hacer esta semana.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIMENSION 6: Languages -->
+    <div class="dim-card" id="dim-languages">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(245,158,11,0.12)">🗣️</div>
+          <div>
+            <div class="dim-card-title">Idiomas</div>
+            <span class="dim-score-badge score-mid" id="badge-languages">Sin Score aún</span>
+          </div>
+        </div>
+        <span class="dim-chevron">▼</span>
+      </div>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">📄 Artículo exclusivo Flexori</div>
+          <h4>Inglés profesional para trabajo remoto: lo que realmente necesitas saber</h4>
+          <p>No necesitas hablar inglés perfecto para trabajar con equipos globales — necesitas comunicarte con confianza. Hay una diferencia enorme. Los empleadores remotos valoran la claridad sobre la perfección. Aprende qué nivel de inglés requieren los empleos remotos más accesibles para LATAM y cómo demostrarlo sin certificaciones caras.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="https://www.duolingo.com" target="_blank" class="resource-card">
+            <div class="resource-type">📱 App</div>
+            <div class="resource-title">Practica inglés 15 minutos al día</div>
+            <div class="resource-source">Duolingo</div>
+          </a>
+          <a href="https://www.youtube.com/@EnglishwithLucy" target="_blank" class="resource-card">
+            <div class="resource-type">📹 Canal</div>
+            <div class="resource-title">Inglés profesional para no nativos</div>
+            <div class="resource-source">YouTube — English with Lucy</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">✏️ Ejercicio práctico</div>
+          <h4>Grábate hablando en inglés por 2 minutos</h4>
+          <p>Presenta tu experiencia profesional en inglés durante 2 minutos y grábate en video. Escúchate: ¿eres entendible? ¿usas vocabulario profesional? Este ejercicio muestra tu nivel real mejor que cualquier test.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIMENSION 7: Portfolio -->
+    <div class="dim-card" id="dim-portfolio">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(29,158,117,0.12)">💼</div>
+          <div>
+            <div class="dim-card-title">Portafolio</div>
+            <span class="dim-score-badge score-mid" id="badge-portfolio">Sin Score aún</span>
+          </div>
+        </div>
+        <span class="dim-chevron">▼</span>
+      </div>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">📄 Artículo exclusivo Flexori</div>
+          <h4>Cómo crear un portafolio remoto que consiga entrevistas (sin ser diseñador)</h4>
+          <p>Un portafolio no es solo para diseñadores o desarrolladores. Todo profesional remoto puede — y debe — tener evidencia pública de su trabajo. Desde un perfil de LinkedIn optimizado hasta un Notion con casos de estudio, hay formatos accesibles para cada rol. Lo importante es que el empleador pueda ver cómo piensas y qué produces.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="https://www.notion.so/templates/category/portfolio" target="_blank" class="resource-card">
+            <div class="resource-type">🛠️ Templates</div>
+            <div class="resource-title">Plantillas de portafolio en Notion</div>
+            <div class="resource-source">Notion</div>
+          </a>
+          <a href="https://www.youtube.com/results?search_query=how+to+build+professional+portfolio+no+experience" target="_blank" class="resource-card">
+            <div class="resource-type">📹 Video</div>
+            <div class="resource-title">Portafolio profesional sin experiencia previa</div>
+            <div class="resource-source">YouTube</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">✏️ Ejercicio práctico</div>
+          <h4>Elige el formato de tu portafolio esta semana</h4>
+          <p>Decide en qué plataforma vas a construir tu portafolio (LinkedIn, Notion, GitHub Pages, sitio web propio) y crea la estructura base con al menos un proyecto o caso de estudio documentado.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIMENSION 8: Flexibility -->
+    <div class="dim-card" id="dim-flexibility">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(29,95,163,0.12)">🌍</div>
+          <div>
+            <div class="dim-card-title">Flexibilidad</div>
+            <span class="dim-score-badge score-mid" id="badge-flexibility">Sin Score aún</span>
+          </div>
+        </div>
+        <span class="dim-chevron">▼</span>
+      </div>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">📄 Artículo exclusivo Flexori</div>
+          <h4>Flexibilidad horaria y cultural: por qué es el factor diferenciador en equipos globales</h4>
+          <p>Trabajar en zonas horarias distintas, adaptarse a culturas de trabajo diferentes y mantener productividad en entornos cambiantes son habilidades que los equipos globales valoran enormemente. No se trata de estar disponible 24/7 — se trata de demostrar que puedes colaborar efectivamente en un mundo distribuido.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="https://www.youtube.com/results?search_query=working+across+time+zones+remote+tips" target="_blank" class="resource-card">
+            <div class="resource-type">📹 Video</div>
+            <div class="resource-title">Trabajar en múltiples zonas horarias sin agotarse</div>
+            <div class="resource-source">YouTube</div>
+          </a>
+          <a href="https://remote.com/blog/remote-work-culture" target="_blank" class="resource-card">
+            <div class="resource-type">📖 Artículo</div>
+            <div class="resource-title">Cultura en equipos remotos globales</div>
+            <div class="resource-source">Remote.com</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">✏️ Ejercicio práctico</div>
+          <h4>Mapea tu disponibilidad global</h4>
+          <p>Crea un mapa de tu disponibilidad horaria en formato UTC. Identifica en qué zonas horarias (NY, Londres, Berlín, Singapur) coincides con horario laboral y en qué medida. Esto te ayudará a filtrar empleos compatibles con tu estilo de vida.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end week-1 -->
+
+  <!-- WEEKS 2-4 LOCKED -->
+  <div class="week-section" id="week-2">
+    <div class="week-header">
+      <h2>Semana 2 — Fundamentos</h2>
+      <p>Construye las bases sólidas en tus dimensiones más débiles con recursos curados y ejercicios guiados.</p>
+    </div>
+    <div style="position:relative;min-height:400px">
+      <div style="opacity:0.3;pointer-events:none">
+        <div class="dim-card"><div class="dim-card-header"><div class="dim-card-left"><div class="dim-icon" style="background:rgba(29,158,117,0.12)">🌐</div><div><div class="dim-card-title">Plan personalizado para tu dimensión más débil</div></div></div></div></div>
+        <div class="dim-card" style="margin-top:12px"><div class="dim-card-header"><div class="dim-card-left"><div class="dim-icon" style="background:rgba(29,95,163,0.12)">🛠️</div><div><div class="dim-card-title">Recursos avanzados + ejercicios guiados</div></div></div></div></div>
+        <div class="dim-card" style="margin-top:12px"><div class="dim-card-header"><div class="dim-card-left"><div class="dim-icon" style="background:rgba(245,158,11,0.12)">💬</div><div><div class="dim-card-title">Artículos exclusivos Flexori por dimensión</div></div></div></div></div>
+      </div>
+      <div class="locked-overlay">
+        <div class="locked-overlay-inner">
+          <div style="font-size:32px;margin-bottom:12px">🔒</div>
+          <h4>Desbloquea las semanas 2, 3 y 4</h4>
+          <p>Accede al plan completo de 4 semanas, artículos exclusivos Flexori y ejercicios prácticos personalizados según tu Score.</p>
+          <a href="/cv-optimizer.html#pricing" class="btn-unlock">Ver planes Pro y Plus →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-section" id="week-3">
+    <div class="week-header">
+      <h2>Semana 3 — Optimización</h2>
+      <p>Refina tu perfil, optimiza tu CV y prepárate para destacar en procesos de selección remotos.</p>
+    </div>
+    <div style="position:relative;min-height:400px">
+      <div style="opacity:0.3;pointer-events:none">
+        <div class="dim-card"><div class="dim-card-header"><div class="dim-card-left"><div class="dim-icon" style="background:rgba(29,158,117,0.12)">💼</div><div><div class="dim-card-title">Optimización de LinkedIn para trabajo remoto</div></div></div></div></div>
+        <div class="dim-card" style="margin-top:12px"><div class="dim-card-header"><div class="dim-card-left"><div class="dim-icon" style="background:rgba(29,95,163,0.12)">📄</div><div><div class="dim-card-title">CV Optimizer — Análisis completo con IA</div></div></div></div></div>
+      </div>
+      <div class="locked-overlay">
+        <div class="locked-overlay-inner">
+          <div style="font-size:32px;margin-bottom:12px">🔒</div>
+          <h4>Desbloquea las semanas 2, 3 y 4</h4>
+          <p>Incluye acceso al CV Optimizer con IA y plan de optimización de perfil personalizado.</p>
+          <a href="/cv-optimizer.html#pricing" class="btn-unlock">Ver planes Pro y Plus →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-section" id="week-4">
+    <div class="week-header">
+      <h2>Semana 4 — Lanzamiento</h2>
+      <p>Aplica a tus primeros empleos remotos con confianza. Tu perfil está listo, tu historia está clara.</p>
+    </div>
+    <div style="position:relative;min-height:400px">
+      <div style="opacity:0.3;pointer-events:none">
+        <div class="dim-card"><div class="dim-card-header"><div class="dim-card-left"><div class="dim-icon" style="background:rgba(29,158,117,0.12)">🚀</div><div><div class="dim-card-title">Estrategia de aplicación a empleos remotos</div></div></div></div></div>
+        <div class="dim-card" style="margin-top:12px"><div class="dim-card-header"><div class="dim-card-left"><div class="dim-icon" style="background:rgba(245,158,11,0.12)">🎯</div><div><div class="dim-card-title">Matching con empleos según tu Score final</div></div></div></div></div>
+      </div>
+      <div class="locked-overlay">
+        <div class="locked-overlay-inner">
+          <div style="font-size:32px;margin-bottom:12px">🔒</div>
+          <h4>Desbloquea las semanas 2, 3 y 4</h4>
+          <p>La semana de lanzamiento incluye matching con empleos reales según tu Score y estrategia personalizada de aplicación.</p>
+          <a href="/cv-optimizer.html#pricing" class="btn-unlock">Ver planes Pro y Plus →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end learn-content -->
+
+<!-- UPGRADE MODAL -->
+<div id="upgrade-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;backdrop-filter:blur(4px)" onclick="closeUpgrade()"></div>
+<div id="upgrade-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(480px,96vw);background:#131B2E;border:1px solid rgba(29,158,117,0.4);border-radius:24px;z-index:501;padding:32px;text-align:center">
+  <div style="font-size:40px;margin-bottom:16px">🚀</div>
+  <h3 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:8px">Desbloquea tu ruta completa</h3>
+  <p style="color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:24px">Accede a las 4 semanas completas, artículos exclusivos Flexori, ejercicios avanzados y CV Optimizer con IA.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:18px">
+      <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;margin-bottom:4px">Flexori Pro</div>
+      <div style="font-size:22px;font-weight:800;color:var(--green);font-family:'Syne',sans-serif">$11.99<span style="font-size:12px;color:var(--muted)">/mes</span></div>
+      <div style="font-size:11px;color:var(--muted);margin:8px 0">Semanas 2-4 · Artículos exclusivos · Ejercicios completos</div>
+      <a href="/cv-optimizer.html#pro" style="display:block;background:var(--green);color:#0D1321;border-radius:100px;padding:8px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;text-decoration:none;margin-top:8px">Empezar →</a>
+    </div>
+    <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:14px;padding:18px;position:relative">
+      <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gold);color:#0D1321;font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;white-space:nowrap">MÁS POPULAR</div>
+      <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;margin-bottom:4px">Flexori Plus</div>
+      <div style="font-size:22px;font-weight:800;color:var(--gold);font-family:'Syne',sans-serif">$19<span style="font-size:12px;color:var(--muted)">/mes</span></div>
+      <div style="font-size:11px;color:var(--muted);margin:8px 0">Todo Pro + CV Optimizer ilimitado + Matching</div>
+      <a href="/cv-optimizer.html#plus" style="display:block;background:var(--gold);color:#0D1321;border-radius:100px;padding:8px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;text-decoration:none;margin-top:8px">Empezar →</a>
+    </div>
+  </div>
+  <button onclick="closeUpgrade()" style="background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer">Quizás después</button>
+</div>
+
+<script>
+// ── WEEK SWITCHING ──
+function switchWeek(n, btn) {
+  document.querySelectorAll('.week-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('week-' + n).classList.add('active');
+  btn.classList.add('active');
+  var pct = (n / 4 * 100) + '%';
+  document.getElementById('progress-fill').style.width = pct;
+  document.getElementById('progress-label').textContent = 'Semana ' + n + ' de 4';
+  try { gtag('event', 'learn_week_view', { event_category: 'engagement', value: n }); } catch(e) {}
+}
+
+// ── DIM TOGGLE ──
+function toggleDim(header) {
+  var card = header.parentElement;
+  card.classList.toggle('open');
+}
+
+// ── UPGRADE MODAL ──
+function showUpgrade() {
+  document.getElementById('upgrade-overlay').style.display = 'block';
+  document.getElementById('upgrade-modal').style.display = 'block';
+  try { gtag('event', 'learn_upgrade_view', { event_category: 'conversion' }); } catch(e) {}
+}
+function closeUpgrade() {
+  document.getElementById('upgrade-overlay').style.display = 'none';
+  document.getElementById('upgrade-modal').style.display = 'none';
+}
+
+// ── SCORE FROM LOCALSTORAGE OR URL ──
+document.addEventListener('DOMContentLoaded', function() {
+  var params = new URLSearchParams(window.location.search);
+  var score = parseInt(params.get('score')) || 0;
+  var breakdown = {};
+  try { breakdown = JSON.parse(decodeURIComponent(params.get('breakdown') || '{}')); } catch(e) {}
+
+  if (score > 0) {
+    var sc = document.getElementById('learn-score-circle');
+    var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
+    sc.textContent = score;
+    sc.style.borderColor = color;
+    sc.style.color = color;
+    var label = score >= 80 ? 'Experto Remoto 🏆' : score >= 60 ? 'Listo para Remoto ✅' : score >= 40 ? 'En Progreso 📈' : 'Iniciando 🌱';
+    document.getElementById('learn-score-title').textContent = 'Tu Score: ' + score + '/100 — ' + label;
+    document.getElementById('learn-score-desc').textContent = 'Tu ruta de 4 semanas está personalizada según tus resultados. Empieza por las dimensiones marcadas en rojo.';
+    document.querySelector('.btn-score').textContent = '🔄 Repetir Score';
+    // Update dimension badges
+    var dimMap = {
+      'Remote History': 'remote-history',
+      'Remote Tools': 'remote-tools',
+      'Communication': 'communication',
+      'Reliability': 'reliability',
+      'Setup': 'setup',
+      'Languages': 'languages',
+      'Portfolio': 'portfolio',
+      'Flexibility': 'flexibility'
+    };
+    Object.keys(breakdown).forEach(function(key) {
+      var val = breakdown[key];
+      var id = dimMap[key];
+      if (!id) return;
+      var badge = document.getElementById('badge-' + id);
+      if (!badge) return;
+      badge.textContent = val + '/100';
+      badge.className = 'dim-score-badge ' + (val >= 70 ? 'score-high' : val >= 40 ? 'score-mid' : 'score-low');
+      // Auto-open weak dimensions
+      if (val < 40) {
+        var card = document.getElementById('dim-' + id);
+        if (card) card.classList.add('open');
+      }
+    });
+  }
+});
+</script>
+</body>
+</html>
