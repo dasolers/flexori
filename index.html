@@ -393,6 +393,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
   </a>
   <ul class="nav-links">
     <li><a href="/jobs.html" data-i="nav_jobs">Jobs</a></li>
+    <li><a href="/cv-optimizer.html">CV Optimizer ✨</a></li>
     <li><a href="#features" data-i="nav_feat">Features</a></li>
     <li><a href="#for-candidates" data-i="nav_cand">For Candidates</a></li>
     <li><a href="#for-companies" onclick="setTab('comp')" data-i="nav_comp">For Companies</a></li>
@@ -416,6 +417,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="/jobs.html" onclick="toggleMobile()" data-i="nav_jobs">Jobs</a>
+  <a href="/cv-optimizer.html" onclick="toggleMobile()">CV Optimizer ✨</a>
   <a href="#features" onclick="toggleMobile()" data-i="nav_feat">Features</a>
   <a href="#for-candidates" onclick="toggleMobile()" data-i="nav_cand">For Candidates</a>
   <a href="#for-companies" onclick="setTab('comp');toggleMobile()" data-i="nav_comp">For Companies</a>
@@ -1974,6 +1976,15 @@ async function revealScore() {
   sendWelcomeEmail(email, l);
   // Enviar email personalizado con el Score completo
   sendScoreEmail(email, l, finalScore, breakdown);
+  // Guardar Score en localStorage para CV Optimizer
+  try {
+    localStorage.setItem('flexori_score', JSON.stringify({
+      score: finalScore,
+      breakdown: breakdown,
+      lang: l,
+      date: new Date().toISOString()
+    }));
+  } catch(e) {}
   showFullScore(finalScore, breakdown, l);
 }
 
