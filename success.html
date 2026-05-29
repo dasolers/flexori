@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>¡Bienvenido a Flexori Pro! 🎉</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0D1321;color:#fff;font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.card{background:#131B2E;border:1px solid rgba(29,158,117,0.25);border-radius:24px;padding:48px 40px;max-width:520px;width:100%;text-align:center;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#1D9E75,transparent)}
+.emoji{font-size:64px;margin-bottom:24px;display:block}
+h1{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;margin-bottom:12px}
+.g{color:#1D9E75}
+p{font-size:16px;color:#A8A69E;line-height:1.7;margin-bottom:24px}
+.features{background:rgba(29,158,117,0.05);border:1px solid rgba(29,158,117,0.15);border-radius:16px;padding:20px;margin-bottom:28px;text-align:left}
+.feature{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:14px;color:#fff}
+.feature-dot{width:8px;height:8px;background:#1D9E75;border-radius:50%;flex-shrink:0}
+.btn{display:inline-block;background:#1D9E75;color:#0D1321;border-radius:100px;padding:14px 32px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;text-decoration:none;transition:all .2s}
+.btn:hover{background:#24C48F}
+.btn-sec{display:inline-block;border:1px solid rgba(29,158,117,0.3);color:#1D9E75;border-radius:100px;padding:12px 24px;font-size:14px;text-decoration:none;margin-top:12px;transition:all .2s}
+.btn-sec:hover{background:rgba(29,158,117,0.1)}
+</style>
+</head>
+<body>
+<div class="card">
+  <span class="emoji">🎉</span>
+  <h1>¡Bienvenido a <span class="g">Flexori Pro</span>!</h1>
+  <p>Tu suscripción está activa. Ahora tienes acceso completo para optimizar tu CV y conseguir el trabajo remoto que mereces.</p>
+  <div class="features">
+    <div class="feature"><span class="feature-dot"></span> CV reescrito y optimizado para trabajo remoto</div>
+    <div class="feature"><span class="feature-dot"></span> Traducción automática al inglés incluida</div>
+    <div class="feature"><span class="feature-dot"></span> Descarga inmediata en PDF</div>
+    <div class="feature"><span class="feature-dot"></span> Acceso mensual renovable</div>
+  </div>
+  <a href="/cv-optimizer.html" class="btn">Optimizar mi CV ahora →</a><br>
+  <a href="/jobs.html" class="btn-sec">Ver empleos remotos</a>
+</div>
+</body>
+</html>
