@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activando tu acceso — Flexori</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D1321;color:#F0EEE6;font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:#131B2E;border:1px solid rgba(29,158,117,0.3);border-radius:24px;padding:48px 40px;max-width:480px;width:100%;text-align:center;overflow:hidden;position:relative}
+.card-top{height:4px;background:linear-gradient(90deg,#1D5FA3,#1D9E75);position:absolute;top:0;left:0;right:0}
+.logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:32px}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,#1D5FA3,#1D9E75);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:#fff}
+.logo-text{font-family:'Syne',sans-serif;font-weight:700;font-size:18px}
+.state{display:none}
+.state.active{display:block}
+
+/* Loading */
+.spinner{width:48px;height:48px;border:3px solid rgba(29,158,117,0.2);border-top-color:#1D9E75;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 24px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Success */
+.success-icon{width:72px;height:72px;background:rgba(29,158,117,0.15);border:2px solid #1D9E75;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:32px}
+.plan-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(29,158,117,0.1);border:1px solid rgba(29,158,117,0.3);border-radius:100px;padding:6px 16px;font-size:12px;font-weight:700;color:#1D9E75;letter-spacing:.5px;text-transform:uppercase;margin-bottom:16px}
+h1{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;margin-bottom:10px;line-height:1.2}
+p{color:#A8A69E;font-size:14px;line-height:1.7;margin-bottom:24px}
+.features{background:#0D1321;border-radius:12px;padding:16px;margin-bottom:24px;text-align:left}
+.feature{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px;color:#A8A69E}
+.feature:last-child{border-bottom:none}
+.feature-icon{color:#1D9E75;font-size:14px;flex-shrink:0}
+.btn-primary{display:block;background:#1D9E75;color:#0D1321;border-radius:100px;padding:14px 24px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;text-decoration:none;margin-bottom:10px;transition:background .2s}
+.btn-primary:hover{background:#24C48F}
+.btn-secondary{display:block;background:transparent;border:1px solid rgba(255,255,255,0.1);color:#A8A69E;border-radius:100px;padding:12px 24px;font-size:13px;text-decoration:none;transition:border-color .2s}
+.btn-secondary:hover{border-color:rgba(29,158,117,0.4)}
+
+/* Error */
+.error-icon{width:72px;height:72px;background:rgba(239,68,68,0.1);border:2px solid rgba(239,68,68,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:32px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-top"></div>
+  <div class="logo">
+    <div class="logo-icon">F</div>
+    <span class="logo-text">Flexori</span>
+  </div>
+
+  <!-- LOADING -->
+  <div class="state active" id="state-loading">
+    <div class="spinner"></div>
+    <h1 style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700">Verificando tu acceso...</h1>
+    <p>Esto toma solo un segundo.</p>
+  </div>
+
+  <!-- SUCCESS PRO -->
+  <div class="state" id="state-pro">
+    <div class="success-icon">🚀</div>
+    <div class="plan-badge">✦ Flexori Pro</div>
+    <h1>¡Bienvenido a Pro!</h1>
+    <p>Tu acceso está activo. Tienes desbloqueadas las semanas 2, 3 y 4 de tu ruta de carrera remota.</p>
+    <div class="features">
+      <div class="feature"><span class="feature-icon">✓</span> Semanas 2, 3 y 4 desbloqueadas</div>
+      <div class="feature"><span class="feature-icon">✓</span> Artículos exclusivos Flexori</div>
+      <div class="feature"><span class="feature-icon">✓</span> Ejercicios prácticos completos</div>
+      <div class="feature"><span class="feature-icon">✓</span> CV Optimizer — 3 análisis/mes</div>
+    </div>
+    <a href="/learn.html" class="btn-primary" id="learn-btn-pro">Ver mi ruta de carrera →</a>
+    <a href="/cv-optimizer.html" class="btn-secondary">Ir al CV Optimizer</a>
+  </div>
+
+  <!-- SUCCESS PLUS -->
+  <div class="state" id="state-plus">
+    <div class="success-icon">⚡</div>
+    <div class="plan-badge" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3);color:#F59E0B">★ Flexori Plus</div>
+    <h1>¡Bienvenido a Plus!</h1>
+    <p>Acceso completo activado. Tienes todo lo que necesitas para conseguir trabajo remoto.</p>
+    <div class="features">
+      <div class="feature"><span class="feature-icon">✓</span> Ruta completa 4 semanas</div>
+      <div class="feature"><span class="feature-icon">✓</span> CV Optimizer ilimitado</div>
+      <div class="feature"><span class="feature-icon">✓</span> Cover Letter por empleo</div>
+      <div class="feature"><span class="feature-icon">✓</span> Score tracker semanal</div>
+    </div>
+    <a href="/learn.html" class="btn-primary" id="learn-btn-plus">Ver mi ruta completa →</a>
+    <a href="/cv-optimizer.html" class="btn-secondary">Ir al CV Optimizer</a>
+  </div>
+
+  <!-- ERROR -->
+  <div class="state" id="state-error">
+    <div class="error-icon">⚠️</div>
+    <h1>Enlace no válido</h1>
+    <p id="error-msg">Este enlace de acceso ha expirado o no es válido. Revisa tu email o contacta a soporte.</p>
+    <a href="mailto:hola@flexori.work" class="btn-primary">Contactar soporte</a>
+    <a href="/" class="btn-secondary">Volver al inicio</a>
+  </div>
+</div>
+
+<script>
+async function verifyToken() {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('token');
+
+  if (!token) {
+    showState('error');
+    document.getElementById('error-msg').textContent = 'No se encontró un token de acceso en la URL.';
+    return;
+  }
+
+  try {
+    const res = await fetch('/.netlify/functions/verify-access', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token })
+    });
+    const data = await res.json();
+
+    if (data.valid && data.plan === 'plus') {
+      // Save to localStorage
+      localStorage.setItem('flexori_token', token);
+      localStorage.setItem('flexori_plan', 'plus');
+      localStorage.setItem('flexori_email', data.email || '');
+      showState('plus');
+      // Set learn URL with plan
+      document.getElementById('learn-btn-plus').href = '/learn.html?plan=plus&token=' + token;
+    } else if (data.valid && data.plan === 'pro') {
+      localStorage.setItem('flexori_token', token);
+      localStorage.setItem('flexori_plan', 'pro');
+      localStorage.setItem('flexori_email', data.email || '');
+      showState('pro');
+      document.getElementById('learn-btn-pro').href = '/learn.html?plan=pro&token=' + token;
+    } else {
+      showState('error');
+    }
+  } catch(e) {
+    showState('error');
+    document.getElementById('error-msg').textContent = 'Error al verificar el acceso. Por favor intenta de nuevo.';
+  }
+}
+
+function showState(name) {
+  document.querySelectorAll('.state').forEach(s => s.classList.remove('active'));
+  document.getElementById('state-' + name).classList.add('active');
+}
+
+verifyToken();
+</script>
+</body>
+</html>
