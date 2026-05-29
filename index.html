@@ -1763,6 +1763,7 @@ let currentQuestion = 0;
 function openScoreModal() {
   scoreAnswers = {};
   currentQuestion = 0;
+  try { gtag('event', 'score_started', { event_category: 'engagement', event_label: 'Score Modal Opened' }); } catch(e) {}
   document.getElementById('score-modal-overlay').style.display = 'block';
   document.getElementById('score-modal').style.display = 'block';
   document.body.style.overflow = 'hidden';
@@ -1989,6 +1990,7 @@ async function revealScore() {
       date: new Date().toISOString()
     }));
   } catch(e) {}
+  try { gtag('event', 'score_completed', { event_category: 'conversion', value: finalScore, event_label: 'Score Revealed' }); } catch(e) {}
   showFullScore(finalScore, breakdown, l);
 }
 
@@ -2174,7 +2176,7 @@ function showFullScore(finalScore, breakdown, l) {
       +'<button onclick="closeCVPopup()" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#A8A69E;font-size:13px;flex-shrink:0">&times;</button>'
       +'</div>'
       +'<p style="font-size:12px;color:#A8A69E;line-height:1.55;margin:0 0 10px">'+lb.sub+'</p>'
-      +'<a href="/cv-optimizer.html" onclick="closeCVPopup()" style="display:block;background:#1D9E75;color:#0D1321;border-radius:100px;padding:11px 14px;font-family:Syne,sans-serif;font-size:13px;font-weight:700;text-decoration:none;text-align:center">'+lb.cta+' &#8594;</a>'
+      +'<a href="/cv-optimizer.html" onclick="try{gtag('event','cv_optimizer_clicked',{event_category:'engagement',event_label:'Post-Score Popup'})}catch(e){};closeCVPopup()" style="display:block;background:#1D9E75;color:#0D1321;border-radius:100px;padding:11px 14px;font-family:Syne,sans-serif;font-size:13px;font-weight:700;text-decoration:none;text-align:center">'+lb.cta+' &#8594;</a>'
       +'</div>';
     document.body.appendChild(overlay);
     document.body.appendChild(popup);
@@ -2186,7 +2188,6 @@ function closeCVPopup() {
   var p = document.getElementById('cv-popup');
   if(o) o.remove();
   if(p) p.remove();
-}
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeScoreModal(); closeJobModal(); closePostModal(); }
@@ -2219,7 +2220,7 @@ window.addEventListener('hashchange', () => {
     <div style="font-family:Syne,sans-serif;font-size:12px;font-weight:700;color:#fff">&#128196; CV Optimizer IA</div>
     <div style="font-size:11px;color:#A8A69E">Analiza y mejora tu CV con IA</div>
   </div>
-  <a href="/cv-optimizer.html" style="background:#1D9E75;color:#0D1321;border-radius:100px;padding:8px 16px;font-family:Syne,sans-serif;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0">Probar gratis &#8594;</a>
+  <a href="/cv-optimizer.html" onclick="try{gtag('event','cv_optimizer_clicked',{event_category:'engagement',event_label:'Mobile Sticky Bar'})}catch(e){}" style="background:#1D9E75;color:#0D1321;border-radius:100px;padding:8px 16px;font-family:Syne,sans-serif;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0">Probar gratis &#8594;</a>
   <button onclick="document.getElementById('mobile-cv-bar').style.display='none'" style="background:none;border:none;color:#A8A69E;font-size:16px;cursor:pointer;padding:4px;flex-shrink:0">&times;</button>
 </div>
 <script>
