@@ -8,3 +8,7 @@
 # weekly-jobs se ejecuta cada lunes a las 9:00 AM UTC (4:00 AM Colombia)
 [functions."weekly-jobs"]
   schedule = "0 9 * * 1"
+
+# ── WEBHOOK FUNCTION ──
+[functions."stripe-webhook"]
+  included_files = []
