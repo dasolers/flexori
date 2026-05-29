@@ -604,6 +604,42 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
 </div>
 
 <script>
+// ── PLAN DETECTION ──
+function detectPlan() {
+  var params = new URLSearchParams(window.location.search);
+  var urlPlan = params.get('plan');
+  var urlToken = params.get('token');
+  var storedPlan = localStorage.getItem('flexori_plan');
+  var storedToken = localStorage.getItem('flexori_token');
+  var plan = urlPlan || storedPlan || 'free';
+  var token = urlToken || storedToken || '';
+  // Save to localStorage if came via URL
+  if (urlPlan && urlToken) {
+    localStorage.setItem('flexori_plan', urlPlan);
+    localStorage.setItem('flexori_token', urlToken);
+  }
+  return plan;
+}
+
+function unlockPaidWeeks(plan) {
+  if (plan === 'free') return;
+  // Unlock week tabs
+  document.querySelectorAll('.week-tab.locked').forEach(function(tab) {
+    tab.classList.remove('locked');
+    tab.querySelector('.lock-icon') && (tab.querySelector('.lock-icon').style.display = 'none');
+    tab.onclick = function() { switchWeek(parseInt(tab.dataset.week), tab); };
+  });
+  // Add plan badge to hero
+  var badge = document.querySelector('.hero-badge');
+  if (badge) {
+    var planLabel = plan === 'plus' ? '⚡ Flexori Plus' : '🚀 Flexori Pro';
+    var planColor = plan === 'plus' ? '#F59E0B' : '#1D9E75';
+    badge.innerHTML += ' <span style="background:' + planColor + ';color:#0D1321;border-radius:100px;padding:2px 10px;font-size:11px;margin-left:6px">' + planLabel + '</span>';
+  }
+  // Show upgrade prompt for free users on locked content
+  document.querySelectorAll('.locked-overlay').forEach(function(el) { el.style.display = 'none'; });
+}
+
 // ── WEEK SWITCHING ──
 function switchWeek(n, btn) {
   document.querySelectorAll('.week-section').forEach(s => s.classList.remove('active'));
@@ -635,6 +671,9 @@ function closeUpgrade() {
 
 // ── SCORE FROM LOCALSTORAGE OR URL ──
 document.addEventListener('DOMContentLoaded', function() {
+  var plan = detectPlan();
+  unlockPaidWeeks(plan);
+
   var params = new URLSearchParams(window.location.search);
   var score = parseInt(params.get('score')) || 0;
   var breakdown = {};
