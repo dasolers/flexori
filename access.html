@@ -89,7 +89,7 @@ p{color:#A8A69E;font-size:14px;line-height:1.7;margin-bottom:24px}
   <div class="state" id="state-error">
     <div class="error-icon">⚠️</div>
     <h1>Enlace no válido</h1>
-    <p id="error-msg">Este enlace de acceso ha expirado o no es válido. Revisa tu email o contacta a soporte.</p>
+    <p id="error-msg">Verificando tu acceso... Si el problema persiste, contacta a hola@flexori.work con tu email de pago.</p>
     <a href="mailto:hola@flexori.work" class="btn-primary">Contactar soporte</a>
     <a href="/" class="btn-secondary">Volver al inicio</a>
   </div>
@@ -97,6 +97,15 @@ p{color:#A8A69E;font-size:14px;line-height:1.7;margin-bottom:24px}
 
 <script>
 async function verifyToken() {
+  // First check if already have plan in localStorage
+  var storedPlan = localStorage.getItem('flexori_plan');
+  var storedToken = localStorage.getItem('flexori_token');
+  if (storedPlan && storedPlan !== 'free' && storedToken) {
+    localStorage.setItem('flexori_plan', storedPlan);
+    showState(storedPlan);
+    document.getElementById('learn-btn-' + storedPlan).href = '/learn.html?plan=' + storedPlan + '&token=' + storedToken;
+    return;
+  }
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
 
