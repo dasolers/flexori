@@ -512,71 +512,340 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
 
   </div><!-- end week-1 -->
 
-  <!-- WEEKS 2-4 LOCKED -->
+  <!-- WEEKS 2-4: FULL CONTENT -->
+
+  <!-- WEEK 2 -->
   <div class="week-section" id="week-2">
     <div class="week-header">
       <h2>Semana 2 — Fundamentos</h2>
-      <p>Construye las bases sólidas en tus dimensiones más débiles con recursos curados y ejercicios guiados.</p>
+      <p>Esta semana construyes las bases sólidas en tus dimensiones más débiles. Cada recurso fue seleccionado por el equipo de Flexori para maximizar tu progreso en 7 días.</p>
     </div>
-    <div style="position:relative;min-height:400px">
-      <div style="opacity:0.3;pointer-events:none">
-        <div class="dim-card"><div class="dim-card-header"><div class="dim-card-left"><div class="dim-icon" style="background:rgba(29,158,117,0.12)">🌐</div><div><div class="dim-card-title">Plan personalizado para tu dimensión más débil</div></div></div></div></div>
-        <div class="dim-card" style="margin-top:12px"><div class="dim-card-header"><div class="dim-card-left"><div class="dim-icon" style="background:rgba(29,95,163,0.12)">🛠️</div><div><div class="dim-card-title">Recursos avanzados + ejercicios guiados</div></div></div></div></div>
-        <div class="dim-card" style="margin-top:12px"><div class="dim-card-header"><div class="dim-card-left"><div class="dim-icon" style="background:rgba(245,158,11,0.12)">💬</div><div><div class="dim-card-title">Artículos exclusivos Flexori por dimensión</div></div></div></div></div>
+
+    <div class="dim-card">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(29,158,117,0.12)">🎯</div>
+          <div><div class="dim-card-title">Plan de acción para tu dimensión más débil</div>
+          <span class="dim-score-badge score-low">Prioridad alta</span></div>
+        </div><span class="dim-chevron">▼</span>
       </div>
-      <div class="locked-overlay">
-        <div class="locked-overlay-inner">
-          <div style="font-size:32px;margin-bottom:12px">🔒</div>
-          <h4>Desbloquea las semanas 2, 3 y 4</h4>
-          <p>Accede al plan completo de 4 semanas, artículos exclusivos Flexori y ejercicios prácticos personalizados según tu Score.</p>
-          <a href="/cv-optimizer.html#pricing" class="btn-unlock">Ver planes Pro y Plus →</a>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">📄 Artículo exclusivo Flexori</div>
+          <h4>Cómo mejorar 20 puntos en tu Score en 7 días</h4>
+          <p>La mayoría de profesionales intentan mejorar todo a la vez y no avanzan en nada. El método Flexori es diferente: identifica tu dimensión más débil, enfoca el 80% de tu energía ahí durante una semana, y mide el resultado. Un aumento de 20 puntos en una sola dimensión puede ser la diferencia entre quedar descartado o pasar a la siguiente ronda en un proceso remoto.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="https://www.coursera.org/learn/learning-how-to-learn" target="_blank" class="resource-card">
+            <div class="resource-type">🎓 Curso</div>
+            <div class="resource-title">Aprendiendo a aprender — Técnicas efectivas</div>
+            <div class="resource-source">Coursera (Gratis)</div>
+          </a>
+          <a href="https://www.youtube.com/results?search_query=deliberate+practice+remote+work+skills" target="_blank" class="resource-card">
+            <div class="resource-type">📹 Video</div>
+            <div class="resource-title">Práctica deliberada para habilidades remotas</div>
+            <div class="resource-source">YouTube</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">✏️ Ejercicio semanal</div>
+          <h4>Tu plan de 7 días enfocado</h4>
+          <p>Elige tu dimensión con menor Score. Define una acción concreta para cada día de la semana (ej: Lunes → actualizar LinkedIn, Martes → grabar video de práctica). Al final del día 7, vuelve a hacer el Score y compara.</p>
         </div>
       </div>
     </div>
-  </div>
 
+    <div class="dim-card">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(29,95,163,0.12)">💼</div>
+          <div><div class="dim-card-title">LinkedIn optimizado para trabajo remoto</div>
+          <span class="dim-score-badge score-mid">Alto impacto</span></div>
+        </div><span class="dim-chevron">▼</span>
+      </div>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">📄 Artículo exclusivo Flexori</div>
+          <h4>El perfil de LinkedIn que atrae empleos remotos (y el que los espanta)</h4>
+          <p>Los reclutadores remotos buscan señales muy específicas en LinkedIn: palabras clave como "remote", "async", "distributed team", disponibilidad horaria, y evidencia de trabajo con equipos globales. Un perfil que no incluye estas señales simplemente no aparece en sus búsquedas, aunque tengas la experiencia perfecta. En Flexori analizamos cientos de perfiles exitosos y aquí están los 7 cambios que más impacto generan.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="https://www.linkedin.com/learning/rock-your-linkedin-profile" target="_blank" class="resource-card">
+            <div class="resource-type">🎓 Curso</div>
+            <div class="resource-title">Optimiza tu perfil de LinkedIn</div>
+            <div class="resource-source">LinkedIn Learning</div>
+          </a>
+          <a href="https://www.youtube.com/results?search_query=linkedin+profile+remote+job+2024" target="_blank" class="resource-card">
+            <div class="resource-type">📹 Video</div>
+            <div class="resource-title">LinkedIn para conseguir trabajo remoto</div>
+            <div class="resource-source">YouTube</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">✏️ Ejercicio semanal</div>
+          <h4>Audita y actualiza tu LinkedIn en 45 minutos</h4>
+          <p>Revisa estos 5 elementos: (1) Foto profesional con fondo neutro, (2) Titular con "Remote" o "Remote-ready", (3) About section mencionando zonas horarias y herramientas, (4) Experiencias con logros cuantificados, (5) Skills incluyendo herramientas remotas. Actualiza al menos 3 hoy.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dim-card">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(245,158,11,0.12)">📝</div>
+          <div><div class="dim-card-title">Escritura profesional en inglés</div>
+          <span class="dim-score-badge score-mid">Habilidad clave</span></div>
+        </div><span class="dim-chevron">▼</span>
+      </div>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">📄 Artículo exclusivo Flexori</div>
+          <h4>Escribir en inglés profesional sin miedo: la guía práctica para LATAM</h4>
+          <p>El mayor bloqueador para profesionales de LATAM no es el vocabulario — es el miedo a cometer errores. Los equipos remotos globales valoran la claridad y la consistencia sobre la perfección gramatical. Aprende las estructuras de email más usadas en empresas tech, cómo dar feedback en inglés sin sonar agresivo, y cómo escribir mensajes de Slack que generan acción, no confusión.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="https://www.coursera.org/learn/everyday-chinese" target="_blank" class="resource-card">
+            <div class="resource-type">📖 Guía</div>
+            <div class="resource-title">Comunicación escrita en entornos globales</div>
+            <div class="resource-source">Coursera</div>
+          </a>
+          <a href="https://hemingwayapp.com" target="_blank" class="resource-card">
+            <div class="resource-type">🛠️ Herramienta</div>
+            <div class="resource-title">Hemingway App — Claridad en tu escritura</div>
+            <div class="resource-source">Gratis online</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">✏️ Ejercicio semanal</div>
+          <h4>Escribe 3 emails profesionales en inglés</h4>
+          <p>Practica estos 3 formatos esenciales: (1) Email de introducción a un reclutador, (2) Follow-up después de una entrevista, (3) Request de feedback después de un rechazo. Usa ChatGPT para revisar el tono y gramática, luego guarda las versiones corregidas como plantillas.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end week-2 -->
+
+  <!-- WEEK 3 -->
   <div class="week-section" id="week-3">
     <div class="week-header">
       <h2>Semana 3 — Optimización</h2>
-      <p>Refina tu perfil, optimiza tu CV y prepárate para destacar en procesos de selección remotos.</p>
+      <p>Tu perfil ya tiene bases sólidas. Esta semana lo refinamos para que destaque entre cientos de candidatos y estés listo para el proceso de selección remoto.</p>
     </div>
-    <div style="position:relative;min-height:400px">
-      <div style="opacity:0.3;pointer-events:none">
-        <div class="dim-card"><div class="dim-card-header"><div class="dim-card-left"><div class="dim-icon" style="background:rgba(29,158,117,0.12)">💼</div><div><div class="dim-card-title">Optimización de LinkedIn para trabajo remoto</div></div></div></div></div>
-        <div class="dim-card" style="margin-top:12px"><div class="dim-card-header"><div class="dim-card-left"><div class="dim-icon" style="background:rgba(29,95,163,0.12)">📄</div><div><div class="dim-card-title">CV Optimizer — Análisis completo con IA</div></div></div></div></div>
+
+    <div class="dim-card">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(29,158,117,0.12)">📄</div>
+          <div><div class="dim-card-title">CV optimizado para empleos remotos</div>
+          <span class="dim-score-badge score-high">Con CV Optimizer IA</span></div>
+        </div><span class="dim-chevron">▼</span>
       </div>
-      <div class="locked-overlay">
-        <div class="locked-overlay-inner">
-          <div style="font-size:32px;margin-bottom:12px">🔒</div>
-          <h4>Desbloquea las semanas 2, 3 y 4</h4>
-          <p>Incluye acceso al CV Optimizer con IA y plan de optimización de perfil personalizado.</p>
-          <a href="/cv-optimizer.html#pricing" class="btn-unlock">Ver planes Pro y Plus →</a>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">📄 Artículo exclusivo Flexori</div>
+          <h4>El CV remoto perfecto: lo que los ATS y los reclutadores realmente buscan</h4>
+          <p>El 75% de CVs son filtrados por sistemas automáticos (ATS) antes de llegar a un humano. Para empleos remotos, esto es aún más crítico porque los reclutadores procesan volúmenes masivos de aplicaciones globales. Tu CV necesita superar dos filtros: el algoritmo y el humano. Aprende exactamente qué palabras clave incluir, cómo formatear para ATS, y qué elementos hacen que un reclutador remoto detenga el scroll.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="/cv-optimizer.html" class="resource-card">
+            <div class="resource-type">🤖 Herramienta IA</div>
+            <div class="resource-title">Flexori CV Optimizer — Analiza tu CV ahora</div>
+            <div class="resource-source">Incluido en tu plan</div>
+          </a>
+          <a href="https://www.youtube.com/results?search_query=ATS+resume+remote+job+2024" target="_blank" class="resource-card">
+            <div class="resource-type">📹 Video</div>
+            <div class="resource-title">Cómo pasar el filtro ATS para empleos remotos</div>
+            <div class="resource-source">YouTube</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">✏️ Ejercicio semanal</div>
+          <h4>Optimiza tu CV con IA esta semana</h4>
+          <p>Sube tu CV al Flexori CV Optimizer (incluido en tu plan). Implementa las 3 recomendaciones principales que recibes. Luego aplica el mismo CV a 2-3 empleos de prueba en Flexori Jobs y mide las respuestas. El objetivo es tener un CV con Score de Empleabilidad de 70+.</p>
         </div>
       </div>
     </div>
-  </div>
 
+    <div class="dim-card">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(29,95,163,0.12)">🎤</div>
+          <div><div class="dim-card-title">Entrevistas remotas — preparación completa</div>
+          <span class="dim-score-badge score-mid">Diferenciador clave</span></div>
+        </div><span class="dim-chevron">▼</span>
+      </div>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">📄 Artículo exclusivo Flexori</div>
+          <h4>Cómo brillar en entrevistas remotas: lo que nadie te dice</h4>
+          <p>Una entrevista remota no es igual a una presencial por video. Los entrevistadores remotos evalúan cosas adicionales: cómo manejas los silencios técnicos, si tu audio es profesional, si mantienes contacto visual con la cámara (no con la pantalla), y cómo describes tu experiencia de trabajo asíncrono. Los mejores candidatos remotos llegan con historias preparadas en formato STAR adaptadas específicamente para contextos distribuidos.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="https://www.youtube.com/results?search_query=remote+job+interview+tips+2024" target="_blank" class="resource-card">
+            <div class="resource-type">📹 Video</div>
+            <div class="resource-title">Tips para entrevistas de trabajo remoto</div>
+            <div class="resource-source">YouTube</div>
+          </a>
+          <a href="https://www.pramp.com" target="_blank" class="resource-card">
+            <div class="resource-type">🛠️ Práctica</div>
+            <div class="resource-title">Pramp — Practica entrevistas en vivo</div>
+            <div class="resource-source">Gratis</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">✏️ Ejercicio semanal</div>
+          <h4>Simula una entrevista remota completa</h4>
+          <p>Grábate respondiendo estas 5 preguntas comunes en entrevistas remotas: (1) ¿Cómo manejas tu productividad trabajando desde casa? (2) ¿Cómo te comunicas con un equipo en zona horaria diferente? (3) Cuéntame de un proyecto remoto exitoso. (4) ¿Qué herramientas usas para colaboración asíncrona? (5) ¿Cómo priorizas cuando tienes múltiples deadlines? Revisa el video y mejora 2 respuestas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dim-card">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(245,158,11,0.12)">🌐</div>
+          <div><div class="dim-card-title">Presencia digital profesional</div>
+          <span class="dim-score-badge score-mid">Portafolio activo</span></div>
+        </div><span class="dim-chevron">▼</span>
+      </div>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">📄 Artículo exclusivo Flexori</div>
+          <h4>Tu presencia digital como carta de presentación permanente</h4>
+          <p>En el mundo remoto, tu presencia digital trabaja por ti las 24 horas. Un perfil de GitHub activo, un Notion público con casos de estudio, o artículos en LinkedIn demuestran que eres un profesional que aprende en público — una de las señales más valoradas por equipos remotos. No necesitas publicar diariamente; necesitas tener evidencia actualizada de tu trabajo y pensamiento profesional.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="https://www.notion.so/templates/personal-portfolio" target="_blank" class="resource-card">
+            <div class="resource-type">🛠️ Template</div>
+            <div class="resource-title">Portfolio profesional en Notion</div>
+            <div class="resource-source">Notion (Gratis)</div>
+          </a>
+          <a href="https://www.youtube.com/results?search_query=personal+brand+remote+worker+2024" target="_blank" class="resource-card">
+            <div class="resource-type">📹 Video</div>
+            <div class="resource-title">Marca personal para trabajadores remotos</div>
+            <div class="resource-source">YouTube</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">✏️ Ejercicio semanal</div>
+          <h4>Publica un caso de estudio esta semana</h4>
+          <p>Elige un proyecto profesional (pasado o actual) y documéntalo en formato caso de estudio: contexto, problema, solución, resultado y aprendizaje. Publícalo en LinkedIn o en tu Notion público. Este único post puede ser más poderoso que 10 aplicaciones de trabajo.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end week-3 -->
+
+  <!-- WEEK 4 -->
   <div class="week-section" id="week-4">
     <div class="week-header">
       <h2>Semana 4 — Lanzamiento</h2>
-      <p>Aplica a tus primeros empleos remotos con confianza. Tu perfil está listo, tu historia está clara.</p>
+      <p>&#127881; Has llegado a la semana final. Tu perfil est&aacute; optimizado, tus habilidades est&aacute;n afiladas. Esta semana aplicas con estrategia y empiezas a construir tu carrera remota.</p>
     </div>
-    <div style="position:relative;min-height:400px">
-      <div style="opacity:0.3;pointer-events:none">
-        <div class="dim-card"><div class="dim-card-header"><div class="dim-card-left"><div class="dim-icon" style="background:rgba(29,158,117,0.12)">🚀</div><div><div class="dim-card-title">Estrategia de aplicación a empleos remotos</div></div></div></div></div>
-        <div class="dim-card" style="margin-top:12px"><div class="dim-card-header"><div class="dim-card-left"><div class="dim-icon" style="background:rgba(245,158,11,0.12)">🎯</div><div><div class="dim-card-title">Matching con empleos según tu Score final</div></div></div></div></div>
+
+    <div class="dim-card">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(29,158,117,0.12)">&#128640;</div>
+          <div><div class="dim-card-title">Estrategia de aplicaci&oacute;n a empleos remotos</div>
+          <span class="dim-score-badge score-high">Semana de lanzamiento</span></div>
+        </div><span class="dim-chevron">&#9660;</span>
       </div>
-      <div class="locked-overlay">
-        <div class="locked-overlay-inner">
-          <div style="font-size:32px;margin-bottom:12px">🔒</div>
-          <h4>Desbloquea las semanas 2, 3 y 4</h4>
-          <p>La semana de lanzamiento incluye matching con empleos reales según tu Score y estrategia personalizada de aplicación.</p>
-          <a href="/cv-optimizer.html#pricing" class="btn-unlock">Ver planes Pro y Plus →</a>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">&#128196; Art&iacute;culo exclusivo Flexori</div>
+          <h4>La estrategia de aplicaci&oacute;n que funciona en 2025: calidad sobre cantidad</h4>
+          <p>Aplicar a 50 empleos al azar genera menos resultados que aplicar a 5 con una estrategia clara. Los mejores candidatos remotos dedican el 70% de su tiempo a personalizar cada aplicaci&oacute;n y el 30% a hacer networking activo. En Flexori hemos analizado qu&eacute; combinaci&oacute;n genera m&aacute;s respuestas para candidatos de LATAM aplic ando a empresas globales, y los resultados son contraintuitivos.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="/jobs.html" class="resource-card">
+            <div class="resource-type">&#128188; Empleos</div>
+            <div class="resource-title">Flexori Jobs &mdash; Empleos remotos curados</div>
+            <div class="resource-source">Actualizado diariamente</div>
+          </a>
+          <a href="https://www.youtube.com/results?search_query=remote+job+application+strategy+2024" target="_blank" class="resource-card">
+            <div class="resource-type">&#128249; Video</div>
+            <div class="resource-title">Estrategia de aplicaci&oacute;n a empleos remotos</div>
+            <div class="resource-source">YouTube</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">&#9999;&#65039; Ejercicio de lanzamiento</div>
+          <h4>Aplica a 5 empleos con estrategia esta semana</h4>
+          <p>Selecciona 5 empleos en Flexori Jobs que se alineen con tu perfil. Para cada uno: (1) Personaliza tu CV con keywords del job description, (2) Escribe una cover letter de 3 p&aacute;rrafos espec&iacute;fica, (3) Conecta con alguien del equipo en LinkedIn antes de aplicar, (4) Registra todo en una hoja de seguimiento. Calidad sobre cantidad.</p>
         </div>
       </div>
     </div>
-  </div>
 
+    <div class="dim-card">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(29,95,163,0.12)">&#129309;</div>
+          <div><div class="dim-card-title">Networking estrat&eacute;gico para trabajo remoto</div>
+          <span class="dim-score-badge score-mid">El 80% de empleos no se publican</span></div>
+        </div><span class="dim-chevron">&#9660;</span>
+      </div>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">&#128196; Art&iacute;culo exclusivo Flexori</div>
+          <h4>C&oacute;mo hacer networking remoto sin sentirte falso ni desesperado</h4>
+          <p>El networking efectivo en el mundo remoto no es mandar mensajes gen&eacute;ricos de "me gustar&iacute;a conectar". Es participar en comunidades donde ya est&aacute;n los profesionales que quieres conocer, aportar valor antes de pedir algo, y construir relaciones aut&eacute;nticas a lo largo del tiempo. Las comunidades de Slack, Discord y LinkedIn son el equivalente remoto de las conferencias presenciales — y son m&aacute;s accesibles desde LATAM.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="https://remotists.com/slack-groups" target="_blank" class="resource-card">
+            <div class="resource-type">&#128101; Comunidades</div>
+            <div class="resource-title">Los mejores grupos de Slack para trabajo remoto</div>
+            <div class="resource-source">Remotists</div>
+          </a>
+          <a href="https://www.youtube.com/results?search_query=networking+remote+work+linkedin+strategy" target="_blank" class="resource-card">
+            <div class="resource-type">&#128249; Video</div>
+            <div class="resource-title">Networking estrat&eacute;gico en LinkedIn</div>
+            <div class="resource-source">YouTube</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">&#9999;&#65039; Ejercicio de lanzamiento</div>
+          <h4>Un&#233;te a 2 comunidades remotas esta semana</h4>
+          <p>Busca 2 comunidades online relevantes para tu &aacute;rea (Slack groups, Discord, comunidades de LinkedIn). Preséntate con un mensaje auténtico que incluya tu especialidad, en qué estás trabajando y qué tipo de conexiones buscas. Comenta en 3 publicaciones existentes aportando valor genuino antes de pedir cualquier cosa.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dim-card">
+      <div class="dim-card-header" onclick="toggleDim(this)">
+        <div class="dim-card-left">
+          <div class="dim-icon" style="background:rgba(245,158,11,0.12)">&#127919;</div>
+          <div><div class="dim-card-title">Tu Score final y plan de continuidad</div>
+          <span class="dim-score-badge score-high">Cierre del programa</span></div>
+        </div><span class="dim-chevron">&#9660;</span>
+      </div>
+      <div class="dim-card-body">
+        <div class="flexori-article">
+          <div class="flexori-article-badge">&#128196; Art&iacute;culo exclusivo Flexori</div>
+          <h4>Después de las 4 semanas: cómo mantener y seguir creciendo tu Score</h4>
+          <p>Completar el programa de 4 semanas es el comienzo, no el final. Los profesionales remotos más exitosos revisan su Score mensualmente, ajustan su estrategia según el mercado, y nunca dejan de aprender en público. Con tu Score actualizado, Flexori puede mostrarte exactamente qué empleos son los más compatibles con tu perfil actual y cuáles serán accesibles en 30, 60 y 90 días si sigues mejorando.</p>
+        </div>
+        <div class="resources-grid">
+          <a href="/" onclick="setTimeout(function(){if(typeof openScoreModal==='function')openScoreModal();},500)" class="resource-card">
+            <div class="resource-type">&#9889; Score</div>
+            <div class="resource-title">Repetir el Score ahora para medir tu progreso</div>
+            <div class="resource-source">Flexori &mdash; Gratis</div>
+          </a>
+          <a href="/jobs.html" class="resource-card">
+            <div class="resource-type">&#128188; Empleos</div>
+            <div class="resource-title">Ver empleos compatibles con tu Score</div>
+            <div class="resource-source">Flexori Jobs</div>
+          </a>
+        </div>
+        <div class="exercise-card">
+          <div class="exercise-badge">&#127881; Ejercicio final</div>
+          <h4>Haz tu Score final y celebra tu progreso</h4>
+          <p>Vuelve a hacer el Score de Empleabilidad en flexori.work. Compara tu resultado inicial con el actual. Escribe un párrafo honesto sobre lo que aprendiste estas 4 semanas y compártelo en LinkedIn con el hashtag #FlexoriScore. Tu progreso puede inspirar a otro profesional de LATAM a dar el primer paso.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end week-4 -->
 </div><!-- end learn-content -->
 
 <!-- UPGRADE MODAL -->
