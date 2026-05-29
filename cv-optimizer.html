@@ -500,7 +500,10 @@ function handleDrop(e) {
 }
 function handleFileSelect(e) {
   const file = e.target.files[0];
-  if (file) processFile(file);
+  if (file) {
+    try { gtag('event', 'cv_uploaded', { event_category: 'engagement', event_label: file.name.split('.').pop().toUpperCase() }); } catch(err) {}
+    processFile(file);
+  }
 }
 
 function processFile(file) {
@@ -542,6 +545,7 @@ function setAnalysisLang(lang) {
 
 // ── ANALIZAR CV ──
 async function analyzeCV() {
+  try { gtag('event', 'cv_analyzed', { event_category: 'engagement', event_label: 'CV Analysis Started' }); } catch(e) {}
   if (!selectedFile) return;
 
   const btn = document.getElementById('btn-analyze');
@@ -789,6 +793,7 @@ const PRICES = {
 };
 
 async function startCheckout(plan) {
+  try { gtag('event', 'checkout_started', { event_category: 'conversion', event_label: plan, value: plan === 'pro' ? 11.99 : 19 }); } catch(e) {}
   const btn = document.getElementById(`btn-${plan}`);
   if (btn) { btn.disabled = true; btn.textContent = 'Redirigiendo...'; }
 
