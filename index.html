@@ -29,6 +29,8 @@
   body{background:#0D1321;color:#fff;margin:0}
   nav{position:fixed;top:0;left:0;right:0;height:68px;background:rgba(13,19,33,0.92);z-index:200}
   .grid-bg,.orb{display:none}
+
+@keyframes cvSlide{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
 </style>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="//remotive.com">
@@ -2140,7 +2142,49 @@ function showFullScore(finalScore, breakdown, l) {
 
   document.getElementById('score-result').innerHTML = resultHTML;
   document.getElementById('score-modal').scrollTop = 0;
+
+  // CV OPTIMIZER POPUP
+  setTimeout(function() {
+    if (document.getElementById('cv-popup')) return;
+    var sc = finalScore >= 80 ? '#1D9E75' : finalScore >= 60 ? '#24C48F' : finalScore >= 40 ? '#F59E0B' : '#EF4444';
+    var T = {
+      en: { title: 'Want to improve your score?', sub: 'Our AI CV Optimizer analyzes your resume and shows you how to boost each dimension.', cta: 'Try CV Optimizer', skip: 'Maybe later' },
+      es: { title: '\u00bfQuieres mejorar tu score?', sub: 'Nuestro CV Optimizer con IA analiza tu hoja de vida y te muestra c\u00f3mo subir cada dimensi\u00f3n.', cta: 'Probar CV Optimizer', skip: 'Quiz\u00e1s despu\u00e9s' },
+      fr: { title: 'Vous voulez am\u00e9liorer votre score?', sub: 'Notre CV Optimizer IA analyse votre CV et vous montre comment am\u00e9liorer chaque dimension.', cta: 'Essayer le CV Optimizer', skip: 'Peut-\u00eatre plus tard' },
+      pt: { title: 'Quer melhorar seu score?', sub: 'Nosso CV Optimizer com IA analisa seu curr\u00edculo e mostra como melhorar cada dimens\u00e3o.', cta: 'Experimentar CV Optimizer', skip: 'Talvez depois' }
+    };
+    var lb = T[l] || T.en;
+    var overlay = document.createElement('div');
+    overlay.id = 'cv-popup-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:800;';
+    overlay.onclick = closeCVPopup;
+    var popup = document.createElement('div');
+    popup.id = 'cv-popup';
+    popup.style.cssText = 'position:fixed;bottom:24px;right:24px;width:min(340px,calc(100vw - 32px));background:#131B2E;border:1px solid rgba(29,158,117,0.45);border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.7);z-index:801;overflow:hidden;animation:cvSlide .4s cubic-bezier(0.16,1,0.3,1)';
+    popup.innerHTML = '<div style="height:3px;background:linear-gradient(90deg,#1D5FA3,#1D9E75)"></div>'
+      + '<div style="padding:18px 18px 14px">'
+      + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px">'
+      + '<div style="display:flex;align-items:center;gap:10px">'
+      + '<div style="width:38px;height:38px;background:rgba(29,158,117,0.15);border:1px solid rgba(29,158,117,0.3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0">&#128196;</div>'
+      + '<div><div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:#fff;line-height:1.3">' + lb.title + '</div>'
+      + '<div style="font-size:11px;color:' + sc + ';font-weight:600;margin-top:2px">Score ' + finalScore + '/100</div></div>'
+      + '</div>'
+      + '<button onclick="closeCVPopup()" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#A8A69E;font-size:13px;flex-shrink:0">&times;</button>'
+      + '</div>'
+      + '<p style="font-size:12px;color:#A8A69E;line-height:1.6;margin:0 0 12px">' + lb.sub + '</p>'
+      + '<a href="/cv-optimizer.html" onclick="closeCVPopup()" style="display:block;background:#1D9E75;color:#0D1321;border-radius:100px;padding:10px 14px;font-family:Syne,sans-serif;font-size:13px;font-weight:700;text-decoration:none;text-align:center;margin-bottom:7px">' + lb.cta + ' &#8594;</a>'
+      + '<button onclick="closeCVPopup()" style="display:block;width:100%;background:transparent;border:none;color:#A8A69E;font-family:DM Sans,sans-serif;font-size:11px;cursor:pointer;padding:2px">' + lb.skip + '</button>'
+      + '</div>';
+    document.body.appendChild(overlay);
+    document.body.appendChild(popup);
+  }, 2500);
 }
+
+function closeCVPopup() {
+  var o = document.getElementById('cv-popup-overlay');
+  var p = document.getElementById('cv-popup');
+  if (o) o.remove();
+  if (p) p.remove();
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeScoreModal(); closeJobModal(); closePostModal(); }
