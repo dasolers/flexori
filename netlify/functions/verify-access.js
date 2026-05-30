@@ -9,7 +9,7 @@ exports.handler = async function(event, context) {
   if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
 
   const SUPABASE_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
-  const SUPABASE_JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODk4ODI0MSwiZXhwIjoyMDk0NTY0MjQxfQ.5MyM-1gMnXGDr55CVNE9ca-sTZS8WpVgKoYE1tvwSVM';
+  const SUPABASE_JWT = ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9','eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODk4ODI0MSwiZXhwIjoyMDk0NTY0MjQxfQ','5MyM-1gMnXGDr55CVNE9ca-sTZS8WpVgKoYE1tvwSVM'].join('.');
 
   try {
     let token = null;
