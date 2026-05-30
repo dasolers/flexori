@@ -355,14 +355,16 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
   #testimonios [style*="grid-template-columns:repeat(3"]{grid-template-columns:1fr !important}
 
   nav{padding:0 24px}
-  .nav-links,.nav-right .btn-outline,.nav-right .btn-solid{display:none}
+  .nav-links,.nav-right .btn-outline{display:none}
+  .nav-right .btn-solid{display:flex;padding:9px 18px;font-size:13px}
   .ham{display:flex}
   .hero{padding:88px 24px 56px;gap:32px}
   h1{font-size:clamp(30px,7vw,46px)}
   h2{font-size:clamp(24px,5vw,36px)}
   .hero-sub{font-size:15px}
-  .hero-stats{flex-wrap:wrap;gap:8px}
-  .hstat{padding:0 12px}
+  .hero-stats{flex-wrap:wrap;gap:0;display:grid;grid-template-columns:1fr 1fr}
+  .hstat{padding:12px;border-right:none;border-bottom:1px solid var(--border)}
+  .hstat:nth-child(odd){border-right:1px solid var(--border)}
   .section{padding:60px 24px}
   .audience-inner{padding:0 24px}
   .aud-tab{padding:14px 16px;font-size:13px}
@@ -381,7 +383,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
 
   nav{padding:0 16px}
   .hero{padding:80px 16px 48px}
-  h1{font-size:clamp(28px,8vw,38px)}
+  h1{font-size:clamp(32px,9vw,42px);line-height:1.05}
   h2{font-size:clamp(22px,6.5vw,30px);letter-spacing:-0.5px}
   .hero-ctas{flex-direction:column}
   .hero-ctas a{width:100%;text-align:center}
@@ -393,9 +395,24 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
   .audience-inner{padding:0 16px}
   .aud-tab{padding:12px 8px;font-size:11px}
   .hstat-n{font-size:20px}
-  footer{padding:24px 16px}
-  .cta-wrap{padding:60px 16px}
+  footer{padding:24px 16px 80px}
+  .cta-wrap{padding:60px 16px 80px}
+  .mobile-sticky-cta{display:flex!important}
 }
+/* Mobile sticky CTA bar */
+.mobile-sticky-cta{
+  display:none;
+  position:fixed;
+  bottom:0;left:0;right:0;
+  background:rgba(13,19,33,0.97);
+  border-top:1px solid rgba(29,158,117,0.3);
+  padding:12px 16px;
+  z-index:400;
+  gap:10px;
+  backdrop-filter:blur(12px);
+}
+.mobile-sticky-cta .btn-solid{flex:1;text-align:center;padding:13px;font-size:14px}
+.mobile-sticky-cta .btn-score{flex:1;text-align:center;padding:13px;font-size:14px;border:1.5px solid rgba(29,158,117,0.5);border-radius:100px;color:#1D9E75;font-family:'Syne',sans-serif;font-weight:700;background:transparent;cursor:pointer}
 </style>
 </head>
 <body>
@@ -435,14 +452,16 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
+  <div style="display:flex;flex-direction:column;gap:8px;padding:8px 0 20px;border-bottom:1px solid rgba(255,255,255,0.07);margin-bottom:20px">
+    <a href="/dashboard.html" onclick="if(!localStorage.getItem('sb_access_token')){event.preventDefault();toggleMobile();openAuthModal('register');}" class="btn-solid" style="text-align:center;padding:15px;font-size:16px" data-i="nav_join">🚀 Empieza Gratis</a>
+    <a onclick="toggleMobile();openScoreModal();" style="cursor:pointer;text-align:center;padding:14px;font-size:15px;border:1.5px solid rgba(29,158,117,0.5);border-radius:100px;color:#1D9E75;font-family:'Syne',sans-serif;font-weight:700">⚡ <span data-i="cta_score">Get My Score</span></a>
+  </div>
   <a href="/jobs.html" onclick="toggleMobile()" data-i="nav_jobs">Jobs</a>
   <a href="/cv-optimizer.html" onclick="toggleMobile()">CV Optimizer ✨</a>
+  <a href="/learn.html" onclick="toggleMobile()">Centro de Carrera</a>
   <a href="#features" onclick="toggleMobile()" data-i="nav_feat">Features</a>
   <a href="#for-candidates" onclick="toggleMobile()" data-i="nav_cand">For Candidates</a>
-  <a href="#for-companies" onclick="setTab('comp');toggleMobile()" data-i="nav_comp">For Companies</a>
   <a href="#faq" onclick="toggleMobile()">FAQ</a>
-  <a onclick="toggleMobile();openScoreModal();" style="cursor:pointer" class="btn-solid" style="background:transparent;border:1px solid rgba(29,158,117,0.5);color:#1D9E75">&#9889; <span data-i="cta_score">Get My Score</span></a>
-  <a href="/dashboard.html" onclick="if(!localStorage.getItem('sb_access_token')){event.preventDefault();openAuthModal('register');}" class="btn-solid" style="margin-top:8px" data-i="nav_join">Empieza Gratis</a>
 </div>
 
 <!-- HERO -->
@@ -897,6 +916,12 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
   </div>
   <p class="form-note" style="margin-top:8px" data-i="wl_note">100% gratis. Sin tarjeta. Sin condiciones.</p>
   <div class="success" id="s1" data-i="wl_ok">✓ ¡Bienvenido a Flexori! Revisa tu correo para confirmar tu registro.</div>
+</div>
+
+<!-- MOBILE STICKY CTA BAR -->
+<div class="mobile-sticky-cta" id="mobileStickyBar" style="display:none">
+  <button class="btn-score" onclick="openScoreModal()">⚡ <span data-i="cta_score">Mi Score</span></button>
+  <a href="#" onclick="event.preventDefault();openAuthModal('register')" class="btn-solid" data-i="nav_join">Empieza Gratis</a>
 </div>
 
 <footer>
@@ -2512,6 +2537,22 @@ async function submitAuth() {
     btn.disabled = false;
   }
 }
+
+// Mobile sticky bar — aparece después de pasar el hero
+(function(){
+  var bar = document.getElementById('mobileStickyBar');
+  if(!bar) return;
+  var hero = document.getElementById('home');
+  var shown = false;
+  window.addEventListener('scroll', function(){
+    if(window.innerWidth > 860) { bar.style.display='none'; return; }
+    var heroBottom = hero ? hero.getBoundingClientRect().bottom : 300;
+    if(heroBottom < 0 && !shown){
+      bar.style.display='flex';
+      shown = true;
+    }
+  }, {passive:true});
+})();
 
 function updateNavForLoggedUser(email) {
   var joinBtn = document.querySelector('[data-i="nav_join"]');
