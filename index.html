@@ -29,6 +29,18 @@
   body{background:#0D1321;color:#fff;margin:0}
   nav{position:fixed;top:0;left:0;right:0;height:68px;background:rgba(13,19,33,0.92);z-index:200}
   .grid-bg,.orb{display:none}
+
+@media(max-width:900px){
+  #herramientas > div > div:last-child {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+@media(max-width:600px){
+  #herramientas > div > div:last-child {
+    grid-template-columns: 1fr !important;
+  }
+  #herramientas{padding:60px 20px !important}
+}
 </style>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="//remotive.com">
@@ -361,6 +373,9 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
   .passport-point{margin-bottom:14px}
 }
 @media(max-width:520px){
+  #herramientas{padding:60px 20px!important}
+  #herramientas > div > div:last-child{grid-template-columns:1fr!important}
+
   #score-modal{top:0!important;left:0!important;transform:none!important;width:100vw!important;max-height:100dvh!important;border-radius:0!important;border-left:none!important;border-right:none!important;}
   #score-modal-overlay{backdrop-filter:none}
 
@@ -413,7 +428,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
         <div class="lang-opt" onclick="setLang('pt')">🇧🇷 <span>PT</span><span class="ln">Português</span></div>
       </div>
     </div>
-    <a href="#waitlist" class="btn-solid" data-i="nav_join">Start Free</a>
+    <a href="/dashboard.html" onclick="if(!localStorage.getItem('sb_access_token')){event.preventDefault();openAuthModal('register');}" class="btn-solid" data-i="nav_join">Empieza Gratis</a>
     <button class="ham" onclick="toggleMobile()"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -427,7 +442,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
   <a href="#for-companies" onclick="setTab('comp');toggleMobile()" data-i="nav_comp">For Companies</a>
   <a href="#faq" onclick="toggleMobile()">FAQ</a>
   <a onclick="toggleMobile();openScoreModal();" style="cursor:pointer" class="btn-solid" style="background:transparent;border:1px solid rgba(29,158,117,0.5);color:#1D9E75">&#9889; <span data-i="cta_score">Get My Score</span></a>
-  <a href="#waitlist" onclick="toggleMobile()" class="btn-solid" style="margin-top:8px" data-i="nav_join">Start Free</a>
+  <a href="/dashboard.html" onclick="if(!localStorage.getItem('sb_access_token')){event.preventDefault();openAuthModal('register');}" class="btn-solid" style="margin-top:8px" data-i="nav_join">Empieza Gratis</a>
 </div>
 
 <!-- HERO -->
@@ -471,6 +486,111 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
 </div>
 
 <div class="divider"></div>
+
+
+<!-- TOOLS SECTION -->
+<section class="section" id="herramientas" style="padding:80px 48px;background:linear-gradient(180deg,var(--bg) 0%,rgba(29,95,163,0.04) 100%)">
+  <div style="max-width:1100px;margin:0 auto">
+    <p class="section-lbl" data-i="tools_lbl">Tu GPS de carrera remota</p>
+    <h2 style="font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-1.5px;margin-bottom:12px;line-height:1.1" data-i="tools_h2">Tres herramientas.<br><span style="color:var(--green)">Un solo destino.</span></h2>
+    <p class="section-sub" data-i="tools_sub">Flexori no es un job board. Es la plataforma que te dice dónde estás, te prepara para destacar y te conecta con el trabajo remoto que mereces.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px">
+
+      <!-- SCORE -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px;transition:border-color .2s;cursor:pointer;position:relative;overflow:hidden" onmouseover="this.style.borderColor='rgba(29,158,117,0.4)'" onmouseout="this.style.borderColor='var(--border)'" onclick="openScoreModal()">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1D5FA3,#1D9E75)"></div>
+        <div style="width:48px;height:48px;background:rgba(29,158,117,0.12);border:1px solid rgba(29,158,117,0.25);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800" data-i="tool1_title">Score de Empleabilidad</span>
+          <span style="background:rgba(29,158,117,0.15);color:#1D9E75;font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;text-transform:uppercase;letter-spacing:.5px">Gratis</span>
+        </div>
+        <p style="color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:20px" data-i="tool1_desc">Descubre tu nivel real de empleabilidad remota en 8 dimensiones. Como un score de crédito, pero para tu carrera. Sabe exactamente qué mejorar.</p>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#1D9E75">8</div>
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">dimensiones</div>
+          </div>
+          <div style="width:1px;height:32px;background:var(--border)"></div>
+          <div style="text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#1D9E75">3min</div>
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">para completar</div>
+          </div>
+          <div style="width:1px;height:32px;background:var(--border)"></div>
+          <div style="text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#1D9E75">100%</div>
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">personalizado</div>
+          </div>
+        </div>
+        <button onclick="openScoreModal()" style="width:100%;background:var(--green);color:#0D1321;border:none;border-radius:100px;padding:11px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s" onmouseover="this.style.background='#24C48F'" onmouseout="this.style.background='var(--green)'" data-i="tool1_cta">⚡ Obtener mi Score gratis</button>
+      </div>
+
+      <!-- CV OPTIMIZER -->
+      <div style="background:var(--surface);border:1px solid rgba(29,95,163,0.3);border-radius:20px;padding:28px;transition:border-color .2s;cursor:pointer;position:relative;overflow:hidden" onmouseover="this.style.borderColor='rgba(29,95,163,0.6)'" onmouseout="this.style.borderColor='rgba(29,95,163,0.3)'" onclick="window.location='/cv-optimizer.html'">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1D9E75,#1D5FA3)"></div>
+        <div style="position:absolute;top:16px;right:16px;background:rgba(245,158,11,0.15);color:#F59E0B;font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:.5px">Popular</div>
+        <div style="width:48px;height:48px;background:rgba(29,95,163,0.12);border:1px solid rgba(29,95,163,0.25);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6BA3D6" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800" data-i="tool2_title">CV Optimizer IA</span>
+        </div>
+        <p style="color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:20px" data-i="tool2_desc">Sube tu CV y nuestra IA lo analiza en segundos. Recibe recomendaciones específicas para trabajo remoto, optimización ATS y traducción al inglés incluida.</p>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#6BA3D6">30s</div>
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">análisis IA</div>
+          </div>
+          <div style="width:1px;height:32px;background:var(--border)"></div>
+          <div style="text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#6BA3D6">PDF</div>
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">+inglés</div>
+          </div>
+          <div style="width:1px;height:32px;background:var(--border)"></div>
+          <div style="text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#6BA3D6">ATS</div>
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">optimizado</div>
+          </div>
+        </div>
+        <a href="/cv-optimizer.html" style="display:block;width:100%;background:rgba(29,95,163,0.15);border:1px solid rgba(29,95,163,0.4);color:#6BA3D6;border-radius:100px;padding:11px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;text-decoration:none;text-align:center;transition:all .2s" onmouseover="this.style.background='rgba(29,95,163,0.3)'" onmouseout="this.style.background='rgba(29,95,163,0.15)'" data-i="tool2_cta">📄 Analizar mi CV ahora</a>
+      </div>
+
+      <!-- LEARN -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px;transition:border-color .2s;cursor:pointer;position:relative;overflow:hidden" onmouseover="this.style.borderColor='rgba(245,158,11,0.4)'" onmouseout="this.style.borderColor='var(--border)'" onclick="window.location='/learn.html'">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#F59E0B,#1D9E75)"></div>
+        <div style="width:48px;height:48px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800" data-i="tool3_title">Ruta de Carrera</span>
+          <span style="background:rgba(29,158,117,0.15);color:#1D9E75;font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;text-transform:uppercase;letter-spacing:.5px">Semana 1 gratis</span>
+        </div>
+        <p style="color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:20px" data-i="tool3_desc">Tu plan personalizado de 4 semanas basado en tu Score. Artículos exclusivos, recursos curados y ejercicios prácticos para conseguir trabajo remoto paso a paso.</p>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F59E0B">4</div>
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">semanas</div>
+          </div>
+          <div style="width:1px;height:32px;background:var(--border)"></div>
+          <div style="text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F59E0B">24</div>
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">recursos</div>
+          </div>
+          <div style="width:1px;height:32px;background:var(--border)"></div>
+          <div style="text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F59E0B">IA</div>
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">personalizada</div>
+          </div>
+        </div>
+        <a href="/learn.html" style="display:block;width:100%;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);color:#F59E0B;border-radius:100px;padding:11px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;text-decoration:none;text-align:center;transition:all .2s" onmouseover="this.style.background='rgba(245,158,11,0.2)'" onmouseout="this.style.background='rgba(245,158,11,0.1)'" data-i="tool3_cta">🗺️ Ver mi ruta gratis</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 
 <!-- AUDIENCE -->
 <div class="audience" id="for-candidates">
@@ -2238,6 +2358,194 @@ window.addEventListener('hashchange', () => {
     }, 3000);
   }
 })();
+</script>
+
+<!-- AUTH MODAL -->
+<div id="auth-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:600;backdrop-filter:blur(4px)" onclick="closeAuthModal()"></div>
+<div id="auth-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(440px,96vw);background:#131B2E;border:1px solid rgba(29,158,117,0.3);border-radius:24px;z-index:601;overflow:hidden">
+  <div style="height:3px;background:linear-gradient(90deg,#1D5FA3,#1D9E75)"></div>
+  <div style="padding:32px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#fff" id="auth-title">Crea tu cuenta gratis</div>
+        <div style="font-size:13px;color:#A8A69E;margin-top:4px" id="auth-subtitle">Guarda tu Score y accede a tu ruta personalizada</div>
+      </div>
+      <button onclick="closeAuthModal()" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#A8A69E;font-size:16px">&times;</button>
+    </div>
+
+    <!-- TABS -->
+    <div style="display:flex;background:rgba(255,255,255,0.04);border-radius:12px;padding:4px;margin-bottom:24px">
+      <button id="tab-register" onclick="switchAuthTab('register')" style="flex:1;padding:8px;border:none;border-radius:8px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;background:#1D9E75;color:#0D1321;transition:all .2s">Registrarse</button>
+      <button id="tab-login" onclick="switchAuthTab('login')" style="flex:1;padding:8px;border:none;border-radius:8px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:#A8A69E;transition:all .2s">Iniciar sesión</button>
+    </div>
+
+    <!-- FORM -->
+    <div id="auth-form">
+      <div style="margin-bottom:16px">
+        <label style="font-size:12px;font-weight:600;color:#A8A69E;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:6px">Email</label>
+        <input id="auth-email" type="email" placeholder="tu@email.com" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;color:#fff;font-size:14px;outline:none;box-sizing:border-box;transition:border-color .2s" onfocus="this.style.borderColor='rgba(29,158,117,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'" />
+      </div>
+      <div style="margin-bottom:20px">
+        <label style="font-size:12px;font-weight:600;color:#A8A69E;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:6px">Contraseña</label>
+        <input id="auth-password" type="password" placeholder="Mínimo 6 caracteres" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;color:#fff;font-size:14px;outline:none;box-sizing:border-box;transition:border-color .2s" onfocus="this.style.borderColor='rgba(29,158,117,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'" onkeydown="if(event.key==='Enter')submitAuth()" />
+      </div>
+      <div id="auth-error" style="display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#FCA5A5;margin-bottom:16px"></div>
+      <button onclick="submitAuth()" id="auth-btn" style="width:100%;background:#1D9E75;color:#0D1321;border:none;border-radius:100px;padding:13px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s" onmouseover="this.style.background='#24C48F'" onmouseout="this.style.background='#1D9E75'">Crear cuenta gratis</button>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div id="auth-success" style="display:none;text-align:center;padding:20px 0">
+      <div style="font-size:40px;margin-bottom:12px">✉️</div>
+      <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:8px">Revisa tu email</div>
+      <div style="font-size:13px;color:#A8A69E;line-height:1.6">Te enviamos un link de confirmación. Haz clic en él para activar tu cuenta.</div>
+    </div>
+
+    <p style="text-align:center;font-size:12px;color:#A8A69E;margin-top:16px">Al registrarte aceptas nuestros <a href="#" style="color:#1D9E75">Términos</a> y <a href="#" style="color:#1D9E75">Privacidad</a></p>
+  </div>
+</div>
+
+
+<script>
+
+// ── AUTH SYSTEM ──
+const SUPABASE_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0.eYJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9';
+
+let authMode = 'register';
+let currentUser = null;
+
+function openAuthModal(mode) {
+  mode = mode || 'register';
+  authMode = mode;
+  document.getElementById('auth-overlay').style.display = 'block';
+  document.getElementById('auth-modal').style.display = 'block';
+  switchAuthTab(mode);
+  document.getElementById('auth-error').style.display = 'none';
+  document.getElementById('auth-success').style.display = 'none';
+  document.getElementById('auth-form').style.display = 'block';
+  setTimeout(function(){ document.getElementById('auth-email').focus(); }, 100);
+  try { gtag('event', 'auth_modal_open', { event_category: 'engagement', event_label: mode }); } catch(e) {}
+}
+
+function closeAuthModal() {
+  document.getElementById('auth-overlay').style.display = 'none';
+  document.getElementById('auth-modal').style.display = 'none';
+}
+
+function switchAuthTab(mode) {
+  authMode = mode;
+  var isRegister = mode === 'register';
+  document.getElementById('tab-register').style.background = isRegister ? '#1D9E75' : 'transparent';
+  document.getElementById('tab-register').style.color = isRegister ? '#0D1321' : '#A8A69E';
+  document.getElementById('tab-login').style.background = !isRegister ? '#1D9E75' : 'transparent';
+  document.getElementById('tab-login').style.color = !isRegister ? '#0D1321' : '#A8A69E';
+  document.getElementById('auth-title').textContent = isRegister ? 'Crea tu cuenta gratis' : 'Iniciar sesión';
+  document.getElementById('auth-subtitle').textContent = isRegister ? 'Guarda tu Score y accede a tu ruta personalizada' : 'Bienvenido de vuelta a Flexori';
+  document.getElementById('auth-btn').textContent = isRegister ? 'Crear cuenta gratis' : 'Iniciar sesión';
+}
+
+async function submitAuth() {
+  var email = document.getElementById('auth-email').value.trim();
+  var password = document.getElementById('auth-password').value;
+  var errEl = document.getElementById('auth-error');
+  var btn = document.getElementById('auth-btn');
+
+  if (!email || !password) {
+    errEl.textContent = 'Por favor ingresa tu email y contraseña.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  btn.textContent = authMode === 'register' ? 'Creando cuenta...' : 'Iniciando sesión...';
+  btn.disabled = true;
+  errEl.style.display = 'none';
+
+  try {
+    var endpoint = authMode === 'register' 
+      ? SUPABASE_URL + '/auth/v1/signup'
+      : SUPABASE_URL + '/auth/v1/token?grant_type=password';
+
+    var res = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON },
+      body: JSON.stringify({ email: email, password: password })
+    });
+
+    var data = await res.json();
+
+    if (data.error || data.error_code) {
+      var msg = data.error_description || data.message || 'Error al procesar tu solicitud.';
+      if (msg.includes('already registered')) msg = 'Este email ya tiene una cuenta. Inicia sesión.';
+      if (msg.includes('Invalid login')) msg = 'Email o contraseña incorrectos.';
+      if (msg.includes('Password should be')) msg = 'La contraseña debe tener al menos 6 caracteres.';
+      errEl.textContent = msg;
+      errEl.style.display = 'block';
+      btn.textContent = authMode === 'register' ? 'Crear cuenta gratis' : 'Iniciar sesión';
+      btn.disabled = false;
+      return;
+    }
+
+    if (authMode === 'register') {
+      // Show email verification message
+      document.getElementById('auth-form').style.display = 'none';
+      document.getElementById('auth-success').style.display = 'block';
+      try { gtag('event', 'sign_up', { method: 'email' }); } catch(e) {}
+    } else {
+      // Login successful
+      if (data.access_token) {
+        localStorage.setItem('sb_access_token', data.access_token);
+        localStorage.setItem('sb_user_email', email);
+        localStorage.setItem('sb_user_id', data.user && data.user.id);
+        // Check if Pro/Plus
+        currentUser = { email: email, token: data.access_token };
+        closeAuthModal();
+        updateNavForLoggedUser(email);
+        try { gtag('event', 'login', { method: 'email' }); } catch(e) {}
+        // Redirect to dashboard
+        window.location.href = '/dashboard.html';
+      }
+    }
+  } catch(err) {
+    errEl.textContent = 'Error de conexión. Intenta de nuevo.';
+    errEl.style.display = 'block';
+    btn.textContent = authMode === 'register' ? 'Crear cuenta gratis' : 'Iniciar sesión';
+    btn.disabled = false;
+  }
+}
+
+function updateNavForLoggedUser(email) {
+  var joinBtn = document.querySelector('[data-i="nav_join"]');
+  if (joinBtn) {
+    joinBtn.textContent = email.split('@')[0];
+    joinBtn.href = '/dashboard.html';
+    joinBtn.onclick = null;
+  }
+}
+
+function checkAuthState() {
+  var token = localStorage.getItem('sb_access_token');
+  var email = localStorage.getItem('sb_user_email');
+  if (token && email) {
+    updateNavForLoggedUser(email);
+    currentUser = { email: email, token: token };
+  }
+}
+
+// Check auth on load
+document.addEventListener('DOMContentLoaded', function() {
+  checkAuthState();
+  // Wire up "Empieza Gratis" buttons to open auth modal
+  document.querySelectorAll('[data-i="nav_join"], [data-i="hero_join"]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      if (!localStorage.getItem('sb_access_token')) {
+        e.preventDefault();
+        openAuthModal('register');
+      }
+    });
+  });
+});
+
+
 </script>
 </body>
 </html>
