@@ -11,7 +11,7 @@ exports.handler = async function(event, context) {
 
   const STRIPE_SK = process.env.STRIPE_SECRET_KEY;
   const SUPABASE_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
-  const SUPABASE_KEY = process.env.SUPABASE_JWT_KEY || process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODk4ODI0MSwiZXhwIjoyMDk0NTY0MjQxfQ.5MyM-1gMnXGDr55CVNE9ca-sTZS8WpVgKoYE1tvwSVM';
+  const SUPABASE_KEY = process.env.SUPABASE_JWT_KEY || process.env.SUPABASE_SERVICE_KEY;
   const RESEND_KEY = process.env.RESEND_API_KEY_FULL || process.env.RESEND_API_KEY;
 
   let stripeEvent;
