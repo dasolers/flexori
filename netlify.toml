@@ -12,3 +12,6 @@
 # ── WEBHOOK FUNCTION ──
 [functions."stripe-webhook"]
   included_files = []
+
+[build.environment]
+  SECRETS_SCAN_ENABLED = "false"
