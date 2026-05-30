@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Crea tu cuenta — Flexori</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --green:#1D9E75;--green-light:#24C48F;
+  --black:#0D1321;--card:#131B2E;
+  --gray:#A8A69E;--border:rgba(255,255,255,0.08);
+  --border-green:rgba(29,158,117,0.35);
+}
+body{background:var(--black);color:#F0EEE6;font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;position:relative;overflow-x:hidden}
+
+/* Background orbs */
+.orb{position:fixed;border-radius:50%;filter:blur(80px);opacity:0.12;pointer-events:none;z-index:0}
+.orb1{width:400px;height:400px;background:#1D9E75;top:-100px;right:-100px}
+.orb2{width:300px;height:300px;background:#1D5FA3;bottom:-80px;left:-80px}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,19,33,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:100}
+.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:#fff}
+.nav-f{width:32px;height:32px;background:linear-gradient(135deg,#1D5FA3,#1D9E75);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:900;font-size:15px}
+.nav-name{font-family:'Syne',sans-serif;font-weight:800;font-size:17px}
+.nav-back{color:var(--gray);font-size:14px;text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s}
+.nav-back:hover{color:#fff}
+
+/* Card */
+.card{background:var(--card);border:1px solid var(--border-green);border-radius:24px;width:100%;max-width:440px;overflow:hidden;position:relative;z-index:1;margin-top:20px;animation:fadeUp .4s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.card-bar{height:3px;background:linear-gradient(90deg,#1D5FA3,#1D9E75)}
+.card-body{padding:36px 32px}
+
+/* Tabs */
+.tabs{display:flex;background:rgba(255,255,255,0.04);border-radius:12px;padding:4px;margin-bottom:28px;gap:4px}
+.tab{flex:1;padding:10px;border:none;border-radius:9px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;color:var(--gray);background:transparent}
+.tab.active{background:var(--green);color:var(--black)}
+
+/* Form */
+.field{margin-bottom:18px}
+.field label{display:block;font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px}
+.field input{width:100%;background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;color:#fff;font-size:15px;outline:none;transition:border-color .2s;font-family:'DM Sans',sans-serif}
+.field input:focus{border-color:var(--border-green)}
+.field input::placeholder{color:rgba(168,166,158,0.5)}
+
+/* Error */
+.error-box{display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:10px;padding:11px 14px;font-size:13px;color:#FCA5A5;margin-bottom:16px;line-height:1.5}
+
+/* Buttons */
+.btn-primary{width:100%;background:var(--green);color:var(--black);border:none;border-radius:100px;padding:14px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:12px}
+.btn-primary:hover{background:var(--green-light);transform:scale(1.01)}
+.btn-primary:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+
+/* Success state */
+.success-state{display:none;text-align:center;padding:12px 0}
+.success-icon{font-size:48px;margin-bottom:16px}
+.success-state h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#fff;margin-bottom:8px}
+.success-state p{color:var(--gray);font-size:14px;line-height:1.7}
+
+/* Benefits */
+.benefits{background:rgba(29,158,117,0.06);border:1px solid rgba(29,158,117,0.15);border-radius:14px;padding:20px;margin-bottom:24px}
+.benefits-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:14px}
+.benefit{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:14px;color:#F0EEE6}
+.benefit:last-child{margin-bottom:0}
+.benefit-dot{width:20px;height:20px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--black);font-weight:700;flex-shrink:0}
+
+/* Divider */
+.divider{text-align:center;color:var(--gray);font-size:12px;margin:12px 0;position:relative}
+.divider::before,.divider::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:var(--border)}
+.divider::before{left:0}.divider::after{right:0}
+
+/* Footer note */
+.note{text-align:center;font-size:12px;color:var(--gray);margin-top:20px;line-height:1.6}
+.note a{color:var(--green);text-decoration:none}
+
+@media(max-width:480px){
+  .card-body{padding:28px 20px}
+  nav{padding:14px 16px}
+}
+</style>
+</head>
+<body>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-f">F</div>
+    <span class="nav-name">Flexori</span>
+  </a>
+  <a href="/" class="nav-back">← Volver</a>
+</nav>
+
+<div class="card">
+  <div class="card-bar"></div>
+  <div class="card-body">
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" id="tab-reg" onclick="switchTab('register')">Crear cuenta</button>
+      <button class="tab" id="tab-log" onclick="switchTab('login')">Iniciar sesión</button>
+    </div>
+
+    <!-- Benefits (solo en registro) -->
+    <div class="benefits" id="benefits-block">
+      <div class="benefits-title">Tu GPS al mundo remoto — gratis</div>
+      <div class="benefit"><div class="benefit-dot">⚡</div>Score de Empleabilidad en 8 dimensiones</div>
+      <div class="benefit"><div class="benefit-dot">🌍</div>Pasaporte Remoto Digital verificado</div>
+      <div class="benefit"><div class="benefit-dot">💼</div>Empleos remotos de 180+ países</div>
+      <div class="benefit"><div class="benefit-dot">📊</div>Datos salariales en tiempo real</div>
+    </div>
+
+    <!-- Form -->
+    <div id="auth-form">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="reg-email" placeholder="tu@email.com" autocomplete="email" />
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" autocomplete="new-password" onkeydown="if(event.key==='Enter')submitForm()" />
+      </div>
+      <div class="error-box" id="error-msg"></div>
+      <button class="btn-primary" id="submit-btn" onclick="submitForm()">Crear cuenta gratis →</button>
+      <div class="note">Al registrarte aceptas nuestros <a href="#">Términos</a> y <a href="#">Privacidad</a><br>100% gratis · Sin tarjeta · Sin condiciones</div>
+    </div>
+
+    <!-- Success -->
+    <div class="success-state" id="success-state">
+      <div class="success-icon">✉️</div>
+      <h2>Revisa tu email</h2>
+      <p>Te enviamos un link de confirmación.<br>Haz clic en él para activar tu cuenta y acceder a tu dashboard.</p>
+      <div style="margin-top:24px">
+        <a href="/jobs.html" style="display:block;background:var(--green);color:var(--black);border-radius:100px;padding:13px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;text-decoration:none;text-align:center">Ver Empleos Remotos →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0.XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU';
+
+let mode = 'register';
+
+// Pre-fill email from URL param
+const params = new URLSearchParams(window.location.search);
+const preEmail = params.get('email');
+if(preEmail) document.getElementById('reg-email').value = preEmail;
+
+function switchTab(m) {
+  mode = m;
+  const isReg = m === 'register';
+  document.getElementById('tab-reg').className = 'tab' + (isReg ? ' active' : '');
+  document.getElementById('tab-log').className = 'tab' + (!isReg ? ' active' : '');
+  document.getElementById('benefits-block').style.display = isReg ? 'block' : 'none';
+  document.getElementById('reg-password').placeholder = isReg ? 'Mínimo 6 caracteres' : 'Tu contraseña';
+  document.getElementById('reg-password').autocomplete = isReg ? 'new-password' : 'current-password';
+  document.getElementById('submit-btn').textContent = isReg ? 'Crear cuenta gratis →' : 'Iniciar sesión →';
+  document.getElementById('error-msg').style.display = 'none';
+}
+
+async function submitForm() {
+  const email = document.getElementById('reg-email').value.trim();
+  const password = document.getElementById('reg-password').value;
+  const btn = document.getElementById('submit-btn');
+  const errEl = document.getElementById('error-msg');
+
+  if(!email || !email.includes('@')) {
+    showError('Ingresa un email válido.');
+    return;
+  }
+  if(password.length < 6) {
+    showError('La contraseña debe tener al menos 6 caracteres.');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = mode === 'register' ? 'Creando cuenta...' : 'Entrando...';
+  errEl.style.display = 'none';
+
+  try {
+    const endpoint = mode === 'register'
+      ? SUPABASE_URL + '/auth/v1/signup'
+      : SUPABASE_URL + '/auth/v1/token?grant_type=password';
+
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','apikey':SUPABASE_ANON},
+      body: JSON.stringify({email, password})
+    });
+
+    const data = await res.json();
+
+    if(data.error || data.error_code) {
+      let msg = data.error_description || data.message || 'Error al procesar.';
+      if(msg.includes('already registered')) msg = 'Este email ya tiene cuenta. Inicia sesión.';
+      if(msg.includes('Invalid login')) msg = 'Email o contraseña incorrectos.';
+      if(msg.includes('Password should be')) msg = 'La contraseña debe tener al menos 6 caracteres.';
+      showError(msg);
+      btn.disabled = false;
+      btn.textContent = mode === 'register' ? 'Crear cuenta gratis →' : 'Iniciar sesión →';
+      return;
+    }
+
+    if(mode === 'register') {
+      document.getElementById('auth-form').style.display = 'none';
+      document.getElementById('benefits-block').style.display = 'none';
+      document.getElementById('success-state').style.display = 'block';
+      document.querySelector('.tabs').style.display = 'none';
+    } else {
+      if(data.access_token) {
+        localStorage.setItem('sb_access_token', data.access_token);
+        localStorage.setItem('sb_user_email', email);
+        localStorage.setItem('sb_user_id', data.user?.id || '');
+        window.location.href = '/dashboard.html';
+      }
+    }
+  } catch(err) {
+    showError('Error de conexión. Intenta de nuevo.');
+    btn.disabled = false;
+    btn.textContent = mode === 'register' ? 'Crear cuenta gratis →' : 'Iniciar sesión →';
+  }
+}
+
+function showError(msg) {
+  const el = document.getElementById('error-msg');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+</script>
+</body>
+</html>
