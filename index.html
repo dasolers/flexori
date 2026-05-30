@@ -989,7 +989,7 @@ const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 function getEmailContent(email, language) {
   const templates = {
     en: {
-      subject: 'Welcome to Flexori 🌍 — You\'re on the list!',
+      subject: '🚀 Welcome to Flexori — Your GPS to the remote world',
       html: `
         <div style="background:#0D1321;min-height:100vh;padding:40px 20px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">
           <div style="max-width:560px;margin:0 auto">
@@ -1003,8 +1003,8 @@ function getEmailContent(email, language) {
               <div style="height:3px;background:linear-gradient(90deg,transparent,#1D9E75,transparent)"></div>
               <div style="padding:40px 36px">
                 <div style="font-size:36px;margin-bottom:16px;text-align:center">🌍</div>
-                <h1 style="font-size:26px;font-weight:800;color:#fff;text-align:center;margin:0 0 12px;line-height:1.2">You're on the waitlist!</h1>
-                <p style="font-size:15px;color:#A8A69E;text-align:center;margin:0 0 32px;line-height:1.7">Welcome to Flexori — the global platform for remote careers. We're building something genuinely different, and you're one of the first to know.</p>
+                <h1 style="font-size:26px;font-weight:800;color:#fff;text-align:center;margin:0 0 12px;line-height:1.2">Welcome to Flexori!</h1>
+                <p style="font-size:15px;color:#A8A69E;text-align:center;margin:0 0 32px;line-height:1.7">Flexori is live and it's yours. Here's what you can do today — free, no card, no catch.</p>
                 <div style="background:rgba(29,158,117,0.06);border:1px solid rgba(29,158,117,0.15);border-radius:14px;padding:24px;margin-bottom:24px">
                   <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#1D9E75;margin:0 0 16px;font-weight:600">What you'll get</p>
                   <div style="display:flex;flex-direction:column;gap:10px">
@@ -1027,7 +1027,7 @@ function getEmailContent(email, language) {
         </div>`
     },
     es: {
-      subject: '¡Bienvenido a Flexori 🌍 — Ya estás en la lista!',
+      subject: '🚀 Ya eres parte de Flexori — Tu GPS al mundo remoto',
       html: `
         <div style="background:#0D1321;min-height:100vh;padding:40px 20px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">
           <div style="max-width:560px;margin:0 auto">
@@ -1040,22 +1040,25 @@ function getEmailContent(email, language) {
             <div style="background:#131B2E;border:1px solid rgba(29,158,117,0.2);border-radius:20px;overflow:hidden">
               <div style="height:3px;background:linear-gradient(90deg,transparent,#1D9E75,transparent)"></div>
               <div style="padding:40px 36px">
-                <div style="font-size:36px;margin-bottom:16px;text-align:center">🌍</div>
-                <h1 style="font-size:26px;font-weight:800;color:#fff;text-align:center;margin:0 0 12px;line-height:1.2">¡Ya estás en la lista!</h1>
-                <p style="font-size:15px;color:#A8A69E;text-align:center;margin:0 0 32px;line-height:1.7">Bienvenido a Flexori — la plataforma global para carreras remotas. Estamos construyendo algo genuinamente diferente, y tú eres uno de los primeros en saberlo.</p>
-                <div style="background:rgba(29,158,117,0.06);border:1px solid rgba(29,158,117,0.15);border-radius:14px;padding:24px;margin-bottom:24px">
-                  <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#1D9E75;margin:0 0 16px;font-weight:600">Lo que obtendrás</p>
-                  <div style="display:flex;flex-direction:column;gap:10px">
-                    <div style="display:flex;align-items:center;gap:12px"><span style="width:24px;height:24px;background:#1D9E75;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#0D1321;font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:#fff">Pasaporte Remoto Digital — tu identidad global verificada</span></div>
-                    <div style="display:flex;align-items:center;gap:12px"><span style="width:24px;height:24px;background:#1D9E75;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#0D1321;font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:#fff">Score de Empleabilidad — sabe exactamente dónde estás</span></div>
-                    <div style="display:flex;align-items:center;gap:12px"><span style="width:24px;height:24px;background:#1D9E75;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#0D1321;font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:#fff">Centro de Inteligencia Remota — datos salariales en tiempo real</span></div>
-                    <div style="display:flex;align-items:center;gap:12px"><span style="width:24px;height:24px;background:#1D9E75;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#0D1321;font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:#fff">Acceso anticipado + estatus de miembro fundador</span></div>
+                <div style="font-size:40px;margin-bottom:16px;text-align:center">🧭</div>
+                <h1 style="font-size:26px;font-weight:800;color:#fff;text-align:center;margin:0 0 8px;line-height:1.2">¡Bienvenido a Flexori!</h1>
+                <p style="font-size:16px;color:#1D9E75;text-align:center;font-weight:700;margin:0 0 20px">Tu GPS hacia el mundo del trabajo remoto.</p>
+                <p style="font-size:15px;color:#A8A69E;text-align:center;margin:0 0 32px;line-height:1.7">Flexori ya está live y es tuyo. Aquí tienes todo lo que puedes hacer hoy mismo — gratis, sin tarjeta, sin condiciones.</p>
+                <div style="background:rgba(29,158,117,0.06);border:1px solid rgba(29,158,117,0.15);border-radius:14px;padding:24px;margin-bottom:28px">
+                  <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#1D9E75;margin:0 0 16px;font-weight:600">Empieza hoy mismo</p>
+                  <div style="display:flex;flex-direction:column;gap:12px">
+                    <div style="display:flex;align-items:flex-start;gap:12px"><span style="width:26px;height:26px;background:#1D9E75;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:#0D1321;font-weight:700;flex-shrink:0;margin-top:1px">1</span><div><span style="font-size:14px;color:#fff;font-weight:600">Obtén tu Score de Empleabilidad</span><br><span style="font-size:13px;color:#A8A69E">Descubre exactamente qué tan listo estás para el trabajo remoto en 8 dimensiones.</span></div></div>
+                    <div style="display:flex;align-items:flex-start;gap:12px"><span style="width:26px;height:26px;background:#1D9E75;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:#0D1321;font-weight:700;flex-shrink:0;margin-top:1px">2</span><div><span style="font-size:14px;color:#fff;font-weight:600">Crea tu Pasaporte Remoto Digital</span><br><span style="font-size:13px;color:#A8A69E">Tu identidad profesional verificada, reconocida globalmente.</span></div></div>
+                    <div style="display:flex;align-items:flex-start;gap:12px"><span style="width:26px;height:26px;background:#1D9E75;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:#0D1321;font-weight:700;flex-shrink:0;margin-top:1px">3</span><div><span style="font-size:14px;color:#fff;font-weight:600">Explora empleos remotos reales</span><br><span style="font-size:13px;color:#A8A69E">Miles de oportunidades actualizadas diariamente desde empresas en 180+ países.</span></div></div>
                   </div>
                 </div>
-                <div style="text-align:center;margin-bottom:24px">
-                  <a href="https://flexori.work/jobs.html" style="display:inline-block;background:#1D9E75;color:#0D1321;border-radius:100px;padding:14px 32px;font-size:15px;font-weight:700;text-decoration:none">Ver Empleos Remotos →</a>
+                <div style="text-align:center;margin-bottom:20px">
+                  <a href="https://flexori.work" style="display:inline-block;background:#1D9E75;color:#0D1321;border-radius:100px;padding:15px 36px;font-size:16px;font-weight:700;text-decoration:none">Ir a Flexori ahora →</a>
                 </div>
-                <p style="font-size:13px;color:#A8A69E;text-align:center;margin:0;line-height:1.6">Te notificaremos en el momento que Flexori abra sus puertas.<br>Eres miembro fundador #<strong style="color:#1D9E75">early</strong> 🚀</p>
+                <div style="text-align:center;margin-bottom:24px">
+                  <a href="https://flexori.work/jobs.html" style="display:inline-block;background:transparent;color:#1D9E75;border:1.5px solid rgba(29,158,117,0.4);border-radius:100px;padding:12px 28px;font-size:14px;font-weight:600;text-decoration:none">Ver Empleos Remotos →</a>
+                </div>
+                <p style="font-size:13px;color:#A8A69E;text-align:center;margin:0;line-height:1.7">Eres parte de los primeros miembros de Flexori 🌍<br>Construimos esto para ti. Cuéntanos cómo podemos hacerlo mejor — responde este email.</p>
               </div>
             </div>
             <div style="text-align:center;margin-top:32px">
