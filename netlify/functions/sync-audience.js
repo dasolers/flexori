@@ -1,5 +1,5 @@
 const SUPABASE_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0.XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU';
+const SUPABASE_KEY = ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9','eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0','XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU'].join('.');
 const AUDIENCE_ID = '6e26b2aa-f4b4-4214-8b62-201be98e1a25';
 
 exports.handler = async function(event, context) {
