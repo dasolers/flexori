@@ -445,7 +445,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
         <div class="lang-opt" onclick="setLang('pt')">🇧🇷 <span>PT</span><span class="ln">Português</span></div>
       </div>
     </div>
-    <a href="/dashboard.html" onclick="if(!localStorage.getItem('sb_access_token')){event.preventDefault();openAuthModal('register');}" class="btn-solid" data-i="nav_join">Empieza Gratis</a>
+    <a href="/register.html" class="btn-solid" data-i="nav_join">Empieza Gratis</a>
     <button class="ham" onclick="toggleMobile()"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -453,7 +453,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
   <div style="display:flex;flex-direction:column;gap:8px;padding:8px 0 20px;border-bottom:1px solid rgba(255,255,255,0.07);margin-bottom:20px">
-    <a href="/dashboard.html" onclick="if(!localStorage.getItem('sb_access_token')){event.preventDefault();toggleMobile();openAuthModal('register');}" class="btn-solid" style="text-align:center;padding:15px;font-size:16px" data-i="nav_join">🚀 Empieza Gratis</a>
+    <a href="/register.html" onclick="toggleMobile()" class="btn-solid" style="text-align:center;padding:15px;font-size:16px" data-i="nav_join">🚀 Empieza Gratis</a>
     <a onclick="toggleMobile();openScoreModal();" style="cursor:pointer;text-align:center;padding:14px;font-size:15px;border:1.5px solid rgba(29,158,117,0.5);border-radius:100px;color:#1D9E75;font-family:'Syne',sans-serif;font-weight:700">⚡ <span data-i="cta_score">Get My Score</span></a>
   </div>
   <a href="/jobs.html" onclick="toggleMobile()" data-i="nav_jobs">Jobs</a>
@@ -471,7 +471,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
     <p class="hero-sub" data-i="hero_sub">Build your remote career — not just find a job. Flexori is free and gives you the tools, data, and visibility to thrive in the global remote economy.</p>
     <div class="hero-ctas">
       <button id="score-cta-btn" onclick="openScoreModal()" class="btn-solid" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;padding:12px 26px;font-size:15px">&#9889; <span data-i="cta_score">Get My Free Score</span></button>
-      <a href="#" onclick="event.preventDefault();openAuthModal('register')" class="btn-outline" style="padding:12px 26px;font-size:15px" data-i="cta_join">Join Free →</a>
+      <a href="/register.html" class="btn-outline" style="padding:12px 26px;font-size:15px" data-i="cta_join">Join Free →</a>
       <a href="/jobs.html" style="display:inline-flex;align-items:center;gap:8px;background:rgba(29,158,117,0.12);border:1.5px solid rgba(29,158,117,0.5);border-radius:100px;padding:12px 26px;color:#1D9E75;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(29,158,117,0.22)';this.style.borderColor='#1D9E75'" onmouseout="this.style.background='rgba(29,158,117,0.12)';this.style.borderColor='rgba(29,158,117,0.5)'" data-i="cta_jobs">Browse Jobs →</a>
     </div>
     <div class="hero-stats">
@@ -631,7 +631,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
           <div class="aud-point"><span class="aud-point-dot">✓</span><span data-i="cp3">Access real-time salary data and negotiate with confidence</span></div>
           <div class="aud-point"><span class="aud-point-dot">✓</span><span data-i="cp4">Structured onboarding path if you're new to remote work</span></div>
         </div>
-        <a href="#" onclick="event.preventDefault();openAuthModal('register')" class="btn-solid" data-i="cand_cta">Join for Free →</a>
+        <a href="/register.html" class="btn-solid" data-i="cand_cta">Join for Free →</a>
       </div>
       <div class="aud-visual">
         <div class="job-card"><div class="job-logo">🎨</div><div class="job-info"><div class="job-title">Senior UX Designer <span style="font-size:9px;background:rgba(29,158,117,0.15);color:#1D9E75;border-radius:4px;padding:1px 5px;margin-left:4px">EJEMPLO</span></div><div class="job-co">Figma · Remote Worldwide</div><div class="job-tags"><span class="tag tag-green">$95k–$130k</span><span class="tag tag-blue">Full-time</span><span class="tag tag-gray">Design</span></div></div><div class="job-score"><div class="job-score-n">94</div><div class="job-score-l">match</div></div></div>
@@ -651,7 +651,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
           <div class="aud-point"><span class="aud-point-dot">✓</span><span data-i="cmp3">View verified Remote Digital Passports — no more unverifiable resumes</span></div>
           <div class="aud-point"><span class="aud-point-dot">✓</span><span data-i="cmp4">Access salary benchmarks for competitive, data-driven offers</span></div>
         </div>
-        <a href="#" onclick="event.preventDefault();openAuthModal('register')" class="btn-solid" data-i="comp_cta">Join for Free →</a>
+        <a href="/register.html" class="btn-solid" data-i="comp_cta">Join for Free →</a>
       </div>
       <div class="aud-visual">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
@@ -678,7 +678,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
       <div class="passport-point"><div class="pp-icon">✅</div><div><div class="pp-title" data-i="pp2t">Verified, not self-reported</div><div class="pp-desc" data-i="pp2d">Your Flexori Passport verifies skills, experience, and references through third-party validation. Employers trust it because it's earned.</div></div></div>
       <div class="passport-point"><div class="pp-icon">🌍</div><div><div class="pp-title" data-i="pp3t">Globally recognized</div><div class="pp-desc" data-i="pp3d">Companies in 180+ countries can read your Passport in their language. Your Employability Score travels with it.</div></div></div>
       <div class="passport-point"><div class="pp-icon">🔒</div><div><div class="pp-title" data-i="pp4t">You control your data</div><div class="pp-desc" data-i="pp4d">You decide what's visible and to whom. Your professional identity — on your terms.</div></div></div>
-      <a href="#" onclick="event.preventDefault();openAuthModal('register')" class="btn-solid" style="margin-top:8px" data-i="pass_cta">Get Your Free Passport →</a>
+      <a href="/register.html" class="btn-solid" style="margin-top:8px" data-i="pass_cta">Get Your Free Passport →</a>
     </div>
     <div style="position:sticky;top:88px">
       <div class="passport-card">
@@ -911,8 +911,8 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
   <h2 style="text-align:center;margin-bottom:14px" data-i="cta_h2">Your remote career starts <span style="color:var(--green)">here.</span></h2>
   <p style="font-size:16px;color:var(--gray);max-width:440px;margin:0 auto 32px;line-height:1.75;text-align:center" data-i="cta_sub">Join free today — get your Remote Employability Score, build your Digital Passport, and access the global remote job market. Founding member status for early joiners.</p>
   <div class="waitlist-form" id="wf1">
-    <input type="email" id="em1" data-i-ph="ph" placeholder="Enter your email address" onkeydown="if(event.key==='Enter'){var v=this.value.trim();if(v){document.getElementById('auth-email').value=v;}openAuthModal('register');}"/>
-    <button class="btn-solid" onclick="(function(){var v=document.getElementById('em1').value.trim();if(v){document.getElementById('auth-email').value=v;}openAuthModal('register');})()" data-i="wl_btn">Empieza Gratis — Recibe Ofertas →</button>
+    <input type="email" id="em1" data-i-ph="ph" placeholder="Enter your email address" onkeydown="if(event.key==='Enter'){var v=this.value.trim();window.location.href='/register.html'+(v?'?email='+encodeURIComponent(v):'');}"/>
+    <button class="btn-solid" onclick="(function(){var v=document.getElementById('em1').value.trim();window.location.href='/register.html'+(v?'?email='+encodeURIComponent(v):'');})()" data-i="wl_btn">Empieza Gratis — Recibe Ofertas →</button>
   </div>
   <p class="form-note" style="margin-top:8px" data-i="wl_note">100% gratis. Sin tarjeta. Sin condiciones.</p>
   <div class="success" id="s1" data-i="wl_ok">✓ ¡Bienvenido a Flexori! Revisa tu correo para confirmar tu registro.</div>
@@ -921,7 +921,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
 <!-- MOBILE STICKY CTA BAR -->
 <div class="mobile-sticky-cta" id="mobileStickyBar" style="display:none">
   <button class="btn-score" onclick="openScoreModal()">⚡ <span data-i="cta_score">Mi Score</span></button>
-  <a href="#" onclick="event.preventDefault();openAuthModal('register')" class="btn-solid" data-i="nav_join">Empieza Gratis</a>
+  <a href="/register.html" class="btn-solid" data-i="nav_join">Empieza Gratis</a>
 </div>
 
 <footer>
@@ -1175,17 +1175,15 @@ async function sendScoreEmail(email, language, finalScore, breakdown) {
   }
 }
 
-// ── WAITLIST JOIN → ahora abre modal de registro ──
+// ── WAITLIST JOIN → redirige a /register.html ──
 async function join(n){
   const inp = document.getElementById('em'+n);
-  if(!inp) { openAuthModal('register'); return; }
-  const email = inp.value.trim();
-  // Pre-llenar email en el modal si fue ingresado
+  const email = inp ? inp.value.trim() : '';
   if(email && email.includes('@')) {
-    var authEmail = document.getElementById('auth-email');
-    if(authEmail) authEmail.value = email;
+    window.location.href = '/register.html?email=' + encodeURIComponent(email);
+  } else {
+    window.location.href = '/register.html';
   }
-  openAuthModal('register');
 }
 
 function toggleMobile(){document.getElementById('mobileMenu').classList.toggle('open')}
@@ -1676,7 +1674,7 @@ setLang(lang);
     <div style="background:rgba(29,95,163,0.08);border:1px solid rgba(29,95,163,0.2);border-radius:16px;padding:20px;margin-bottom:24px">
       <p style="font-size:13px;color:#A8A69E;margin-bottom:6px;font-weight:500;color:#6ba3d6">Get alerts for jobs like this one</p>
       <p style="font-size:12px;color:#A8A69E;margin-bottom:12px">Join Flexori free and receive personalized remote job alerts matching your profile.</p>
-      <a href="#" onclick="closeJobModal();openAuthModal('register')" style="display:block;background:transparent;color:#1D9E75;border:1px solid rgba(29,158,117,0.4);border-radius:100px;padding:11px 28px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;text-decoration:none;text-align:center;transition:all .2s" onmouseover="this.style.background='rgba(29,158,117,0.1)'" onmouseout="this.style.background='transparent'">Start Free — Get Job Alerts →</a>
+      <a href="#" href="/register.html" onclick="closeJobModal()" style="display:block;background:transparent;color:#1D9E75;border:1px solid rgba(29,158,117,0.4);border-radius:100px;padding:11px 28px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;text-decoration:none;text-align:center;transition:all .2s" onmouseover="this.style.background='rgba(29,158,117,0.1)'" onmouseout="this.style.background='transparent'">Start Free — Get Job Alerts →</a>
     </div>
     <p style="font-size:11px;color:rgba(168,166,158,0.5);text-align:center">Source: Remotive.com · Flexori aggregates remote jobs from trusted sources</p>
   </div>
@@ -2275,7 +2273,7 @@ function showFullScore(finalScore, breakdown, l) {
       </a>
     </div>
 
-    <a href="#" onclick="closeScoreModal();openAuthModal('register')" style="display:block;background:#1D9E75;color:#0D1321;border-radius:100px;padding:13px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;text-decoration:none;text-align:center;margin-bottom:10px">${ctaText}</a>
+    <a href="#" href="/register.html" onclick="closeScoreModal()" style="display:block;background:#1D9E75;color:#0D1321;border-radius:100px;padding:13px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;text-decoration:none;text-align:center;margin-bottom:10px">${ctaText}</a>
     <button onclick="openScoreModal()" style="display:block;width:100%;background:transparent;border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:11px;color:#A8A69E;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">${retakeLabel}</button>
   `;
 
@@ -2569,7 +2567,7 @@ document.addEventListener('DOMContentLoaded', function() {
     btn.addEventListener('click', function(e) {
       if (!localStorage.getItem('sb_access_token')) {
         e.preventDefault();
-        openAuthModal('register');
+        window.location.href = '/register.html';
       }
     });
   });
