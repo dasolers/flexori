@@ -121,6 +121,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
 .exercise-card p{font-size:13px;color:var(--muted);line-height:1.6}
 .exercise-card ul{margin:8px 0 0 16px}
 .exercise-card ul li{font-size:13px;color:var(--muted);line-height:1.8}
+/* ── LESSON COMPLETE BUTTON ── */
+.complete-btn{display:flex;align-items:center;gap:8px;margin-top:20px;padding:10px 20px;
+  border-radius:100px;border:1.5px solid var(--border-green);background:transparent;
+  color:var(--green);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  cursor:pointer;transition:all .2s;width:fit-content}
+.complete-btn:hover{background:var(--green-dim)}
+.complete-btn.done{background:rgba(29,158,117,0.15);border-color:var(--green);color:var(--green)}
+.complete-btn.done::before{content:'✓ ';}
+.dim-card.completed{border-color:rgba(29,158,117,0.4)}
+.dim-card.completed .dim-card-header{background:rgba(29,158,117,0.04)}
+
 
 /* LOCKED OVERLAY */
 .locked-content{position:relative}
@@ -250,7 +261,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
             <li>Resultado o entregable concreto</li>
           </ul>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-remote-history" onclick="markComplete('dim-remote-history',1,this)">Marcar como completado</button>      </div>
     </div>
 
     <!-- DIMENSION 2: Remote Tools -->
@@ -288,7 +300,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Audita tu stack actual</h4>
           <p>Crea una lista de todas las herramientas que usas actualmente. Para cada una, evalúa tu nivel (básico / intermedio / avanzado) e identifica cuáles necesitas aprender según los empleos que te interesan.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-remote-tools" onclick="markComplete('dim-remote-tools',1,this)">Marcar como completado</button>      </div>
     </div>
 
     <!-- DIMENSION 3: Communication -->
@@ -326,7 +339,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Escribe tu primer update asíncrono</h4>
           <p>Elige un proyecto actual o pasado y escribe un update de estado de máximo 5 líneas que incluya: qué hiciste, qué sigue, si necesitas algo de alguien. Compártelo con alguien y pide feedback sobre claridad.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-communication" onclick="markComplete('dim-communication',1,this)">Marcar como completado</button>      </div>
     </div>
 
     <!-- DIMENSION 4: Reliability -->
@@ -364,7 +378,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Construye tu evidencia de confiabilidad</h4>
           <p>Lista 3 momentos donde cumpliste un compromiso bajo presión o anticipaste un problema. Escríbelos en formato STAR (Situación, Tarea, Acción, Resultado) para usarlos en entrevistas.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-reliability" onclick="markComplete('dim-reliability',1,this)">Marcar como completado</button>      </div>
     </div>
 
     <!-- DIMENSION 5: Setup -->
@@ -402,7 +417,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Audita tu setup en 10 minutos</h4>
           <p>Haz una videollamada de prueba y grábate. Evalúa: ¿se te escucha bien? ¿la imagen es clara? ¿el fondo es profesional? ¿la iluminación está de frente o de espaldas? Identifica los 2 cambios más impactantes que puedes hacer esta semana.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-setup" onclick="markComplete('dim-setup',1,this)">Marcar como completado</button>      </div>
     </div>
 
     <!-- DIMENSION 6: Languages -->
@@ -440,7 +456,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Grábate hablando en inglés por 2 minutos</h4>
           <p>Presenta tu experiencia profesional en inglés durante 2 minutos y grábate en video. Escúchate: ¿eres entendible? ¿usas vocabulario profesional? Este ejercicio muestra tu nivel real mejor que cualquier test.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-languages" onclick="markComplete('dim-languages',1,this)">Marcar como completado</button>      </div>
     </div>
 
     <!-- DIMENSION 7: Portfolio -->
@@ -478,7 +495,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Elige el formato de tu portafolio esta semana</h4>
           <p>Decide en qué plataforma vas a construir tu portafolio (LinkedIn, Notion, GitHub Pages, sitio web propio) y crea la estructura base con al menos un proyecto o caso de estudio documentado.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-portfolio" onclick="markComplete('dim-portfolio',1,this)">Marcar como completado</button>      </div>
     </div>
 
     <!-- DIMENSION 8: Flexibility -->
@@ -516,7 +534,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Mapea tu disponibilidad global</h4>
           <p>Crea un mapa de tu disponibilidad horaria en formato UTC. Identifica en qué zonas horarias (NY, Londres, Berlín, Singapur) coincides con horario laboral y en qué medida. Esto te ayudará a filtrar empleos compatibles con tu estilo de vida.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-flexibility" onclick="markComplete('dim-flexibility',1,this)">Marcar como completado</button>      </div>
     </div>
 
   </div><!-- end week-1 -->
@@ -530,7 +549,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
       <p>Esta semana construyes las bases sólidas en tus dimensiones más débiles. Cada recurso fue seleccionado por el equipo de Flexori para maximizar tu progreso en 7 días.</p>
     </div>
 
-    <div class="dim-card">
+    <div class="dim-card" id="dim-week2-card1">
       <div class="dim-card-header" onclick="toggleDim(this)">
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(29,158,117,0.12)">🎯</div>
@@ -561,10 +580,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Tu plan de 7 días enfocado</h4>
           <p>Elige tu dimensión con menor Score. Define una acción concreta para cada día de la semana (ej: Lunes → actualizar LinkedIn, Martes → grabar video de práctica). Al final del día 7, vuelve a hacer el Score y compara.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-week2-card1" onclick="markComplete('dim-week2-card1',2,this)">Marcar como completado</button>      </div>
     </div>
 
-    <div class="dim-card">
+    <div class="dim-card" id="dim-week2-card2">
       <div class="dim-card-header" onclick="toggleDim(this)">
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(29,95,163,0.12)">💼</div>
@@ -595,10 +615,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Audita y actualiza tu LinkedIn en 45 minutos</h4>
           <p>Revisa estos 5 elementos: (1) Foto profesional con fondo neutro, (2) Titular con "Remote" o "Remote-ready", (3) About section mencionando zonas horarias y herramientas, (4) Experiencias con logros cuantificados, (5) Skills incluyendo herramientas remotas. Actualiza al menos 3 hoy.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-week2-card2" onclick="markComplete('dim-week2-card2',2,this)">Marcar como completado</button>      </div>
     </div>
 
-    <div class="dim-card">
+    <div class="dim-card" id="dim-week2-card3">
       <div class="dim-card-header" onclick="toggleDim(this)">
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(245,158,11,0.12)">📝</div>
@@ -629,7 +650,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Escribe 3 emails profesionales en inglés</h4>
           <p>Practica estos 3 formatos esenciales: (1) Email de introducción a un reclutador, (2) Follow-up después de una entrevista, (3) Request de feedback después de un rechazo. Usa ChatGPT para revisar el tono y gramática, luego guarda las versiones corregidas como plantillas.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-week2-card3" onclick="markComplete('dim-week2-card3',2,this)">Marcar como completado</button>      </div>
     </div>
 
   </div><!-- end week-2 -->
@@ -641,7 +663,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
       <p>Tu perfil ya tiene bases sólidas. Esta semana lo refinamos para que destaque entre cientos de candidatos y estés listo para el proceso de selección remoto.</p>
     </div>
 
-    <div class="dim-card">
+    <div class="dim-card" id="dim-week3-card4">
       <div class="dim-card-header" onclick="toggleDim(this)">
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(29,158,117,0.12)">📄</div>
@@ -672,10 +694,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Optimiza tu CV con IA esta semana</h4>
           <p>Sube tu CV al Flexori CV Optimizer (incluido en tu plan). Implementa las 3 recomendaciones principales que recibes. Luego aplica el mismo CV a 2-3 empleos de prueba en Flexori Jobs y mide las respuestas. El objetivo es tener un CV con Score de Empleabilidad de 70+.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-week3-card4" onclick="markComplete('dim-week3-card4',3,this)">Marcar como completado</button>      </div>
     </div>
 
-    <div class="dim-card">
+    <div class="dim-card" id="dim-week3-card5">
       <div class="dim-card-header" onclick="toggleDim(this)">
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(29,95,163,0.12)">🎤</div>
@@ -706,10 +729,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Simula una entrevista remota completa</h4>
           <p>Grábate respondiendo estas 5 preguntas comunes en entrevistas remotas: (1) ¿Cómo manejas tu productividad trabajando desde casa? (2) ¿Cómo te comunicas con un equipo en zona horaria diferente? (3) Cuéntame de un proyecto remoto exitoso. (4) ¿Qué herramientas usas para colaboración asíncrona? (5) ¿Cómo priorizas cuando tienes múltiples deadlines? Revisa el video y mejora 2 respuestas.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-week3-card5" onclick="markComplete('dim-week3-card5',3,this)">Marcar como completado</button>      </div>
     </div>
 
-    <div class="dim-card">
+    <div class="dim-card" id="dim-week3-card6">
       <div class="dim-card-header" onclick="toggleDim(this)">
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(245,158,11,0.12)">🌐</div>
@@ -740,7 +764,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Publica un caso de estudio esta semana</h4>
           <p>Elige un proyecto profesional (pasado o actual) y documéntalo en formato caso de estudio: contexto, problema, solución, resultado y aprendizaje. Publícalo en LinkedIn o en tu Notion público. Este único post puede ser más poderoso que 10 aplicaciones de trabajo.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-week3-card6" onclick="markComplete('dim-week3-card6',3,this)">Marcar como completado</button>      </div>
     </div>
 
   </div><!-- end week-3 -->
@@ -752,7 +777,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
       <p>&#127881; Has llegado a la semana final. Tu perfil est&aacute; optimizado, tus habilidades est&aacute;n afiladas. Esta semana aplicas con estrategia y empiezas a construir tu carrera remota.</p>
     </div>
 
-    <div class="dim-card">
+    <div class="dim-card" id="dim-week4-card7">
       <div class="dim-card-header" onclick="toggleDim(this)">
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(29,158,117,0.12)">&#128640;</div>
@@ -783,10 +808,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Aplica a 5 empleos con estrategia esta semana</h4>
           <p>Selecciona 5 empleos en Flexori Jobs que se alineen con tu perfil. Para cada uno: (1) Personaliza tu CV con keywords del job description, (2) Escribe una cover letter de 3 p&aacute;rrafos espec&iacute;fica, (3) Conecta con alguien del equipo en LinkedIn antes de aplicar, (4) Registra todo en una hoja de seguimiento. Calidad sobre cantidad.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-week4-card7" onclick="markComplete('dim-week4-card7',4,this)">Marcar como completado</button>      </div>
     </div>
 
-    <div class="dim-card">
+    <div class="dim-card" id="dim-week4-card8">
       <div class="dim-card-header" onclick="toggleDim(this)">
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(29,95,163,0.12)">&#129309;</div>
@@ -817,10 +843,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Un&#233;te a 2 comunidades remotas esta semana</h4>
           <p>Busca 2 comunidades online relevantes para tu &aacute;rea (Slack groups, Discord, comunidades de LinkedIn). Preséntate con un mensaje auténtico que incluya tu especialidad, en qué estás trabajando y qué tipo de conexiones buscas. Comenta en 3 publicaciones existentes aportando valor genuino antes de pedir cualquier cosa.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-week4-card8" onclick="markComplete('dim-week4-card8',4,this)">Marcar como completado</button>      </div>
     </div>
 
-    <div class="dim-card">
+    <div class="dim-card" id="dim-week4-card9">
       <div class="dim-card-header" onclick="toggleDim(this)">
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(245,158,11,0.12)">&#127919;</div>
@@ -851,7 +878,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
           <h4>Haz tu Score final y celebra tu progreso</h4>
           <p>Vuelve a hacer el Score de Empleabilidad en flexori.work. Compara tu resultado inicial con el actual. Escribe un párrafo honesto sobre lo que aprendiste estas 4 semanas y compártelo en LinkedIn con el hashtag #FlexoriScore. Tu progreso puede inspirar a otro profesional de LATAM a dar el primer paso.</p>
         </div>
-      </div>
+
+        <button class="complete-btn" id="btn-dim-week4-card9" onclick="markComplete('dim-week4-card9',4,this)">Marcar como completado</button>      </div>
     </div>
 
   </div><!-- end week-4 -->
@@ -947,10 +975,136 @@ function closeUpgrade() {
   document.getElementById('upgrade-modal').style.display = 'none';
 }
 
+
+// ── SUPABASE CONFIG ──
+var SUPA_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
+var SUPA_KEY = ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+  'eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0',
+  'XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU'].join('.');
+
+// ── PROGRESS STATE ──
+var learnProgress = { completed_lessons: [], completed_weeks: [] };
+
+// Cargar progreso guardado al iniciar
+function loadProgress() {
+  // Primero desde localStorage (rápido)
+  var local = localStorage.getItem('flexori_learn_progress');
+  if (local) {
+    try {
+      learnProgress = JSON.parse(local);
+      applyProgressUI();
+    } catch(e) {}
+  }
+  // Luego desde Supabase si está logueado
+  var email = localStorage.getItem('sb_user_email');
+  var token = localStorage.getItem('sb_access_token');
+  if (!email) return;
+  fetch(SUPA_URL + '/rest/v1/learn_progress?email=eq.' + encodeURIComponent(email) + '&limit=1', {
+    headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + (token || SUPA_KEY) }
+  }).then(function(r){ return r.json(); }).then(function(rows){
+    if (rows && rows.length > 0) {
+      learnProgress = {
+        completed_lessons: rows[0].completed_lessons || [],
+        completed_weeks: rows[0].completed_weeks || []
+      };
+      localStorage.setItem('flexori_learn_progress', JSON.stringify(learnProgress));
+      applyProgressUI();
+    }
+  }).catch(function(){});
+}
+
+// Aplicar estado visual del progreso guardado
+function applyProgressUI() {
+  learnProgress.completed_lessons.forEach(function(lessonId) {
+    var btn = document.getElementById('btn-' + lessonId);
+    var card = document.getElementById(lessonId);
+    if (btn) { btn.textContent = 'Completado'; btn.classList.add('done'); }
+    if (card) card.classList.add('completed');
+  });
+  updateProgressBar();
+}
+
+// Marcar lección como completada
+function markComplete(lessonId, weekNum, btn) {
+  if (learnProgress.completed_lessons.indexOf(lessonId) !== -1) return;
+  
+  // Actualizar UI inmediatamente
+  btn.textContent = 'Completado';
+  btn.classList.add('done');
+  var card = document.getElementById(lessonId);
+  if (card) card.classList.add('completed');
+  
+  // Actualizar estado
+  learnProgress.completed_lessons.push(lessonId);
+  
+  // Verificar si completó la semana completa
+  var weekLessons = document.querySelectorAll('#week-' + weekNum + ' .complete-btn');
+  var completedInWeek = document.querySelectorAll('#week-' + weekNum + ' .complete-btn.done').length;
+  if (completedInWeek >= weekLessons.length && learnProgress.completed_weeks.indexOf(weekNum) === -1) {
+    learnProgress.completed_weeks.push(weekNum);
+    showWeekComplete(weekNum);
+  }
+  
+  updateProgressBar();
+  
+  // Guardar en localStorage
+  localStorage.setItem('flexori_learn_progress', JSON.stringify(learnProgress));
+  
+  // Guardar en Supabase
+  saveProgressToSupabase();
+  
+  try { gtag('event', 'lesson_completed', { event_category: 'engagement', event_label: lessonId, value: weekNum }); } catch(e) {}
+}
+
+// Guardar progreso en Supabase
+function saveProgressToSupabase() {
+  var email = localStorage.getItem('sb_user_email');
+  if (!email) return;
+  var token = localStorage.getItem('sb_access_token');
+  
+  fetch(SUPA_URL + '/rest/v1/learn_progress', {
+    method: 'POST',
+    headers: {
+      'apikey': SUPA_KEY,
+      'Authorization': 'Bearer ' + (token || SUPA_KEY),
+      'Content-Type': 'application/json',
+      'Prefer': 'resolution=merge-duplicates'
+    },
+    body: JSON.stringify({
+      email: email,
+      completed_lessons: learnProgress.completed_lessons,
+      completed_weeks: learnProgress.completed_weeks,
+      updated_at: new Date().toISOString()
+    })
+  }).catch(function(){});
+}
+
+// Actualizar barra de progreso basada en lecciones completadas
+function updateProgressBar() {
+  var totalLessons = document.querySelectorAll('.complete-btn').length;
+  if (totalLessons === 0) return;
+  var completed = learnProgress.completed_lessons.length;
+  var pct = Math.round((completed / totalLessons) * 100);
+  var fill = document.getElementById('progress-fill');
+  var label = document.getElementById('progress-label');
+  if (fill) fill.style.width = pct + '%';
+  if (label) label.textContent = completed + ' de ' + totalLessons + ' lecciones completadas';
+}
+
+// Celebración al completar una semana
+function showWeekComplete(weekNum) {
+  var msg = document.createElement('div');
+  msg.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#1D9E75;color:#0D1321;padding:14px 28px;border-radius:100px;font-family:Syne,sans-serif;font-weight:700;font-size:14px;z-index:999;animation:fadeUp .3s ease';
+  msg.textContent = '🎉 ¡Semana ' + weekNum + ' completada!';
+  document.body.appendChild(msg);
+  setTimeout(function(){ msg.remove(); }, 3500);
+}
+
 // ── SCORE FROM LOCALSTORAGE OR URL ──
 document.addEventListener('DOMContentLoaded', function() {
   var plan = detectPlan();
   unlockPaidWeeks(plan);
+  loadProgress();
 
   var params = new URLSearchParams(window.location.search);
   var score = parseInt(params.get('score')) || 0;
@@ -1005,3 +1159,4 @@ if ('serviceWorker' in navigator) {
 </script>
 </body>
 </html>
+
