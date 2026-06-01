@@ -191,7 +191,7 @@ async function submitForm() {
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: {'Content-Type':'application/json','apikey':SUPABASE_ANON},
-      body: JSON.stringify({email, password})
+      body: JSON.stringify({email, password, options: {emailRedirectTo: 'https://flexori.work/dashboard.html'}})
     });
 
     const data = await res.json();
@@ -235,3 +235,4 @@ function showError(msg) {
 </script>
 </body>
 </html>
+
