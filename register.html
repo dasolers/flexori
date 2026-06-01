@@ -212,6 +212,12 @@ async function submitForm() {
       document.getElementById('benefits-block').style.display = 'none';
       document.getElementById('success-state').style.display = 'block';
       document.querySelector('.tabs').style.display = 'none';
+      // Agregar a audiencia Resend
+      fetch('/.netlify/functions/send-email', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({to: email, addToAudience: true})
+      }).catch(() => {});
     } else {
       if(data.access_token) {
         localStorage.setItem('sb_access_token', data.access_token);
@@ -235,4 +241,5 @@ function showError(msg) {
 </script>
 </body>
 </html>
+
 
