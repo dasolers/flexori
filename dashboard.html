@@ -382,22 +382,26 @@ async function loadDashboard(email, token) {
           breakdownHtml += '</div>';
           document.getElementById('score-breakdown').innerHTML = breakdownHtml;
         }
-        // Guardar score en Supabase si el usuario está logueado
-        var userId = localStorage.getItem('sb_user_id');
-        if (userId) {
-          fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + userId, {
-            method: 'PATCH',
-            headers: {
-              'apikey': SUPABASE_ANON,
-              'Authorization': 'Bearer ' + token,
-              'Content-Type': 'application/json',
-              'Prefer': 'return=minimal'
-            },
-            body: JSON.stringify({ score: score, score_breakdown: breakdown, score_updated_at: new Date().toISOString() })
-          }).catch(function(){});
-        }
       }
     } catch(e) {}
+  } else {
+    // Sin localStorage — buscar score en Supabase por email
+    if (email) {
+      fetch(SUPABASE_URL + '/rest/v1/employability_scores?email=eq.' + encodeURIComponent(email) + '&order=created_at.desc&limit=1&select=score,answers', {
+        headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + token }
+      }).then(function(r){ return r.json(); }).then(function(rows){
+        if (rows && rows.length > 0 && rows[0].score) {
+          var score = rows[0].score;
+          var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
+          document.getElementById('stat-score').textContent = score;
+          document.getElementById('stat-score').style.color = color;
+          document.getElementById('score-ring').textContent = score;
+          document.getElementById('score-ring').style.borderColor = color;
+          document.getElementById('score-ring').style.color = color;
+          document.getElementById('score-card-sub').textContent = 'Tu Score más reciente';
+        }
+      }).catch(function(){});
+    }
   }
 }
 
