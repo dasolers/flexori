@@ -182,6 +182,28 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
     </div>
   </div>
 
+
+  <!-- AMBASSADOR -->
+  <div class="dash-card" style="margin-top:20px;background:linear-gradient(135deg,rgba(29,95,163,0.1),rgba(29,158,117,0.08));border-color:var(--border-green)">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <div class="card-title">🌎 Programa de Embajadores</div>
+        <div class="card-sub" style="margin-bottom:0">Comparte Flexori y gana recompensas. Por cada 10 referidos: 1 mes Pro gratis.</div>
+      </div>
+      <a href="/ambassadors.html" class="btn-sm btn-solid" style="text-decoration:none;white-space:nowrap">Ver programa →</a>
+    </div>
+    <div id="ambassador-stats" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+        <div><div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--green)" id="amb-count">0</div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Referidos</div></div>
+        <div style="flex:1">
+          <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Tu link de embajador</div>
+          <div id="amb-link" onclick="copyAmbLink()" style="background:rgba(29,158,117,0.08);border:1px solid var(--border-green);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--green);font-family:'Syne',sans-serif;font-weight:700;cursor:pointer;word-break:break-all">Cargando...</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Toca para copiar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- QUICK ACTIONS -->
   <div class="action-grid">
     <a href="/" onclick="setTimeout(function(){if(typeof openScoreModal==='function')openScoreModal();},500)" class="action-card">
@@ -345,6 +367,7 @@ async function loadDashboard(email, token) {
   var name = email.split('@')[0];
   document.getElementById('user-name').textContent = name;
   document.getElementById('nav-email').textContent = email;
+    loadAmbassadorStats(email);
 
   var hour = new Date().getHours();
   var greeting = hour < 12 ? 'Buenos días' : hour < 18 ? 'Buenas tardes' : 'Buenas noches';
