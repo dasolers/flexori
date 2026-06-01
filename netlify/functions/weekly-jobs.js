@@ -204,25 +204,10 @@ exports.handler = async function(event, context) {
   try {
     const RESEND_KEY_FULL = process.env.RESEND_API_KEY_FULL;
 
-    // Obtener contactos del Audience
-    const contactsRes = await fetch(`https://api.resend.com/audiences/${AUDIENCE_ID}/contacts`, {
-      headers: { 'Authorization': `Bearer ${RESEND_KEY_FULL}` }
-    });
-    const contactsData = await contactsRes.json();
-    const contacts = (contactsData.data || []).filter(c => !c.unsubscribed);
-
-    if (contacts.length === 0) {
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({ message: 'No contacts yet', count: 0 })
-      };
-    }
-
     // Obtener empleos operativos
     const jobs = await fetchOperativeJobs();
 
-    // Crear y enviar Broadcast
+    // Crear y enviar Broadcast directo a la audiencia
     const emailContent = buildEmailHTML(jobs, 'es');
 
     const broadcastRes = await fetch('https://api.resend.com/broadcasts', {
@@ -242,15 +227,22 @@ exports.handler = async function(event, context) {
 
     const broadcastData = await broadcastRes.json();
 
+    if (broadcastData.error) {
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({ error: broadcastData.error, details: broadcastData })
+      };
+    }
+
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
         success: true,
         broadcast_id: broadcastData.id,
-        contacts_count: contacts.length,
         jobs_shown: jobs.map(j => j.title),
-        message: `Weekly email sent to ${contacts.length} contacts`
+        message: 'Weekly email broadcast sent successfully'
       })
     };
 
