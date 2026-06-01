@@ -1003,7 +1003,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
     <li><a href="#faq">FAQ</a></li>
     <li><a href="mailto:hola@flexori.work">Contact</a></li>
   </ul>
-  <p class="foot-copy">© 2026 Flexori · flexori.work</p>
+  <p class="foot-copy">© 2026 Flexori · <a href="/ambassadors.html" style="color:var(--green);text-decoration:none">Programa de Embajadores</a> · flexori.work</p>
 </footer>
 
 <script>
@@ -2194,6 +2194,19 @@ async function revealScore() {
   } catch(e) {}
   try { gtag('event', 'score_completed', { event_category: 'conversion', value: finalScore, event_label: 'Score Revealed' }); } catch(e) {}
   showFullScore(finalScore, breakdown, l);
+  setTimeout(showAmbassadorBanner, 3000);
+}
+
+
+// ── AMBASSADOR BANNER POST-SCORE ──
+function showAmbassadorBanner() {
+  if (document.getElementById('amb-banner')) return;
+  var banner = document.createElement('div');
+  banner.id = 'amb-banner';
+  banner.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);width:min(480px,92vw);background:linear-gradient(135deg,rgba(29,95,163,0.95),rgba(29,158,117,0.95));border-radius:16px;padding:16px 20px;z-index:999;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 20px 60px rgba(0,0,0,0.4);backdrop-filter:blur(10px)';
+  banner.innerHTML = '<div><div style="font-family:Syne,sans-serif;font-size:14px;font-weight:800;color:#fff;margin-bottom:2px">¿Conoces a alguien que necesite esto? 🚀</div><div style="font-size:12px;color:rgba(255,255,255,0.8)">Gana <strong>$2-$3 USD</strong> por cada persona que se suscriba con tu link</div></div><div style="display:flex;gap:8px;flex-shrink:0"><a href="/ambassadors.html" style="background:#fff;color:#0D1321;border-radius:100px;padding:8px 16px;font-family:Syne,sans-serif;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap">Ver programa →</a><button onclick="document.getElementById('amb-banner').remove()" style="background:rgba(255,255,255,0.15);border:none;border-radius:100px;padding:8px 12px;color:#fff;font-size:12px;cursor:pointer">✕</button></div>';
+  document.body.appendChild(banner);
+  setTimeout(function(){ if(document.getElementById('amb-banner')) document.getElementById('amb-banner').remove(); }, 12000);
 }
 
 function showFullScore(finalScore, breakdown, l) {
