@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Publica tu Vacante Remota — Flexori</title>
+<meta name="description" content="Publica tu vacante remota en Flexori y llega a miles de profesionales LATAM calificados.">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#1D9E75">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#0D1321;color:#F0EEE6;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+:root{
+  --black:#0D1321;--green:#1D9E75;--green-light:#24C48F;--blue:#1D5FA3;
+  --gray:#A8A69E;--white:#F0EEE6;--surface:#131B2E;--surface2:#1A2338;
+  --green-dim:rgba(29,158,117,0.12);--border:rgba(255,255,255,0.07);
+  --border-green:rgba(29,158,117,0.25);--muted:#A8A69E;--gold:#F59E0B
+}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;
+  justify-content:space-between;padding:0 48px;height:68px;
+  background:rgba(13,19,33,0.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--green));border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#fff}
+.nav-logo-text{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.btn-solid{background:var(--green);color:var(--black);border:none;border-radius:100px;
+  padding:10px 24px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;
+  cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
+.btn-solid:hover{background:var(--green-light)}
+
+/* HERO */
+.hero{padding:110px 48px 60px;max-width:800px;margin:0 auto;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(29,158,117,0.1);
+  border:1px solid var(--border-green);border-radius:100px;padding:6px 16px;
+  font-size:12px;color:var(--green);margin-bottom:24px}
+h1{font-family:'Syne',sans-serif;font-size:clamp(32px,5vw,52px);font-weight:800;
+  line-height:1.05;letter-spacing:-1.5px;margin-bottom:16px}
+.hero-sub{font-size:16px;color:var(--muted);max-width:560px;margin:0 auto 40px;line-height:1.7}
+
+/* STATS */
+.stats{display:flex;justify-content:center;gap:40px;margin-bottom:60px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-n{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--green)}
+.stat-l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+
+/* FORM */
+.form-wrap{max-width:640px;margin:0 auto 80px;padding:0 24px}
+.form-card{background:var(--surface);border:1px solid var(--border-green);border-radius:20px;overflow:hidden}
+.form-header{background:linear-gradient(135deg,rgba(29,95,163,0.2),rgba(29,158,117,0.15));padding:28px 36px;border-bottom:1px solid var(--border)}
+.form-header h2{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:4px}
+.form-header p{font-size:14px;color:var(--muted)}
+.form-body{padding:36px}
+.field{margin-bottom:20px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.required{color:var(--green)}
+.field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--border-green)}
+.field select option{background:#131B2E;color:#fff}
+.field textarea{resize:vertical;min-height:100px}
+.field-hint{font-size:11px;color:var(--muted);margin-top:5px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.divider{border:none;border-top:1px solid var(--border);margin:24px 0}
+.section-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+#form-error{display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:12px 16px;font-size:13px;color:#FCA5A5;margin-bottom:16px}
+#form-success{display:none;text-align:center;padding:48px 24px}
+#form-success .s-icon{font-size:56px;margin-bottom:20px}
+#form-success h3{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:10px}
+#form-success p{font-size:14px;color:var(--muted);line-height:1.7}
+
+/* PRICING BANNER */
+.pricing-banner{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:640px;margin:0 auto 60px;padding:0 24px}
+.price-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center}
+.price-card.featured{border-color:var(--border-green)}
+.price-tag{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;margin:8px 0 4px}
+.price-period{font-size:13px;color:var(--muted);margin-bottom:16px}
+.price-features{text-align:left;margin-bottom:20px}
+.price-features div{font-size:13px;padding:4px 0;display:flex;align-items:center;gap:8px}
+
+footer{text-align:center;padding:40px;border-top:1px solid var(--border);font-size:13px;color:var(--muted)}
+footer a{color:var(--green);text-decoration:none}
+
+@media(max-width:600px){
+  nav{padding:0 16px}
+  .hero{padding:90px 20px 40px}
+  .field-row{grid-template-columns:1fr}
+  .pricing-banner{grid-template-columns:1fr}
+  .stats{gap:24px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">F</div>
+    <span class="nav-logo-text">Flexori</span>
+  </a>
+  <a href="/jobs.html" class="btn-solid" style="font-size:13px;padding:8px 18px">Ver empleos</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">💼 Para Empresas</div>
+  <h1>Contrata talento remoto<br><span style="color:var(--green)">verificado de LATAM</span></h1>
+  <p class="hero-sub">Publica tu vacante y llega a miles de profesionales con Score de Empleabilidad verificado. Candidatos que ya demostraron estar listos para el trabajo remoto.</p>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-n">337+</div><div class="stat-l">Usuarios activos</div></div>
+  <div class="stat"><div class="stat-n">10</div><div class="stat-l">Países LATAM</div></div>
+  <div class="stat"><div class="stat-n">32+</div><div class="stat-l">Scores completados</div></div>
+  <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Remoto verificado</div></div>
+</div>
+
+<!-- PRICING -->
+<div class="pricing-banner">
+  <div class="price-card">
+    <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Básico</div>
+    <div class="price-tag">Gratis</div>
+    <div class="price-period">por ahora · precio introductorio</div>
+    <div class="price-features">
+      <div><span style="color:var(--green)">✓</span> 1 vacante publicada</div>
+      <div><span style="color:var(--green)">✓</span> Visible 30 días</div>
+      <div><span style="color:var(--green)">✓</span> Alcance LATAM</div>
+      <div><span style="color:var(--muted)">—</span> <span style="color:var(--muted)">Filtro por Score</span></div>
+    </div>
+    <a href="#publicar" class="btn-solid" style="width:100%;text-align:center;display:block">Publicar gratis →</a>
+  </div>
+  <div class="price-card featured">
+    <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px">Premium</div>
+    <div class="price-tag" style="color:var(--green)">$99<span style="font-size:16px;font-weight:400;color:var(--muted)">/mes</span></div>
+    <div class="price-period">próximamente</div>
+    <div class="price-features">
+      <div><span style="color:var(--green)">✓</span> Vacantes ilimitadas</div>
+      <div><span style="color:var(--green)">✓</span> Filtro por Score mínimo</div>
+      <div><span style="color:var(--green)">✓</span> Destacado en el feed</div>
+      <div><span style="color:var(--green)">✓</span> Analytics de candidatos</div>
+    </div>
+    <button disabled style="width:100%;text-align:center;display:block;background:rgba(29,158,117,0.1);color:var(--green);border:1px solid var(--border-green);border-radius:100px;padding:12px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:default">Próximamente</button>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrap" id="publicar">
+  <div class="form-card">
+    <div class="form-header">
+      <h2>Publica tu vacante</h2>
+      <p>Completar toma menos de 3 minutos. Tu vacante será revisada y publicada en menos de 24 horas.</p>
+    </div>
+    <div class="form-body">
+      <div id="form-error"></div>
+      <div id="job-form">
+
+        <div class="section-title">Sobre la empresa</div>
+        <div class="field-row">
+          <div class="field">
+            <label>Nombre de la empresa <span class="required">*</span></label>
+            <input type="text" id="j-company" placeholder="Ej: Acme Corp" />
+          </div>
+          <div class="field">
+            <label>Tu email de contacto <span class="required">*</span></label>
+            <input type="email" id="j-email" placeholder="rrhh@empresa.com" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Sitio web de la empresa</label>
+          <input type="url" id="j-website" placeholder="https://empresa.com" />
+        </div>
+
+        <hr class="divider">
+        <div class="section-title">Sobre la vacante</div>
+
+        <div class="field">
+          <label>Título del cargo <span class="required">*</span></label>
+          <input type="text" id="j-title" placeholder="Ej: Senior Frontend Developer" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Tipo de contrato <span class="required">*</span></label>
+            <select id="j-type">
+              <option value="">Selecciona...</option>
+              <option value="Full-time">Full-time</option>
+              <option value="Part-time">Part-time</option>
+              <option value="Contract">Contrato</option>
+              <option value="Freelance">Freelance</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Categoría <span class="required">*</span></label>
+            <select id="j-category">
+              <option value="">Selecciona...</option>
+              <option value="Software Development">Desarrollo de Software</option>
+              <option value="Design">Diseño</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Sales">Ventas</option>
+              <option value="Customer Support">Soporte al Cliente</option>
+              <option value="Data / AI">Datos / IA</option>
+              <option value="Finance">Finanzas</option>
+              <option value="Product">Producto</option>
+              <option value="Writing">Redacción</option>
+              <option value="DevOps">DevOps</option>
+              <option value="Other">Otro</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Salario o rango (USD)</label>
+            <input type="text" id="j-salary" placeholder="Ej: $3,000 - $5,000/mes" />
+            <div class="field-hint">Publicar el salario aumenta un 40% las aplicaciones</div>
+          </div>
+          <div class="field">
+            <label>Zona horaria requerida</label>
+            <select id="j-timezone">
+              <option value="Anywhere">Cualquier zona horaria</option>
+              <option value="Americas">Américas (UTC-8 a UTC-3)</option>
+              <option value="Europe">Europa (UTC+0 a UTC+3)</option>
+              <option value="Asia">Asia/Pacífico</option>
+              <option value="LATAM">LATAM específico</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Descripción del cargo <span class="required">*</span></label>
+          <textarea id="j-description" placeholder="Describe las responsabilidades, requisitos y beneficios del cargo..."></textarea>
+        </div>
+        <div class="field">
+          <label>URL para aplicar <span class="required">*</span></label>
+          <input type="url" id="j-url" placeholder="https://empresa.com/apply o mailto:rrhh@empresa.com" />
+          <div class="field-hint">Link donde los candidatos aplicarán directamente</div>
+        </div>
+
+        <div id="form-error" style="display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:12px 16px;font-size:13px;color:#FCA5A5;margin-bottom:16px"></div>
+
+        <button onclick="submitJob()" id="j-btn" class="btn-solid" style="width:100%;padding:14px;font-size:15px;margin-top:8px">
+          Publicar vacante gratis →
+        </button>
+        <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:12px">Tu vacante será revisada y publicada en menos de 24 horas.</p>
+      </div>
+
+      <div id="form-success" style="display:none;text-align:center;padding:40px 0">
+        <div style="font-size:56px;margin-bottom:20px">🎉</div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:10px">¡Vacante enviada!</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7">Tu vacante fue recibida y será revisada en menos de 24 horas.<br>Te notificaremos a <strong id="confirm-email"></strong> cuando esté publicada.</p>
+        <a href="/jobs.html" class="btn-solid" style="margin-top:24px;display:inline-block">Ver empleos publicados →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2026 <a href="/">Flexori</a> · Tu GPS de carrera remota · <a href="/ambassadors.html">Programa de Embajadores</a>
+</footer>
+
+<script>
+const SUPABASE_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
+const SUPABASE_ANON = ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+  'eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0',
+  'XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU'].join('.');
+
+async function submitJob() {
+  var company = document.getElementById('j-company').value.trim();
+  var email = document.getElementById('j-email').value.trim();
+  var title = document.getElementById('j-title').value.trim();
+  var type = document.getElementById('j-type').value;
+  var category = document.getElementById('j-category').value;
+  var description = document.getElementById('j-description').value.trim();
+  var url = document.getElementById('j-url').value.trim();
+  var salary = document.getElementById('j-salary').value.trim();
+  var timezone = document.getElementById('j-timezone').value;
+  var website = document.getElementById('j-website').value.trim();
+  var errEl = document.getElementById('form-error');
+  var btn = document.getElementById('j-btn');
+
+  if (!company || !email || !title || !type || !category || !description || !url) {
+    errEl.textContent = 'Por favor completa todos los campos obligatorios.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (!email.includes('@')) {
+    errEl.textContent = 'Ingresa un email válido.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+  errEl.style.display = 'none';
+
+  try {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/job_postings', {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        company, email, title, type, category,
+        description, url, salary, location: timezone,
+        website, status: 'pending',
+        source: 'flexori-form'
+      })
+    });
+
+    if (res.ok || res.status === 201) {
+      document.getElementById('job-form').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+      document.getElementById('confirm-email').textContent = email;
+      try { gtag('event', 'job_posted', { event_category: 'conversion', event_label: category }); } catch(e) {}
+    } else {
+      errEl.textContent = 'Error al enviar. Intenta de nuevo.';
+      errEl.style.display = 'block';
+      btn.textContent = 'Publicar vacante gratis →';
+      btn.disabled = false;
+    }
+  } catch(err) {
+    errEl.textContent = 'Error de conexión. Intenta de nuevo.';
+    errEl.style.display = 'block';
+    btn.textContent = 'Publicar vacante gratis →';
+    btn.disabled = false;
+  }
+}
+</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-HFYKRPJN1E');</script>
+</body>
+</html>
