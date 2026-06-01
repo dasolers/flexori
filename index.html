@@ -888,6 +888,70 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
   </div>
 </section>
 
+
+<!-- PRICING -->
+<section class="section" id="pricing" style="padding:80px 0">
+  <p class="section-lbl">Planes</p>
+  <h2 style="text-align:center;font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-1px;margin-bottom:12px">Elige tu plan <span style="color:var(--green)">de carrera remota</span></h2>
+  <p style="text-align:center;color:var(--muted);font-size:16px;margin-bottom:48px">Empieza gratis. Escala cuando estés listo.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:0 auto;padding:0 24px">
+
+    <!-- FREE -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px;display:flex;flex-direction:column">
+      <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Free</div>
+      <div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;margin-bottom:4px">$0</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:24px">Para siempre</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;flex:1">
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> Score de Empleabilidad</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> Empleos remotos en vivo</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> Ruta de Carrera — Semana 1</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--muted)">—</span> <span style="color:var(--muted)">CV Optimizer IA</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--muted)">—</span> <span style="color:var(--muted)">Semanas 2, 3 y 4</span></div>
+      </div>
+      <a href="/register.html" style="display:block;text-align:center;border:1.5px solid var(--border-green);color:var(--green);border-radius:100px;padding:12px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;text-decoration:none">Empezar gratis</a>
+    </div>
+
+    <!-- PRO (destacado) -->
+    <div style="background:linear-gradient(135deg,rgba(29,95,163,0.15),rgba(29,158,117,0.1));border:2px solid var(--green);border-radius:20px;padding:28px;display:flex;flex-direction:column;position:relative">
+      <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--green);color:#0D1321;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;padding:4px 14px;border-radius:100px;white-space:nowrap">MÁS POPULAR</div>
+      <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Pro</div>
+      <div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;margin-bottom:4px">$11.99<span style="font-size:16px;font-weight:400;color:var(--muted)">/mes</span></div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:24px">COP $39,900 · MXN $199</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;flex:1">
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> Todo lo de Free</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> CV Optimizer IA (5 CVs/mes)</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> Ruta completa 4 semanas</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> Alertas de empleos por email</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--muted)">—</span> <span style="color:var(--muted)">CV Optimizer ilimitado</span></div>
+      </div>
+      <button onclick="startCheckoutHome('pro')" style="display:block;width:100%;text-align:center;background:var(--green);color:#0D1321;border:none;border-radius:100px;padding:13px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer">Empezar con Pro →</button>
+    </div>
+
+    <!-- PLUS -->
+    <div style="background:var(--surface);border:1px solid rgba(245,158,11,0.3);border-radius:20px;padding:28px;display:flex;flex-direction:column">
+      <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#F59E0B;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Plus</div>
+      <div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;margin-bottom:4px">$19<span style="font-size:16px;font-weight:400;color:var(--muted)">/mes</span></div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:24px">COP $79,900 · MXN $349</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;flex:1">
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> Todo lo de Pro</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> CV Optimizer ilimitado</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> Pasaporte Remoto verificado</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> Soporte prioritario</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> Acceso anticipado a features</div>
+      </div>
+      <button onclick="startCheckoutHome('plus')" style="display:block;width:100%;text-align:center;background:rgba(245,158,11,0.15);color:#F59E0B;border:1.5px solid rgba(245,158,11,0.4);border-radius:100px;padding:12px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer">Empezar con Plus →</button>
+    </div>
+
+  </div>
+
+  <style>
+  @media(max-width:700px){
+    #pricing > div { grid-template-columns:1fr!important; }
+  }
+  </style>
+</section>
+
 <!-- FAQ -->
 <section class="section" id="faq">
   <p class="section-lbl">FAQ</p>
@@ -2575,6 +2639,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 </script>
+
+<script>
+// Checkout desde homepage
+const HOME_PRICES = {
+  pro: 'price_1TcGCbKCK5PGV3GQgiqLL0wd',
+  plus: 'price_1TcGCcKCK5PGV3GQNjQWywcy'
+};
+async function startCheckoutHome(plan) {
+  try { gtag('event', 'checkout_started', { event_category: 'conversion', event_label: plan, value: plan === 'pro' ? 11.99 : 19 }); } catch(e) {}
+  try {
+    const email = localStorage.getItem('sb_user_email') || localStorage.getItem('flexori_email') || '';
+    const response = await fetch('/.netlify/functions/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        priceId: HOME_PRICES[plan],
+        email,
+        successUrl: 'https://flexori.work/dashboard.html?upgraded=true',
+        cancelUrl: 'https://flexori.work/#pricing'
+      })
+    });
+    const data = await response.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert('Error al procesar. Intenta de nuevo.');
+    }
+  } catch(err) {
+    alert('Error de conexión. Intenta de nuevo.');
+  }
+}
+</script>
 </body>
 </html>
+
 
