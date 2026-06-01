@@ -2684,6 +2684,26 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+
+// ── REFERRAL TRACKING ──
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var ref = params.get('ref');
+  if (ref) {
+    localStorage.setItem('flexori_ref', ref);
+    // Registrar visita en Supabase
+    fetch('https://kkkgtwripyaxgmmdsqhg.supabase.co/rest/v1/referrals', {
+      method: 'POST',
+      headers: {
+        'apikey': ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9','eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0','XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU'].join('.'),
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ ref_code: ref })
+    }).catch(function(){});
+  }
+})();
+
 </body>
 </html>
 
