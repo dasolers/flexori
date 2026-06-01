@@ -285,6 +285,12 @@ async function submitAmbassador() {
     });
 
     if (res.ok || res.status === 201) {
+      // Enviar email de bienvenida automático
+      fetch('/.netlify/functions/ambassador-welcome', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ name, email, ref_code: refCode })
+      }).catch(function(){});
       // Mostrar success
       document.getElementById('ambassador-form').style.display = 'none';
       document.getElementById('form-success').style.display = 'block';
