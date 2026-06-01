@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Programa de Embajadores — Flexori</title>
+<meta name="description" content="Únete al programa de embajadores de Flexori. Comparte con tu comunidad y gana recompensas.">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#1D9E75">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#0D1321;color:#F0EEE6;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+:root{
+  --black:#0D1321;--green:#1D9E75;--green-light:#24C48F;--blue:#1D5FA3;
+  --gray:#A8A69E;--white:#F0EEE6;--surface:#131B2E;--surface2:#1A2338;
+  --green-dim:rgba(29,158,117,0.12);--border:rgba(255,255,255,0.07);
+  --border-green:rgba(29,158,117,0.25);--muted:#A8A69E;--gold:#F59E0B
+}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;
+  justify-content:space-between;padding:0 48px;height:68px;
+  background:rgba(13,19,33,0.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--green));border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#fff}
+.nav-logo-text{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.btn-solid{background:var(--green);color:var(--black);border:none;border-radius:100px;
+  padding:10px 24px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;
+  cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
+.btn-solid:hover{background:var(--green-light)}
+.btn-outline{border:1.5px solid var(--border-green);color:var(--green);background:transparent;
+  border-radius:100px;padding:10px 24px;font-family:'Syne',sans-serif;font-size:14px;
+  font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
+.btn-outline:hover{background:var(--green-dim)}
+
+/* HERO */
+.hero{padding:120px 48px 80px;max-width:800px;margin:0 auto;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(29,158,117,0.1);
+  border:1px solid var(--border-green);border-radius:100px;padding:6px 16px;
+  font-size:12px;color:var(--green);margin-bottom:24px}
+h1{font-family:'Syne',sans-serif;font-size:clamp(36px,5vw,56px);font-weight:800;
+  line-height:1.05;letter-spacing:-1.5px;margin-bottom:18px}
+.hero-sub{font-size:17px;color:var(--muted);max-width:600px;margin:0 auto 40px;line-height:1.7}
+
+/* BENEFITS */
+.benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:0 auto 80px;padding:0 48px}
+.benefit-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center}
+.benefit-icon{font-size:32px;margin-bottom:12px}
+.benefit-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:8px}
+.benefit-desc{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* HOW IT WORKS */
+.how{max-width:700px;margin:0 auto 80px;padding:0 48px;text-align:center}
+.how h2{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-1px;margin-bottom:40px}
+.steps{display:flex;flex-direction:column;gap:20px;text-align:left}
+.step-row{display:flex;align-items:flex-start;gap:20px}
+.step-num{width:36px;height:36px;min-width:36px;background:var(--green-dim);border:1px solid var(--border-green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:var(--green)}
+.step-content h4{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px}
+.step-content p{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* FORM */
+.form-section{max-width:560px;margin:0 auto 80px;padding:0 24px}
+.form-card{background:var(--surface);border:1px solid var(--border-green);border-radius:20px;padding:36px}
+.form-card h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:6px}
+.form-card p{font-size:14px;color:var(--muted);margin-bottom:28px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.field input,.field select{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none}
+.field input:focus,.field select:focus{border-color:var(--border-green)}
+.field select option{background:#131B2E;color:#fff}
+#form-error{display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#FCA5A5;margin-bottom:16px}
+#form-success{display:none;text-align:center;padding:20px 0}
+#form-success .success-icon{font-size:48px;margin-bottom:16px}
+#form-success h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:8px}
+#form-success p{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.ref-link-box{background:rgba(29,158,117,0.08);border:1px solid var(--border-green);border-radius:10px;padding:14px;font-size:13px;color:var(--green);font-family:'Syne',sans-serif;font-weight:700;word-break:break-all;cursor:pointer;margin-bottom:8px}
+.copy-hint{font-size:12px;color:var(--muted)}
+
+/* FOOTER */
+footer{text-align:center;padding:40px;border-top:1px solid var(--border);font-size:13px;color:var(--muted)}
+footer a{color:var(--green);text-decoration:none}
+
+@media(max-width:700px){
+  nav{padding:0 16px}
+  .hero{padding:100px 20px 60px}
+  .benefits{grid-template-columns:1fr;padding:0 20px}
+  .how{padding:0 20px}
+  h1{font-size:clamp(30px,8vw,42px)}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">F</div>
+    <span class="nav-logo-text">Flexori</span>
+  </a>
+  <a href="/dashboard.html" class="btn-outline" style="font-size:13px;padding:8px 18px">Mi Dashboard</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">🌎 Programa de Embajadores LATAM</div>
+  <h1>Crece con nosotros.<br><span style="color:var(--green)">Gana mientras creces.</span></h1>
+  <p class="hero-sub">Comparte Flexori con tu comunidad y ayuda a más profesionales LATAM a conseguir trabajo remoto. Tú recibes recompensas, ellos reciben oportunidades.</p>
+  <a href="#aplicar" class="btn-solid" style="font-size:16px;padding:14px 36px">Quiero ser embajador →</a>
+</div>
+
+<!-- BENEFITS -->
+<div class="benefits">
+  <div class="benefit-card">
+    <div class="benefit-icon">🔗</div>
+    <div class="benefit-title">Link único de referido</div>
+    <div class="benefit-desc">Tu propio link personalizado para compartir en grupos, WhatsApp, TikTok o donde quieras.</div>
+  </div>
+  <div class="benefit-card">
+    <div class="benefit-icon">🎁</div>
+    <div class="benefit-title">Recompensas reales</div>
+    <div class="benefit-desc">Acceso Pro gratis por cada 10 referidos activos. Bonos especiales para los top embajadores del mes.</div>
+  </div>
+  <div class="benefit-card">
+    <div class="benefit-icon">📊</div>
+    <div class="benefit-title">Dashboard de referidos</div>
+    <div class="benefit-desc">Ve en tiempo real cuántas personas se registraron con tu link y cuántas están activas.</div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how">
+  <h2>¿Cómo funciona?</h2>
+  <div class="steps">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Aplica y recibe tu link</h4>
+        <p>Completa el formulario abajo. En menos de 24 horas recibes tu código único de embajador.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Comparte con tu comunidad</h4>
+        <p>Publica tu link en grupos de Facebook, WhatsApp, TikTok, LinkedIn o donde tengas audiencia LATAM.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Acumula referidos</h4>
+        <p>Cada persona que se registre con tu link cuenta. Tú ves el conteo en tiempo real en tu dashboard.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Gana recompensas</h4>
+        <p>Por cada 10 referidos: 1 mes de Flexori Pro gratis. Top 3 embajadores del mes: Plus gratis + reconocimiento público.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-section" id="aplicar">
+  <div class="form-card">
+    <h2>Aplica ahora</h2>
+    <p>Solo toma 1 minuto. Te contactamos en menos de 24 horas.</p>
+
+    <div id="form-error"></div>
+
+    <div id="ambassador-form">
+      <div class="field">
+        <label>Tu nombre completo</label>
+        <input type="text" id="amb-name" placeholder="Ana García" />
+      </div>
+      <div class="field">
+        <label>Tu email</label>
+        <input type="email" id="amb-email" placeholder="ana@email.com" />
+      </div>
+      <div class="field">
+        <label>País</label>
+        <select id="amb-country">
+          <option value="">Selecciona tu país</option>
+          <option>México</option>
+          <option>Colombia</option>
+          <option>Argentina</option>
+          <option>Perú</option>
+          <option>Venezuela</option>
+          <option>Chile</option>
+          <option>Ecuador</option>
+          <option>Guatemala</option>
+          <option>Costa Rica</option>
+          <option>Bolivia</option>
+          <option>Paraguay</option>
+          <option>Uruguay</option>
+          <option>Honduras</option>
+          <option>El Salvador</option>
+          <option>Nicaragua</option>
+          <option>República Dominicana</option>
+          <option>Cuba</option>
+          <option>Panamá</option>
+          <option>España</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>¿Dónde tienes audiencia? (opcional)</label>
+        <input type="text" id="amb-audience" placeholder="Ej: Grupo de Facebook 5K, TikTok 10K..." />
+      </div>
+      <button onclick="submitAmbassador()" id="amb-btn" class="btn-solid" style="width:100%;padding:14px;font-size:15px;margin-top:8px">
+        Enviar aplicación →
+      </button>
+    </div>
+
+    <div id="form-success">
+      <div class="success-icon">🎉</div>
+      <h3>¡Aplicación enviada!</h3>
+      <p>Tu aplicación fue recibida. En menos de 24 horas recibirás tu link de embajador en tu email.</p>
+      <p style="margin-top:12px">Mientras tanto, comparte Flexori con este link:</p>
+      <div class="ref-link-box" id="temp-ref-link" onclick="copyRefLink()">flexori.work</div>
+      <div class="copy-hint">Toca para copiar</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2026 <a href="/">Flexori</a> · Tu GPS de carrera remota · <a href="/">Volver al inicio</a>
+</footer>
+
+<script>
+const SUPABASE_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
+const SUPABASE_ANON = ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+  'eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0',
+  'XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU'].join('.');
+
+function generateRefCode(name, email) {
+  var base = name.split(' ')[0].toLowerCase().replace(/[^a-z]/g,'');
+  var rand = Math.random().toString(36).substring(2,6);
+  return base + rand;
+}
+
+async function submitAmbassador() {
+  var name = document.getElementById('amb-name').value.trim();
+  var email = document.getElementById('amb-email').value.trim();
+  var country = document.getElementById('amb-country').value;
+  var audience = document.getElementById('amb-audience').value.trim();
+  var errEl = document.getElementById('form-error');
+  var btn = document.getElementById('amb-btn');
+
+  if (!name || !email || !country) {
+    errEl.textContent = 'Por favor completa nombre, email y país.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (!email.includes('@')) {
+    errEl.textContent = 'Ingresa un email válido.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+  errEl.style.display = 'none';
+
+  var refCode = generateRefCode(name, email);
+
+  try {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/ambassadors', {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ name, email, country, ref_code: refCode, status: 'pending' })
+    });
+
+    if (res.ok || res.status === 201) {
+      // Mostrar success
+      document.getElementById('ambassador-form').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+      var refUrl = 'https://flexori.work/?ref=' + refCode;
+      document.getElementById('temp-ref-link').textContent = refUrl;
+      document.getElementById('temp-ref-link').dataset.url = refUrl;
+      try { gtag('event', 'ambassador_apply', { event_category: 'conversion', event_label: country }); } catch(e) {}
+    } else {
+      var data = await res.json();
+      if (data.code === '23505') {
+        errEl.textContent = 'Este email ya aplicó al programa.';
+      } else {
+        errEl.textContent = 'Error al enviar. Intenta de nuevo.';
+      }
+      errEl.style.display = 'block';
+      btn.textContent = 'Enviar aplicación →';
+      btn.disabled = false;
+    }
+  } catch(err) {
+    errEl.textContent = 'Error de conexión. Intenta de nuevo.';
+    errEl.style.display = 'block';
+    btn.textContent = 'Enviar aplicación →';
+    btn.disabled = false;
+  }
+}
+
+function copyRefLink() {
+  var url = document.getElementById('temp-ref-link').dataset.url || document.getElementById('temp-ref-link').textContent;
+  navigator.clipboard.writeText(url).then(function() {
+    document.getElementById('temp-ref-link').textContent = '✓ ¡Copiado!';
+    setTimeout(function() {
+      document.getElementById('temp-ref-link').textContent = url;
+    }, 2000);
+  });
+}
+</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-HFYKRPJN1E');</script>
+</body>
+</html>
