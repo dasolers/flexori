@@ -53,6 +53,8 @@ input[type=password]:focus{border-color:var(--border-green)}
 .table-row:last-child{border-bottom:none}
 .table-row:hover{background:rgba(29,158,117,0.03)}
 .waitlist-row{grid-template-columns:1fr 140px 80px}
+.amb-row{grid-template-columns:1fr 80px 100px 80px 120px 100px}
+.ref-row{grid-template-columns:1fr 1fr 140px}
 .jobs-row{grid-template-columns:1fr 120px 100px 80px 100px}
 .email-cell{color:var(--white);font-weight:500}
 .date-cell{color:var(--gray);font-size:12px}
@@ -125,6 +127,7 @@ input[type=password]:focus{border-color:var(--border-green)}
   <div class="tabs">
     <div class="tab active" onclick="switchTab('waitlist')">📧 Waitlist</div>
     <div class="tab" onclick="switchTab('jobs')">💼 Job Postings</div>
+    <div class="tab" onclick="switchTab('ambassadors')">🌎 Embajadores</div>
   </div>
 
   <!-- WAITLIST TAB -->
@@ -140,6 +143,31 @@ input[type=password]:focus{border-color:var(--border-green)}
   </div>
 
   <!-- JOBS TAB -->
+  <div class="tab-content" id="tab-ambassadors">
+    <div class="table-wrap">
+      <div class="table-header" style="grid-template-columns:1fr 80px 100px 80px 120px 100px">
+        <span>Email</span>
+        <span>País</span>
+        <span>Ref Code</span>
+        <span>Referidos</span>
+        <span>PayPal</span>
+        <span>Estado</span>
+      </div>
+      <div id="ambassadors-list"><div style="padding:24px;text-align:center;color:var(--gray)">Cargando...</div></div>
+    </div>
+    <div style="margin-top:24px">
+      <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:16px">📊 Referidos con conversión</h3>
+      <div class="table-wrap">
+        <div class="table-header" style="grid-template-columns:1fr 1fr 140px">
+          <span>Email referido</span>
+          <span>Código embajador</span>
+          <span>Fecha</span>
+        </div>
+        <div id="referrals-list"><div style="padding:24px;text-align:center;color:var(--gray)">Cargando...</div></div>
+      </div>
+    </div>
+  </div>
+
   <div class="tab-content" id="tab-jobs">
     <div class="table-wrap">
       <div class="table-header jobs-header">
@@ -301,6 +329,65 @@ async function updateJobStatus(id, status){
   }
 }
 
+
+async function fetchAmbassadors() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/ambassadors?select=*&order=created_at.desc`, {
+      headers: {'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`}
+    });
+    const data = await res.json();
+    const list = document.getElementById('ambassadors-list');
+    if (!data.length) { list.innerHTML = '<div style="padding:24px;text-align:center;color:var(--gray)">No hay embajadores aún</div>'; return; }
+    list.innerHTML = data.map(a => `
+      <div class="table-row amb-row">
+        <span>${a.email}<br><span style="font-size:11px;color:var(--gray)">${a.name || ''}</span></span>
+        <span>${a.country || '—'}</span>
+        <span style="color:var(--green);font-family:'Syne',sans-serif;font-weight:700;font-size:12px">${a.ref_code}</span>
+        <span style="color:var(--green);font-weight:700">${a.total_referrals || 0}</span>
+        <span style="font-size:11px">${a.paypal_email || '—'}</span>
+        <span>
+          <select onchange="updateAmbStatus('${a.id}', this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:${a.status === 'active' ? 'var(--green)' : 'var(--gray)'};font-size:12px;cursor:pointer">
+            <option value="pending" ${a.status === 'pending' ? 'selected' : ''}>⏳ Pendiente</option>
+            <option value="active" ${a.status === 'active' ? 'selected' : ''}>✅ Activo</option>
+            <option value="rejected" ${a.status === 'rejected' ? 'selected' : ''}>❌ Rechazado</option>
+          </select>
+        </span>
+      </div>`).join('');
+  } catch(e) {
+    document.getElementById('ambassadors-list').innerHTML = '<div style="padding:24px;color:red">Error cargando embajadores</div>';
+  }
+}
+
+async function fetchReferrals() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/referrals?select=*&order=created_at.desc&limit=50`, {
+      headers: {'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`}
+    });
+    const data = await res.json();
+    const list = document.getElementById('referrals-list');
+    if (!data.length) { list.innerHTML = '<div style="padding:24px;text-align:center;color:var(--gray)">No hay referidos aún</div>'; return; }
+    list.innerHTML = data.map(r => `
+      <div class="table-row ref-row">
+        <span>${r.referred_email || '<span style="color:var(--gray)">Solo visita</span>'}</span>
+        <span style="color:var(--green);font-family:'Syne',sans-serif;font-weight:700">${r.ref_code}</span>
+        <span style="color:var(--gray);font-size:12px">${new Date(r.created_at).toLocaleDateString('es-CO')}</span>
+      </div>`).join('');
+  } catch(e) {}
+}
+
+async function updateAmbStatus(id, status) {
+  await fetch(`${SUPABASE_URL}/rest/v1/ambassadors?id=eq.${id}`, {
+    method: 'PATCH',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify({ status })
+  });
+}
+
 function switchTab(tab){
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['waitlist','jobs'][i]===tab));
   document.getElementById('tab-waitlist').classList.toggle('active',tab==='waitlist');
@@ -320,3 +407,4 @@ document.getElementById('pwd-input').addEventListener('keydown',e=>{if(e.key==='
 </script>
 </body>
 </html>
+
