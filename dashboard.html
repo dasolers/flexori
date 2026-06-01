@@ -355,32 +355,49 @@ async function loadDashboard(email, token) {
     }
   } catch(e) { updatePlanUI('free'); }
 
-  // Load score from localStorage
-  var savedScore = localStorage.getItem('flexori_score');
-  var savedBreakdown = localStorage.getItem('flexori_breakdown');
-  if (savedScore) {
-    var score = parseInt(savedScore);
-    var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
-    document.getElementById('stat-score').textContent = score;
-    document.getElementById('stat-score').style.color = color;
-    document.getElementById('score-ring').textContent = score;
-    document.getElementById('score-ring').style.borderColor = color;
-    document.getElementById('score-ring').style.color = color;
-    document.getElementById('score-card-sub').textContent = 'Tu Score más reciente';
-    if (savedBreakdown) {
-      try {
-        var breakdown = JSON.parse(savedBreakdown);
-        var breakdownHtml = '<div class="score-ring" style="border-color:' + color + ';color:' + color + '">' + score + '</div>';
-        breakdownHtml += '<div style="margin-top:16px">';
-        Object.keys(breakdown).forEach(function(dim) {
-          var val = breakdown[dim];
-          var c = val >= 70 ? '#1D9E75' : val >= 40 ? '#F59E0B' : '#EF4444';
-          breakdownHtml += '<div class="progress-item"><div class="progress-label"><span>' + dim + '</span><span style="color:' + c + '">' + val + '</span></div><div class="progress-bg"><div class="progress-fill" style="width:' + val + '%;background:' + c + '"></div></div></div>';
-        });
-        breakdownHtml += '</div>';
-        document.getElementById('score-breakdown').innerHTML = breakdownHtml;
-      } catch(e) {}
-    }
+  // Load score from localStorage (guardado como objeto JSON {score, breakdown, ...})
+  var savedScoreRaw = localStorage.getItem('flexori_score');
+  if (savedScoreRaw) {
+    try {
+      var scoreData = JSON.parse(savedScoreRaw);
+      // Soporta tanto el formato objeto {score:X} como número directo
+      var score = typeof scoreData === 'object' ? scoreData.score : parseInt(savedScoreRaw);
+      var breakdown = typeof scoreData === 'object' ? scoreData.breakdown : null;
+      if (score && !isNaN(score)) {
+        var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
+        document.getElementById('stat-score').textContent = score;
+        document.getElementById('stat-score').style.color = color;
+        document.getElementById('score-ring').textContent = score;
+        document.getElementById('score-ring').style.borderColor = color;
+        document.getElementById('score-ring').style.color = color;
+        document.getElementById('score-card-sub').textContent = 'Tu Score más reciente';
+        if (breakdown) {
+          var breakdownHtml = '<div class="score-ring" style="border-color:' + color + ';color:' + color + '">' + score + '</div>';
+          breakdownHtml += '<div style="margin-top:16px">';
+          Object.keys(breakdown).forEach(function(dim) {
+            var val = breakdown[dim];
+            var c = val >= 70 ? '#1D9E75' : val >= 40 ? '#F59E0B' : '#EF4444';
+            breakdownHtml += '<div class="progress-item"><div class="progress-label"><span>' + dim + '</span><span style="color:' + c + '">' + val + '</span></div><div class="progress-bg"><div class="progress-fill" style="width:' + val + '%;background:' + c + '"></div></div></div>';
+          });
+          breakdownHtml += '</div>';
+          document.getElementById('score-breakdown').innerHTML = breakdownHtml;
+        }
+        // Guardar score en Supabase si el usuario está logueado
+        var userId = localStorage.getItem('sb_user_id');
+        if (userId) {
+          fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + userId, {
+            method: 'PATCH',
+            headers: {
+              'apikey': SUPABASE_ANON,
+              'Authorization': 'Bearer ' + token,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify({ score: score, score_breakdown: breakdown, score_updated_at: new Date().toISOString() })
+          }).catch(function(){});
+        }
+      }
+    } catch(e) {}
   }
 }
 
@@ -432,4 +449,5 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
+
 
