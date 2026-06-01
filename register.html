@@ -222,10 +222,30 @@ async function submitForm() {
       document.getElementById('success-state').style.display = 'block';
       document.querySelector('.tabs').style.display = 'none';
       // Agregar a audiencia Resend
+      // Registrar referido con email
+      var refCode = localStorage.getItem('flexori_ref');
+      if (refCode) {
+        fetch('https://kkkgtwripyaxgmmdsqhg.supabase.co/rest/v1/referrals', {
+          method: 'POST',
+          headers: {
+            'apikey': ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9','eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0','XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU'].join('.'),
+            'Content-Type': 'application/json', 'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ ref_code: refCode, referred_email: email })
+        }).then(function() {
+          // Incrementar contador del embajador
+          return fetch('https://kkkgtwripyaxgmmdsqhg.supabase.co/rest/v1/rpc/increment_referrals', {
+            method: 'POST',
+            headers: { 'apikey': ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9','eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0','XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU'].join('.'), 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: refCode })
+          });
+        }).catch(function(){});
+        localStorage.removeItem('flexori_ref');
+      }
       fetch('/.netlify/functions/send-email', {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({to: email, addToAudience: true})
+        body: JSON.stringify({to: email, addToAudience: true, ref: localStorage.getItem('flexori_ref') || ''})
       }).catch(() => {});
     } else {
       if(data.access_token) {
