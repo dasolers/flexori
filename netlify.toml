@@ -5,7 +5,6 @@
   functions = "netlify/functions"
 
 # ── SCHEDULED FUNCTIONS ──
-# weekly-jobs se ejecuta cada lunes a las 9:00 AM UTC (4:00 AM Colombia)
 [functions."weekly-jobs"]
   schedule = "0 9 * * 1"
 
@@ -15,3 +14,15 @@
 
 [build.environment]
   SECRETS_SCAN_ENABLED = "false"
+
+# ── SECURITY HEADERS ──
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
