@@ -1380,27 +1380,38 @@ async function fetchFromArbeitnow() {
   } catch(e) { return []; }
 }
 
-async function fetchJobs() {
-  const [remotive, jobicy, arbeitnow] = await Promise.all([
-    fetchFromRemotive(),
-    fetchFromJobicy(),
-    fetchFromArbeitnow()
+function withTimeout(promise, ms) {
+  return Promise.race([
+    promise,
+    new Promise(resolve => setTimeout(() => resolve([]), ms))
   ]);
+}
 
-  // Combinar y deduplicar por título+empresa
-  const combined = [...remotive, ...jobicy, ...arbeitnow];
-  const seen = new Set();
-  const unique = combined.filter(j => {
-    const key = (j.title + j.company).toLowerCase().replace(/\s/g,'');
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+async function fetchJobs() {
+  try {
+    const [remotive, jobicy, arbeitnow] = await Promise.all([
+      withTimeout(fetchFromRemotive(), 6000),
+      withTimeout(fetchFromJobicy(), 6000),
+      withTimeout(fetchFromArbeitnow(), 6000)
+    ]);
 
-  console.log(`Jobs loaded: Remotive=${remotive.length}, Jobicy=${jobicy.length}, Arbeitnow=${arbeitnow.length}, Total=${unique.length}`);
+    const combined = [...remotive, ...jobicy, ...arbeitnow];
+    const seen = new Set();
+    const unique = combined.filter(j => {
+      const key = (j.title + j.company).toLowerCase().replace(/\s/g,'');
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
 
-  if (unique.length === 0) return getFallbackJobs();
-  return unique;
+    console.log(`Jobs loaded: Remotive=${remotive.length}, Jobicy=${jobicy.length}, Arbeitnow=${arbeitnow.length}, Total=${unique.length}`);
+
+    if (unique.length === 0) return getFallbackJobs();
+    return unique;
+  } catch(e) {
+    console.log('Jobs fetch failed, using fallback:', e);
+    return getFallbackJobs();
+  }
 }
 
 function getFallbackJobs() {
