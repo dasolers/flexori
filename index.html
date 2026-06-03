@@ -1396,14 +1396,31 @@ async function fetchFromWWR() {
   return results.filter(r=>r.status==='fulfilled').flatMap(r=>r.value);
 }
 
+
+async function fetchFromAdzuna(){
+  const APP_ID='c13f4e2a', APP_KEY='e7adff87e35fc03da08e06fcac691425';
+  const cats=['customer services','sales','admin','marketing','accounting','hr','operations'];
+  const results=await Promise.allSettled(cats.map(async cat=>{
+    const url=`https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${APP_ID}&app_key=${APP_KEY}&results_per_page=15&what=${encodeURIComponent(cat)}&full_time=1&content-type=application/json`;
+    const r=await fetch(url,{headers:{Accept:'application/json'}});
+    if(!r.ok)return [];
+    const d=await r.json();
+    return (d.results||[]).map(j=>{
+      const salary=j.salary_min?'$'+Math.round(j.salary_min/1000)+'K–$'+Math.round(j.salary_max/1000)+'K/yr':'';
+      return {id:'az_'+j.id,title:j.title,company:j.company?j.company.display_name:'',logo:'',category:j.category?j.category.label:'',tags:[j.category?j.category.label:''].filter(Boolean),type:'full_time',url:j.redirect_url||'',date:j.created||new Date().toISOString(),salary,location:j.location?j.location.display_name:'Remote',description:j.description||'',source:'Adzuna'};
+    });
+  }));
+  return results.filter(r=>r.status==='fulfilled').flatMap(r=>r.value);
+}
+
 async function fetchJobs() {
-  const [r1,r2,r3,r4,r5,r6,r7] = await Promise.allSettled([
+  const [r1,r2,r3,r4,r5,r6,r7,r8] = await Promise.allSettled([
     fetchFromRemotive(), fetchFromJobicy(), fetchFromJobicyNonTech(),
     fetchFromArbeitnow(), fetchFromHimalayas(),
-    fetchFromTheMuse(), fetchFromWWR()
+    fetchFromTheMuse(), fetchFromWWR(), fetchFromAdzuna()
   ]);
   let combined = [];
-  [r1,r2,r3,r4,r5,r6,r7].forEach(r => { if (r.status==='fulfilled') combined = combined.concat(r.value); });
+  [r1,r2,r3,r4,r5,r6,r7,r8].forEach(r => { if (r.status==='fulfilled') combined = combined.concat(r.value); });
 
   const seen = new Set();
   const companyCounts = {};
