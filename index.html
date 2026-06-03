@@ -2502,7 +2502,8 @@ window.addEventListener('hashchange', () => {
 <script>
 
 // ── AUTH SYSTEM ──
-// Usa SUPABASE_URL y SUPABASE_ANON del script principal
+// Usa variables del script principal
+var SUPABASE_ANON = typeof SUPABASE_KEY !== 'undefined' ? SUPABASE_KEY : ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9','eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0','XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU'].join('.');
 
 let authMode = 'register';
 let currentUser = null;
