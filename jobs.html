@@ -456,7 +456,7 @@ footer{border-top:1px solid rgba(255,255,255,0.07);padding:32px 48px;
       <div class="modal-alert-sub" id="m-alert-sub">Join Flexori free and receive personalized remote job alerts.</div>
       <a href="/index.html#waitlist" onclick="closeJobModal()" class="modal-register" id="m-register">Start Free — Get Job Alerts →</a>
     </div>
-    <p class="modal-source">Source: Remotive · Jobicy · Arbeitnow · Flexori aggregates remote jobs from trusted sources</p>
+    <p class="modal-source">Source: Remotive · Himalayas · RemoteOK · The Muse · Arbeitnow · Flexori aggregates remote jobs from trusted sources</p>
   </div>
 </div>
 
@@ -540,7 +540,7 @@ en:{
   typeAll:"All Types",typeFt:"Full Time",typePt:"Part Time",typeCt:"Contract",typeFl:"Freelance",
   regAll:"All Regions",regWw:"Worldwide",regLa:"LATAM",regEu:"Europe",regUs:"USA / Canada",regAs:"Asia Pacific",
   langAll:"All Languages",langEn:"🇺🇸 English",langEs:"🇪🇸 Español",langFr:"🇫🇷 Français",langPt:"🇧🇷 Português",
-  clearBtn:"✕ Clear",sourceTxt:"Live · Remotive + Jobicy + Arbeitnow",loadMore:"Load more →",
+  clearBtn:"✕ Clear",sourceTxt:"Live · Remotive + Himalayas + RemoteOK + The Muse + Arbeitnow",loadMore:"Load more →",
   emptyTitle:"No jobs found",emptySub:"Try different filters or search terms.",
   mAbout:"About the Role",mApply:"Apply for this Position →",
   mAlertTitle:"Get alerts for jobs like this",mAlertSub:"Join Flexori free and receive personalized remote job alerts.",
@@ -566,7 +566,7 @@ es:{
   typeAll:"Todos los Tipos",typeFt:"Tiempo Completo",typePt:"Medio Tiempo",typeCt:"Contrato",typeFl:"Freelance",
   regAll:"Todas las Regiones",regWw:"Mundial",regLa:"LATAM",regEu:"Europa",regUs:"EE.UU. / Canadá",regAs:"Asia Pacífico",
   langAll:"Todos los Idiomas",langEn:"🇺🇸 Inglés",langEs:"🇪🇸 Español",langFr:"🇫🇷 Francés",langPt:"🇧🇷 Portugués",
-  clearBtn:"✕ Limpiar",sourceTxt:"En vivo · Remotive + Jobicy + Arbeitnow",loadMore:"Ver más →",
+  clearBtn:"✕ Limpiar",sourceTxt:"En vivo · Remotive + Himalayas + RemoteOK + The Muse + Arbeitnow",loadMore:"Ver más →",
   emptyTitle:"No se encontraron empleos",emptySub:"Prueba con otros filtros o términos de búsqueda.",
   mAbout:"Sobre el Rol",mApply:"Aplicar a esta Posición →",
   mAlertTitle:"Recibe alertas de empleos como este",mAlertSub:"Únete a Flexori gratis y recibe alertas personalizadas.",
@@ -592,7 +592,7 @@ fr:{
   typeAll:"Tous les Types",typeFt:"Temps Plein",typePt:"Temps Partiel",typeCt:"Contrat",typeFl:"Freelance",
   regAll:"Toutes les Régions",regWw:"Mondial",regLa:"Amérique Latine",regEu:"Europe",regUs:"USA / Canada",regAs:"Asie Pacifique",
   langAll:"Toutes les Langues",langEn:"🇺🇸 Anglais",langEs:"🇪🇸 Espagnol",langFr:"🇫🇷 Français",langPt:"🇧🇷 Portugais",
-  clearBtn:"✕ Effacer",sourceTxt:"En direct · Remotive + Jobicy + Arbeitnow",loadMore:"Voir plus →",
+  clearBtn:"✕ Effacer",sourceTxt:"En direct · Remotive + Himalayas + RemoteOK + The Muse + Arbeitnow",loadMore:"Voir plus →",
   emptyTitle:"Aucun emploi trouvé",emptySub:"Essayez d'autres filtres.",
   mAbout:"À propos du Rôle",mApply:"Postuler →",
   mAlertTitle:"Recevoir des alertes",mAlertSub:"Rejoignez Flexori gratuitement pour des alertes personnalisées.",
@@ -618,7 +618,7 @@ pt:{
   typeAll:"Todos os Tipos",typeFt:"Tempo Integral",typePt:"Meio Período",typeCt:"Contrato",typeFl:"Freelance",
   regAll:"Todas as Regiões",regWw:"Mundial",regLa:"América Latina",regEu:"Europa",regUs:"EUA / Canadá",regAs:"Ásia Pacífico",
   langAll:"Todos os Idiomas",langEn:"🇺🇸 Inglês",langEs:"🇪🇸 Espanhol",langFr:"🇫🇷 Francês",langPt:"🇧🇷 Português",
-  clearBtn:"✕ Limpar",sourceTxt:"Ao vivo · Remotive + Jobicy + Arbeitnow",loadMore:"Ver mais →",
+  clearBtn:"✕ Limpar",sourceTxt:"Ao vivo · Remotive + Himalayas + RemoteOK + The Muse + Arbeitnow",loadMore:"Ver mais →",
   emptyTitle:"Nenhuma vaga encontrada",emptySub:"Tente outros filtros ou termos de busca.",
   mAbout:"Sobre a Vaga",mApply:"Candidatar-se →",
   mAlertTitle:"Receber alertas de vagas",mAlertSub:"Junte-se ao Flexori gratuitamente para alertas personalizados.",
@@ -777,9 +777,9 @@ const REG={
 };
 
 async function fetchAll(){
-  const [r1,r2,r3]=await Promise.allSettled([fetchRemotive(),fetchJobicy(),fetchArbeitnow()]);
+  const [r1,r2,r3,r4,r5,r6]=await Promise.allSettled([fetchRemotive(),fetchJobicy(),fetchArbeitnow(),fetchHimalayas(),fetchRemoteOK(),fetchTheMuse()]);
   let jobs=[];
-  [r1,r2,r3].forEach(r=>{if(r.status==='fulfilled')jobs=jobs.concat(r.value);});
+  [r1,r2,r3,r4,r5,r6].forEach(r=>{if(r.status==='fulfilled')jobs=jobs.concat(r.value);});
   const seen=new Set();
   jobs=jobs.filter(j=>{
     const k=(j.title+j.company).toLowerCase().replace(/\s/g,'');
@@ -810,6 +810,36 @@ async function fetchArbeitnow(){
   const d=await r.json();
   return (d.data||[]).map(j=>({id:'an'+j.slug,title:j.title,company:j.company_name,logo:j.company_logo||'',category:'',tags:(j.tags||[]).slice(0,4),type:'full_time',url:j.url,date:j.created_at||new Date().toISOString(),salary:'',location:j.location||'Remote',description:j.description||'',source:'Arbeitnow'}));
 }
+
+async function fetchHimalayas(){
+  const r=await fetch('https://himalayas.app/jobs/api?limit=100',{headers:{Accept:'application/json'}});
+  if(!r.ok)throw new Error();
+  const d=await r.json();
+  return (d.jobs||[]).map(j=>({id:'hm'+j.id,title:j.title,company:j.companyName||j.company||'',logo:j.companyLogo||'',category:j.categories?j.categories[0]:'',tags:(j.categories||[]).slice(0,4),type:'full_time',url:j.applicationLink||j.url||'https://himalayas.app',date:j.createdAt||new Date().toISOString(),salary:j.salary||'',location:j.locationRestrictions?j.locationRestrictions.join(', '):'Worldwide',description:j.description||'',source:'Himalayas'}));
+}
+
+async function fetchRemoteOK(){
+  const r=await fetch('https://remoteok.com/api',{headers:{Accept:'application/json','User-Agent':'Flexori/1.0 (flexori.work)'}});
+  if(!r.ok)throw new Error();
+  const d=await r.json();
+  return (Array.isArray(d)?d:[]).filter(j=>j.id&&j.position).map(j=>({id:'rok'+j.id,title:j.position,company:j.company||'',logo:j.company_logo||'',category:(j.tags&&j.tags[0])||'',tags:(j.tags||[]).slice(0,4),type:'full_time',url:j.url||('https://remoteok.com/remote-jobs/'+j.id),date:j.date||new Date().toISOString(),salary:j.salary||'',location:'Worldwide',description:j.description||'',source:'RemoteOK'}));
+}
+
+async function fetchTheMuse(){
+  const r=await fetch('https://www.themuse.com/api/public/jobs?page=1&descending=true',{headers:{Accept:'application/json'}});
+  if(!r.ok)throw new Error();
+  const d=await r.json();
+  return (d.results||[]).map(j=>({id:'tm'+j.id,title:j.name,company:j.company?j.company.name:'',logo:'',category:j.categories&&j.categories[0]?j.categories[0].name:'',tags:(j.categories||[]).map(c=>c.name).slice(0,4),type:'full_time',url:j.refs&&j.refs.landing_page||'https://www.themuse.com',date:j.publication_date||new Date().toISOString(),salary:'',location:j.locations&&j.locations[0]?j.locations[0].name:'Flexible/Remote',description:j.contents||'',source:'The Muse'}));
+}
+
+// ADZUNA SLOT — agregar cuando tengas API key:
+// async function fetchAdzuna(){
+//   const APP_ID='TU_APP_ID'; const APP_KEY='TU_APP_KEY';
+//   const r=await fetch(\`https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=\${APP_ID}&app_key=\${APP_KEY}&results_per_page=100&what=remote\`);
+//   if(!r.ok)throw new Error();
+//   const d=await r.json();
+//   return (d.results||[]).map(j=>({id:'az'+j.id,title:j.title,company:j.company?j.company.display_name:'',logo:'',category:j.category?j.category.label:'',tags:[],type:'full_time',url:j.redirect_url||'',date:j.created||new Date().toISOString(),salary:j.salary_min?'$'+Math.round(j.salary_min/1000)+'K–$'+Math.round(j.salary_max/1000)+'K':'',location:j.location?j.location.display_name:'Remote',description:j.description||'',source:'Adzuna'}));
+// }
 
 function getFallback(){
   return [
@@ -1050,3 +1080,4 @@ if ('serviceWorker' in navigator) {
 </script>
 </body>
 </html>
+
