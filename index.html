@@ -908,7 +908,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
       <div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;margin-bottom:4px">$0</div>
       <div style="font-size:13px;color:var(--muted);margin-bottom:24px" data-i="pricing_free_period">Para siempre</div>
       <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;flex:1">
-        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> Score de Empleabilidad</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> <span data-i="pf_free1">Score de Empleabilidad</span></div>
         <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> Empleos remotos en vivo</div>
         <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✓</span> Ruta de Carrera — Semana 1</div>
         <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--muted)">—</span> <span style="color:var(--muted)">CV Optimizer IA</span></div>
@@ -2526,8 +2526,7 @@ window.addEventListener('hashchange', () => {
 <script>
 
 // ── AUTH SYSTEM ──
-var SUPABASE_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
-const SUPABASE_ANON = ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9','eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0','XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU'].join('.');
+// SUPABASE_URL y SUPABASE_ANON ya declarados en el script principal
 
 let authMode = 'register';
 let currentUser = null;
