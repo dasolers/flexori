@@ -1390,9 +1390,9 @@ function withTimeout(promise, ms) {
 async function fetchJobs() {
   try {
     const [remotive, jobicy, arbeitnow] = await Promise.all([
-      withTimeout(fetchFromRemotive(), 6000),
-      withTimeout(fetchFromJobicy(), 6000),
-      withTimeout(fetchFromArbeitnow(), 6000)
+      withTimeout(fetchFromRemotive(), 4000),
+      withTimeout(fetchFromJobicy(), 4000),
+      withTimeout(fetchFromArbeitnow(), 4000)
     ]);
 
     const combined = [...remotive, ...jobicy, ...arbeitnow];
@@ -1547,8 +1547,12 @@ function clearFilters() {
 }
 
 async function initJobs() {
-  allJobs = await fetchJobs();
-  // Ordenar por fecha más reciente primero
+  try {
+    allJobs = await fetchJobs();
+    if (!allJobs || allJobs.length === 0) allJobs = getFallbackJobs();
+  } catch(e) {
+    allJobs = getFallbackJobs();
+  }
   allJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
   filteredJobs = [...allJobs];
   renderJobs(true);
