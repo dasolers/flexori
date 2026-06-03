@@ -540,7 +540,7 @@ en:{
   typeAll:"All Types",typeFt:"Full Time",typePt:"Part Time",typeCt:"Contract",typeFl:"Freelance",
   regAll:"All Regions",regWw:"Worldwide",regLa:"LATAM",regEu:"Europe",regUs:"USA / Canada",regAs:"Asia Pacific",
   langAll:"All Languages",langEn:"🇺🇸 English",langEs:"🇪🇸 Español",langFr:"🇫🇷 Français",langPt:"🇧🇷 Português",
-  clearBtn:"✕ Clear",sourceTxt:"Live · Remotive + Himalayas + RemoteOK + The Muse + Arbeitnow",loadMore:"Load more →",
+  clearBtn:"✕ Clear",sourceTxt:"Live · Remotive + WWR + Himalayas + RemoteOK + The Muse + Arbeitnow + Jobicy",loadMore:"Load more →",
   emptyTitle:"No jobs found",emptySub:"Try different filters or search terms.",
   mAbout:"About the Role",mApply:"Apply for this Position →",
   mAlertTitle:"Get alerts for jobs like this",mAlertSub:"Join Flexori free and receive personalized remote job alerts.",
@@ -566,7 +566,7 @@ es:{
   typeAll:"Todos los Tipos",typeFt:"Tiempo Completo",typePt:"Medio Tiempo",typeCt:"Contrato",typeFl:"Freelance",
   regAll:"Todas las Regiones",regWw:"Mundial",regLa:"LATAM",regEu:"Europa",regUs:"EE.UU. / Canadá",regAs:"Asia Pacífico",
   langAll:"Todos los Idiomas",langEn:"🇺🇸 Inglés",langEs:"🇪🇸 Español",langFr:"🇫🇷 Francés",langPt:"🇧🇷 Portugués",
-  clearBtn:"✕ Limpiar",sourceTxt:"En vivo · Remotive + Himalayas + RemoteOK + The Muse + Arbeitnow",loadMore:"Ver más →",
+  clearBtn:"✕ Limpiar",sourceTxt:"En vivo · Remotive + WWR + Himalayas + RemoteOK + The Muse + Arbeitnow + Jobicy",loadMore:"Ver más →",
   emptyTitle:"No se encontraron empleos",emptySub:"Prueba con otros filtros o términos de búsqueda.",
   mAbout:"Sobre el Rol",mApply:"Aplicar a esta Posición →",
   mAlertTitle:"Recibe alertas de empleos como este",mAlertSub:"Únete a Flexori gratis y recibe alertas personalizadas.",
@@ -592,7 +592,7 @@ fr:{
   typeAll:"Tous les Types",typeFt:"Temps Plein",typePt:"Temps Partiel",typeCt:"Contrat",typeFl:"Freelance",
   regAll:"Toutes les Régions",regWw:"Mondial",regLa:"Amérique Latine",regEu:"Europe",regUs:"USA / Canada",regAs:"Asie Pacifique",
   langAll:"Toutes les Langues",langEn:"🇺🇸 Anglais",langEs:"🇪🇸 Espagnol",langFr:"🇫🇷 Français",langPt:"🇧🇷 Portugais",
-  clearBtn:"✕ Effacer",sourceTxt:"En direct · Remotive + Himalayas + RemoteOK + The Muse + Arbeitnow",loadMore:"Voir plus →",
+  clearBtn:"✕ Effacer",sourceTxt:"En direct · Remotive + WWR + Himalayas + RemoteOK + The Muse + Arbeitnow + Jobicy",loadMore:"Voir plus →",
   emptyTitle:"Aucun emploi trouvé",emptySub:"Essayez d'autres filtres.",
   mAbout:"À propos du Rôle",mApply:"Postuler →",
   mAlertTitle:"Recevoir des alertes",mAlertSub:"Rejoignez Flexori gratuitement pour des alertes personnalisées.",
@@ -618,7 +618,7 @@ pt:{
   typeAll:"Todos os Tipos",typeFt:"Tempo Integral",typePt:"Meio Período",typeCt:"Contrato",typeFl:"Freelance",
   regAll:"Todas as Regiões",regWw:"Mundial",regLa:"América Latina",regEu:"Europa",regUs:"EUA / Canadá",regAs:"Ásia Pacífico",
   langAll:"Todos os Idiomas",langEn:"🇺🇸 Inglês",langEs:"🇪🇸 Espanhol",langFr:"🇫🇷 Francês",langPt:"🇧🇷 Português",
-  clearBtn:"✕ Limpar",sourceTxt:"Ao vivo · Remotive + Himalayas + RemoteOK + The Muse + Arbeitnow",loadMore:"Ver mais →",
+  clearBtn:"✕ Limpar",sourceTxt:"Ao vivo · Remotive + WWR + Himalayas + RemoteOK + The Muse + Arbeitnow + Jobicy",loadMore:"Ver mais →",
   emptyTitle:"Nenhuma vaga encontrada",emptySub:"Tente outros filtros ou termos de busca.",
   mAbout:"Sobre a Vaga",mApply:"Candidatar-se →",
   mAlertTitle:"Receber alertas de vagas",mAlertSub:"Junte-se ao Flexori gratuitamente para alertas personalizados.",
@@ -777,14 +777,23 @@ const REG={
 };
 
 async function fetchAll(){
-  const [r1,r2,r3,r4,r5,r6]=await Promise.allSettled([fetchRemotive(),fetchJobicy(),fetchArbeitnow(),fetchHimalayas(),fetchRemoteOK(),fetchTheMuse()]);
+  const [r1,r2,r3,r4,r5,r6,r7,r8]=await Promise.allSettled([
+    fetchRemotive(),fetchJobicy(),fetchArbeitnow(),
+    fetchHimalayas(),fetchRemoteOK(),fetchTheMuse(),
+    fetchWWR(),fetchJobicyNonTech()
+  ]);
   let jobs=[];
-  [r1,r2,r3,r4,r5,r6].forEach(r=>{if(r.status==='fulfilled')jobs=jobs.concat(r.value);});
+  [r1,r2,r3,r4,r5,r6,r7,r8].forEach(r=>{if(r.status==='fulfilled')jobs=jobs.concat(r.value);});
   const seen=new Set();
+  const companyCounts={};
   jobs=jobs.filter(j=>{
     const k=(j.title+j.company).toLowerCase().replace(/\s/g,'');
     if(seen.has(k))return false;
-    seen.add(k);return true;
+    seen.add(k);
+    const co=(j.company||'unknown').toLowerCase().trim();
+    companyCounts[co]=(companyCounts[co]||0)+1;
+    if(companyCounts[co]>3)return false;
+    return true;
   });
   jobs.sort((a,b)=>new Date(b.date)-new Date(a.date));
   return jobs.length?jobs:getFallback();
@@ -830,6 +839,50 @@ async function fetchTheMuse(){
   if(!r.ok)throw new Error();
   const d=await r.json();
   return (d.results||[]).map(j=>({id:'tm'+j.id,title:j.name,company:j.company?j.company.name:'',logo:'',category:j.categories&&j.categories[0]?j.categories[0].name:'',tags:(j.categories||[]).map(c=>c.name).slice(0,4),type:'full_time',url:j.refs&&j.refs.landing_page||'https://www.themuse.com',date:j.publication_date||new Date().toISOString(),salary:'',location:j.locations&&j.locations[0]?j.locations[0].name:'Flexible/Remote',description:j.contents||'',source:'The Muse'}));
+}
+
+async function fetchWWR(){
+  // WeWorkRemotely — feeds no-tech: Customer Support + Sales & Marketing + Management & Finance + Design + Writing
+  const feeds=[
+    {url:'https://weworkremotely.com/categories/remote-customer-support-jobs.rss',cat:'Customer Support'},
+    {url:'https://weworkremotely.com/categories/remote-sales-and-marketing-jobs.rss',cat:'Sales & Marketing'},
+    {url:'https://weworkremotely.com/categories/remote-management-and-finance-jobs.rss',cat:'Finance & Management'},
+    {url:'https://weworkremotely.com/categories/remote-design-jobs.rss',cat:'Design'},
+    {url:'https://weworkremotely.com/categories/remote-writing-jobs.rss',cat:'Writing & Content'},
+    {url:'https://weworkremotely.com/categories/remote-product-jobs.rss',cat:'Product'},
+  ];
+  const results=await Promise.allSettled(feeds.map(async({url,cat})=>{
+    const r=await fetch(url,{headers:{Accept:'application/rss+xml,application/xml,text/xml'}});
+    if(!r.ok)return [];
+    const xml=await r.text();
+    const parser=new DOMParser();
+    const doc=parser.parseFromString(xml,'application/xml');
+    return Array.from(doc.querySelectorAll('item')).map(item=>{
+      const title=item.querySelector('title')?.textContent||'';
+      const link=item.querySelector('link')?.textContent||item.querySelector('url')?.textContent||'';
+      const desc=item.querySelector('description')?.textContent||'';
+      const pubDate=item.querySelector('pubDate')?.textContent||new Date().toISOString();
+      // WWR title format: "Company: Job Title"
+      const parts=title.split(':');
+      const company=parts.length>1?parts[0].trim():'';
+      const jobTitle=parts.length>1?parts.slice(1).join(':').trim():title;
+      const guid=item.querySelector('guid')?.textContent||link;
+      return {id:'wwr'+btoa(guid).slice(0,12),title:jobTitle,company,logo:'',category:cat,tags:[cat],type:'full_time',url:link,date:new Date(pubDate).toISOString(),salary:'',location:'Worldwide',description:desc.replace(/<[^>]+>/g,'').slice(0,300),source:'WeWorkRemotely'};
+    });
+  }));
+  return results.filter(r=>r.status==='fulfilled').flatMap(r=>r.value);
+}
+
+async function fetchJobicyNonTech(){
+  // Jobicy non-tech categories: admin-support, supporting, seller, accounting-finance, hr, marketing, copywriting
+  const cats=['admin-support','supporting','seller','accounting-finance','hr','marketing','copywriting'];
+  const results=await Promise.allSettled(cats.map(async cat=>{
+    const r=await fetch('https://jobicy.com/api/v2/remote-jobs?count=20&industry='+cat);
+    if(!r.ok)return [];
+    const d=await r.json();
+    return (d.jobs||[]).map(j=>({id:'jcnt'+j.id,title:j.jobTitle,company:j.companyName,logo:j.companyLogo||'',category:j.jobIndustry||cat,tags:[j.jobType,j.jobLevel].filter(Boolean),type:j.jobType||'full_time',url:j.url,date:j.pubDate||new Date().toISOString(),salary:'',location:j.jobGeo||'Worldwide',description:j.jobExcerpt||'',source:'Jobicy'}));
+  }));
+  return results.filter(r=>r.status==='fulfilled').flatMap(r=>r.value);
 }
 
 // ADZUNA SLOT — agregar cuando tengas API key:
