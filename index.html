@@ -1547,15 +1547,24 @@ function clearFilters() {
 }
 
 async function initJobs() {
-  try {
-    allJobs = await fetchJobs();
-    if (!allJobs || allJobs.length === 0) allJobs = getFallbackJobs();
-  } catch(e) {
-    allJobs = getFallbackJobs();
-  }
+  // Mostrar fallback inmediatamente para que la página no quede vacía
+  allJobs = getFallbackJobs();
   allJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
   filteredJobs = [...allJobs];
   renderJobs(true);
+  
+  // Intentar cargar jobs reales en background
+  try {
+    const realJobs = await fetchJobs();
+    if (realJobs && realJobs.length > 0 && realJobs[0].id !== 1) {
+      allJobs = realJobs;
+      allJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
+      filteredJobs = [...allJobs];
+      renderJobs(true);
+    }
+  } catch(e) {
+    // fallback ya está mostrando
+  }
 }
 
 // Search debounce
@@ -1583,7 +1592,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 6000);
 });
 
-window._L = {};
+// window._L se maneja en setLang
 
 
 // ── MODAL ENGINE ──
@@ -1986,7 +1995,7 @@ const SCORE_QUESTIONS = [
 let scoreAnswers = {};
 let currentQuestion = 0;
 
-function openScoreModal() {
+window.openScoreModal = function openScoreModal() {
   scoreAnswers = {};
   currentQuestion = 0;
   try { gtag('event', 'score_started', { event_category: 'engagement', event_label: 'Score Modal Opened' }); } catch(e) {}
@@ -2687,7 +2696,7 @@ const HOME_PRICES = {
   pro: 'price_1TcGCbKCK5PGV3GQgiqLL0wd',
   plus: 'price_1TcGCcKCK5PGV3GQNjQWywcy'
 };
-async function startCheckoutHome(plan) {
+window.startCheckoutHome = async function startCheckoutHome(plan) {
   try { gtag('event', 'checkout_started', { event_category: 'conversion', event_label: plan, value: plan === 'pro' ? 11.99 : 19 }); } catch(e) {}
   try {
     const email = localStorage.getItem('sb_user_email') || localStorage.getItem('flexori_email') || '';
