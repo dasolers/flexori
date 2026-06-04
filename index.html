@@ -1028,6 +1028,15 @@ try{const _sl=localStorage.getItem('flexori_lang');if(_sl&&['en','es','fr','pt']
 function setLang(l){
   lang=l;
   try{localStorage.setItem('flexori_lang',l);}catch(e){}
+  // Update all internal links to carry lang param
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href');
+    if(h&&h.startsWith('/')&&!h.includes('?lang=')&&!h.includes('#')&&h.endsWith('.html')){
+      a.setAttribute('href',h+'?lang='+l);
+    } else if(h&&h.startsWith('/')&&h.includes('?lang=')){
+      a.setAttribute('href',h.replace(/\?lang=[a-z]+/,'?lang='+l));
+    }
+  });
   const t=L[l];
   document.getElementById('cf').textContent=FL[l];
   document.getElementById('cl').textContent=FC[l];
