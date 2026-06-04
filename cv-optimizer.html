@@ -951,10 +951,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Also set analysisLang to match
     if (window.setAnalysisLang) window.setAnalysisLang(l === 'pt' ? 'en' : l);
   }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', applyCVLang);
-  } else { applyCVLang(); }
+  // Run immediately (script is at end of body, DOM is ready)
+  applyCVLang();
+  // Also on load as safety net
   window.addEventListener('load', applyCVLang);
+  // And after a short delay in case of Safari quirks
+  setTimeout(applyCVLang, 300);
 })();
 </script>
 
