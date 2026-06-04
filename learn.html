@@ -27,7 +27,10 @@
       tab3:'Week 3 — Optimization 🔒',
       tab4:'Week 4 🔒',
       progress:'Your progress',
-      w1_title:'Week 1 — Diagnosis and Foundation'
+      w1_title:'Week 1 — Diagnosis and Foundation',
+      w1_sub:'Understand your starting point. This week we explore your 8 dimensions, identify your strengths and prioritize what to improve first.',
+      no_score:'No Score yet',
+      dims:['Remote History','Remote Tools','Communication','Reliability','Workspace','Languages','Portfolio','Flexibility']
     },
     fr:{
       badge:'🎯 Centre de Carrière à Distance',
@@ -42,7 +45,10 @@
       tab3:'Semaine 3 — Optimisation 🔒',
       tab4:'Semaine 4 🔒',
       progress:'Votre progression',
-      w1_title:'Semaine 1 — Diagnostic et Base'
+      w1_title:'Semaine 1 — Diagnostic et Base',
+      w1_sub:"Comprenez votre point de départ. Cette semaine nous explorons vos 8 dimensions et priorisons ce qu'il faut améliorer.",
+      no_score:'Pas encore de Score',
+      dims:['Historique Distant','Outils Distants','Communication','Fiabilité','Espace de Travail','Langues','Portfolio','Flexibilité']
     },
     pt:{
       badge:'🎯 Centro de Carreira Remota',
@@ -57,7 +63,10 @@
       tab3:'Semana 3 — Otimização 🔒',
       tab4:'Semana 4 🔒',
       progress:'Seu progresso',
-      w1_title:'Semana 1 — Diagnóstico e Base'
+      w1_title:'Semana 1 — Diagnóstico e Base',
+      w1_sub:'Entenda seu ponto de partida. Esta semana exploramos suas 8 dimensões e priorizamos o que melhorar primeiro.',
+      no_score:'Sem Score ainda',
+      dims:['Histórico Remoto','Ferramentas Remotas','Comunicação','Confiabilidade','Espaço de Trabalho','Idiomas','Portfólio','Flexibilidade']
     }
   };
   document.addEventListener('DOMContentLoaded', function(){
@@ -78,6 +87,12 @@
     set('ln-tab4', t.tab4);
     txt('ln-progress', t.progress);
     txt('ln-w1-title', t.w1_title);
+    txt('ln-w1-sub', t.w1_sub);
+    // Dimension titles
+    var dimIds=['dim-title-rh','dim-title-rt','dim-title-comm','dim-title-rel','dim-title-setup','dim-title-lang','dim-title-port','dim-title-flex'];
+    dimIds.forEach(function(id,i){ var el=document.getElementById(id); if(el&&t.dims[i]) el.textContent=t.dims[i]; });
+    // No score badges
+    document.querySelectorAll('.no-score-lbl').forEach(function(el){ el.textContent=t.no_score; });
     // Page title
     if(l==='en') document.title='Remote Career Center — Flexori';
     else if(l==='fr') document.title='Centre de Carrière — Flexori';
@@ -302,14 +317,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
   <div class="progress-bar-wrap">
     <span style="font-size:13px;color:var(--muted);white-space:nowrap" id="ln-progress">Tu progreso</span>
     <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill" style="width:25%"></div></div>
-    <span class="progress-label" id="progress-label" data-en="Week 1 of 4" data-fr="Semaine 1 de 4" data-pt="Semana 1 de 4">Semana 1 de 4</span>
+    <span class="progress-label" id="progress-label">Semana 1 de 4</span>
   </div>
 
   <!-- WEEK 1 - FREE -->
   <div class="week-section active" id="week-1">
     <div class="week-header">
       <h2 id="ln-w1-title">Semana 1 — Diagnóstico y Base</h2>
-      <p>Entiende tu punto de partida. Esta semana exploramos tus 8 dimensiones, identificamos tus fortalezas y priorizamos qué mejorar primero.</p>
+      <p id="ln-w1-sub">Entiende tu punto de partida. Esta semana exploramos tus 8 dimensiones, identificamos tus fortalezas y priorizamos qué mejorar primero.</p>
     </div>
 
     <!-- DIMENSION 1: Remote History -->
@@ -318,8 +333,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(29,158,117,0.12)">🌐</div>
           <div>
-            <div class="dim-card-title">Historial Remoto</div>
-            <span class="dim-score-badge score-mid" id="badge-remote-history">Sin Score aún</span>
+            <div class="dim-card-title" id="dim-title-rh">Historial Remoto</div>
+            <span class="dim-score-badge score-mid" id="badge-remote-history"><span class="no-score-lbl">Sin Score aún</span></span>
           </div>
         </div>
         <span class="dim-chevron">▼</span>
@@ -362,8 +377,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(29,95,163,0.12)">🛠️</div>
           <div>
-            <div class="dim-card-title">Herramientas Remotas</div>
-            <span class="dim-score-badge score-mid" id="badge-remote-tools">Sin Score aún</span>
+            <div class="dim-card-title" id="dim-title-rt">Herramientas Remotas</div>
+            <span class="dim-score-badge score-mid" id="badge-remote-tools"><span class="no-score-lbl">Sin Score aún</span></span>
           </div>
         </div>
         <span class="dim-chevron">▼</span>
@@ -401,8 +416,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(245,158,11,0.12)">💬</div>
           <div>
-            <div class="dim-card-title">Comunicación</div>
-            <span class="dim-score-badge score-mid" id="badge-communication">Sin Score aún</span>
+            <div class="dim-card-title" id="dim-title-comm">Comunicación</div>
+            <span class="dim-score-badge score-mid" id="badge-communication"><span class="no-score-lbl">Sin Score aún</span></span>
           </div>
         </div>
         <span class="dim-chevron">▼</span>
@@ -440,8 +455,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(29,158,117,0.12)">✅</div>
           <div>
-            <div class="dim-card-title">Confiabilidad</div>
-            <span class="dim-score-badge score-mid" id="badge-reliability">Sin Score aún</span>
+            <div class="dim-card-title" id="dim-title-rel">Confiabilidad</div>
+            <span class="dim-score-badge score-mid" id="badge-reliability"><span class="no-score-lbl">Sin Score aún</span></span>
           </div>
         </div>
         <span class="dim-chevron">▼</span>
@@ -479,8 +494,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(29,95,163,0.12)">🖥️</div>
           <div>
-            <div class="dim-card-title">Espacio de Trabajo</div>
-            <span class="dim-score-badge score-mid" id="badge-setup">Sin Score aún</span>
+            <div class="dim-card-title" id="dim-title-setup">Espacio de Trabajo</div>
+            <span class="dim-score-badge score-mid" id="badge-setup"><span class="no-score-lbl">Sin Score aún</span></span>
           </div>
         </div>
         <span class="dim-chevron">▼</span>
@@ -518,8 +533,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(245,158,11,0.12)">🗣️</div>
           <div>
-            <div class="dim-card-title">Idiomas</div>
-            <span class="dim-score-badge score-mid" id="badge-languages">Sin Score aún</span>
+            <div class="dim-card-title" id="dim-title-lang">Idiomas</div>
+            <span class="dim-score-badge score-mid" id="badge-languages"><span class="no-score-lbl">Sin Score aún</span></span>
           </div>
         </div>
         <span class="dim-chevron">▼</span>
@@ -557,8 +572,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(29,158,117,0.12)">💼</div>
           <div>
-            <div class="dim-card-title">Portafolio</div>
-            <span class="dim-score-badge score-mid" id="badge-portfolio">Sin Score aún</span>
+            <div class="dim-card-title" id="dim-title-port">Portafolio</div>
+            <span class="dim-score-badge score-mid" id="badge-portfolio"><span class="no-score-lbl">Sin Score aún</span></span>
           </div>
         </div>
         <span class="dim-chevron">▼</span>
@@ -596,8 +611,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
         <div class="dim-card-left">
           <div class="dim-icon" style="background:rgba(29,95,163,0.12)">🌍</div>
           <div>
-            <div class="dim-card-title">Flexibilidad</div>
-            <span class="dim-score-badge score-mid" id="badge-flexibility">Sin Score aún</span>
+            <div class="dim-card-title" id="dim-title-flex">Flexibilidad</div>
+            <span class="dim-score-badge score-mid" id="badge-flexibility"><span class="no-score-lbl">Sin Score aún</span></span>
           </div>
         </div>
         <span class="dim-chevron">▼</span>
@@ -1045,7 +1060,10 @@ function switchWeek(n, btn) {
   btn.classList.add('active');
   var pct = (n / 4 * 100) + '%';
   document.getElementById('progress-fill').style.width = pct;
-  document.getElementById('progress-label').textContent = 'Semana ' + n + ' de 4';
+  var _ll = window._learnlang||'es';
+  var _pw = _ll==='en'?'Week':_ll==='fr'?'Semaine':'Semana';
+  var _po = _ll==='en'?'of':_ll==='fr'?'de':'de';
+  document.getElementById('progress-label').textContent = _pw + ' ' + n + ' ' + _po + ' 4';
   try { gtag('event', 'learn_week_view', { event_category: 'engagement', value: n }); } catch(e) {}
 }
 
