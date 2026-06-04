@@ -1,6 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script>
+// Inline lang apply — runs before render
+(function(){
+  var l = null;
+  try { var p = new URLSearchParams(window.location.search); l = p.get('lang'); } catch(e){}
+  if (!l) { try { l = localStorage.getItem('flexori_lang'); } catch(e){} }
+  if (!l) { var bl=(navigator.language||'').toLowerCase(); if(bl.startsWith('en'))l='en'; else if(bl.startsWith('fr'))l='fr'; else if(bl.startsWith('pt'))l='pt'; }
+  if (!l || l === 'es') return;
+  try { localStorage.setItem('flexori_lang', l); } catch(e){}
+  window._cvlang = l;
+  // Apply immediately when DOM is ready
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('[data-'+l+']').forEach(function(el){
+      el.innerHTML = el.getAttribute('data-'+l);
+    });
+    // Max size tag
+    document.querySelectorAll('.format-tag').forEach(function(el){
+      if(el.textContent.includes('Máx')) el.textContent = l==='en'?'Max. 5MB':l==='fr'?'Max. 5Mo':'Máx. 5MB';
+    });
+    // Page title
+    if(l==='en') document.title='AI CV Optimizer — Flexori';
+    else if(l==='fr') document.title='Optimiseur CV IA — Flexori';
+    else if(l==='pt') document.title='Otimizador CV IA — Flexori';
+    // Nav learn
+    var nl = document.getElementById('cv-nav-learn');
+    if(nl) nl.textContent = l==='en'?'Learn':l==='fr'?'Apprendre':'Aprender';
+  });
+})();
+</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HFYKRPJN1E"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-HFYKRPJN1E');</script>
 <meta charset="UTF-8"/>
@@ -278,28 +307,28 @@ footer{border-top:1px solid var(--border);padding:32px 48px;display:flex;
 <div class="page">
   <!-- HERO -->
   <div class="hero">
-    <div class="badge"><span class="badge-dot"></span> <span id="cv-badge-text">IA · Análisis en segundos</span></div>
-    <h1><span id="cv-h1a">Optimiza tu CV para</span><br><span class="g" id="cv-h1b">trabajo remoto</span></h1>
-    <p class="hero-sub"><span id="cv-hero-sub">Nuestra IA analiza tu CV y te da recomendaciones personalizadas basadas en tu Score de Empleabilidad. Sube tu archivo y recibe un análisis completo en segundos.</span></p>
+    <div class="badge"><span class="badge-dot"></span> <span id="cv-badge-text" data-en="AI · Analysis in seconds" data-fr="IA · Analyse en secondes" data-pt="IA · Análise em segundos">IA · Análisis en segundos</span></div>
+    <h1><span id="cv-h1a" data-en="Optimize your CV for" data-fr="Optimisez votre CV pour" data-pt="Otimize seu CV para">Optimiza tu CV para</span><br><span class="g" id="cv-h1b" data-en="remote work" data-fr="le travail distant" data-pt="trabalho remoto">trabajo remoto</span></h1>
+    <p class="hero-sub"><span id="cv-hero-sub" data-en="Our AI analyzes your CV and gives you personalized recommendations based on your Employability Score. Upload your file and get a full analysis in seconds." data-fr="Notre IA analyse votre CV et vous donne des recommandations personnalisées. Téléchargez votre fichier et recevez une analyse complète en secondes." data-pt="Nossa IA analisa seu CV e dá recomendações personalizadas. Envie seu arquivo e receba uma análise completa em segundos.">Nuestra IA analiza tu CV y te da recomendaciones personalizadas basadas en tu Score de Empleabilidad. Sube tu archivo y recibe un análisis completo en segundos.</span></p>
 
     <!-- SCORE BANNER con score -->
     <div class="score-banner" id="score-banner" style="display:none">
       <div class="score-num" id="banner-score">--</div>
       <div class="score-info">
-        <div class="score-title"><span id="cv-score-title">Tu Score de Empleabilidad</span></div>
+        <div class="score-title"><span id="cv-score-title" data-en="Your Employability Score" data-fr="Votre Score d'Employabilité" data-pt="Seu Score de Empregabilidade">Tu Score de Empleabilidad</span></div>
         <div class="score-sub" id="banner-sub">El análisis de tu CV se personalizará según tus dimensiones débiles</div>
       </div>
-      <a href="/index.html?score=true" class="score-cta-link"><span id="cv-ver-score">Ver Score →</span></a>
+      <a href="/index.html?score=true" class="score-cta-link"><span id="cv-ver-score" data-en="See Score →" data-fr="Voir Score →" data-pt="Ver Score →">Ver Score →</span></a>
     </div>
 
     <!-- Banner sin score -->
     <div class="score-banner" id="no-score-banner" style="display:flex">
       <div style="font-size:28px;flex-shrink:0">🎯</div>
       <div class="score-info">
-        <div class="score-title"><span id="cv-no-score-title">¿Ya tienes tu Score de Empleabilidad?</span></div>
-        <div class="score-sub"><span id="cv-no-score-sub">Con tu Score el análisis es 3x más preciso y personalizado</span></div>
+        <div class="score-title"><span id="cv-no-score-title" data-en="Do you have your Employability Score?" data-fr="Avez-vous votre Score d'Employabilité ?" data-pt="Você tem seu Score de Empregabilidade?">¿Ya tienes tu Score de Empleabilidad?</span></div>
+        <div class="score-sub"><span id="cv-no-score-sub" data-en="With your Score the analysis is 3x more precise and personalized" data-fr="Avec votre Score, l'analyse est 3x plus précise" data-pt="Com seu Score a análise é 3x mais precisa">Con tu Score el análisis es 3x más preciso y personalizado</span></div>
       </div>
-      <a href="/index.html?score=true" class="score-cta-link"><span id="cv-get-score">Obtener Score →</span></a>
+      <a href="/index.html?score=true" class="score-cta-link"><span id="cv-get-score" data-en="Get Score →" data-fr="Obtenir Score →" data-pt="Obter Score →">Obtener Score →</span></a>
     </div>
   </div>
 
@@ -312,15 +341,15 @@ footer{border-top:1px solid var(--border);padding:32px 48px;display:flex;
       onclick="document.getElementById('file-input').click()">
 
       <div class="upload-icon">📄</div>
-      <div class="upload-title"><span id="cv-upload-title">Sube tu CV aquí</span></div>
-      <p class="upload-sub"><span id="cv-upload-sub">Arrastra y suelta tu archivo o haz clic para seleccionarlo.<br>El análisis tarda menos de 30 segundos.</span></p>
+      <div class="upload-title"><span id="cv-upload-title" data-en="Upload your CV here" data-fr="Téléchargez votre CV ici" data-pt="Envie seu CV aqui">Sube tu CV aquí</span></div>
+      <p class="upload-sub"><span id="cv-upload-sub" data-en="Drag and drop your file or click to select it.<br>Analysis takes less than 30 seconds." data-fr="Glissez-déposez votre fichier ou cliquez pour le sélectionner.<br>L'analyse prend moins de 30 secondes." data-pt="Arraste e solte seu arquivo ou clique para selecioná-lo.<br>A análise leva menos de 30 segundos.">Arrastra y suelta tu archivo o haz clic para seleccionarlo.<br>El análisis tarda menos de 30 segundos.</span></p>
       <div class="upload-formats">
         <span class="format-tag">PDF</span>
         <span class="format-tag">Word (.docx)</span>
         <span class="format-tag">Máx. 5MB</span>
       </div>
       <button class="btn-upload" onclick="event.stopPropagation();document.getElementById('file-input').click()">
-        <span id="cv-select-file">Seleccionar archivo</span>
+        <span id="cv-select-file" data-en="Select file" data-fr="Sélectionner un fichier" data-pt="Selecionar arquivo">Seleccionar archivo</span>
       </button>
       <input type="file" id="file-input" accept=".pdf,.docx,.doc" onchange="handleFileSelect(event)"/>
     </div>
@@ -346,7 +375,7 @@ footer{border-top:1px solid var(--border);padding:32px 48px;display:flex;
 
     <!-- Botón analizar -->
     <button class="btn-analyze" id="btn-analyze" onclick="analyzeCV()">
-      <span>⚡</span> <span id="analyze-text">Analizar mi CV con IA</span>
+      <span>⚡</span> <span id="analyze-text" data-en="Analyze my CV with AI" data-fr="Analyser mon CV avec IA" data-pt="Analisar meu CV com IA">Analizar mi CV con IA</span>
     </button>
   </div>
 
