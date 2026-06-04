@@ -255,7 +255,7 @@ footer{border-top:1px solid var(--border);padding:32px 48px;display:flex;
   <ul class="nav-links">
     <li><a href="/index.html">Home</a></li>
     <li><a href="/jobs.html">Jobs</a>
-      <a href="/learn.html">Aprende</a></li>
+      <a href="/learn.html" id="cv-nav-learn">Aprende</a></li>
     <li><a href="/cv-optimizer.html" class="active">CV Optimizer</a></li>
     <li><a href="/index.html#faq">FAQ</a></li>
   </ul>
@@ -320,7 +320,7 @@ footer{border-top:1px solid var(--border);padding:32px 48px;display:flex;
         <span class="format-tag">Máx. 5MB</span>
       </div>
       <button class="btn-upload" onclick="event.stopPropagation();document.getElementById('file-input').click()">
-        Seleccionar archivo
+        <span id="cv-select-file">Seleccionar archivo</span>
       </button>
       <input type="file" id="file-input" accept=".pdf,.docx,.doc" onchange="handleFileSelect(event)"/>
     </div>
@@ -873,6 +873,7 @@ document.addEventListener('DOMContentLoaded', () => {
       step1: 'Reading the document',
       step2: 'Comparing with remote jobs',
       step3: 'Applying your Employability Score',
+      nav_learn: 'Learn',
       lang_label: 'Analysis language:',
       max_size: 'Max. 5MB'
     },
@@ -894,6 +895,7 @@ document.addEventListener('DOMContentLoaded', () => {
       step1: 'Lecture du document',
       step2: 'Comparaison avec les emplois distants',
       step3: "Application de votre Score d'Employabilité",
+      nav_learn: 'Apprendre',
       lang_label: "Langue de l'analyse :",
       max_size: 'Max. 5Mo'
     },
@@ -915,6 +917,7 @@ document.addEventListener('DOMContentLoaded', () => {
       step1: 'Lendo o documento',
       step2: 'Comparando com vagas remotas',
       step3: 'Aplicando seu Score de Empregabilidade',
+      nav_learn: 'Aprender',
       lang_label: 'Idioma da análise:',
       max_size: 'Máx. 5MB'
     }
@@ -938,7 +941,8 @@ document.addEventListener('DOMContentLoaded', () => {
       'cv-no-score-sub': t.no_score_sub, 'cv-get-score': t.get_score,
       'cv-upload-title': t.upload_title, 'cv-select-file': t.select_file,
       'analyze-text': t.analyze_btn, 'cv-analyzing': t.analyzing,
-      'cv-step1': t.step1, 'cv-step2': t.step2, 'cv-step3': t.step3
+      'cv-step1': t.step1, 'cv-step2': t.step2, 'cv-step3': t.step3,
+      'cv-nav-learn': t.nav_learn
     };
     Object.keys(ids).forEach(function(id) {
       var el = document.getElementById(id);
