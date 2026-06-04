@@ -167,9 +167,10 @@ function switchTab(m) {
   document.getElementById('tab-reg').className = 'tab' + (isReg ? ' active' : '');
   document.getElementById('tab-log').className = 'tab' + (!isReg ? ' active' : '');
   document.getElementById('benefits-block').style.display = isReg ? 'block' : 'none';
-  document.getElementById('reg-password').placeholder = isReg ? 'Mínimo 6 caracteres' : 'Tu contraseña';
+  const _t = window._regT;
+  document.getElementById('reg-password').placeholder = isReg ? (_t ? _t.pass_ph : 'Mínimo 6 caracteres') : (_t ? _t.pass_ph_login || 'Tu contraseña' : 'Tu contraseña');
   document.getElementById('reg-password').autocomplete = isReg ? 'new-password' : 'current-password';
-  document.getElementById('submit-btn').textContent = isReg ? 'Crear cuenta gratis →' : 'Iniciar sesión →';
+  document.getElementById('submit-btn').textContent = isReg ? (_t ? _t.btn_reg : 'Crear cuenta gratis →') : (_t ? _t.btn_log : 'Iniciar sesión →');
   document.getElementById('error-msg').style.display = 'none';
 }
 
@@ -212,7 +213,7 @@ async function submitForm() {
       if(msg.includes('Password should be')) msg = 'La contraseña debe tener al menos 6 caracteres.';
       showError(msg);
       btn.disabled = false;
-      btn.textContent = mode === 'register' ? 'Crear cuenta gratis →' : 'Iniciar sesión →';
+      btn.textContent = mode === 'register' ? (window._regT ? window._regT.btn_reg : 'Crear cuenta gratis →') : (window._regT ? window._regT.btn_log : 'Iniciar sesión →');
       return;
     }
 
@@ -258,7 +259,7 @@ async function submitForm() {
   } catch(err) {
     showError('Error de conexión. Intenta de nuevo.');
     btn.disabled = false;
-    btn.textContent = mode === 'register' ? 'Crear cuenta gratis →' : 'Iniciar sesión →';
+    btn.textContent = mode === 'register' ? (window._regT ? window._regT.btn_reg : 'Crear cuenta gratis →') : (window._regT ? window._regT.btn_log : 'Iniciar sesión →');
   }
 }
 
@@ -284,7 +285,7 @@ if ('serviceWorker' in navigator) {
       tab_reg: 'Create account', tab_log: 'Sign in',
       badge: 'Your GPS to the remote world — free',
       b: ['Employability Score in 8 dimensions','Verified Remote Digital Passport','Remote jobs from 180+ countries','Real-time salary data'],
-      pass_lbl: 'Password', pass_ph: 'Minimum 6 characters',
+      pass_lbl: 'Password', pass_ph: 'Minimum 6 characters', pass_ph_login: 'Your password',
       btn_reg: 'Create free account →', btn_log: 'Sign in →',
       note: 'By registering you accept our <a href="#">Terms</a> and <a href="#">Privacy</a><br>100% free · No card · No conditions',
       back: '← Back'
@@ -293,7 +294,7 @@ if ('serviceWorker' in navigator) {
       tab_reg: 'Créer un compte', tab_log: 'Se connecter',
       badge: 'Votre GPS vers le monde distant — gratuit',
       b: ["Score d'employabilité en 8 dimensions","Passeport Numérique Distant vérifié","Emplois distants de 180+ pays","Données salariales en temps réel"],
-      pass_lbl: 'Mot de passe', pass_ph: 'Minimum 6 caractères',
+      pass_lbl: 'Mot de passe', pass_ph: 'Minimum 6 caractères', pass_ph_login: 'Votre mot de passe',
       btn_reg: 'Créer un compte gratuit →', btn_log: 'Se connecter →',
       note: 'En vous inscrivant, vous acceptez nos <a href="#">Conditions</a> et <a href="#">Confidentialité</a><br>100% gratuit · Sans carte · Sans conditions',
       back: '← Retour'
@@ -302,7 +303,7 @@ if ('serviceWorker' in navigator) {
       tab_reg: 'Criar conta', tab_log: 'Entrar',
       badge: 'Seu GPS para o mundo remoto — grátis',
       b: ['Score de Empregabilidade em 8 dimensões','Passaporte Digital Remoto verificado','Vagas remotas de 180+ países','Dados salariais em tempo real'],
-      pass_lbl: 'Senha', pass_ph: 'Mínimo 6 caracteres',
+      pass_lbl: 'Senha', pass_ph: 'Mínimo 6 caracteres', pass_ph_login: 'Sua senha',
       btn_reg: 'Criar conta gratuita →', btn_log: 'Entrar →',
       note: 'Ao se registrar você aceita nossos <a href="#">Termos</a> e <a href="#">Privacidade</a><br>100% gratuito · Sem cartão · Sem condições',
       back: '← Voltar'
