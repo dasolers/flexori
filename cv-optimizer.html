@@ -478,7 +478,17 @@ function loadUserScore() {
         if (userBreakdown && userBreakdown.length) {
           const weakest = [...userBreakdown].sort((a,b) => (a.score/a.max)-(b.score/b.max))[0];
           const dimES = {'Remote History':'Historial Remoto','Remote Tools':'Herramientas','Communication':'Comunicación','Reliability':'Confiabilidad','Setup':'Espacio de Trabajo','Languages':'Idiomas','Portfolio':'Portafolio','Flexibility':'Flexibilidad'};
-          bannerSub.textContent = `Tu punto más débil: ${dimES[weakest.dimension] || weakest.dimension}. El análisis se enfocará en mejorarlo.`;
+          const dimEN = {'Remote History':'Remote History','Remote Tools':'Remote Tools','Communication':'Communication','Reliability':'Reliability','Setup':'Workspace','Languages':'Languages','Portfolio':'Portfolio','Flexibility':'Flexibility'};
+          const _l = (function(){ try { var p=new URLSearchParams(window.location.search); var lp=p.get('lang'); if(lp) return lp; return localStorage.getItem('flexori_lang')||'es'; } catch(e){ return 'es'; } })();
+          if (_l === 'en') {
+            bannerSub.textContent = `Weakest area: ${dimEN[weakest.dimension] || weakest.dimension}. The analysis will focus on improving it.`;
+          } else if (_l === 'fr') {
+            bannerSub.textContent = `Point faible: ${weakest.dimension}. L'analyse se concentrera sur l'améliorer.`;
+          } else if (_l === 'pt') {
+            bannerSub.textContent = `Ponto mais fraco: ${weakest.dimension}. A análise focará em melhorá-lo.`;
+          } else {
+            bannerSub.textContent = `Tu punto más débil: ${dimES[weakest.dimension] || weakest.dimension}. El análisis se enfocará en mejorarlo.`;
+          }
         }
       }
     }
@@ -843,9 +853,9 @@ async function startCheckout(plan) {
 // ── INIT ──
 document.addEventListener('DOMContentLoaded', () => {
   loadUserScore();
+  // Re-apply translations after loadUserScore to ensure lang is correct
+  if (window._applyCVLang) window._applyCVLang();
 
-  // Guardar Score en localStorage cuando se completa en index.html
-  // (El index.html ya guarda window._scoreData — lo sincronizamos aquí)
   window.addEventListener('storage', (e) => {
     if (e.key === 'flexori_score') loadUserScore();
   });
@@ -972,6 +982,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Also set analysisLang to match
     if (window.setAnalysisLang) window.setAnalysisLang(l === 'pt' ? 'en' : l);
   }
+  // Expose for external calls
+  window._applyCVLang = applyCVLang;
   // Run immediately (script is at end of body, DOM is ready)
   applyCVLang();
   // Also on load as safety net
