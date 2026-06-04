@@ -552,7 +552,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
       </div>
 
       <!-- CV OPTIMIZER -->
-      <div style="background:var(--surface);border:1px solid rgba(29,95,163,0.3);border-radius:20px;padding:28px;transition:border-color .2s;cursor:pointer;position:relative;overflow:hidden" onmouseover="this.style.borderColor='rgba(29,95,163,0.6)'" onmouseout="this.style.borderColor='rgba(29,95,163,0.3)'" onclick="window.location='/cv-optimizer.html'">
+      <div style="background:var(--surface);border:1px solid rgba(29,95,163,0.3);border-radius:20px;padding:28px;transition:border-color .2s;cursor:pointer;position:relative;overflow:hidden" onmouseover="this.style.borderColor='rgba(29,95,163,0.6)'" onmouseout="this.style.borderColor='rgba(29,95,163,0.3)'" onclick="window.location='/cv-optimizer.html'+(lang&&lang!=='es'?'?lang='+lang:'')">
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1D9E75,#1D5FA3)"></div>
         <div style="position:absolute;top:16px;right:16px;background:rgba(245,158,11,0.15);color:#F59E0B;font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:.5px">Popular</div>
         <div style="width:48px;height:48px;background:rgba(29,95,163,0.12);border:1px solid rgba(29,95,163,0.25);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
@@ -2446,7 +2446,7 @@ function showFullScore(finalScore, breakdown, l) {
       html += '</div>';
       html += '<p style="font-size:12px;color:#A8A69E;margin:0 0 12px;line-height:1.6">' + sub + '</p>';
       html += '<a href="' + learnUrl + '" onclick="closeCVPopup()" style="display:block;background:#1D9E75;color:#0D1321;border-radius:100px;padding:10px;font-family:Syne,sans-serif;font-size:13px;font-weight:700;text-decoration:none;text-align:center;margin-bottom:8px">' + btnRoute + '</a>';
-      html += '<a href="/cv-optimizer.html" onclick="closeCVPopup()" style="display:block;background:rgba(29,158,117,0.1);border:1px solid rgba(29,158,117,0.3);color:#1D9E75;border-radius:100px;padding:9px;font-family:Syne,sans-serif;font-size:13px;font-weight:700;text-decoration:none;text-align:center;margin-bottom:8px">' + btnCV + '</a>';
+      html += '<a href="/cv-optimizer.html' + (lang&&lang!=='es'?'?lang='+lang:'') + '" onclick="closeCVPopup()" style="display:block;background:rgba(29,158,117,0.1);border:1px solid rgba(29,158,117,0.3);color:#1D9E75;border-radius:100px;padding:9px;font-family:Syne,sans-serif;font-size:13px;font-weight:700;text-decoration:none;text-align:center;margin-bottom:8px">' + btnCV + '</a>';
       html += '<button onclick="closeCVPopup()" style="display:block;width:100%;background:none;border:none;color:#A8A69E;font-size:11px;cursor:pointer;padding:2px">' + btnSkip + '</button>';
       html += '</div>';
       p.innerHTML = html;
