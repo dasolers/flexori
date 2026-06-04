@@ -920,8 +920,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
   function applyCVLang() {
-    var l; try { l = localStorage.getItem('flexori_lang'); } catch(e) { return; }
+    // Read lang from URL param first (most reliable), then localStorage
+    var l = null;
+    try {
+      var params = new URLSearchParams(window.location.search);
+      l = params.get('lang');
+    } catch(e) {}
+    if (!l) { try { l = localStorage.getItem('flexori_lang'); } catch(e) {} }
     if (!l || l === 'es' || !T[l]) return;
+    // Save to localStorage for subsequent pages
+    try { localStorage.setItem('flexori_lang', l); } catch(e) {}
     var t = T[l];
     var ids = {
       'cv-badge-text': t.badge, 'cv-h1a': t.h1a, 'cv-h1b': t.h1b,
