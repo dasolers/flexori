@@ -1022,9 +1022,12 @@ const bl=navigator.language||'en';
 if(bl.startsWith('es'))lang='es';
 else if(bl.startsWith('fr'))lang='fr';
 else if(bl.startsWith('pt'))lang='pt';
+// Override with user's explicit choice if saved
+try{const _sl=localStorage.getItem('flexori_lang');if(_sl&&['en','es','fr','pt'].includes(_sl))lang=_sl;}catch(e){}
 
 function setLang(l){
   lang=l;
+  try{localStorage.setItem('flexori_lang',l);}catch(e){}
   const t=L[l];
   document.getElementById('cf').textContent=FL[l];
   document.getElementById('cl').textContent=FC[l];
