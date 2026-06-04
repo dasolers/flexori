@@ -6,10 +6,13 @@
   var l = null;
   try { var p=new URLSearchParams(window.location.search); l=p.get('lang'); } catch(e){}
   if (!l) { try { l=localStorage.getItem('flexori_lang'); } catch(e){} }
-  if (!l) { var bl=(navigator.language||'').toLowerCase(); if(bl.startsWith('en'))l='en'; else if(bl.startsWith('fr'))l='fr'; else if(bl.startsWith('pt'))l='pt'; }
-  if (!l || l==='es') return;
+  if (!l || !['en','fr','pt','es'].includes(l)) {
+    var bl=(navigator.language||navigator.userLanguage||'es').toLowerCase();
+    if(bl.startsWith('en'))l='en'; else if(bl.startsWith('fr'))l='fr'; else if(bl.startsWith('pt'))l='pt'; else l='es';
+  }
   try { localStorage.setItem('flexori_lang',l); } catch(e){}
   window._learnlang = l;
+  if (!l || l==='es') return;
   var T = {
     en:{
       badge:'🎯 Remote Career Center',
