@@ -1,6 +1,94 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script>
+(function(){
+  var l = null;
+  try { var p=new URLSearchParams(window.location.search); l=p.get('lang'); } catch(e){}
+  if (!l) { try { l=localStorage.getItem('flexori_lang'); } catch(e){} }
+  if (!l) { var bl=(navigator.language||'').toLowerCase(); if(bl.startsWith('en'))l='en'; else if(bl.startsWith('fr'))l='fr'; else if(bl.startsWith('pt'))l='pt'; }
+  if (!l || l==='es') return;
+  try { localStorage.setItem('flexori_lang',l); } catch(e){}
+  window._learnlang = l;
+  var T = {
+    en:{
+      badge:'🎯 Remote Career Center',
+      h1:'Your path to<br>',h1b:'remote work',
+      sub:'Based on your Employability Score. 4 weeks, step by step, with curated resources and practical exercises to become the ideal candidate.',
+      score_title:'Get your Score first',
+      score_desc:'Your path is personalized based on your results. Takes 3 minutes and is free.',
+      score_btn:'⚡ Get my Score',
+      jobs:'Jobs', learn:'Learn',
+      tab1:'Week 1 — Diagnosis',
+      tab2:'Week 2 — Foundations 🔒',
+      tab3:'Week 3 — Optimization 🔒',
+      tab4:'Week 4 🔒',
+      progress:'Your progress',
+      w1_title:'Week 1 — Diagnosis and Foundation'
+    },
+    fr:{
+      badge:'🎯 Centre de Carrière à Distance',
+      h1:'Votre chemin vers<br>',h1b:'le travail distant',
+      sub:'Basé sur votre Score d'Employabilité. 4 semaines, étape par étape, avec des ressources et exercices pratiques.',
+      score_title:'Obtenez votre Score d'abord',
+      score_desc:'Votre parcours est personnalisé selon vos résultats. Prend 3 minutes et est gratuit.',
+      score_btn:'⚡ Obtenir mon Score',
+      jobs:'Emplois', learn:'Apprendre',
+      tab1:'Semaine 1 — Diagnostic',
+      tab2:'Semaine 2 — Fondations 🔒',
+      tab3:'Semaine 3 — Optimisation 🔒',
+      tab4:'Semaine 4 🔒',
+      progress:'Votre progression',
+      w1_title:'Semaine 1 — Diagnostic et Base'
+    },
+    pt:{
+      badge:'🎯 Centro de Carreira Remota',
+      h1:'Seu caminho para<br>',h1b:'trabalho remoto',
+      sub:'Baseada no seu Score de Empregabilidade. 4 semanas, passo a passo, com recursos e exercícios práticos.',
+      score_title:'Faça seu Score primeiro',
+      score_desc:'Seu caminho é personalizado com base nos seus resultados. Leva 3 minutos e é gratuito.',
+      score_btn:'⚡ Obter meu Score',
+      jobs:'Vagas', learn:'Aprender',
+      tab1:'Semana 1 — Diagnóstico',
+      tab2:'Semana 2 — Fundamentos 🔒',
+      tab3:'Semana 3 — Otimização 🔒',
+      tab4:'Semana 4 🔒',
+      progress:'Seu progresso',
+      w1_title:'Semana 1 — Diagnóstico e Base'
+    }
+  };
+  document.addEventListener('DOMContentLoaded', function(){
+    var t = T[l]; if(!t) return;
+    var set = function(id, val){ var el=document.getElementById(id); if(el) el.innerHTML=val; };
+    var txt = function(id, val){ var el=document.getElementById(id); if(el) el.textContent=val; };
+    set('ln-badge', t.badge);
+    set('ln-h1', t.h1+'<span id="ln-h1b">'+t.h1b+'</span>');
+    txt('ln-sub', t.sub);
+    txt('learn-score-title', t.score_title);
+    txt('learn-score-desc', t.score_desc);
+    txt('ln-score-btn', t.score_btn);
+    txt('ln-jobs', t.jobs);
+    txt('ln-learn', t.learn);
+    txt('ln-tab1', t.tab1);
+    set('ln-tab2', t.tab2);
+    set('ln-tab3', t.tab3);
+    set('ln-tab4', t.tab4);
+    txt('ln-progress', t.progress);
+    txt('ln-w1-title', t.w1_title);
+    // Page title
+    if(l==='en') document.title='Remote Career Center — Flexori';
+    else if(l==='fr') document.title='Centre de Carrière — Flexori';
+    else if(l==='pt') document.title='Centro de Carreira — Flexori';
+    // Also update lang param on internal links
+    document.querySelectorAll('a[href]').forEach(function(a){
+      var h=a.getAttribute('href');
+      if(h&&h.startsWith('/')&&!h.includes('?lang=')&&!h.includes('#')&&h.endsWith('.html')){
+        a.setAttribute('href',h+'?lang='+l);
+      }
+    });
+  });
+})();
+</script>
 <meta charset="UTF-8">
   <!-- PWA -->
   <link rel="manifest" href="/manifest.json">
@@ -170,9 +258,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
     <div><div class="nav-logo-text">Flexori</div><div class="nav-logo-sub">Remote Careers Platform</div></div>
   </a>
   <div class="nav-links">
-    <a href="/jobs.html">Empleos</a>
+    <a href="/jobs.html" id="ln-jobs">Empleos</a>
     <a href="/cv-optimizer.html">CV Optimizer ✨</a>
-    <a href="/learn.html" class="active">Aprende</a>
+    <a href="/learn.html" class="active" id="ln-learn">Aprende</a>
   </div>
   <div class="nav-right">
     <a href="/cv-optimizer.html" class="btn-nav btn-nav-solid">CV Optimizer</a>
@@ -180,9 +268,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
 </nav>
 
 <section class="hero">
-  <div class="hero-badge">🎯 Centro de Carrera Remota</div>
-  <h1>Tu ruta hacia el<br><span>trabajo remoto</span></h1>
-  <p>Basada en tu Score de Empleabilidad. 4 semanas, paso a paso, con recursos curados y ejercicios prácticos para convertirte en el candidato ideal.</p>
+  <div class="hero-badge" id="ln-badge">🎯 Centro de Carrera Remota</div>
+  <h1 id="ln-h1">Tu ruta hacia el<br><span id="ln-h1b">trabajo remoto</span></h1>
+  <p id="ln-sub">Basada en tu Score de Empleabilidad. 4 semanas, paso a paso, con recursos curados y ejercicios prácticos para convertirte en el candidato ideal.</p>
 </section>
 
 <!-- SCORE BANNER -->
@@ -192,32 +280,32 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
     <div class="score-info">
       <h3 id="learn-score-title">Haz tu Score primero</h3>
       <p id="learn-score-desc">Tu ruta se personaliza según tus resultados. Toma 3 minutos y es gratis.</p>
-      <button class="btn-score" onclick="window.location.href='/?score=true'">⚡ Obtener mi Score</button>
+      <button class="btn-score" id="ln-score-btn" onclick="window.location.href='/?score=true'">⚡ Obtener mi Score</button>
     </div>
   </div>
 </div>
 
 <!-- WEEK TABS -->
 <div class="week-nav" id="week-nav">
-  <button class="week-tab active" onclick="switchWeek(1,this)" data-week="1">Semana 1 — Diagnóstico</button>
-  <button class="week-tab locked" onclick="showUpgrade()" data-week="2">Semana 2 — Fundamentos <span class="lock-icon">🔒</span></button>
-  <button class="week-tab locked" onclick="showUpgrade()" data-week="3">Semana 3 — Optimización <span class="lock-icon">🔒</span></button>
-  <button class="week-tab locked" onclick="showUpgrade()" data-week="4">Semana 4 🔒</button>
+  <button class="week-tab active" onclick="switchWeek(1,this)" data-week="1" id="ln-tab1">Semana 1 — Diagnóstico</button>
+  <button class="week-tab locked" onclick="showUpgrade()" data-week="2" id="ln-tab2">Semana 2 — Fundamentos <span class="lock-icon">🔒</span></button>
+  <button class="week-tab locked" onclick="showUpgrade()" data-week="3" id="ln-tab3">Semana 3 — Optimización <span class="lock-icon">🔒</span></button>
+  <button class="week-tab locked" onclick="showUpgrade()" data-week="4" id="ln-tab4">Semana 4 🔒</button>
 </div>
 
 <div class="learn-content">
 
   <!-- PROGRESS BAR -->
   <div class="progress-bar-wrap">
-    <span style="font-size:13px;color:var(--muted);white-space:nowrap">Tu progreso</span>
+    <span style="font-size:13px;color:var(--muted);white-space:nowrap" id="ln-progress">Tu progreso</span>
     <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill" style="width:25%"></div></div>
-    <span class="progress-label" id="progress-label">Semana 1 de 4</span>
+    <span class="progress-label" id="progress-label" data-en="Week 1 of 4" data-fr="Semaine 1 de 4" data-pt="Semana 1 de 4">Semana 1 de 4</span>
   </div>
 
   <!-- WEEK 1 - FREE -->
   <div class="week-section active" id="week-1">
     <div class="week-header">
-      <h2>Semana 1 — Diagnóstico y Base</h2>
+      <h2 id="ln-w1-title">Semana 1 — Diagnóstico y Base</h2>
       <p>Entiende tu punto de partida. Esta semana exploramos tus 8 dimensiones, identificamos tus fortalezas y priorizamos qué mejorar primero.</p>
     </div>
 
