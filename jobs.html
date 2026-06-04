@@ -636,7 +636,7 @@ pt:{
 
 const FL={en:'🇺🇸',es:'🇪🇸',fr:'🇫🇷',pt:'🇧🇷'};
 const FC={en:'EN',es:'ES',fr:'FR',pt:'PT'};
-let lang='en';
+let lang=(function(){try{var _l=localStorage.getItem('flexori_lang');if(_l&&['en','es','fr','pt'].includes(_l))return _l;}catch(e){}return 'en';})();
 const bl=navigator.language||'en';
 if(bl.startsWith('es'))lang='es';
 else if(bl.startsWith('fr'))lang='fr';
@@ -728,6 +728,7 @@ function applyLang(l){
 
 function setLang(l){
   lang=l;
+  try{localStorage.setItem('flexori_lang',l);}catch(e){}
   document.getElementById('cf').textContent=FL[l];
   document.getElementById('cl').textContent=FC[l];
   document.querySelectorAll('.lang-opt').forEach((el,i)=>el.classList.toggle('active',['en','es','fr','pt'][i]===l));
