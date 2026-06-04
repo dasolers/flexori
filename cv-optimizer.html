@@ -278,28 +278,28 @@ footer{border-top:1px solid var(--border);padding:32px 48px;display:flex;
 <div class="page">
   <!-- HERO -->
   <div class="hero">
-    <div class="badge"><span class="badge-dot"></span> IA · Análisis en segundos</div>
-    <h1>Optimiza tu CV para<br><span class="g">trabajo remoto</span></h1>
-    <p class="hero-sub">Nuestra IA analiza tu CV y te da recomendaciones personalizadas basadas en tu Score de Empleabilidad. Sube tu archivo y recibe un análisis completo en segundos.</p>
+    <div class="badge"><span class="badge-dot"></span> <span id="cv-badge-text">IA · Análisis en segundos</span></div>
+    <h1><span id="cv-h1a">Optimiza tu CV para</span><br><span class="g" id="cv-h1b">trabajo remoto</span></h1>
+    <p class="hero-sub"><span id="cv-hero-sub">Nuestra IA analiza tu CV y te da recomendaciones personalizadas basadas en tu Score de Empleabilidad. Sube tu archivo y recibe un análisis completo en segundos.</span></p>
 
     <!-- SCORE BANNER con score -->
     <div class="score-banner" id="score-banner" style="display:none">
       <div class="score-num" id="banner-score">--</div>
       <div class="score-info">
-        <div class="score-title">Tu Score de Empleabilidad</div>
+        <div class="score-title"><span id="cv-score-title">Tu Score de Empleabilidad</span></div>
         <div class="score-sub" id="banner-sub">El análisis de tu CV se personalizará según tus dimensiones débiles</div>
       </div>
-      <a href="/index.html?score=true" class="score-cta-link">Ver Score →</a>
+      <a href="/index.html?score=true" class="score-cta-link"><span id="cv-ver-score">Ver Score →</span></a>
     </div>
 
     <!-- Banner sin score -->
     <div class="score-banner" id="no-score-banner" style="display:flex">
       <div style="font-size:28px;flex-shrink:0">🎯</div>
       <div class="score-info">
-        <div class="score-title">¿Ya tienes tu Score de Empleabilidad?</div>
-        <div class="score-sub">Con tu Score el análisis es 3x más preciso y personalizado</div>
+        <div class="score-title"><span id="cv-no-score-title">¿Ya tienes tu Score de Empleabilidad?</span></div>
+        <div class="score-sub"><span id="cv-no-score-sub">Con tu Score el análisis es 3x más preciso y personalizado</span></div>
       </div>
-      <a href="/index.html?score=true" class="score-cta-link">Obtener Score →</a>
+      <a href="/index.html?score=true" class="score-cta-link"><span id="cv-get-score">Obtener Score →</span></a>
     </div>
   </div>
 
@@ -312,8 +312,8 @@ footer{border-top:1px solid var(--border);padding:32px 48px;display:flex;
       onclick="document.getElementById('file-input').click()">
 
       <div class="upload-icon">📄</div>
-      <div class="upload-title">Sube tu CV aquí</div>
-      <p class="upload-sub">Arrastra y suelta tu archivo o haz clic para seleccionarlo.<br>El análisis tarda menos de 30 segundos.</p>
+      <div class="upload-title"><span id="cv-upload-title">Sube tu CV aquí</span></div>
+      <p class="upload-sub"><span id="cv-upload-sub">Arrastra y suelta tu archivo o haz clic para seleccionarlo.<br>El análisis tarda menos de 30 segundos.</span></p>
       <div class="upload-formats">
         <span class="format-tag">PDF</span>
         <span class="format-tag">Word (.docx)</span>
@@ -353,11 +353,11 @@ footer{border-top:1px solid var(--border);padding:32px 48px;display:flex;
   <!-- LOADING -->
   <div class="loading-state" id="loading-state" style="padding:48px 48px">
     <div class="loading-ring"></div>
-    <p style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:24px">Analizando tu CV...</p>
+    <p style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:24px"><span id="cv-analyzing">Analizando tu CV...</span></p>
     <div class="loading-steps" id="loading-steps">
-      <div class="loading-step active" id="step-1"><span class="step-dot"></span> Leyendo el documento</div>
-      <div class="loading-step" id="step-2"><span class="step-dot"></span> Comparando con empleos remotos</div>
-      <div class="loading-step" id="step-3"><span class="step-dot"></span> Aplicando tu Score de Empleabilidad</div>
+      <div class="loading-step active" id="step-1"><span class="step-dot"></span> <span id="cv-step1">Leyendo el documento</span></div>
+      <div class="loading-step" id="step-2"><span class="step-dot"></span> <span id="cv-step2">Comparando con empleos remotos</span></div>
+      <div class="loading-step" id="step-3"><span class="step-dot"></span> <span id="cv-step3">Aplicando tu Score de Empleabilidad</span></div>
       <div class="loading-step" id="step-4"><span class="step-dot"></span> Generando recomendaciones</div>
     </div>
   </div>
@@ -851,5 +851,112 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
+
+<script>
+(function(){
+  var T = {
+    en: {
+      badge: 'AI · Analysis in seconds',
+      h1a: 'Optimize your CV for',
+      h1b: 'remote work',
+      hero_sub: 'Our AI analyzes your CV and gives you personalized recommendations based on your Employability Score. Upload your file and get a full analysis in seconds.',
+      score_title: 'Your Employability Score',
+      ver_score: 'See Score →',
+      no_score_title: 'Do you have your Employability Score?',
+      no_score_sub: 'With your Score the analysis is 3x more precise and personalized',
+      get_score: 'Get Score →',
+      upload_title: 'Upload your CV here',
+      upload_sub: 'Drag and drop your file or click to select it.<br>Analysis takes less than 30 seconds.',
+      select_file: 'Select file',
+      analyze_btn: 'Analyze my CV with AI',
+      analyzing: 'Analyzing your CV...',
+      step1: 'Reading the document',
+      step2: 'Comparing with remote jobs',
+      step3: 'Applying your Employability Score',
+      lang_label: 'Analysis language:',
+      max_size: 'Max. 5MB'
+    },
+    fr: {
+      badge: 'IA · Analyse en secondes',
+      h1a: 'Optimisez votre CV pour',
+      h1b: 'le travail distant',
+      hero_sub: "Notre IA analyse votre CV et vous donne des recommandations personnalisées basées sur votre Score d'Employabilité. Téléchargez votre fichier et recevez une analyse complète en secondes.",
+      score_title: "Votre Score d'Employabilité",
+      ver_score: 'Voir Score →',
+      no_score_title: "Avez-vous votre Score d'Employabilité ?",
+      no_score_sub: "Avec votre Score, l'analyse est 3x plus précise et personnalisée",
+      get_score: 'Obtenir Score →',
+      upload_title: 'Téléchargez votre CV ici',
+      upload_sub: 'Glissez-déposez votre fichier ou cliquez pour le sélectionner.<br>L'analyse prend moins de 30 secondes.',
+      select_file: 'Sélectionner un fichier',
+      analyze_btn: 'Analyser mon CV avec IA',
+      analyzing: 'Analyse de votre CV...',
+      step1: 'Lecture du document',
+      step2: 'Comparaison avec les emplois distants',
+      step3: "Application de votre Score d'Employabilité",
+      lang_label: "Langue de l'analyse :",
+      max_size: 'Max. 5Mo'
+    },
+    pt: {
+      badge: 'IA · Análise em segundos',
+      h1a: 'Otimize seu CV para',
+      h1b: 'trabalho remoto',
+      hero_sub: 'Nossa IA analisa seu CV e dá recomendações personalizadas baseadas no seu Score de Empregabilidade. Envie seu arquivo e receba uma análise completa em segundos.',
+      score_title: 'Seu Score de Empregabilidade',
+      ver_score: 'Ver Score →',
+      no_score_title: 'Você tem seu Score de Empregabilidade?',
+      no_score_sub: 'Com seu Score a análise é 3x mais precisa e personalizada',
+      get_score: 'Obter Score →',
+      upload_title: 'Envie seu CV aqui',
+      upload_sub: 'Arraste e solte seu arquivo ou clique para selecioná-lo.<br>A análise leva menos de 30 segundos.',
+      select_file: 'Selecionar arquivo',
+      analyze_btn: 'Analisar meu CV com IA',
+      analyzing: 'Analisando seu CV...',
+      step1: 'Lendo o documento',
+      step2: 'Comparando com vagas remotas',
+      step3: 'Aplicando seu Score de Empregabilidade',
+      lang_label: 'Idioma da análise:',
+      max_size: 'Máx. 5MB'
+    }
+  };
+  function applyCVLang() {
+    var l; try { l = localStorage.getItem('flexori_lang'); } catch(e) { return; }
+    if (!l || l === 'es' || !T[l]) return;
+    var t = T[l];
+    var ids = {
+      'cv-badge-text': t.badge, 'cv-h1a': t.h1a, 'cv-h1b': t.h1b,
+      'cv-hero-sub': t.hero_sub, 'cv-score-title': t.score_title,
+      'cv-ver-score': t.ver_score, 'cv-no-score-title': t.no_score_title,
+      'cv-no-score-sub': t.no_score_sub, 'cv-get-score': t.get_score,
+      'cv-upload-title': t.upload_title, 'cv-select-file': t.select_file,
+      'analyze-text': t.analyze_btn, 'cv-analyzing': t.analyzing,
+      'cv-step1': t.step1, 'cv-step2': t.step2, 'cv-step3': t.step3
+    };
+    Object.keys(ids).forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.innerHTML = ids[id];
+    });
+    // Upload sub (has HTML)
+    var usub = document.getElementById('cv-upload-sub');
+    if (usub) usub.innerHTML = t.upload_sub;
+    // Lang label
+    var llbl = document.querySelector('#lang-row p');
+    if (llbl) llbl.textContent = t.lang_label;
+    // Max size tag
+    document.querySelectorAll('.format-tag').forEach(function(el) {
+      if (el.textContent.includes('Máx')) el.textContent = t.max_size;
+    });
+    // Page title
+    document.title = l === 'en' ? 'AI CV Optimizer — Flexori' : l === 'fr' ? 'Optimiseur CV IA — Flexori' : 'Otimizador CV IA — Flexori';
+    // Also set analysisLang to match
+    if (window.setAnalysisLang) window.setAnalysisLang(l === 'pt' ? 'en' : l);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyCVLang);
+  } else { applyCVLang(); }
+  window.addEventListener('load', applyCVLang);
+})();
+</script>
+
 </body>
 </html>
