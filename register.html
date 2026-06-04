@@ -90,112 +90,6 @@ nav{position:fixed;top:0;left:0;right:0;padding:16px 24px;display:flex;align-ite
   nav{padding:14px 16px}
 }
 </style>
-
-<script>
-// Auto-translate register page based on user's language choice
-(function(){
-  var T = {
-    en: {
-      title: 'Create your account — Flexori',
-      tab_create: 'Create account',
-      tab_login: 'Sign in',
-      badge: 'YOUR GPS TO THE REMOTE WORLD — FREE',
-      b1: 'Employability Score in 8 dimensions',
-      b2: 'Verified Remote Digital Passport',
-      b3: 'Remote jobs from 180+ countries',
-      b4: 'Real-time salary data',
-      email_lbl: 'EMAIL',
-      pass_lbl: 'PASSWORD',
-      pass_ph: 'Minimum 6 characters',
-      btn_create: 'Create free account →',
-      terms: 'By registering you accept our',
-      terms2: 'Terms',
-      terms3: 'and',
-      terms4: 'Privacy',
-      free_note: '100% free · No card · No conditions',
-      back: '← Back'
-    },
-    fr: {
-      title: 'Créer votre compte — Flexori',
-      tab_create: 'Créer un compte',
-      tab_login: 'Se connecter',
-      badge: 'VOTRE GPS VERS LE MONDE DISTANT — GRATUIT',
-      b1: 'Score d'employabilité en 8 dimensions',
-      b2: 'Passeport Numérique Distant vérifié',
-      b3: 'Emplois distants de 180+ pays',
-      b4: 'Données salariales en temps réel',
-      email_lbl: 'EMAIL',
-      pass_lbl: 'MOT DE PASSE',
-      pass_ph: 'Minimum 6 caractères',
-      btn_create: 'Créer un compte gratuit →',
-      terms: 'En vous inscrivant, vous acceptez nos',
-      terms2: 'Conditions',
-      terms3: 'et',
-      terms4: 'Confidentialité',
-      free_note: '100% gratuit · Sans carte · Sans conditions',
-      back: '← Retour'
-    },
-    pt: {
-      title: 'Criar sua conta — Flexori',
-      tab_create: 'Criar conta',
-      tab_login: 'Entrar',
-      badge: 'SEU GPS PARA O MUNDO REMOTO — GRÁTIS',
-      b1: 'Score de Empregabilidade em 8 dimensões',
-      b2: 'Passaporte Digital Remoto verificado',
-      b3: 'Vagas remotas de 180+ países',
-      b4: 'Dados salariais em tempo real',
-      email_lbl: 'EMAIL',
-      pass_lbl: 'SENHA',
-      pass_ph: 'Mínimo 6 caracteres',
-      btn_create: 'Criar conta gratuita →',
-      terms: 'Ao se registrar você aceita nossos',
-      terms2: 'Termos',
-      terms3: 'e',
-      terms4: 'Privacidade',
-      free_note: '100% gratuito · Sem cartão · Sem condições',
-      back: '← Voltar'
-    }
-  };
-  try {
-    var l = localStorage.getItem('flexori_lang');
-    if (!l || l === 'es' || !T[l]) return;
-    var t = T[l];
-    document.addEventListener('DOMContentLoaded', function() {
-      // Title
-      document.title = t.title;
-      // Back link
-      var back = document.querySelector('.nav-back');
-      if (back) back.textContent = t.back;
-      // Tabs
-      var tabs = document.querySelectorAll('.tab');
-      if (tabs[0]) tabs[0].textContent = t.tab_create;
-      if (tabs[1]) tabs[1].textContent = t.tab_login;
-      // Badge
-      var badge = document.querySelector('.reg-badge');
-      if (badge) badge.textContent = t.badge;
-      // Benefits
-      var benefits = document.querySelectorAll('.reg-benefit span');
-      var bTexts = [t.b1, t.b2, t.b3, t.b4];
-      benefits.forEach(function(b, i) { if (bTexts[i]) b.textContent = bTexts[i]; });
-      // Labels
-      document.querySelectorAll('.field-label').forEach(function(el) {
-        if (el.textContent.trim() === 'EMAIL') el.textContent = t.email_lbl;
-        if (el.textContent.trim() === 'CONTRASEÑA') el.textContent = t.pass_lbl;
-      });
-      // Password placeholder
-      var passInput = document.getElementById('password');
-      if (passInput) passInput.placeholder = t.pass_ph;
-      // Button
-      var btn = document.getElementById('btn-register');
-      if (btn) btn.textContent = t.btn_create;
-      // Free note
-      var freeNote = document.querySelector('.reg-free');
-      if (freeNote) freeNote.textContent = t.free_note;
-    });
-  } catch(e) {}
-})();
-</script>
-
 </head>
 <body>
 <div class="orb orb1"></div>
@@ -382,6 +276,70 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+
+<script>
+(function(){
+  var T = {
+    en: {
+      title: 'Create your account — Flexori',
+      tab_create: 'Create account', tab_login: 'Sign in',
+      badge: 'YOUR GPS TO THE REMOTE WORLD — FREE',
+      b: ['Employability Score in 8 dimensions','Verified Remote Digital Passport','Remote jobs from 180+ countries','Real-time salary data'],
+      pass_lbl: 'PASSWORD', pass_ph: 'Minimum 6 characters',
+      btn: 'Create free account →', free: '100% free · No card · No conditions', back: '← Back'
+    },
+    fr: {
+      title: 'Créer votre compte — Flexori',
+      tab_create: 'Créer un compte', tab_login: 'Se connecter',
+      badge: 'VOTRE GPS VERS LE MONDE DISTANT — GRATUIT',
+      b: ["Score d'employabilité en 8 dimensions","Passeport Numérique Distant vérifié","Emplois distants de 180+ pays","Données salariales en temps réel"],
+      pass_lbl: 'MOT DE PASSE', pass_ph: 'Minimum 6 caractères',
+      btn: 'Créer un compte gratuit →', free: '100% gratuit · Sans carte · Sans conditions', back: '← Retour'
+    },
+    pt: {
+      title: 'Criar sua conta — Flexori',
+      tab_create: 'Criar conta', tab_login: 'Entrar',
+      badge: 'SEU GPS PARA O MUNDO REMOTO — GRÁTIS',
+      b: ['Score de Empregabilidade em 8 dimensões','Passaporte Digital Remoto verificado','Vagas remotas de 180+ países','Dados salariais em tempo real'],
+      pass_lbl: 'SENHA', pass_ph: 'Mínimo 6 caracteres',
+      btn: 'Criar conta gratuita →', free: '100% gratuito · Sem cartão · Sem condições', back: '← Voltar'
+    }
+  };
+  function applyRegLang() {
+    try { var l = localStorage.getItem('flexori_lang'); } catch(e) { return; }
+    if (!l || l === 'es' || !T[l]) return;
+    var t = T[l];
+    document.title = t.title;
+    var back = document.querySelector('.nav-back');
+    if (back) back.innerHTML = t.back;
+    var tabs = document.querySelectorAll('.tab');
+    if (tabs[0]) tabs[0].textContent = t.tab_create;
+    if (tabs[1]) tabs[1].textContent = t.tab_login;
+    var badge = document.querySelector('.reg-badge');
+    if (badge) badge.textContent = t.badge;
+    var spans = document.querySelectorAll('.reg-benefit span:last-child');
+    spans.forEach(function(s, i) { if (t.b[i]) s.textContent = t.b[i]; });
+    document.querySelectorAll('.field-label').forEach(function(el) {
+      if (el.textContent.trim() === 'CONTRASEÑA') el.textContent = t.pass_lbl;
+    });
+    var pp = document.getElementById('password');
+    if (pp) pp.placeholder = t.pass_ph;
+    var btn = document.getElementById('btn-register');
+    if (btn) btn.textContent = t.btn;
+    var free = document.querySelector('.reg-free');
+    if (free) free.textContent = t.free;
+  }
+  // Run immediately if DOM ready, else on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyRegLang);
+  } else {
+    applyRegLang();
+  }
+  // Also run on window load as fallback
+  window.addEventListener('load', applyRegLang);
+})();
+</script>
+
 </body>
 </html>
 
