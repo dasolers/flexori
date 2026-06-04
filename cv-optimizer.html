@@ -930,12 +930,15 @@ document.addEventListener('DOMContentLoaded', () => {
       l = params.get('lang');
     } catch(e) {}
     if (!l) { try { l = localStorage.getItem('flexori_lang'); } catch(e) {} }
-    if (!l) {
-      var bl = navigator.language || '';
+    if (!l || !['en','fr','pt','es'].includes(l)) {
+      var bl = (navigator.language || navigator.userLanguage || 'es').toLowerCase();
       if (bl.startsWith('en')) l = 'en';
       else if (bl.startsWith('fr')) l = 'fr';
       else if (bl.startsWith('pt')) l = 'pt';
+      else l = 'es';
     }
+    // Save detected lang to localStorage for consistency
+    try { localStorage.setItem('flexori_lang', l); } catch(e) {}
     if (!l || l === 'es' || !T[l]) return;
     // Save to localStorage for subsequent pages
     try { localStorage.setItem('flexori_lang', l); } catch(e) {}
