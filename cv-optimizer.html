@@ -923,13 +923,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
   function applyCVLang() {
-    // Read lang from URL param first (most reliable), then localStorage
+    // Read lang from URL param first, then localStorage, then navigator.language
     var l = null;
     try {
       var params = new URLSearchParams(window.location.search);
       l = params.get('lang');
     } catch(e) {}
     if (!l) { try { l = localStorage.getItem('flexori_lang'); } catch(e) {} }
+    if (!l) {
+      var bl = navigator.language || '';
+      if (bl.startsWith('en')) l = 'en';
+      else if (bl.startsWith('fr')) l = 'fr';
+      else if (bl.startsWith('pt')) l = 'pt';
+    }
     if (!l || l === 'es' || !T[l]) return;
     // Save to localStorage for subsequent pages
     try { localStorage.setItem('flexori_lang', l); } catch(e) {}
