@@ -853,8 +853,8 @@ async function startCheckout(plan) {
 // ── INIT ──
 document.addEventListener('DOMContentLoaded', () => {
   loadUserScore();
-  // Re-apply translations after loadUserScore to ensure lang is correct
-  if (window._applyCVLang) window._applyCVLang();
+  // Re-apply translations after loadUserScore (with small delay to let inline scripts finish)
+  setTimeout(function(){ if (window._applyCVLang) window._applyCVLang(); }, 50);
 
   window.addEventListener('storage', (e) => {
     if (e.key === 'flexori_score') loadUserScore();
@@ -988,8 +988,10 @@ document.addEventListener('DOMContentLoaded', () => {
   applyCVLang();
   // Also on load as safety net
   window.addEventListener('load', applyCVLang);
-  // And after a short delay in case of Safari quirks
-  setTimeout(applyCVLang, 300);
+  // Multiple delays to ensure it runs after all other scripts
+  setTimeout(applyCVLang, 100);
+  setTimeout(applyCVLang, 500);
+  setTimeout(applyCVLang, 1000);
 })();
 </script>
 
