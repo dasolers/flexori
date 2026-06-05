@@ -519,6 +519,71 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(function(){});
   });
 }
+  async function loadLinkedin(email, token) {
+    try {
+      var res = await fetch(SUPABASE_URL + '/rest/v1/waitlist?email=eq.' + encodeURIComponent(email) + '&select=linkedin_url', {
+        headers: { 'apikey': SUPABASE_JWT, 'Authorization': 'Bearer ' + SUPABASE_JWT }
+      });
+      var data = await res.json();
+      if (data && data.length > 0 && data[0].linkedin_url) {
+        showLinkedinSaved(data[0].linkedin_url);
+      }
+    } catch(e) {}
+  }
+
+  function showLinkedinSaved(url) {
+    document.getElementById('linkedin-form').style.display = 'none';
+    var saved = document.getElementById('linkedin-saved');
+    saved.style.display = 'flex';
+    var link = document.getElementById('linkedin-link');
+    link.href = url;
+    link.textContent = url.replace('https://', '');
+  }
+
+  function editLinkedin() {
+    var link = document.getElementById('linkedin-link');
+    document.getElementById('linkedin-input').value = link.href;
+    document.getElementById('linkedin-saved').style.display = 'none';
+    document.getElementById('linkedin-form').style.display = 'flex';
+  }
+
+  async function saveLinkedin() {
+    var url = document.getElementById('linkedin-input').value.trim();
+    var msg = document.getElementById('linkedin-msg');
+    if (!url) { showMsg(msg, 'Ingresa una URL válida', 'error'); return; }
+    if (!url.includes('linkedin.com')) { showMsg(msg, 'Debe ser una URL de LinkedIn', 'error'); return; }
+    if (!url.startsWith('http')) url = 'https://' + url;
+    var email = localStorage.getItem('sb_user_email');
+    if (!email) { showMsg(msg, 'Sesión expirada, recarga la página', 'error'); return; }
+    try {
+      var res = await fetch(SUPABASE_URL + '/rest/v1/waitlist?email=eq.' + encodeURIComponent(email), {
+        method: 'PATCH',
+        headers: {
+          'apikey': SUPABASE_JWT,
+          'Authorization': 'Bearer ' + SUPABASE_JWT,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ linkedin_url: url })
+      });
+      if (res.ok) {
+        showLinkedinSaved(url);
+        showMsg(document.getElementById('linkedin-msg'), '✓ LinkedIn guardado', 'success');
+      } else {
+        showMsg(document.getElementById('linkedin-msg'), 'Error al guardar. Intenta de nuevo.', 'error');
+      }
+    } catch(e) {
+      showMsg(document.getElementById('linkedin-msg'), 'Error de conexión', 'error');
+    }
+  }
+
+  function showMsg(el, text, type) {
+    el.textContent = text;
+    el.style.color = type === 'success' ? 'var(--green)' : '#ff6b6b';
+    el.style.display = 'block';
+    if (type === 'success') setTimeout(() => { el.style.display = 'none'; }, 3000);
+  }
+
 </script>
 </body>
 </html>
