@@ -2713,35 +2713,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script>
-// Checkout desde homepage
-const HOME_PRICES = {
-  pro: 'price_1TcGCbKCK5PGV3GQgiqLL0wd',
-  plus: 'price_1TcGCcKCK5PGV3GQNjQWywcy'
-};
-async function startCheckoutHome(plan) {
-  try { gtag('event', 'checkout_started', { event_category: 'conversion', event_label: plan, value: plan === 'pro' ? 11.99 : 19 }); } catch(e) {}
-  try {
-    const email = localStorage.getItem('sb_user_email') || localStorage.getItem('flexori_email') || '';
-    const response = await fetch('/.netlify/functions/create-checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        priceId: HOME_PRICES[plan],
-        email,
-        successUrl: 'https://flexori.work/dashboard.html?upgraded=true',
-        cancelUrl: 'https://flexori.work/#pricing'
-      })
-    });
-    const data = await response.json();
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      alert('Error al procesar. Intenta de nuevo.');
-    }
-  } catch(err) {
-    alert('Error de conexión. Intenta de nuevo.');
-  }
-}
 </script>
 
 <script>
@@ -2781,8 +2752,27 @@ window.startCheckoutHome = async function(plan) {
     pro: 'price_1TcGCbKCK5PGV3GQgiqLL0wd',
     plus: 'price_1TcGCcKCK5PGV3GQNjQWywcy'
   };
+  // Feedback visual en el botón
+  var btn = event && event.target ? event.target.closest('button') : null;
+  var originalText = btn ? btn.innerHTML : '';
+  if (btn) { btn.innerHTML = '⏳ Procesando...'; btn.disabled = true; }
+
+  // GA4 tracking
+  try { gtag('event', 'checkout_started', { event_category: 'conversion', event_label: plan, value: plan === 'pro' ? 11.99 : 19 }); } catch(e) {}
+
+  // Si no está logueado, llevar al registro primero
+  var email = localStorage.getItem('sb_user_email') || '';
+  if (!email) {
+    if (btn) { btn.innerHTML = originalText; btn.disabled = false; }
+    var lang = localStorage.getItem('flexori_lang') || 'es';
+    var msg = lang === 'en' ? 'Create your free account first to continue with the payment.' : 'Crea tu cuenta gratis primero para continuar con el pago.';
+    if (confirm(msg)) {
+      window.location.href = '/register.html?redirect=pricing';
+    }
+    return;
+  }
+
   try {
-    var email = localStorage.getItem('sb_user_email') || '';
     var response = await fetch('/.netlify/functions/create-checkout', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -2794,9 +2784,14 @@ window.startCheckoutHome = async function(plan) {
       })
     });
     var data = await response.json();
-    if (data.url) { window.location.href = data.url; }
-    else { alert('Error al procesar. Intenta de nuevo.'); }
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      if (btn) { btn.innerHTML = originalText; btn.disabled = false; }
+      alert('Error al procesar. Intenta de nuevo.');
+    }
   } catch(err) {
+    if (btn) { btn.innerHTML = originalText; btn.disabled = false; }
     alert('Error de conexión. Intenta de nuevo.');
   }
 };
