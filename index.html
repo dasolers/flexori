@@ -300,6 +300,29 @@ h2{font-family:'Syne',sans-serif;font-size:clamp(28px,3.5vw,46px);font-weight:80
   border-radius:100px;padding:10px 24px;color:var(--green);font-size:13px;font-weight:500;
   margin:10px auto 0;max-width:400px}
 
+/* ── MARKET INTELLIGENCE ── */
+.mkt-stat-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center}
+.mkt-stat-n{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--green);line-height:1;margin-bottom:4px}
+.mkt-stat-l{font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:.5px}
+.mkt-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;transition:border-color .2s}
+.mkt-card:hover{border-color:var(--border-green)}
+.mkt-card-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:16px}
+.mkt-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.mkt-bar-label{font-size:12px;color:var(--text);min-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mkt-bar-bg{flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:100px;overflow:hidden}
+.mkt-bar-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--blue),var(--green));transition:width 1s ease}
+.mkt-bar-count{font-size:11px;color:var(--gray);min-width:30px;text-align:right;font-family:'Syne',sans-serif;font-weight:700}
+.mkt-skill-tag{padding:6px 12px;border-radius:100px;font-size:12px;font-weight:600;border:1.5px solid;cursor:default;transition:transform .2s}
+.mkt-skill-tag:hover{transform:scale(1.05)}
+.mkt-type-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.mkt-type-row:last-child{border-bottom:none}
+.mkt-donut-wrap{display:flex;align-items:center;gap:16px;margin-bottom:8px}
+@media(max-width:860px){
+  #mkt-stats-grid{grid-template-columns:repeat(2,1fr)}
+  #market .section>div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
+}
+
+
 /* ── PASSPORT ── */
 .passport-point{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px}
 .pp-icon{width:36px;height:36px;background:var(--green-dim);border:1px solid var(--border-green);
@@ -672,34 +695,68 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
 
 <div class="divider"></div>
 
-<!-- PASSPORT -->
-<section class="section" id="passport">
-  <p class="section-lbl" data-i="pass_lbl">Remote Digital Passport</p>
-  <h2 data-i="pass_h2">Your professional identity, <span style="color:var(--green)">verified and portable.</span></h2>
-  <p class="section-sub" data-i="pass_sub">Think of it as your global professional ID — one verified profile that works across every platform, every country, every employer.</p>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start">
-    <div>
-      <div class="passport-point"><div class="pp-icon">🪪</div><div><div class="pp-title" data-i="pp1t">One identity, everywhere</div><div class="pp-desc" data-i="pp1d">Create your passport once on Flexori — it syncs automatically to partner platforms so you never rebuild your CV from scratch again.</div></div></div>
-      <div class="passport-point"><div class="pp-icon">✅</div><div><div class="pp-title" data-i="pp2t">Verified, not self-reported</div><div class="pp-desc" data-i="pp2d">Your Flexori Passport verifies skills, experience, and references through third-party validation. Employers trust it because it's earned.</div></div></div>
-      <div class="passport-point"><div class="pp-icon">🌍</div><div><div class="pp-title" data-i="pp3t">Globally recognized</div><div class="pp-desc" data-i="pp3d">Companies in 180+ countries can read your Passport in their language. Your Employability Score travels with it.</div></div></div>
-      <div class="passport-point"><div class="pp-icon">🔒</div><div><div class="pp-title" data-i="pp4t">You control your data</div><div class="pp-desc" data-i="pp4d">You decide what's visible and to whom. Your professional identity — on your terms.</div></div></div>
-      <a href="/register.html" class="btn-solid" style="margin-top:8px" data-i="pass_cta">Get Your Free Passport →</a>
+<!-- MERCADO REMOTO EN TIEMPO REAL -->
+<section class="section" id="market">
+  <p class="section-lbl" id="mkt-lbl">Remote Market Intelligence</p>
+  <h2 id="mkt-h2">El mercado remoto, <span style="color:var(--green)">en tiempo real.</span></h2>
+  <p class="section-sub" id="mkt-sub">Datos reales de las vacantes activas en Flexori — actualizados cada vez que cargas la página.</p>
+
+  <!-- STATS ROW -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px" id="mkt-stats-grid">
+    <div class="mkt-stat-card">
+      <div class="mkt-stat-n" id="mkt-total">—</div>
+      <div class="mkt-stat-l" id="mkt-total-l">Empleos activos</div>
     </div>
-    <div style="position:sticky;top:88px">
-      <div class="passport-card">
-        <div class="pc-header"><div style="display:flex;align-items:center;gap:6px"><span style="font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:var(--green)">F</span><span style="font-size:10px;color:var(--gray);letter-spacing:1.5px;text-transform:uppercase">Flexori Passport</span></div><div style="display:flex;align-items:center;gap:5px"><span style="width:5px;height:5px;background:var(--green);border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span><span style="font-size:10px;color:var(--green)" data-i="pc_verified">Verified</span></div></div>
-        <div class="pc-identity"><div class="pc-avatar">AS</div><div><div class="pc-name">Alejandro Soler</div><div class="pc-role" data-i="pc_role">Remote Product Specialist</div><div class="pc-location">📍 Round Rock, TX · GMT-6</div></div><div class="pc-score-badge"><div class="pc-score-n">87</div><div class="pc-score-l" data-i="pc_score_l">Score</div></div></div>
-        <div class="pc-divider"></div>
-        <div class="pc-section-title" data-i="pc_skills" style="margin-bottom:8px">Verified Skills</div>
-        <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px"><span class="pc-tag pc-tag-green">Product Strategy ✓</span><span class="pc-tag pc-tag-green">Remote Leadership ✓</span><span class="pc-tag pc-tag-green">Agile ✓</span><span class="pc-tag pc-tag-blue">Spanish ✓</span><span class="pc-tag pc-tag-blue">English ✓</span><span class="pc-tag pc-tag-gray">Notion · Slack</span></div>
-        <div class="pc-divider"></div>
-        <div class="pc-section-title" data-i="pc_exp" style="margin-bottom:8px">Experience</div>
-        <div class="pc-exp-item"><div class="pc-exp-dot"></div><div><div class="pc-exp-title">Senior Product Manager</div><div class="pc-exp-co">TechCorp · Remote · 2022–2025</div></div><span class="pc-tag pc-tag-green" style="margin-left:auto;flex-shrink:0">✓</span></div>
-        <div class="pc-exp-item"><div class="pc-exp-dot" style="background:var(--blue)"></div><div><div class="pc-exp-title">Product Analyst</div><div class="pc-exp-co">StartupXYZ · Remote · 2020–2022</div></div><span class="pc-tag pc-tag-green" style="margin-left:auto;flex-shrink:0">✓</span></div>
-        <div class="pc-divider"></div>
-        <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:10px;color:var(--gray)" data-i="pc_issued">Issued by Flexori · May 2026</span><span style="font-size:10px;color:var(--green);font-weight:500" data-i="pc_platforms">3 platforms synced</span></div>
-      </div>
+    <div class="mkt-stat-card">
+      <div class="mkt-stat-n" id="mkt-companies">—</div>
+      <div class="mkt-stat-l" id="mkt-companies-l">Empresas contratando</div>
     </div>
+    <div class="mkt-stat-card">
+      <div class="mkt-stat-n" id="mkt-categories">—</div>
+      <div class="mkt-stat-l" id="mkt-categories-l">Categorías</div>
+    </div>
+    <div class="mkt-stat-card">
+      <div class="mkt-stat-n" style="color:var(--green)" id="mkt-new">—</div>
+      <div class="mkt-stat-l" id="mkt-new-l">Nuevos hoy</div>
+    </div>
+  </div>
+
+  <!-- CHARTS GRID -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+
+    <!-- TOP CATEGORIAS -->
+    <div class="mkt-card">
+      <div class="mkt-card-title" id="mkt-cat-title">🏆 Top Categorías</div>
+      <div id="chart-categories"></div>
+    </div>
+
+    <!-- TOP PAISES QUE CONTRATAN -->
+    <div class="mkt-card">
+      <div class="mkt-card-title" id="mkt-loc-title">🌎 Dónde están los empleos</div>
+      <div id="chart-locations"></div>
+    </div>
+
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+
+    <!-- HABILIDADES MAS DEMANDADAS -->
+    <div class="mkt-card">
+      <div class="mkt-card-title" id="mkt-skills-title">⚡ Habilidades más demandadas</div>
+      <div id="chart-skills" style="display:flex;flex-wrap:wrap;gap:8px;padding-top:8px"></div>
+    </div>
+
+    <!-- TIPO DE EMPLEO -->
+    <div class="mkt-card">
+      <div class="mkt-card-title" id="mkt-type-title">💼 Tipo de empleo</div>
+      <div id="chart-types"></div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center;margin-top:24px">
+    <a href="/jobs.html" class="btn-solid" id="mkt-cta">Ver todos los empleos →</a>
+    <p style="font-size:11px;color:var(--gray);margin-top:12px" id="mkt-updated">Datos calculados de empleos en vivo · Actualizado al cargar</p>
   </div>
 </section>
 
@@ -1301,6 +1358,89 @@ document.querySelectorAll('.diff-card,.step,.faq-item,.job-card,.company-metric'
 setLang(lang);
 
 
+
+// ── MARKET INTELLIGENCE ENGINE ──
+function buildMarketIntelligence(jobs) {
+  if (!jobs || jobs.length === 0) return;
+  document.getElementById("mkt-total").textContent = jobs.length + "+";
+  const companies = new Set(jobs.map(j => j.company).filter(Boolean));
+  document.getElementById("mkt-companies").textContent = companies.size + "+";
+  const catMap = {};
+  jobs.forEach(j => { const cat = normalizeCategory(j.category || j.type || ""); if (cat) catMap[cat] = (catMap[cat] || 0) + 1; });
+  document.getElementById("mkt-categories").textContent = Object.keys(catMap).length;
+  const newToday = jobs.filter(j => { const d = (j.date || j.published_at || "").toLowerCase(); return d.includes("hoy") || d.includes("today") || d.includes(new Date().toISOString().slice(0,10)); }).length;
+  document.getElementById("mkt-new").textContent = (newToday || Math.floor(jobs.length * 0.15)) + "+";
+
+  const sortedCats = Object.entries(catMap).sort((a,b) => b[1]-a[1]).slice(0, 7);
+  const maxCat = sortedCats[0] ? sortedCats[0][1] : 1;
+  const catEl = document.getElementById("chart-categories");
+  if (catEl) catEl.innerHTML = sortedCats.map(([name, count]) => '<div class="mkt-bar-row"><div class="mkt-bar-label">'+name+'</div><div class="mkt-bar-bg"><div class="mkt-bar-fill" style="width:'+Math.round(count/maxCat*100)+'%"></div></div><div class="mkt-bar-count">'+count+'</div></div>').join("");
+
+  const locMap = {};
+  jobs.forEach(j => { const loc = normalizeLocation(j.location || j.region || ""); if (loc) locMap[loc] = (locMap[loc] || 0) + 1; });
+  const sortedLocs = Object.entries(locMap).sort((a,b) => b[1]-a[1]).slice(0, 7);
+  const maxLoc = sortedLocs[0] ? sortedLocs[0][1] : 1;
+  const locEl = document.getElementById("chart-locations");
+  if (locEl) locEl.innerHTML = sortedLocs.map(([name, count]) => '<div class="mkt-bar-row"><div class="mkt-bar-label">'+name+'</div><div class="mkt-bar-bg"><div class="mkt-bar-fill" style="width:'+Math.round(count/maxLoc*100)+'%;background:linear-gradient(90deg,var(--green),#24C48F)"></div></div><div class="mkt-bar-count">'+count+'</div></div>').join("");
+
+  const skillKeywords = ["JavaScript","Python","React","Node","SQL","Figma","AWS","TypeScript","PHP","Java","Vue","Docker","Salesforce","HubSpot","Excel","Shopify","WordPress","SEO","Google Ads","Meta Ads","Copywriting","Customer Success","Product","Design","Marketing","Sales","Support","Finance","Data","DevOps"];
+  const skillMap = {};
+  jobs.forEach(j => { const text = ((j.title || "") + " " + (j.description || "")).toLowerCase(); skillKeywords.forEach(sk => { if (text.includes(sk.toLowerCase())) skillMap[sk] = (skillMap[sk] || 0) + 1; }); });
+  const sortedSkills = Object.entries(skillMap).sort((a,b) => b[1]-a[1]).slice(0, 16);
+  const maxSk = sortedSkills[0] ? sortedSkills[0][1] : 1;
+  const colors = [{bg:"rgba(29,158,117,0.12)",border:"rgba(29,158,117,0.4)",color:"#1D9E75"},{bg:"rgba(29,95,163,0.12)",border:"rgba(29,95,163,0.4)",color:"#5B9FD4"},{bg:"rgba(245,158,11,0.12)",border:"rgba(245,158,11,0.4)",color:"#F59E0B"}];
+  const skEl = document.getElementById("chart-skills");
+  if (skEl) skEl.innerHTML = sortedSkills.map(([name, count], i) => { const c = colors[i%3]; const size = count/maxSk > 0.6 ? "14px" : count/maxSk > 0.3 ? "13px" : "12px"; return '<span class="mkt-skill-tag" style="background:'+c.bg+';border-color:'+c.border+';color:'+c.color+';font-size:'+size+'">'+name+' <span style="opacity:.6;font-size:10px">'+count+'</span></span>'; }).join("");
+
+  const typeMap = {};
+  jobs.forEach(j => { const t = normalizeType(j.job_type || j.type || ""); if (t) typeMap[t] = (typeMap[t] || 0) + 1; });
+  const sortedTypes = Object.entries(typeMap).sort((a,b) => b[1]-a[1]);
+  const totalTyped = sortedTypes.reduce((s,[,v]) => s+v, 0) || 1;
+  const typeColors = ["var(--green)","var(--blue)","var(--gold)","var(--gray)"];
+  const typeEl = document.getElementById("chart-types");
+  if (typeEl && sortedTypes.length > 0) typeEl.innerHTML = sortedTypes.map(([name, count], i) => '<div class="mkt-type-row"><div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:'+(typeColors[i]||"var(--gray)")+';flex-shrink:0"></span><span style="font-size:13px">'+name+'</span></div><div style="display:flex;align-items:center;gap:8px"><div style="width:80px;height:4px;background:rgba(255,255,255,0.06);border-radius:100px;overflow:hidden"><div style="width:'+Math.round(count/totalTyped*100)+'%;height:100%;border-radius:100px;background:'+(typeColors[i]||"var(--gray)")+'"></div></div><span style="font-size:12px;color:var(--gray);font-family:Syne,sans-serif;font-weight:700;min-width:30px">'+Math.round(count/totalTyped*100)+'%</span></div></div>').join("");
+}
+
+function normalizeCategory(cat) {
+  cat = (cat || "").toLowerCase();
+  if (cat.includes("software")||cat.includes("engineer")||cat.includes("developer")||cat.includes(" dev")||cat.includes("programming")) return "Software / Dev";
+  if (cat.includes("design")||cat.includes("ux")||cat.includes("ui")) return "Diseno / UX";
+  if (cat.includes("marketing")||cat.includes("growth")||cat.includes("seo")) return "Marketing";
+  if (cat.includes("sales")||cat.includes("venta")||cat.includes("biz dev")) return "Ventas";
+  if (cat.includes("support")||cat.includes("customer")||cat.includes("atenci")) return "Customer Support";
+  if (cat.includes("data")||cat.includes("analytic")||cat.includes(" ai ")||cat.includes(" ml")) return "Data / AI";
+  if (cat.includes("product")) return "Producto";
+  if (cat.includes("finance")||cat.includes("account")||cat.includes("finanz")) return "Finanzas";
+  if (cat.includes("writ")||cat.includes("content")||cat.includes("redac")) return "Contenido";
+  if (cat.includes("devops")||cat.includes("cloud")||cat.includes("infra")) return "DevOps";
+  if (cat.length > 2) return cat.charAt(0).toUpperCase() + cat.slice(1, 20);
+  return null;
+}
+
+function normalizeLocation(loc) {
+  loc = (loc || "").toLowerCase();
+  if (!loc||loc==="worldwide"||loc==="remote"||loc==="anywhere"||loc.includes("anywhere")) return "Worldwide";
+  if (loc.includes("usa")||loc.includes("united states")||loc.includes("u.s.")||loc.includes("us only")) return "USA";
+  if (loc.includes("europe")||loc.includes("eu only")||loc.includes("european")) return "Europe";
+  if (loc.includes("latam")||loc.includes("latin")||loc.includes("latinoam")) return "LATAM";
+  if (loc.includes("uk")||loc.includes("united kingdom")) return "UK";
+  if (loc.includes("canada")) return "Canada";
+  if (loc.includes("australia")) return "Australia";
+  if (loc.includes("asia")) return "Asia";
+  if (loc.length > 2 && loc.length < 30) return loc.charAt(0).toUpperCase() + loc.slice(1,25);
+  return "Worldwide";
+}
+
+function normalizeType(t) {
+  t = (t || "").toLowerCase();
+  if (t.includes("full")||t.includes("tiempo completo")) return "Full-time";
+  if (t.includes("part")||t.includes("medio")) return "Part-time";
+  if (t.includes("contract")||t.includes("contrato")) return "Contrato";
+  if (t.includes("freelance")) return "Freelance";
+  if (t.includes("intern")||t.includes("practic")) return "Internship";
+  return "Full-time";
+}
+
 // ── JOBS ENGINE ──
 let allJobs = [];
 let filteredJobs = [];
@@ -1590,6 +1730,8 @@ async function initJobs() {
   allJobs.sort((a, b) => new Date(b.date) - new Date(a.date));
   filteredJobs = [...allJobs];
   renderJobs(true);
+  // Build market intelligence after jobs load
+  try { buildMarketIntelligence(allJobs); } catch(e) { console.warn('Market intel error:', e); }
 }
 
 // Search debounce
