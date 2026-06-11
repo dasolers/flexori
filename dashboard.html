@@ -495,9 +495,8 @@ async function loadDashboard(email, token) {
   if (savedScoreRaw) {
     try {
       var scoreData = JSON.parse(savedScoreRaw);
-      // Soporta tanto el formato objeto {score:X} como número directo
-      var score = typeof scoreData === 'object' ? scoreData.score : parseInt(savedScoreRaw);
-      var breakdown = typeof scoreData === 'object' ? scoreData.breakdown : null;
+      var score = typeof scoreData === 'object' ? parseInt(scoreData.score) : parseInt(savedScoreRaw);
+      var breakdownRaw = typeof scoreData === 'object' ? scoreData.breakdown : null;
       if (score && !isNaN(score)) {
         var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
         document.getElementById('stat-score').textContent = score;
@@ -506,14 +505,23 @@ async function loadDashboard(email, token) {
         document.getElementById('score-ring').style.borderColor = color;
         document.getElementById('score-ring').style.color = color;
         document.getElementById('score-card-sub').textContent = 'Tu Score más reciente';
-        if (breakdown) {
+        if (breakdownRaw) {
           var breakdownHtml = '<div class="score-ring" style="border-color:' + color + ';color:' + color + '">' + score + '</div>';
           breakdownHtml += '<div style="margin-top:16px">';
-          Object.keys(breakdown).forEach(function(dim) {
-            var val = breakdown[dim];
-            var c = val >= 70 ? '#1D9E75' : val >= 40 ? '#F59E0B' : '#EF4444';
-            breakdownHtml += '<div class="progress-item"><div class="progress-label"><span>' + dim + '</span><span style="color:' + c + '">' + val + '</span></div><div class="progress-bg"><div class="progress-fill" style="width:' + val + '%;background:' + c + '"></div></div></div>';
-          });
+          // Soporta array [{dimension, score, max}] y objeto {dim: val}
+          if (Array.isArray(breakdownRaw)) {
+            breakdownRaw.forEach(function(item) {
+              var pct = Math.round((item.score / item.max) * 100);
+              var c = pct >= 70 ? '#1D9E75' : pct >= 40 ? '#F59E0B' : '#EF4444';
+              breakdownHtml += '<div class="progress-item"><div class="progress-label"><span>' + item.dimension + '</span><span style="color:' + c + '">' + item.score + '/' + item.max + '</span></div><div class="progress-bg"><div class="progress-fill" style="width:' + pct + '%;background:' + c + '"></div></div></div>';
+            });
+          } else {
+            Object.keys(breakdownRaw).forEach(function(dim) {
+              var val = breakdownRaw[dim];
+              var c = val >= 70 ? '#1D9E75' : val >= 40 ? '#F59E0B' : '#EF4444';
+              breakdownHtml += '<div class="progress-item"><div class="progress-label"><span>' + dim + '</span><span style="color:' + c + '">' + val + '</span></div><div class="progress-bg"><div class="progress-fill" style="width:' + val + '%;background:' + c + '"></div></div></div>';
+            });
+          }
           breakdownHtml += '</div>';
           document.getElementById('score-breakdown').innerHTML = breakdownHtml;
         }
