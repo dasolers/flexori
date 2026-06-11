@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#1D9E75">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Flexori">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Perfil Remoto — Flexori</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HFYKRPJN1E"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-HFYKRPJN1E');</script>
+<style>
+:root{--bg:#0D1321;--surface:#131B2E;--surface2:#1A2540;--green:#1D9E75;--green2:#24C48F;--blue:#1D5FA3;--text:#F0EEE6;--muted:#A8A69E;--border:rgba(255,255,255,0.07);--border-green:rgba(29,158,117,0.3);--gold:#F59E0B}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,19,33,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--green));border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#fff}
+.nav-logo-text{font-family:'Syne',sans-serif;font-weight:700;font-size:16px}
+.nav-right{display:flex;align-items:center;gap:12px}
+.btn-sm{padding:7px 16px;border-radius:100px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;text-decoration:none;border:none;transition:all .2s}
+.btn-outline{background:transparent;border:1px solid var(--border-green);color:var(--green)}
+.btn-solid{background:var(--green);color:#0D1321}
+.btn-solid:hover{background:var(--green2)}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-blue:hover{background:#2470b8}
+
+/* PAGE WRAPPER */
+.page{padding:88px 48px 80px;max-width:800px;margin:0 auto}
+
+/* PASSPORT HEADER */
+.passport-header{display:flex;align-items:flex-start;gap:24px;margin-bottom:32px;background:var(--surface);border:1px solid var(--border-green);border-radius:20px;padding:28px}
+.passport-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--green));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:#fff;flex-shrink:0}
+.passport-info{flex:1;min-width:0}
+.passport-name{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px}
+.passport-title{color:var(--muted);font-size:14px;margin-bottom:10px}
+.passport-badges{display:flex;flex-wrap:wrap;gap:8px}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:'Syne',sans-serif}
+.badge-green{background:rgba(29,158,117,0.12);color:var(--green);border:1px solid var(--border-green)}
+.badge-blue{background:rgba(29,95,163,0.12);color:#5B9FD4;border:1px solid rgba(29,95,163,0.3)}
+.badge-gold{background:rgba(245,158,11,0.12);color:var(--gold);border:1px solid rgba(245,158,11,0.3)}
+
+/* COMPLETENESS BAR */
+.completeness-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 24px;margin-bottom:28px}
+.completeness-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.completeness-label{font-family:'Syne',sans-serif;font-size:14px;font-weight:700}
+.completeness-pct{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--green)}
+.completeness-bar-bg{background:rgba(255,255,255,0.06);border-radius:100px;height:8px;overflow:hidden;margin-bottom:8px}
+.completeness-bar-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .8s ease}
+.completeness-sub{font-size:12px;color:var(--muted)}
+
+/* WIZARD */
+.wizard-steps{display:flex;align-items:center;gap:0;margin-bottom:32px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:4px;overflow:hidden}
+.wizard-step{flex:1;text-align:center;padding:10px 8px;border-radius:10px;cursor:pointer;transition:all .2s;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--muted)}
+.wizard-step.active{background:var(--green);color:#0D1321}
+.wizard-step.done{color:var(--green)}
+.wizard-step-num{display:block;font-size:16px;margin-bottom:2px}
+
+/* FORM CARD */
+.form-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px;margin-bottom:20px}
+.form-card-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:4px}
+.form-card-sub{font-size:13px;color:var(--muted);margin-bottom:28px}
+
+.field{margin-bottom:20px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,0.04);border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;color:var(--text);font-size:15px;outline:none;transition:border-color .2s;font-family:'DM Sans',sans-serif}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--border-green)}
+.field input::placeholder,.field textarea::placeholder{color:rgba(168,166,158,0.4)}
+.field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23888780' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+.field select option{background:#131B2E}
+.field textarea{resize:vertical;min-height:80px}
+
+/* FIELD ROW */
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* CHIPS */
+.chips-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{padding:8px 14px;border-radius:100px;font-size:13px;font-weight:500;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.chip:hover{border-color:var(--border-green);color:var(--text)}
+.chip.selected{background:rgba(29,158,117,0.12);border-color:var(--green);color:var(--green);font-weight:600}
+
+/* CV UPLOAD ZONE */
+.upload-zone{border:2px dashed var(--border);border-radius:16px;padding:40px 24px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--green);background:rgba(29,158,117,0.04)}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-icon{font-size:36px;margin-bottom:12px}
+.upload-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px}
+.upload-sub{font-size:12px;color:var(--muted)}
+.upload-success{display:none;align-items:center;gap:12px;background:rgba(29,158,117,0.08);border:1px solid var(--border-green);border-radius:12px;padding:14px 16px;margin-top:16px}
+.upload-success.show{display:flex}
+.upload-filename{font-size:13px;font-weight:600;color:var(--green)}
+
+/* NAV BUTTONS */
+.form-nav{display:flex;justify-content:space-between;align-items:center;gap:12px}
+
+/* PUBLIC VIEW */
+.public-view{display:none}
+.public-card{background:var(--surface);border:1px solid var(--border-green);border-radius:20px;padding:32px;margin-bottom:20px}
+.public-section-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.skill-tag{display:inline-flex;align-items:center;padding:5px 12px;border-radius:100px;font-size:12px;font-weight:600;background:rgba(29,95,163,0.1);border:1px solid rgba(29,95,163,0.25);color:#5B9FD4;margin:4px}
+.info-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px}
+.info-row:last-child{border-bottom:none}
+.info-row .label{color:var(--muted);min-width:140px;font-size:13px}
+.info-row .value{font-weight:500}
+.cv-download-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(29,95,163,0.1);border:1px solid rgba(29,95,163,0.3);color:#5B9FD4;padding:10px 18px;border-radius:10px;text-decoration:none;font-size:13px;font-weight:600;transition:all .2s}
+.cv-download-btn:hover{background:rgba(29,95,163,0.2)}
+.score-mini{display:inline-flex;align-items:center;gap:8px}
+.score-mini-ring{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;border:3px solid var(--green)}
+.share-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+/* LOADING */
+#loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;flex-direction:column;gap:16px}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* MSG */
+.msg{font-size:13px;margin-top:10px;display:none;padding:10px 14px;border-radius:10px}
+.msg.ok{background:rgba(29,158,117,0.1);color:var(--green);border:1px solid var(--border-green)}
+.msg.err{background:rgba(239,68,68,0.1);color:#FCA5A5;border:1px solid rgba(239,68,68,0.2)}
+
+/* MOBILE */
+@media(max-width:700px){
+  nav{padding:0 20px}
+  .page{padding:80px 16px 60px}
+  .passport-header{flex-direction:column;align-items:center;text-align:center}
+  .field-row{grid-template-columns:1fr}
+  .wizard-step-label{display:none}
+  .form-nav{flex-direction:column}
+  .form-nav button,.form-nav a{width:100%;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div id="loading-screen">
+  <div class="spinner"></div>
+  <span style="font-size:13px;color:var(--muted)">Cargando tu perfil...</span>
+</div>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">F</div>
+    <span class="nav-logo-text">Flexori</span>
+  </a>
+  <div class="nav-right">
+    <a href="/jobs.html" class="btn-sm btn-outline">Empleos</a>
+    <a href="/dashboard.html" class="btn-sm btn-outline">Dashboard</a>
+    <button onclick="signOut()" class="btn-sm" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#FCA5A5;cursor:pointer">Salir</button>
+  </div>
+</nav>
+
+<!-- EDIT MODE (logged in user) -->
+<div class="page" id="edit-view" style="display:none">
+
+  <!-- PASSPORT HEADER -->
+  <div class="passport-header">
+    <div class="passport-avatar" id="avatar-initials">?</div>
+    <div class="passport-info">
+      <div class="passport-name" id="header-name">Tu Perfil Remoto</div>
+      <div class="passport-title" id="header-title">Completa tu perfil para aparecer ante recruiters</div>
+      <div class="passport-badges">
+        <span class="badge badge-green" id="header-country-badge" style="display:none"></span>
+        <span class="badge badge-blue" id="header-industry-badge" style="display:none"></span>
+        <span class="badge badge-gold" id="header-score-badge" style="display:none"></span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0">
+      <button onclick="switchToPublic()" class="btn-sm btn-blue" id="view-public-btn" style="display:none">👁 Ver perfil público</button>
+      <button onclick="copyPublicLink()" class="btn-sm btn-outline" id="copy-link-btn" style="display:none">🔗 Copiar link</button>
+    </div>
+  </div>
+
+  <!-- COMPLETENESS -->
+  <div class="completeness-card">
+    <div class="completeness-header">
+      <span class="completeness-label">🛂 Remote Digital Passport</span>
+      <span class="completeness-pct" id="complete-pct">0%</span>
+    </div>
+    <div class="completeness-bar-bg">
+      <div class="completeness-bar-fill" id="complete-bar" style="width:0%"></div>
+    </div>
+    <div class="completeness-sub" id="complete-sub">Completa tu perfil para que los recruiters te encuentren</div>
+  </div>
+
+  <!-- WIZARD STEPS -->
+  <div class="wizard-steps">
+    <div class="wizard-step active" id="step-tab-1" onclick="goToStep(1)">
+      <span class="wizard-step-num">①</span>
+      <span class="wizard-step-label">Básico</span>
+    </div>
+    <div class="wizard-step" id="step-tab-2" onclick="goToStep(2)">
+      <span class="wizard-step-num">②</span>
+      <span class="wizard-step-label">Experiencia</span>
+    </div>
+    <div class="wizard-step" id="step-tab-3" onclick="goToStep(3)">
+      <span class="wizard-step-num">③</span>
+      <span class="wizard-step-label">Habilidades</span>
+    </div>
+    <div class="wizard-step" id="step-tab-4" onclick="goToStep(4)">
+      <span class="wizard-step-num">④</span>
+      <span class="wizard-step-label">CV & Preferencias</span>
+    </div>
+  </div>
+
+  <!-- STEP 1: INFO BÁSICA -->
+  <div id="step-1" class="form-card">
+    <div class="form-card-title">👤 Información básica</div>
+    <div class="form-card-sub">Así te identificarán los recruiters remotos</div>
+    <div class="field-row">
+      <div class="field">
+        <label>Nombre completo</label>
+        <input type="text" id="f-name" placeholder="Ej: María García" />
+      </div>
+      <div class="field">
+        <label>Título profesional</label>
+        <input type="text" id="f-title" placeholder="Ej: Product Manager" />
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>País</label>
+        <select id="f-country">
+          <option value="">Selecciona tu país</option>
+          <option>México</option><option>Colombia</option><option>Argentina</option>
+          <option>Chile</option><option>Perú</option><option>Venezuela</option>
+          <option>Ecuador</option><option>Guatemala</option><option>Costa Rica</option>
+          <option>Bolivia</option><option>Paraguay</option><option>Uruguay</option>
+          <option>Honduras</option><option>El Salvador</option><option>Nicaragua</option>
+          <option>Rep. Dominicana</option><option>Cuba</option><option>Puerto Rico</option>
+          <option>Panamá</option><option>España</option><option>USA</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Idiomas que hablas</label>
+        <div class="chips-grid" id="chips-languages">
+          <button type="button" class="chip" data-val="Español" onclick="toggleChip(this,'languages')">🇪🇸 Español</button>
+          <button type="button" class="chip" data-val="Inglés" onclick="toggleChip(this,'languages')">🇺🇸 Inglés</button>
+          <button type="button" class="chip" data-val="Portugués" onclick="toggleChip(this,'languages')">🇧🇷 Portugués</button>
+          <button type="button" class="chip" data-val="Francés" onclick="toggleChip(this,'languages')">🇫🇷 Francés</button>
+        </div>
+      </div>
+    </div>
+    <div class="form-nav">
+      <span style="font-size:13px;color:var(--muted)">Paso 1 de 4</span>
+      <button onclick="saveStep(1)" class="btn-sm btn-solid" style="padding:10px 28px;font-size:14px">Guardar y continuar →</button>
+    </div>
+    <div class="msg" id="msg-1"></div>
+  </div>
+
+  <!-- STEP 2: EXPERIENCIA -->
+  <div id="step-2" class="form-card" style="display:none">
+    <div class="form-card-title">💼 Experiencia remota</div>
+    <div class="form-card-sub">Cuéntanos sobre tu trayectoria profesional</div>
+    <div class="field-row">
+      <div class="field">
+        <label>Años de experiencia remota</label>
+        <select id="f-years">
+          <option value="">Selecciona</option>
+          <option value="0">Menos de 1 año</option>
+          <option value="1">1-2 años</option>
+          <option value="3">3-5 años</option>
+          <option value="6">6-10 años</option>
+          <option value="11">Más de 10 años</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Industria principal</label>
+        <select id="f-industry">
+          <option value="">Selecciona</option>
+          <option>Tecnología / Software</option>
+          <option>Marketing / Growth</option>
+          <option>Diseño / UX</option>
+          <option>Ventas / BizDev</option>
+          <option>Finanzas / Contabilidad</option>
+          <option>Atención al Cliente</option>
+          <option>Operaciones / Logística</option>
+          <option>Educación / E-learning</option>
+          <option>Salud / Telemedicina</option>
+          <option>Legal / Consultoría</option>
+          <option>Recursos Humanos</option>
+          <option>Otro</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>Sobre mí (para recruiters)</label>
+      <textarea id="f-bio" placeholder="Ej: Soy Product Manager con 4 años de experiencia en startups SaaS. He liderado equipos distribuidos en 3 países..." style="min-height:100px"></textarea>
+    </div>
+    <div class="form-nav">
+      <button onclick="goToStep(1)" class="btn-sm btn-outline">← Anterior</button>
+      <button onclick="saveStep(2)" class="btn-sm btn-solid" style="padding:10px 28px;font-size:14px">Guardar y continuar →</button>
+    </div>
+    <div class="msg" id="msg-2"></div>
+  </div>
+
+  <!-- STEP 3: HABILIDADES -->
+  <div id="step-3" class="form-card" style="display:none">
+    <div class="form-card-title">⚡ Habilidades</div>
+    <div class="form-card-sub">Selecciona las que mejor te representen (máx. 10)</div>
+
+    <div class="field">
+      <label>Habilidades técnicas</label>
+      <div class="chips-grid" id="chips-tech">
+        <button type="button" class="chip" data-val="JavaScript" onclick="toggleChip(this,'skills')">JavaScript</button>
+        <button type="button" class="chip" data-val="Python" onclick="toggleChip(this,'skills')">Python</button>
+        <button type="button" class="chip" data-val="React" onclick="toggleChip(this,'skills')">React</button>
+        <button type="button" class="chip" data-val="Node.js" onclick="toggleChip(this,'skills')">Node.js</button>
+        <button type="button" class="chip" data-val="SQL" onclick="toggleChip(this,'skills')">SQL</button>
+        <button type="button" class="chip" data-val="Figma" onclick="toggleChip(this,'skills')">Figma</button>
+        <button type="button" class="chip" data-val="Google Ads" onclick="toggleChip(this,'skills')">Google Ads</button>
+        <button type="button" class="chip" data-val="Meta Ads" onclick="toggleChip(this,'skills')">Meta Ads</button>
+        <button type="button" class="chip" data-val="HubSpot" onclick="toggleChip(this,'skills')">HubSpot</button>
+        <button type="button" class="chip" data-val="Salesforce" onclick="toggleChip(this,'skills')">Salesforce</button>
+        <button type="button" class="chip" data-val="Excel / Sheets" onclick="toggleChip(this,'skills')">Excel / Sheets</button>
+        <button type="button" class="chip" data-val="Power BI" onclick="toggleChip(this,'skills')">Power BI</button>
+        <button type="button" class="chip" data-val="Notion" onclick="toggleChip(this,'skills')">Notion</button>
+        <button type="button" class="chip" data-val="Jira" onclick="toggleChip(this,'skills')">Jira</button>
+        <button type="button" class="chip" data-val="Stripe" onclick="toggleChip(this,'skills')">Stripe</button>
+        <button type="button" class="chip" data-val="AWS" onclick="toggleChip(this,'skills')">AWS</button>
+        <button type="button" class="chip" data-val="Supabase" onclick="toggleChip(this,'skills')">Supabase</button>
+        <button type="button" class="chip" data-val="WordPress" onclick="toggleChip(this,'skills')">WordPress</button>
+        <button type="button" class="chip" data-val="SEO" onclick="toggleChip(this,'skills')">SEO</button>
+        <button type="button" class="chip" data-val="Copywriting" onclick="toggleChip(this,'skills')">Copywriting</button>
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:8px">
+      <label>Habilidades blandas</label>
+      <div class="chips-grid" id="chips-soft">
+        <button type="button" class="chip" data-val="Liderazgo" onclick="toggleChip(this,'skills')">Liderazgo</button>
+        <button type="button" class="chip" data-val="Comunicación asíncrona" onclick="toggleChip(this,'skills')">Comunicación asíncrona</button>
+        <button type="button" class="chip" data-val="Gestión de proyectos" onclick="toggleChip(this,'skills')">Gestión de proyectos</button>
+        <button type="button" class="chip" data-val="Trabajo autónomo" onclick="toggleChip(this,'skills')">Trabajo autónomo</button>
+        <button type="button" class="chip" data-val="Resolución de problemas" onclick="toggleChip(this,'skills')">Resolución de problemas</button>
+        <button type="button" class="chip" data-val="Mentalidad de growth" onclick="toggleChip(this,'skills')">Mentalidad de growth</button>
+        <button type="button" class="chip" data-val="Gestión del tiempo" onclick="toggleChip(this,'skills')">Gestión del tiempo</button>
+        <button type="button" class="chip" data-val="Adaptabilidad" onclick="toggleChip(this,'skills')">Adaptabilidad</button>
+      </div>
+    </div>
+    <div style="margin-top:12px;font-size:12px;color:var(--muted)" id="skills-count">0 / 10 seleccionadas</div>
+
+    <div class="form-nav" style="margin-top:24px">
+      <button onclick="goToStep(2)" class="btn-sm btn-outline">← Anterior</button>
+      <button onclick="saveStep(3)" class="btn-sm btn-solid" style="padding:10px 28px;font-size:14px">Guardar y continuar →</button>
+    </div>
+    <div class="msg" id="msg-3"></div>
+  </div>
+
+  <!-- STEP 4: CV & PREFERENCIAS -->
+  <div id="step-4" class="form-card" style="display:none">
+    <div class="form-card-title">📄 CV & Preferencias de empleo</div>
+    <div class="form-card-sub">Último paso — define qué tipo de trabajo buscas</div>
+
+    <div class="field">
+      <label>Sube tu CV (PDF o Word, máx. 5MB)</label>
+      <div class="upload-zone" id="upload-zone">
+        <input type="file" id="cv-file" accept=".pdf,.doc,.docx" onchange="handleCVSelect(this)" />
+        <div class="upload-icon">📄</div>
+        <div class="upload-title">Arrastra tu CV aquí o haz clic para seleccionar</div>
+        <div class="upload-sub">PDF o Word — máx. 5MB</div>
+      </div>
+      <div class="upload-success" id="upload-success">
+        <span style="font-size:20px">✅</span>
+        <div>
+          <div class="upload-filename" id="upload-filename"></div>
+          <div style="font-size:11px;color:var(--muted)">CV guardado en tu perfil</div>
+        </div>
+        <button onclick="removeCVFile()" style="margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px">×</button>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Disponibilidad</label>
+        <select id="f-availability">
+          <option value="">Selecciona</option>
+          <option value="inmediata">Disponible ahora mismo</option>
+          <option value="2semanas">En 2 semanas</option>
+          <option value="1mes">En 1 mes</option>
+          <option value="explorando">Solo explorando opciones</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Tipo de empleo buscado</label>
+        <select id="f-jobtype">
+          <option value="">Selecciona</option>
+          <option value="fulltime">Full-time</option>
+          <option value="parttime">Part-time</option>
+          <option value="freelance">Freelance / Proyecto</option>
+          <option value="cualquiera">Cualquiera</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-nav" style="margin-top:8px">
+      <button onclick="goToStep(3)" class="btn-sm btn-outline">← Anterior</button>
+      <button onclick="saveStep(4)" class="btn-sm btn-solid" style="padding:10px 28px;font-size:14px;background:var(--blue);color:#fff" id="btn-finish">🚀 Finalizar perfil</button>
+    </div>
+    <div class="msg" id="msg-4"></div>
+  </div>
+
+</div>
+
+<!-- PUBLIC VIEW -->
+<div class="page public-view" id="public-view">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;font-family:'Syne',sans-serif;font-weight:700">🛂 Remote Digital Passport</div>
+      <div style="font-size:13px;color:var(--muted)" id="public-view-sub">Perfil verificado por Flexori</div>
+    </div>
+    <div class="share-bar">
+      <button onclick="copyPublicLink()" class="btn-sm btn-outline">🔗 Compartir perfil</button>
+      <button onclick="switchToEdit()" class="btn-sm btn-solid" id="edit-btn-public" style="display:none">✏️ Editar</button>
+    </div>
+  </div>
+
+  <!-- PUBLIC HEADER CARD -->
+  <div class="public-card">
+    <div style="display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap">
+      <div class="passport-avatar" id="pub-avatar" style="width:72px;height:72px;font-size:24px">?</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px" id="pub-name">—</div>
+        <div style="color:var(--muted);font-size:14px;margin-bottom:12px" id="pub-title">—</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px" id="pub-badges"></div>
+      </div>
+      <div style="text-align:center;flex-shrink:0">
+        <div class="score-mini">
+          <div class="score-mini-ring" id="pub-score-ring" style="border-color:var(--muted);color:var(--muted)">—</div>
+        </div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Score</div>
+      </div>
+    </div>
+    <div id="pub-bio" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);font-size:14px;line-height:1.6;color:var(--muted);display:none"></div>
+  </div>
+
+  <!-- INFO TABLE -->
+  <div class="public-card">
+    <div class="public-section-title">📋 Información profesional</div>
+    <div class="info-row"><span class="label">País</span><span class="value" id="pub-country">—</span></div>
+    <div class="info-row"><span class="label">Industria</span><span class="value" id="pub-industry">—</span></div>
+    <div class="info-row"><span class="label">Experiencia remota</span><span class="value" id="pub-years">—</span></div>
+    <div class="info-row"><span class="label">Disponibilidad</span><span class="value" id="pub-availability">—</span></div>
+    <div class="info-row"><span class="label">Idiomas</span><span class="value" id="pub-languages">—</span></div>
+    <div class="info-row" id="pub-linkedin-row" style="display:none">
+      <span class="label">LinkedIn</span>
+      <a class="value" id="pub-linkedin" href="#" target="_blank" style="color:var(--blue);text-decoration:none">Ver perfil →</a>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="public-card" id="pub-skills-card" style="display:none">
+    <div class="public-section-title">⚡ Habilidades</div>
+    <div id="pub-skills"></div>
+  </div>
+
+  <!-- CV -->
+  <div class="public-card" id="pub-cv-card" style="display:none">
+    <div class="public-section-title">📄 Currículum</div>
+    <a id="pub-cv-link" href="#" target="_blank" class="cv-download-btn">
+      <span>📄</span> Descargar CV
+    </a>
+  </div>
+
+</div>
+
+<script>
+const SUPABASE_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0.XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU';
+
+let currentUser = null;
+let currentProfile = null;
+let selectedLanguages = [];
+let selectedSkills = [];
+let currentStep = 1;
+let pendingCVFile = null;
+let isPublicView = false;
+
+// ─── INIT ───────────────────────────────────────────────
+async function init() {
+  // Check if viewing public profile
+  const params = new URLSearchParams(window.location.search);
+  const publicUserId = params.get('u');
+
+  if (publicUserId) {
+    await loadPublicProfile(publicUserId);
+    return;
+  }
+
+  // Auth check
+  const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+    headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + getToken() }
+  });
+
+  if (!res.ok) {
+    window.location.href = '/register.html?next=/profile.html';
+    return;
+  }
+
+  currentUser = await res.json();
+  await loadProfile();
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('edit-view').style.display = 'block';
+}
+
+function getToken() {
+  const keys = Object.keys(localStorage).filter(k => k.startsWith('sb-') && k.endsWith('-auth-token'));
+  if (keys.length) {
+    try { return JSON.parse(localStorage.getItem(keys[0])).access_token; } catch(e){}
+  }
+  return localStorage.getItem('sb_token') || '';
+}
+
+// ─── LOAD PROFILE ────────────────────────────────────────
+async function loadProfile() {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/waitlist?email=eq.${encodeURIComponent(currentUser.email)}&select=*`, {
+    headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + getToken() }
+  });
+  const rows = await res.json();
+  if (rows && rows.length > 0) {
+    currentProfile = rows[0];
+    populateForm(currentProfile);
+    updateHeader(currentProfile);
+    updateCompleteness(currentProfile);
+  }
+
+  // Load score
+  const sres = await fetch(`${SUPABASE_URL}/rest/v1/employability_scores?user_id=eq.${currentUser.id}&order=created_at.desc&limit=1`, {
+    headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + getToken() }
+  });
+  const scores = await sres.json();
+  if (scores && scores.length > 0) {
+    const s = scores[0].total_score || scores[0].score;
+    document.getElementById('header-score-badge').textContent = `⚡ Score ${s}`;
+    document.getElementById('header-score-badge').style.display = 'inline-flex';
+  }
+}
+
+function populateForm(p) {
+  if (p.full_name) document.getElementById('f-name').value = p.full_name;
+  if (p.job_title) document.getElementById('f-title').value = p.job_title;
+  if (p.country) document.getElementById('f-country').value = p.country;
+  if (p.years_remote !== null && p.years_remote !== undefined) document.getElementById('f-years').value = p.years_remote;
+  if (p.industry) document.getElementById('f-industry').value = p.industry;
+  if (p.bio) document.getElementById('f-bio').value = p.bio;
+  if (p.availability) document.getElementById('f-availability').value = p.availability;
+  if (p.job_type) document.getElementById('f-jobtype').value = p.job_type;
+
+  // Languages chips
+  if (p.languages && p.languages.length) {
+    selectedLanguages = [...p.languages];
+    document.querySelectorAll('#chips-languages .chip').forEach(c => {
+      if (selectedLanguages.includes(c.dataset.val)) c.classList.add('selected');
+    });
+  }
+
+  // Skills chips
+  if (p.skills && p.skills.length) {
+    selectedSkills = [...p.skills];
+    document.querySelectorAll('#chips-tech .chip, #chips-soft .chip').forEach(c => {
+      if (selectedSkills.includes(c.dataset.val)) c.classList.add('selected');
+    });
+    updateSkillsCount();
+  }
+
+  // CV
+  if (p.cv_url) {
+    document.getElementById('upload-success').classList.add('show');
+    document.getElementById('upload-filename').textContent = 'CV guardado ✓';
+  }
+}
+
+function updateHeader(p) {
+  const name = p.full_name || currentUser.email.split('@')[0];
+  document.getElementById('header-name').textContent = name;
+  document.getElementById('avatar-initials').textContent = name.charAt(0).toUpperCase();
+  if (p.job_title) document.getElementById('header-title').textContent = p.job_title;
+  if (p.country) {
+    document.getElementById('header-country-badge').textContent = '📍 ' + p.country;
+    document.getElementById('header-country-badge').style.display = 'inline-flex';
+  }
+  if (p.industry) {
+    document.getElementById('header-industry-badge').textContent = p.industry;
+    document.getElementById('header-industry-badge').style.display = 'inline-flex';
+  }
+  if (p.profile_complete > 0) {
+    document.getElementById('view-public-btn').style.display = 'block';
+    document.getElementById('copy-link-btn').style.display = 'block';
+  }
+}
+
+function updateCompleteness(p) {
+  const fields = ['full_name','job_title','country','languages','years_remote','industry','skills','availability','cv_url'];
+  let filled = 0;
+  fields.forEach(f => {
+    const v = p[f];
+    if (v !== null && v !== undefined && v !== '' && !(Array.isArray(v) && v.length === 0)) filled++;
+  });
+  const pct = Math.round((filled / fields.length) * 100);
+  document.getElementById('complete-pct').textContent = pct + '%';
+  document.getElementById('complete-bar').style.width = pct + '%';
+  const msgs = ['Empieza completando tu información básica','Buen comienzo — sigue completando','Ya vas bien — faltan algunos detalles','Casi listo — tu perfil está casi completo','¡Perfil completo! Los recruiters pueden encontrarte'];
+  const idx = pct === 100 ? 4 : Math.floor(pct / 25);
+  document.getElementById('complete-sub').textContent = msgs[idx];
+}
+
+// ─── WIZARD ──────────────────────────────────────────────
+function goToStep(n) {
+  document.getElementById('step-' + currentStep).style.display = 'none';
+  document.getElementById('step-tab-' + currentStep).classList.remove('active');
+  currentStep = n;
+  document.getElementById('step-' + n).style.display = 'block';
+  document.getElementById('step-tab-' + n).classList.add('active');
+  window.scrollTo({top: 200, behavior: 'smooth'});
+}
+
+// ─── CHIPS ───────────────────────────────────────────────
+function toggleChip(el, type) {
+  const val = el.dataset.val;
+  if (type === 'languages') {
+    if (selectedLanguages.includes(val)) {
+      selectedLanguages = selectedLanguages.filter(v => v !== val);
+      el.classList.remove('selected');
+    } else {
+      selectedLanguages.push(val);
+      el.classList.add('selected');
+    }
+  } else {
+    if (selectedSkills.includes(val)) {
+      selectedSkills = selectedSkills.filter(v => v !== val);
+      el.classList.remove('selected');
+    } else {
+      if (selectedSkills.length >= 10) {
+        showMsg(3, 'Máximo 10 habilidades', 'err');
+        return;
+      }
+      selectedSkills.push(val);
+      el.classList.add('selected');
+    }
+    updateSkillsCount();
+  }
+}
+
+function updateSkillsCount() {
+  document.getElementById('skills-count').textContent = selectedSkills.length + ' / 10 seleccionadas';
+}
+
+// ─── SAVE STEPS ──────────────────────────────────────────
+async function saveStep(step) {
+  let data = {};
+
+  if (step === 1) {
+    const name = document.getElementById('f-name').value.trim();
+    const title = document.getElementById('f-title').value.trim();
+    const country = document.getElementById('f-country').value;
+    if (!name) { showMsg(1,'Ingresa tu nombre','err'); return; }
+    if (!country) { showMsg(1,'Selecciona tu país','err'); return; }
+    data = { full_name: name, job_title: title, country, languages: selectedLanguages };
+  } else if (step === 2) {
+    const years = document.getElementById('f-years').value;
+    const industry = document.getElementById('f-industry').value;
+    const bio = document.getElementById('f-bio').value.trim();
+    if (!years) { showMsg(2,'Selecciona años de experiencia','err'); return; }
+    if (!industry) { showMsg(2,'Selecciona tu industria','err'); return; }
+    data = { years_remote: parseInt(years), industry, bio };
+  } else if (step === 3) {
+    if (selectedSkills.length === 0) { showMsg(3,'Selecciona al menos una habilidad','err'); return; }
+    data = { skills: selectedSkills };
+  } else if (step === 4) {
+    const availability = document.getElementById('f-availability').value;
+    const jobType = document.getElementById('f-jobtype').value;
+    if (!availability) { showMsg(4,'Selecciona tu disponibilidad','err'); return; }
+    data = { availability, job_type: jobType };
+
+    // Upload CV if pending
+    if (pendingCVFile) {
+      showMsg(4, 'Subiendo CV...', 'ok');
+      const cvUrl = await uploadCV(pendingCVFile);
+      if (cvUrl) {
+        data.cv_url = cvUrl;
+      } else {
+        showMsg(4, 'Error subiendo CV — intenta de nuevo', 'err');
+        return;
+      }
+    }
+  }
+
+  // Calculate new completeness
+  const merged = { ...(currentProfile || {}), ...data };
+  const fields = ['full_name','job_title','country','languages','years_remote','industry','skills','availability','cv_url'];
+  let filled = 0;
+  fields.forEach(f => {
+    const v = merged[f];
+    if (v !== null && v !== undefined && v !== '' && !(Array.isArray(v) && v.length === 0)) filled++;
+  });
+  data.profile_complete = Math.round((filled / fields.length) * 100);
+
+  const btn = step === 4 ? document.getElementById('btn-finish') : null;
+  if (btn) { btn.textContent = 'Guardando...'; btn.disabled = true; }
+
+  const saved = await saveToSupabase(data);
+
+  if (saved) {
+    currentProfile = { ...(currentProfile || {}), ...data };
+    updateHeader(currentProfile);
+    updateCompleteness(currentProfile);
+    showMsg(step, '✓ Guardado correctamente', 'ok');
+    if (step < 4) {
+      setTimeout(() => goToStep(step + 1), 600);
+    } else {
+      if (btn) { btn.textContent = '✅ ¡Perfil completado!'; btn.style.background = 'var(--green)'; }
+      document.getElementById('view-public-btn').style.display = 'block';
+      document.getElementById('copy-link-btn').style.display = 'block';
+      gtag('event','profile_completed',{profile_pct: data.profile_complete});
+    }
+  } else {
+    showMsg(step, 'Error al guardar — intenta de nuevo', 'err');
+    if (btn) { btn.textContent = '🚀 Finalizar perfil'; btn.disabled = false; }
+  }
+}
+
+async function saveToSupabase(data) {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/waitlist?email=eq.${encodeURIComponent(currentUser.email)}`, {
+      method: 'PATCH',
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: 'Bearer ' + getToken(),
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal'
+      },
+      body: JSON.stringify(data)
+    });
+    return res.ok;
+  } catch(e) { return false; }
+}
+
+// ─── CV UPLOAD ───────────────────────────────────────────
+function handleCVSelect(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    alert('El archivo supera 5MB. Por favor reduce el tamaño.');
+    return;
+  }
+  pendingCVFile = file;
+  document.getElementById('upload-success').classList.add('show');
+  document.getElementById('upload-filename').textContent = file.name;
+}
+
+function removeCVFile() {
+  pendingCVFile = null;
+  document.getElementById('cv-file').value = '';
+  document.getElementById('upload-success').classList.remove('show');
+}
+
+async function uploadCV(file) {
+  try {
+    const ext = file.name.split('.').pop();
+    const path = `${currentUser.id}/cv.${ext}`;
+    const res = await fetch(`${SUPABASE_URL}/storage/v1/object/cvs/${path}`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: 'Bearer ' + getToken(),
+        'Content-Type': file.type,
+        'x-upsert': 'true'
+      },
+      body: file
+    });
+    if (!res.ok) return null;
+    return `${SUPABASE_URL}/storage/v1/object/public/cvs/${path}`;
+  } catch(e) { return null; }
+}
+
+// ─── PUBLIC VIEW ─────────────────────────────────────────
+function switchToPublic() {
+  document.getElementById('edit-view').style.display = 'none';
+  document.getElementById('public-view').style.display = 'block';
+  document.getElementById('edit-btn-public').style.display = 'inline-flex';
+  renderPublicView(currentProfile, currentUser.id);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function switchToEdit() {
+  document.getElementById('public-view').style.display = 'none';
+  document.getElementById('edit-view').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+async function loadPublicProfile(userId) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/waitlist?id=eq.${userId}&select=*`, {
+    headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY }
+  });
+  const rows = await res.json();
+  document.getElementById('loading-screen').style.display = 'none';
+
+  if (!rows || rows.length === 0) {
+    document.getElementById('public-view').style.display = 'block';
+    document.getElementById('public-view-sub').textContent = 'Perfil no encontrado';
+    return;
+  }
+
+  const p = rows[0];
+  document.getElementById('public-view').style.display = 'block';
+
+  // Load score
+  const sres = await fetch(`${SUPABASE_URL}/rest/v1/employability_scores?email=eq.${encodeURIComponent(p.email)}&order=created_at.desc&limit=1`, {
+    headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY }
+  });
+  const scores = await sres.json();
+  const scoreVal = scores && scores.length > 0 ? (scores[0].total_score || scores[0].score) : null;
+
+  renderPublicView(p, userId, scoreVal);
+}
+
+function renderPublicView(p, userId, scoreOverride) {
+  if (!p) return;
+  const name = p.full_name || '—';
+  document.getElementById('pub-name').textContent = name;
+  document.getElementById('pub-avatar').textContent = name.charAt(0).toUpperCase();
+  document.getElementById('pub-title').textContent = p.job_title || '—';
+  document.getElementById('pub-country').textContent = p.country || '—';
+  document.getElementById('pub-industry').textContent = p.industry || '—';
+  document.getElementById('pub-availability').textContent = formatAvailability(p.availability);
+  document.getElementById('pub-languages').textContent = p.languages ? p.languages.join(', ') : '—';
+
+  const yrs = {0:'Menos de 1 año',1:'1-2 años',3:'3-5 años',6:'6-10 años',11:'Más de 10 años'};
+  document.getElementById('pub-years').textContent = p.years_remote !== null ? (yrs[p.years_remote] || p.years_remote + ' años') : '—';
+
+  if (p.bio) {
+    document.getElementById('pub-bio').textContent = p.bio;
+    document.getElementById('pub-bio').style.display = 'block';
+  }
+
+  // Badges
+  const badgesEl = document.getElementById('pub-badges');
+  badgesEl.innerHTML = '';
+  if (p.country) badgesEl.innerHTML += `<span class="badge badge-green">📍 ${p.country}</span>`;
+  if (p.industry) badgesEl.innerHTML += `<span class="badge badge-blue">${p.industry}</span>`;
+
+  // Score
+  const ring = document.getElementById('pub-score-ring');
+  const score = scoreOverride || null;
+  if (score) {
+    ring.textContent = score;
+    ring.style.borderColor = 'var(--green)';
+    ring.style.color = 'var(--green)';
+    badgesEl.innerHTML += `<span class="badge badge-gold">⚡ Score ${score}</span>`;
+  }
+
+  // LinkedIn
+  if (p.linkedin_url) {
+    document.getElementById('pub-linkedin').href = p.linkedin_url;
+    document.getElementById('pub-linkedin-row').style.display = 'flex';
+  }
+
+  // Skills
+  if (p.skills && p.skills.length) {
+    document.getElementById('pub-skills-card').style.display = 'block';
+    document.getElementById('pub-skills').innerHTML = p.skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
+  }
+
+  // CV
+  if (p.cv_url) {
+    document.getElementById('pub-cv-card').style.display = 'block';
+    document.getElementById('pub-cv-link').href = p.cv_url;
+  }
+}
+
+function formatAvailability(val) {
+  const map = { inmediata:'Disponible ahora', '2semanas':'En 2 semanas', '1mes':'En 1 mes', explorando:'Solo explorando' };
+  return map[val] || val || '—';
+}
+
+// ─── SHARE ───────────────────────────────────────────────
+function copyPublicLink() {
+  if (!currentUser) return;
+  const link = `https://flexori.work/profile.html?u=${currentUser.id}`;
+  navigator.clipboard.writeText(link).then(() => {
+    alert('¡Link copiado! Compártelo con recruiters 🚀');
+  });
+}
+
+// ─── UTILS ───────────────────────────────────────────────
+function showMsg(step, text, type) {
+  const el = document.getElementById('msg-' + step);
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'msg ' + type;
+  el.style.display = 'block';
+  if (type === 'ok') setTimeout(() => el.style.display = 'none', 3000);
+}
+
+function signOut() {
+  Object.keys(localStorage).filter(k => k.startsWith('sb-')).forEach(k => localStorage.removeItem(k));
+  localStorage.removeItem('sb_token');
+  window.location.href = '/';
+}
+
+// Drag & drop on upload zone
+const zone = document.getElementById('upload-zone');
+if (zone) {
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('drag');
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      document.getElementById('cv-file').files = e.dataTransfer.files;
+      handleCVSelect({ files: [file] });
+    }
+  });
+}
+
+// ─── START ───────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>
