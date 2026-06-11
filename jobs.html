@@ -1095,6 +1095,10 @@ async function init(){
   allJobs=await fetchAll();
   filteredJobs=[...allJobs];
   skeleton.style.display='none';
+
+  // ── PERSONALIZATION: apply user profile preferences ──
+  applyPersonalization();
+
   if(!allJobs.length){
     if(empty)empty.style.display='block';
     if(countEl)countEl.innerHTML='0 jobs found';
@@ -1127,6 +1131,104 @@ async function init(){
   });
   if(loadBtn)loadBtn.style.display=displayedCount<filteredJobs.length?'inline-block':'none';
 }
+
+
+// ── PERSONALIZATION ENGINE ──
+function applyPersonalization() {
+  try {
+    const token = localStorage.getItem('sb_access_token');
+    const email = localStorage.getItem('sb_user_email');
+    if (!token || !email) return;
+
+    // Fetch user profile from Supabase
+    fetch('https://kkkgtwripyaxgmmdsqhg.supabase.co/rest/v1/waitlist?email=eq.' + encodeURIComponent(email) + '&select=full_name,industry,skills,job_type,availability', {
+      headers: {
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0.XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU',
+        'Authorization': 'Bearer ' + token
+      }
+    }).then(r => r.json()).then(rows => {
+      if (!rows || !rows.length) return;
+      const p = rows[0];
+      if (!p.industry && (!p.skills || !p.skills.length)) return;
+
+      // Score each job by relevance
+      const scored = allJobs.map(j => {
+        let score = 0;
+        const txt = (j.title + ' ' + j.category + ' ' + (j.tags||[]).join(' ')).toLowerCase();
+
+        // Industry match
+        if (p.industry) {
+          const ind = p.industry.toLowerCase();
+          if (ind.includes('software') || ind.includes('tech')) {
+            if (txt.includes('software') || txt.includes('engineer') || txt.includes('developer') || txt.includes('tech')) score += 10;
+          } else if (ind.includes('marketing')) {
+            if (txt.includes('marketing') || txt.includes('growth') || txt.includes('seo')) score += 10;
+          } else if (ind.includes('ventas') || ind.includes('sales')) {
+            if (txt.includes('sales') || txt.includes('account') || txt.includes('venta')) score += 10;
+          } else if (ind.includes('cliente') || ind.includes('support') || ind.includes('customer')) {
+            if (txt.includes('support') || txt.includes('customer') || txt.includes('success')) score += 10;
+          } else if (ind.includes('diseño') || ind.includes('design')) {
+            if (txt.includes('design') || txt.includes('ux') || txt.includes('ui')) score += 10;
+          } else if (ind.includes('datos') || ind.includes('data')) {
+            if (txt.includes('data') || txt.includes('analytics') || txt.includes('ai')) score += 10;
+          }
+        }
+
+        // Skills match
+        if (p.skills && p.skills.length) {
+          p.skills.forEach(sk => {
+            if (txt.includes(sk.toLowerCase())) score += 3;
+          });
+        }
+
+        // Job type match
+        if (p.job_type && j.type) {
+          if (p.job_type === 'fulltime' && j.type.includes('full')) score += 2;
+          if (p.job_type === 'parttime' && j.type.includes('part')) score += 2;
+          if (p.job_type === 'freelance' && j.type.includes('freelance')) score += 2;
+        }
+
+        return { ...j, _score: score };
+      });
+
+      // Get top recommended jobs
+      const recommended = scored.filter(j => j._score > 0).sort((a,b) => b._score - a._score);
+      if (recommended.length === 0) return;
+
+      // Show personalization banner
+      const name = p.full_name ? p.full_name.split(' ')[0] : null;
+      showPersonalizationBanner(name, p.industry, recommended.length);
+
+      // Reorder: recommended first, then rest
+      const recIds = new Set(recommended.map(j => j.id));
+      const rest = allJobs.filter(j => !recIds.has(j.id));
+      filteredJobs = [...recommended.map(j => { delete j._score; return j; }), ...rest];
+      displayedCount = 0;
+      render(true);
+
+    }).catch(() => {});
+  } catch(e) {}
+}
+
+function showPersonalizationBanner(name, industry, count) {
+  const banner = document.getElementById('personalization-banner');
+  if (!banner) return;
+  const greeting = name ? 'Hola ' + name + ' 👋' : '👋 Hola';
+  banner.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:24px">✨</span>
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#F0EEE6">${greeting} — Encontramos <strong style="color:#1D9E75">${count} empleos relevantes</strong> para tu perfil</div>
+          <div style="font-size:12px;color:#A8A69E;margin-top:2px">Ordenados por compatibilidad con tu industria y habilidades${industry ? ' · ' + industry : ''}</div>
+        </div>
+      </div>
+      <a href="/profile.html" style="font-size:12px;color:#1D9E75;text-decoration:none;font-weight:600;white-space:nowrap">Editar perfil →</a>
+    </div>
+  `;
+  banner.style.display = 'block';
+}
+
 
 document.addEventListener('DOMContentLoaded',init);
 </script>
