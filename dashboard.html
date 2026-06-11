@@ -634,12 +634,14 @@ if ('serviceWorker' in navigator) {
   });
 }
   async function loadLinkedin(email, token) {
-    // Clear input to prevent browser autofill
-    var inp = document.getElementById('linkedin-input');
-    if (inp) inp.value = '';
+    // Clear autofill after delay
+    setTimeout(function() {
+      var inp = document.getElementById('linkedin-input');
+      if (inp && inp.value && inp.value.includes('@')) inp.value = '';
+    }, 500);
     try {
-      var res = await fetch(SUPABASE_URL + '/rest/v1/waitlist?email=eq.' + encodeURIComponent(email) + '&select=linkedin_url', {
-        headers: { 'apikey': SUPABASE_JWT, 'Authorization': 'Bearer ' + SUPABASE_JWT }
+      var res = await fetch(SUPABASE_URL + '/rest/v1/waitlist?email=eq.' + encodeURIComponent(email) + '&select=linkedin_url,full_name', {
+        headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + token }
       });
       var data = await res.json();
       if (data && data.length > 0 && data[0].linkedin_url) {
