@@ -210,7 +210,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
       <button onclick="editLinkedin()" style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--muted);font-size:12px;cursor:pointer">Editar</button>
     </div>
     <div id="linkedin-form" style="display:flex;gap:10px;flex-wrap:wrap">
-      <input id="linkedin-input" type="url" placeholder="https://linkedin.com/in/tu-perfil" autocomplete="off"
+      <input id="linkedin-input" type="text" placeholder="https://linkedin.com/in/tu-perfil" autocomplete="new-password" name="linkedin_url_field"
         style="flex:1;min-width:200px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:13px;outline:none"
         onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'"
         onkeydown="if(event.key==='Enter')saveLinkedin()">
@@ -598,6 +598,24 @@ function updatePlanUI(plan) {
 
 // INIT
 document.addEventListener('DOMContentLoaded', function() {
+  // Load score from localStorage immediately (no auth needed)
+  try {
+    var savedScoreRaw = localStorage.getItem('flexori_score');
+    if (savedScoreRaw) {
+      var scoreData = JSON.parse(savedScoreRaw);
+      var score = parseInt(scoreData.score || scoreData);
+      if (score && !isNaN(score)) {
+        var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
+        var statEl = document.getElementById('stat-score');
+        var ringEl = document.getElementById('score-ring');
+        if (statEl) { statEl.textContent = score; statEl.style.color = color; }
+        if (ringEl) { ringEl.textContent = score; ringEl.style.borderColor = color; ringEl.style.color = color; }
+        var subEl = document.getElementById('score-card-sub');
+        if (subEl) subEl.textContent = 'Tu Score más reciente';
+      }
+    }
+  } catch(e) {}
+
   var token = localStorage.getItem('sb_access_token');
   var email = localStorage.getItem('sb_user_email');
   if (token && email) {
