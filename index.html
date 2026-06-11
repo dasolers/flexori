@@ -1366,7 +1366,7 @@ function buildMarketIntelligence(jobs) {
   const companies = new Set(jobs.map(j => j.company).filter(Boolean));
   document.getElementById("mkt-companies").textContent = companies.size + "+";
   const catMap = {};
-  jobs.forEach(j => { const cat = normalizeCategory(j.category || j.type || ""); if (cat) catMap[cat] = (catMap[cat] || 0) + 1; });
+  jobs.forEach(j => { const cat = normalizeCategory(j.category || j.type || "", j.title || ""); if (cat) catMap[cat] = (catMap[cat] || 0) + 1; });
   document.getElementById("mkt-categories").textContent = Object.keys(catMap).length;
   const newToday = jobs.filter(j => { const d = (j.date || j.published_at || "").toLowerCase(); return d.includes("hoy") || d.includes("today") || d.includes(new Date().toISOString().slice(0,10)); }).length;
   document.getElementById("mkt-new").textContent = (newToday || Math.floor(jobs.length * 0.15)) + "+";
@@ -1401,20 +1401,21 @@ function buildMarketIntelligence(jobs) {
   if (typeEl && sortedTypes.length > 0) typeEl.innerHTML = sortedTypes.map(([name, count], i) => '<div class="mkt-type-row"><div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:'+(typeColors[i]||"var(--gray)")+';flex-shrink:0"></span><span style="font-size:13px">'+name+'</span></div><div style="display:flex;align-items:center;gap:8px"><div style="width:80px;height:4px;background:rgba(255,255,255,0.06);border-radius:100px;overflow:hidden"><div style="width:'+Math.round(count/totalTyped*100)+'%;height:100%;border-radius:100px;background:'+(typeColors[i]||"var(--gray)")+'"></div></div><span style="font-size:12px;color:var(--gray);font-family:Syne,sans-serif;font-weight:700;min-width:30px">'+Math.round(count/totalTyped*100)+'%</span></div></div>').join("");
 }
 
-function normalizeCategory(cat) {
-  cat = (cat || "").toLowerCase();
-  if (cat.includes("software")||cat.includes("engineer")||cat.includes("developer")||cat.includes(" dev")||cat.includes("programming")) return "Software / Dev";
-  if (cat.includes("design")||cat.includes("ux")||cat.includes("ui")) return "Diseno / UX";
-  if (cat.includes("marketing")||cat.includes("growth")||cat.includes("seo")) return "Marketing";
-  if (cat.includes("sales")||cat.includes("venta")||cat.includes("biz dev")) return "Ventas";
-  if (cat.includes("support")||cat.includes("customer")||cat.includes("atenci")) return "Customer Support";
-  if (cat.includes("data")||cat.includes("analytic")||cat.includes(" ai ")||cat.includes(" ml")) return "Data / AI";
-  if (cat.includes("product")) return "Producto";
-  if (cat.includes("finance")||cat.includes("account")||cat.includes("finanz")) return "Finanzas";
-  if (cat.includes("writ")||cat.includes("content")||cat.includes("redac")) return "Contenido";
-  if (cat.includes("devops")||cat.includes("cloud")||cat.includes("infra")) return "DevOps";
-  if (cat.length > 2) return cat.charAt(0).toUpperCase() + cat.slice(1, 20);
-  return null;
+function normalizeCategory(cat, title) {
+  const text = ((cat || "") + " " + (title || "")).toLowerCase();
+  if (text.includes("software")||text.includes("engineer")||text.includes("developer")||text.includes("programming")||text.includes("frontend")||text.includes("backend")||text.includes("fullstack")||text.includes("full-stack")) return "Software / Dev";
+  if (text.includes("design")||text.includes("ux")||text.includes("ui designer")||text.includes("figma")) return "Design / UX";
+  if (text.includes("marketing")||text.includes("growth")||text.includes("seo")||text.includes("ads")) return "Marketing";
+  if (text.includes("sales")||text.includes("account executive")||text.includes("business dev")) return "Ventas";
+  if (text.includes("support")||text.includes("customer success")||text.includes("customer service")||text.includes("customer care")) return "Customer Support";
+  if (text.includes("data")||text.includes("analyst")||text.includes("machine learning")||text.includes("artificial intelligence")) return "Data / AI";
+  if (text.includes("product manager")||text.includes("product owner")||text.includes("product lead")) return "Producto";
+  if (text.includes("finance")||text.includes("accounting")||text.includes("payroll")||text.includes("bookkeep")) return "Finanzas";
+  if (text.includes("writ")||text.includes("content")||text.includes("copywriter")||text.includes("editor")) return "Contenido";
+  if (text.includes("devops")||text.includes("cloud")||text.includes("infra")||text.includes("sre")) return "DevOps";
+  if (text.includes("hr ")||text.includes("recruiter")||text.includes("talent")||text.includes("people ops")) return "RRHH";
+  if (cat && cat.length > 2) return cat.charAt(0).toUpperCase() + cat.slice(1, 20);
+  return "Otros";
 }
 
 function normalizeLocation(loc) {
