@@ -469,8 +469,23 @@ async function loadDashboard(email, token) {
   var name = email.split('@')[0];
   document.getElementById('user-name').textContent = name;
   document.getElementById('nav-email').textContent = email;
-    loadAmbassadorStats(email);
     loadLinkedin(email, token);
+    // Load ambassador stats
+    try {
+      var ambRes = await fetch(SUPABASE_URL + '/rest/v1/ambassadors?email=eq.' + encodeURIComponent(email) + '&select=ref_code,referral_count', {
+        headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + token }
+      });
+      var ambData = await ambRes.json();
+      if (ambData && ambData.length > 0) {
+        var amb = ambData[0];
+        var statsEl = document.getElementById('ambassador-stats');
+        var countEl = document.getElementById('amb-count');
+        var linkEl = document.getElementById('amb-link');
+        if (statsEl) statsEl.style.display = 'flex';
+        if (countEl) countEl.textContent = amb.referral_count || 0;
+        if (linkEl) linkEl.textContent = 'flexori.work?ref=' + amb.ref_code;
+      }
+    } catch(e) {}
 
   var hour = new Date().getHours();
   var greeting = hour < 12 ? 'Buenos días' : hour < 18 ? 'Buenas tardes' : 'Buenas noches';
