@@ -1393,7 +1393,7 @@ function buildMarketIntelligence(jobs) {
   if (skEl) skEl.innerHTML = sortedSkills.map(([name, count], i) => { const c = colors[i%3]; const size = count/maxSk > 0.6 ? "14px" : count/maxSk > 0.3 ? "13px" : "12px"; return '<span class="mkt-skill-tag" style="background:'+c.bg+';border-color:'+c.border+';color:'+c.color+';font-size:'+size+'">'+name+' <span style="opacity:.6;font-size:10px">'+count+'</span></span>'; }).join("");
 
   const typeMap = {};
-  jobs.forEach(j => { const t = normalizeType(j.job_type || j.type || ""); if (t) typeMap[t] = (typeMap[t] || 0) + 1; });
+  jobs.forEach(j => { const t = normalizeType(j.job_type || j.type || "", j.tags); typeMap[t] = (typeMap[t] || 0) + 1; });
   const sortedTypes = Object.entries(typeMap).sort((a,b) => b[1]-a[1]);
   const totalTyped = sortedTypes.reduce((s,[,v]) => s+v, 0) || 1;
   const typeColors = ["var(--green)","var(--blue)","var(--gold)","var(--gray)"];
@@ -1432,13 +1432,13 @@ function normalizeLocation(loc) {
   return "Worldwide";
 }
 
-function normalizeType(t) {
-  t = (t || "").toLowerCase();
-  if (t.includes("full")||t.includes("tiempo completo")) return "Full-time";
-  if (t.includes("part")||t.includes("medio")) return "Part-time";
-  if (t.includes("contract")||t.includes("contrato")) return "Contrato";
-  if (t.includes("freelance")) return "Freelance";
-  if (t.includes("intern")||t.includes("practic")) return "Internship";
+function normalizeType(t, tags) {
+  const text = ((t || "") + " " + (Array.isArray(tags) ? tags.join(" ") : "")).toLowerCase();
+  if (text.includes("part") || text.includes("medio tiempo") || text.includes("part-time")) return "Part-time";
+  if (text.includes("contract") || text.includes("contrato") || text.includes("contractor")) return "Contrato";
+  if (text.includes("freelance")) return "Freelance";
+  if (text.includes("intern") || text.includes("practic")) return "Internship";
+  if (text.includes("full") || text.includes("tiempo completo") || text.includes("permanent")) return "Full-time";
   return "Full-time";
 }
 
