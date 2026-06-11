@@ -454,18 +454,21 @@ async function loadDashboard(email, token) {
   } else {
     // Sin localStorage — buscar score en Supabase por email
     if (email) {
-      fetch(SUPABASE_URL + '/rest/v1/employability_scores?email=eq.' + encodeURIComponent(email) + '&order=created_at.desc&limit=1&select=score,answers', {
+      fetch(SUPABASE_URL + '/rest/v1/employability_scores?email=eq.' + encodeURIComponent(email) + '&order=created_at.desc&limit=1&select=score,total_score,answers', {
         headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + token }
       }).then(function(r){ return r.json(); }).then(function(rows){
-        if (rows && rows.length > 0 && rows[0].score) {
-          var score = rows[0].score;
-          var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
-          document.getElementById('stat-score').textContent = score;
-          document.getElementById('stat-score').style.color = color;
-          document.getElementById('score-ring').textContent = score;
-          document.getElementById('score-ring').style.borderColor = color;
-          document.getElementById('score-ring').style.color = color;
-          document.getElementById('score-card-sub').textContent = 'Tu Score más reciente';
+        if (rows && rows.length > 0) {
+          var raw = rows[0].total_score || rows[0].score;
+          var score = parseInt(raw);
+          if (!isNaN(score) && score > 0) {
+            var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
+            document.getElementById('stat-score').textContent = score;
+            document.getElementById('stat-score').style.color = color;
+            document.getElementById('score-ring').textContent = score;
+            document.getElementById('score-ring').style.borderColor = color;
+            document.getElementById('score-ring').style.color = color;
+            document.getElementById('score-card-sub').textContent = 'Tu Score más reciente';
+          }
         }
       }).catch(function(){});
     }
