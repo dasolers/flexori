@@ -301,6 +301,7 @@ h2{font-family:'Syne',sans-serif;font-size:clamp(28px,3.5vw,46px);font-weight:80
   margin:10px auto 0;max-width:400px}
 
 /* ── MARKET INTELLIGENCE ── */
+.mkt-charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
 .mkt-stat-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center}
 .mkt-stat-n{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--green);line-height:1;margin-bottom:4px}
 .mkt-stat-l{font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:.5px}
@@ -319,7 +320,11 @@ h2{font-family:'Syne',sans-serif;font-size:clamp(28px,3.5vw,46px);font-weight:80
 .mkt-donut-wrap{display:flex;align-items:center;gap:16px;margin-bottom:8px}
 @media(max-width:860px){
   #mkt-stats-grid{grid-template-columns:repeat(2,1fr)}
-  #market .section>div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
+  .mkt-charts-grid{grid-template-columns:1fr!important}
+}
+@media(max-width:480px){
+  #mkt-stats-grid{grid-template-columns:repeat(2,1fr)}
+  .mkt-stat-n{font-size:24px}
 }
 
 
@@ -722,7 +727,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
   </div>
 
   <!-- CHARTS GRID -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+  <div class="mkt-charts-grid" id="mkt-grid-1">
 
     <!-- TOP CATEGORIAS -->
     <div class="mkt-card">
@@ -738,7 +743,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
 
   </div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+  <div class="mkt-charts-grid" id="mkt-grid-2">
 
     <!-- HABILIDADES MAS DEMANDADAS -->
     <div class="mkt-card">
