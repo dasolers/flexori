@@ -210,7 +210,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
       <button onclick="editLinkedin()" style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--muted);font-size:12px;cursor:pointer">Editar</button>
     </div>
     <div id="linkedin-form" style="display:flex;gap:10px;flex-wrap:wrap">
-      <input id="linkedin-input" type="url" placeholder="https://linkedin.com/in/tu-perfil" 
+      <input id="linkedin-input" type="url" placeholder="https://linkedin.com/in/tu-perfil" autocomplete="off"
         style="flex:1;min-width:200px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:13px;outline:none"
         onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'"
         onkeydown="if(event.key==='Enter')saveLinkedin()">
@@ -608,6 +608,9 @@ if ('serviceWorker' in navigator) {
   });
 }
   async function loadLinkedin(email, token) {
+    // Clear input to prevent browser autofill
+    var inp = document.getElementById('linkedin-input');
+    if (inp) inp.value = '';
     try {
       var res = await fetch(SUPABASE_URL + '/rest/v1/waitlist?email=eq.' + encodeURIComponent(email) + '&select=linkedin_url', {
         headers: { 'apikey': SUPABASE_JWT, 'Authorization': 'Bearer ' + SUPABASE_JWT }
