@@ -220,6 +220,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
     <div id="linkedin-msg" style="font-size:12px;margin-top:8px;display:none"></div>
   </div>
 
+  <!-- SCORE TRACKER -->
+  <div class="dash-card" id="score-tracker-card" style="margin-top:20px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <div class="card-title">📈 Historial de Score</div>
+      <span id="tracker-pro-badge" style="display:none;background:rgba(29,158,117,0.15);color:var(--green);border:1px solid var(--border-green);border-radius:100px;padding:2px 10px;font-size:11px;font-weight:700">PRO</span>
+    </div>
+    <div class="card-sub" id="tracker-sub">Evolución de tu empleabilidad remota</div>
+    <div id="score-tracker-content">
+      <!-- Se llena por JS -->
+    </div>
+  </div>
+
+  <!-- PLAN 30 DIAS -->
+  <div class="dash-card" id="plan30-card" style="margin-top:20px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <div class="card-title">🎯 Tu Plan de Mejora — 30 días</div>
+      <span style="background:rgba(29,158,117,0.15);color:var(--green);border:1px solid var(--border-green);border-radius:100px;padding:2px 10px;font-size:11px;font-weight:700">PRO</span>
+    </div>
+    <div class="card-sub">Acciones concretas para llegar a 85+</div>
+    <div id="plan30-content">
+      <!-- Se llena por JS -->
+    </div>
+  </div>
+
+
   <!-- AMBASSADOR -->
   <div class="dash-card" style="margin-top:20px;background:linear-gradient(135deg,rgba(29,95,163,0.1),rgba(29,158,117,0.08));border-color:var(--border-green)">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
@@ -501,10 +526,38 @@ async function loadDashboard(email, token) {
     if (subs && subs.length > 0 && subs[0].status === 'active') {
       var plan = subs[0].plan;
       updatePlanUI(plan);
+    var isPro = (plan === 'pro' || plan === 'plus');
+    // Renderizar tracker y plan 30 días
+    setTimeout(function() {
+      renderScoreTracker(scoreHistory, isPro);
+      // Breakdown desde localStorage
+      var breakdownForPlan = null;
+      try {
+        var sd = JSON.parse(localStorage.getItem('flexori_score') || 'null');
+        if (sd && sd.breakdown) breakdownForPlan = sd.breakdown;
+      } catch(e) {}
+      renderPlan30(breakdownForPlan, isPro);
+    }, 100);
     } else {
       updatePlanUI('free');
+      setTimeout(function() {
+        renderScoreTracker(scoreHistory, false);
+        renderPlan30(null, false);
+      }, 100);
     }
   } catch(e) { updatePlanUI('free'); }
+
+  // ── SCORE TRACKER: cargar historial desde Supabase ──────────────────────
+  var scoreHistory = [];
+  if (email) {
+    try {
+      var histRes = await fetch(SUPABASE_URL + '/rest/v1/employability_scores?email=eq.' + encodeURIComponent(email) + '&order=created_at.desc&limit=10', {
+        headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + token }
+      });
+      scoreHistory = await histRes.json();
+      if (!Array.isArray(scoreHistory)) scoreHistory = [];
+    } catch(e) { scoreHistory = []; }
+  }
 
   // Load score from localStorage (guardado como objeto JSON {score, breakdown, ...})
   var savedScoreRaw = localStorage.getItem('flexori_score');
@@ -718,6 +771,220 @@ if ('serviceWorker' in navigator) {
     el.style.display = 'block';
     if (type === 'success') setTimeout(() => { el.style.display = 'none'; }, 3000);
   }
+
+
+// ── SCORE TRACKER + PLAN 30 DIAS ──────────────────────────────────────────
+function renderScoreTracker(historyRows, isPro) {
+  var el = document.getElementById('score-tracker-content');
+  if (!el) return;
+
+  if (!historyRows || historyRows.length === 0) {
+    el.innerHTML = '<div style="text-align:center;padding:20px 0"><p style="font-size:13px;color:var(--muted);margin-bottom:12px">Aún no tienes scores guardados</p><a href="/" onclick="setTimeout(function(){if(typeof openScoreModal===\'function\')openScoreModal();},500)" class="btn-sm btn-outline" style="text-decoration:none">Hacer mi Score →</a></div>';
+    return;
+  }
+
+  // Mostrar badge PRO si aplica
+  var badge = document.getElementById('tracker-pro-badge');
+  if (badge && isPro) badge.style.display = 'inline-block';
+
+  if (!isPro && historyRows.length >= 1) {
+    // Free: solo ve el último resultado + teaser bloqueado
+    var latest = historyRows[0];
+    var score = parseInt(latest.score || latest.total_score);
+    var dateStr = latest.created_at ? new Date(latest.created_at).toLocaleDateString('es-ES', {day:'numeric',month:'short',year:'numeric'}) : '';
+    var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
+    el.innerHTML = '<div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">'
+      + '<div style="text-align:center;min-width:64px"><div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:'+color+'">'+score+'</div><div style="font-size:11px;color:var(--muted)">'+dateStr+'</div></div>'
+      + '<div style="flex:1"><div style="font-size:13px;color:#fff;font-weight:600;margin-bottom:4px">Score más reciente</div><div style="height:6px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+score+'%;background:'+color+';border-radius:3px"></div></div></div>'
+      + '</div>'
+      + '<div style="background:rgba(29,158,117,0.06);border:1px solid var(--border-green);border-radius:12px;padding:14px;text-align:center">'
+      + '<div style="font-size:13px;color:#fff;font-weight:700;margin-bottom:4px">🔒 Historial completo — Plan Pro</div>'
+      + '<div style="font-size:12px;color:var(--muted);margin-bottom:10px">Ve tu progreso en el tiempo y detecta en qué dimensiones mejoraste</div>'
+      + '<a href="/#pricing" style="display:inline-block;background:var(--green);color:#0D1321;border-radius:100px;padding:8px 20px;font-family:Syne,sans-serif;font-size:12px;font-weight:700;text-decoration:none">Desbloquear con Pro →</a>'
+      + '</div>';
+    return;
+  }
+
+  // Pro: historial completo con mini chart de barras
+  var html = '<div style="display:flex;flex-direction:column;gap:10px">';
+  var maxBars = Math.min(historyRows.length, 6);
+  for (var i = 0; i < maxBars; i++) {
+    var row = historyRows[i];
+    var s = parseInt(row.score || row.total_score);
+    var d = row.created_at ? new Date(row.created_at).toLocaleDateString('es-ES', {day:'numeric',month:'short'}) : 'N/A';
+    var c = s >= 80 ? '#1D9E75' : s >= 60 ? '#24C48F' : s >= 40 ? '#F59E0B' : '#EF4444';
+    var delta = '';
+    if (i < historyRows.length - 1) {
+      var prev = parseInt(historyRows[i+1].score || historyRows[i+1].total_score);
+      var diff = s - prev;
+      if (diff > 0) delta = '<span style="font-size:11px;color:#1D9E75;margin-left:6px">+'+diff+'</span>';
+      else if (diff < 0) delta = '<span style="font-size:11px;color:#EF4444;margin-left:6px">'+diff+'</span>';
+    }
+    html += '<div style="display:flex;align-items:center;gap:12px">'
+      + '<div style="min-width:52px;font-size:11px;color:var(--muted)">'+d+'</div>'
+      + '<div style="flex:1;height:6px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+s+'%;background:'+c+';border-radius:3px;transition:width .3s"></div></div>'
+      + '<div style="min-width:40px;text-align:right;font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:'+c+'">'+s+delta+'</div>'
+      + '</div>';
+  }
+  html += '</div>';
+  if (historyRows.length > 1) {
+    var first = parseInt(historyRows[historyRows.length-1].score || historyRows[historyRows.length-1].total_score);
+    var last = parseInt(historyRows[0].score || historyRows[0].total_score);
+    var totalDiff = last - first;
+    var diffColor = totalDiff >= 0 ? '#1D9E75' : '#EF4444';
+    var diffSign = totalDiff >= 0 ? '+' : '';
+    html += '<div style="margin-top:14px;padding:10px 14px;background:rgba(255,255,255,0.03);border-radius:10px;display:flex;align-items:center;justify-content:space-between">'
+      + '<span style="font-size:12px;color:var(--muted)">Progreso total ('+historyRows.length+' mediciones)</span>'
+      + '<span style="font-family:Syne,sans-serif;font-size:15px;font-weight:800;color:'+diffColor+'">'+diffSign+totalDiff+' pts</span>'
+      + '</div>';
+  }
+  el.innerHTML = html;
+}
+
+function renderPlan30(breakdown, isPro) {
+  var el = document.getElementById('plan30-content');
+  if (!el) return;
+
+  if (!isPro) {
+    el.innerHTML = '<div style="background:rgba(29,158,117,0.06);border:1px solid var(--border-green);border-radius:12px;padding:16px;text-align:center">'
+      + '<div style="font-size:32px;margin-bottom:8px">🔒</div>'
+      + '<div style="font-size:13px;color:#fff;font-weight:700;margin-bottom:4px">Disponible con Plan Pro</div>'
+      + '<div style="font-size:12px;color:var(--muted);margin-bottom:12px">Haz el Score y recibe un plan de 30 días con acciones semana a semana para llegar a 85+</div>'
+      + '<a href="/#pricing" style="display:inline-block;background:var(--green);color:#0D1321;border-radius:100px;padding:8px 20px;font-family:Syne,sans-serif;font-size:12px;font-weight:700;text-decoration:none">Desbloquear con Pro →</a>'
+      + '</div>';
+    return;
+  }
+
+  if (!breakdown || breakdown.length === 0) {
+    el.innerHTML = '<div style="text-align:center;padding:20px 0"><p style="font-size:13px;color:var(--muted);margin-bottom:12px">Haz tu Score primero para generar tu plan</p><a href="/" onclick="setTimeout(function(){if(typeof openScoreModal===\'function\')openScoreModal();},500)" class="btn-sm btn-outline" style="text-decoration:none">Hacer mi Score →</a></div>';
+    return;
+  }
+
+  var PLAN = {
+    'Remote History': {
+      w1: 'Crea un perfil en Toptal o Upwork y completa tu descripción al 100%',
+      w2: 'Aplica a 3 proyectos freelance aunque sean pequeños — el historial importa',
+      w3: 'Documenta tu experiencia remota en LinkedIn con herramientas específicas',
+      w4: 'Solicita una recomendación de un cliente o colega en LinkedIn'
+    },
+    'Remote Tools': {
+      w1: 'Certifícate en Notion (gratis) en notion.so/es-es/help/guides',
+      w2: 'Configura tu workspace de Slack con status automático y preferencias',
+      w3: 'Aprende a usar Loom: graba un video corto explicando un proyecto tuyo',
+      w4: 'Practica comunicación async: responde todos los mensajes en bloques de 2h'
+    },
+    'Communication': {
+      w1: 'Escribe 1 post profesional en LinkedIn sobre trabajo remoto',
+      w2: 'Practica el método BLUF (Bottom Line Up Front) en tus emails',
+      w3: 'Graba un Loom de 2 min presentándote profesionalmente',
+      w4: 'Únete a una comunidad remota en inglés y participa activamente'
+    },
+    'Reliability': {
+      w1: 'Configura Notion o Todoist con todas tus tareas y deadlines esta semana',
+      w2: 'Practica el "done list" diario: resumen async de lo que completaste',
+      w3: 'Implementa time-blocking en tu calendario (bloques de 90 min)',
+      w4: 'Comparte tu disponibilidad con un calendario público en Calendly'
+    },
+    'Setup': {
+      w1: 'Prueba tu velocidad de internet en fast.com — necesitas mínimo 20 Mbps',
+      w2: 'Optimiza tu iluminación: luz natural o lámpara de escritorio frente a ti',
+      w3: 'Mejora tu audio: auriculares con micrófono < $40 hacen gran diferencia',
+      w4: 'Graba un video de prueba y evalúa calidad de imagen, audio y fondo'
+    },
+    'Languages': {
+      w1: 'Instala Duolingo o Pimsleur — 15 min diarios de inglés consistentes',
+      w2: 'Escribe tu primer post profesional en inglés en LinkedIn',
+      w3: 'Únete a un grupo de conversación en inglés (iTalki, Meetup)',
+      w4: 'Practica una entrevista simulada en inglés con ChatGPT'
+    },
+    'Portfolio': {
+      w1: 'Crea tu portafolio en Notion o Read.cv en las próximas 48 horas',
+      w2: 'Agrega 2-3 proyectos con descripción, impacto y tecnologías usadas',
+      w3: 'Actualiza tu LinkedIn con 3 logros específicos con números',
+      w4: 'Comparte tu portafolio en 2 comunidades LATAM de trabajo remoto'
+    },
+    'Flexibility': {
+      w1: 'Documenta tus zonas horarias disponibles y publícalas en tu perfil',
+      w2: 'Practica comunicación async-first: evita pedir respuestas urgentes',
+      w3: 'Configura un Calendly con tu disponibilidad real para reuniones',
+      w4: 'Trabaja un día completo en horario EST o CET para practicar adaptación'
+    }
+  };
+
+  // Ordenar por score ascendente (los más débiles primero)
+  var sorted = breakdown.slice().sort(function(a, b) {
+    return (a.score / a.max) - (b.score / b.max);
+  });
+  var weakest = sorted.slice(0, 3);
+
+  var weeks = ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'];
+  var weekKeys = ['w1', 'w2', 'w3', 'w4'];
+  var weekColors = ['#1D5FA3', '#1D9E75', '#F59E0B', '#8B5CF6'];
+
+  var html = '<div style="font-size:12px;color:var(--muted);margin-bottom:14px">Basado en tus 3 dimensiones más débiles · Objetivo: llegar a 85+</div>';
+
+  // Tabs de semanas
+  html += '<div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap">';
+  weeks.forEach(function(w, idx) {
+    var active = idx === 0 ? 'background:var(--green);color:#0D1321' : 'background:rgba(255,255,255,0.05);color:var(--muted)';
+    html += '<button onclick="switchPlanWeek('+idx+')" id="plan-tab-'+idx+'" style="'+active+';border:none;border-radius:100px;padding:5px 14px;font-family:Syne,sans-serif;font-size:11px;font-weight:700;cursor:pointer">'+w+'</button>';
+  });
+  html += '</div>';
+
+  // Contenido de cada semana
+  weeks.forEach(function(w, wIdx) {
+    var display = wIdx === 0 ? 'block' : 'none';
+    html += '<div id="plan-week-'+wIdx+'" style="display:'+display+'">';
+    weakest.forEach(function(dim) {
+      var dimName = dim.dimension;
+      var planData = PLAN[dimName];
+      if (!planData) return;
+      var task = planData[weekKeys[wIdx]];
+      var pct = Math.round((dim.score / dim.max) * 100);
+      var dimColor = pct < 40 ? '#EF4444' : '#F59E0B';
+      html += '<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:10px">'
+        + '<input type="checkbox" id="task-'+wIdx+'-'+dimName.replace(/ /g,\'_\')+'" onchange="saveTaskCheck(this)" style="margin-top:2px;accent-color:var(--green);flex-shrink:0;width:16px;height:16px">'
+        + '<div style="flex:1">'
+        + '<div style="font-size:11px;font-weight:700;color:'+dimColor+';text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">'+dimName+' · '+pct+'%</div>'
+        + '<div style="font-size:13px;color:#fff;line-height:1.5">'+task+'</div>'
+        + '</div>'
+        + '</div>';
+    });
+    html += '</div>';
+  });
+
+  html += '<div style="margin-top:12px;padding:10px 14px;background:rgba(29,158,117,0.06);border-radius:10px;font-size:12px;color:var(--muted)">💡 Completa estas tareas y repite el Score en 30 días — tu objetivo es 85+</div>';
+  el.innerHTML = html;
+
+  // Restaurar checkboxes guardados
+  try {
+    var saved = JSON.parse(localStorage.getItem('flexori_plan30') || '{}');
+    Object.keys(saved).forEach(function(id) {
+      var cb = document.getElementById(id);
+      if (cb && saved[id]) cb.checked = true;
+    });
+  } catch(e) {}
+}
+
+function switchPlanWeek(idx) {
+  for (var i = 0; i < 4; i++) {
+    var tab = document.getElementById('plan-tab-'+i);
+    var week = document.getElementById('plan-week-'+i);
+    if (tab) tab.style.cssText = i === idx
+      ? 'background:var(--green);color:#0D1321;border:none;border-radius:100px;padding:5px 14px;font-family:Syne,sans-serif;font-size:11px;font-weight:700;cursor:pointer'
+      : 'background:rgba(255,255,255,0.05);color:var(--muted);border:none;border-radius:100px;padding:5px 14px;font-family:Syne,sans-serif;font-size:11px;font-weight:700;cursor:pointer';
+    if (week) week.style.display = i === idx ? 'block' : 'none';
+  }
+}
+
+function saveTaskCheck(cb) {
+  try {
+    var saved = JSON.parse(localStorage.getItem('flexori_plan30') || '{}');
+    saved[cb.id] = cb.checked;
+    localStorage.setItem('flexori_plan30', JSON.stringify(saved));
+  } catch(e) {}
+}
+// ─────────────────────────────────────────────────────────────────────────────
 
 </script>
 </body>
