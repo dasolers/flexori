@@ -2503,23 +2503,106 @@ function showFullScore(finalScore, breakdown, l) {
       </div>`;
   });
 
+  // ── RECOMENDACIONES: 1 gratis, 2 bloqueadas detrás de Pro ──────────────
+  const isProUser = (function() {
+    try {
+      var plan = localStorage.getItem('flexori_plan') || '';
+      return plan === 'pro' || plan === 'plus';
+    } catch(e) { return false; }
+  })();
+
+  const lockedTitle = {
+    es: '🔒 Plan Pro — Desbloquea tu plan completo de 30 días',
+    en: '🔒 Pro Plan — Unlock your full 30-day improvement plan',
+    fr: '🔒 Plan Pro — Débloquez votre plan complet de 30 jours',
+    pt: '🔒 Plano Pro — Desbloqueie seu plano completo de 30 dias'
+  }[l];
+  const lockedSub = {
+    es: 'Ves 1 de 3 recomendaciones. Con Pro obtienes las 3 dimensiones más débiles con acciones semana a semana para llegar a 85+.',
+    en: 'You see 1 of 3 recommendations. Pro gives you all 3 weak dimensions with week-by-week actions to reach 85+.',
+    fr: 'Vous voyez 1 recommandation sur 3. Pro vous donne les 3 dimensions faibles avec des actions semaine par semaine.',
+    pt: 'Você vê 1 de 3 recomendações. Pro dá todas as 3 dimensões fracas com ações semana a semana.'
+  }[l];
+  const unlockBtn = {
+    es: '🚀 Desbloquear con Pro — $11.99/mes →',
+    en: '🚀 Unlock with Pro — $11.99/mo →',
+    fr: '🚀 Débloquer avec Pro — $11.99/mois →',
+    pt: '🚀 Desbloquear com Pro — $11.99/mês →'
+  }[l];
+  const alreadyProBtn = {
+    es: '✅ Ver plan completo en mi Dashboard →',
+    en: '✅ See full plan in my Dashboard →',
+    fr: '✅ Voir le plan complet dans mon tableau de bord →',
+    pt: '✅ Ver plano completo no meu Dashboard →'
+  }[l];
+
   let recoHTML = '';
-  weakest.forEach(w => {
-    const recs = RECOMMENDATIONS[w.dimension]?.[l] || RECOMMENDATIONS[w.dimension]?.['en'] || [];
-    const pct = Math.round((w.score / w.max) * 100);
-    const dimName = dimLabels[w.dimension] || w.dimension;
+
+  // Mostrar SOLO la primera recomendación (dimensión más débil)
+  const firstWeak = weakest[0];
+  if (firstWeak) {
+    const recs = RECOMMENDATIONS[firstWeak.dimension]?.[l] || RECOMMENDATIONS[firstWeak.dimension]?.['en'] || [];
+    const pct = Math.round((firstWeak.score / firstWeak.max) * 100);
+    const dimName = dimLabels[firstWeak.dimension] || firstWeak.dimension;
     recoHTML += `
-      <div style="margin-bottom:16px;padding:14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:12px">
+      <div style="margin-bottom:12px;padding:14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:12px">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
           <span style="width:8px;height:8px;background:#EF4444;border-radius:50%;flex-shrink:0"></span>
           <span style="font-size:12px;font-weight:700;color:#fff">${dimName}</span>
           <span style="font-size:11px;color:#A8A69E;margin-left:auto">${pct}%</span>
         </div>
-        ${recs.map(r => `<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px"><span style="color:#1D9E75;flex-shrink:0;margin-top:2px">→</span><span style="font-size:12px;color:#A8A69E;line-height:1.5">${r}</span></div>`).join('')}
+        ${recs.slice(0,1).map(r => `<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px"><span style="color:#1D9E75;flex-shrink:0;margin-top:2px">→</span><span style="font-size:13px;color:#D0CFC9;line-height:1.5">${r}</span></div>`).join('')}
       </div>`;
-  });
+  }
 
-  const shareText = encodeURIComponent(`I just scored ${finalScore}/100 on my Remote Employability Score 🌍\n\nGet yours free → flexori.work?score=true`);
+  // Bloque bloqueado (para usuarios Free) o desbloqueado (Pro)
+  if (!isProUser) {
+    // 2 cards borrosas con lock overlay
+    recoHTML += `
+      <div style="position:relative;margin-bottom:4px">
+        <div style="filter:blur(3px);pointer-events:none;opacity:0.5">`;
+    weakest.slice(1).forEach(w => {
+      const recs2 = RECOMMENDATIONS[w.dimension]?.[l] || RECOMMENDATIONS[w.dimension]?.['en'] || [];
+      const pct2 = Math.round((w.score / w.max) * 100);
+      const dimName2 = dimLabels[w.dimension] || w.dimension;
+      recoHTML += `
+          <div style="margin-bottom:12px;padding:14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:12px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+              <span style="width:8px;height:8px;background:#EF4444;border-radius:50%;flex-shrink:0"></span>
+              <span style="font-size:12px;font-weight:700;color:#fff">${dimName2}</span>
+              <span style="font-size:11px;color:#A8A69E;margin-left:auto">${pct2}%</span>
+            </div>
+            ${recs2.slice(0,1).map(r => `<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px"><span style="color:#1D9E75;flex-shrink:0">→</span><span style="font-size:13px;color:#D0CFC9">${r}</span></div>`).join('')}
+          </div>`;
+    });
+    recoHTML += `</div>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(13,19,33,0.7);border-radius:12px;padding:20px;text-align:center">
+          <div style="font-size:28px;margin-bottom:8px">🔒</div>
+          <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:6px">${lockedTitle}</div>
+          <div style="font-size:12px;color:#A8A69E;margin-bottom:16px;line-height:1.5">${lockedSub}</div>
+          <button onclick="window.startCheckoutHome('pro')" style="background:#1D9E75;color:#0D1321;border:none;border-radius:100px;padding:12px 24px;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;cursor:pointer;width:100%">${unlockBtn}</button>
+        </div>
+      </div>`;
+  } else {
+    // Pro: mostrar las 3 completas
+    weakest.slice(1).forEach(w => {
+      const recs3 = RECOMMENDATIONS[w.dimension]?.[l] || RECOMMENDATIONS[w.dimension]?.['en'] || [];
+      const pct3 = Math.round((w.score / w.max) * 100);
+      const dimName3 = dimLabels[w.dimension] || w.dimension;
+      recoHTML += `
+      <div style="margin-bottom:12px;padding:14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:12px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <span style="width:8px;height:8px;background:#EF4444;border-radius:50%;flex-shrink:0"></span>
+          <span style="font-size:12px;font-weight:700;color:#fff">${dimName3}</span>
+          <span style="font-size:11px;color:#A8A69E;margin-left:auto">${pct3}%</span>
+        </div>
+        ${recs3.map(r => `<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px"><span style="color:#1D9E75;flex-shrink:0;margin-top:2px">→</span><span style="font-size:13px;color:#D0CFC9;line-height:1.5">${r}</span></div>`).join('')}
+      </div>`;
+    });
+    recoHTML += `<a href="/dashboard.html" onclick="closeScoreModal()" style="display:block;text-align:center;background:#1D9E75;color:#0D1321;border-radius:100px;padding:12px 24px;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;text-decoration:none;margin-top:4px">${alreadyProBtn}</a>`;
+  }
+
+    const shareText = encodeURIComponent(`I just scored ${finalScore}/100 on my Remote Employability Score 🌍\n\nGet yours free → flexori.work?score=true`);
   const shareURL = `https://twitter.com/intent/tweet?text=${shareText}`;
   const linkedinURL = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://flexori.work?score=true')}`;
 
