@@ -313,7 +313,7 @@ function toggleDetail(id){
 
 async function updateJobStatus(id, status){
   try{
-    await fetch(`${SUPABASE_URL}/rest/v1/job_postings?id=eq.${id}`,{
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/job_postings?id=eq.${id}`,{
       method:'PATCH',
       headers:{
         'Content-Type':'application/json',
@@ -323,9 +323,22 @@ async function updateJobStatus(id, status){
       },
       body:JSON.stringify({status})
     });
-    await loadJobs();
+    if (res.ok || res.status === 204) {
+      await loadJobs();
+    } else {
+      var errText = await res.text();
+      // Si falla por permisos, actualizar localmente como fallback
+      if (res.status === 401 || res.status === 403) {
+        // Actualizar UI localmente hasta que tengamos service key
+        jobsData = jobsData.map(j => j.id === id ? {...j, status} : j);
+        renderJobs();
+        alert('⚠️ Cambio aplicado localmente. Para persistir en BD, se necesita la service_role key de Supabase en Settings → API.');
+      } else {
+        alert('Error: ' + errText);
+      }
+    }
   }catch(e){
-    alert('Error updating status');
+    alert('Error de conexión: ' + e.message);
   }
 }
 
@@ -389,9 +402,13 @@ async function updateAmbStatus(id, status) {
 }
 
 function switchTab(tab){
-  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['waitlist','jobs'][i]===tab));
-  document.getElementById('tab-waitlist').classList.toggle('active',tab==='waitlist');
-  document.getElementById('tab-jobs').classList.toggle('active',tab==='jobs');
+  const tabs = ['waitlist','jobs','ambassadors'];
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active', tabs[i]===tab));
+  document.getElementById('tab-waitlist').classList.toggle('active', tab==='waitlist');
+  document.getElementById('tab-jobs').classList.toggle('active', tab==='jobs');
+  var ambTab = document.getElementById('tab-ambassadors');
+  if (ambTab) ambTab.classList.toggle('active', tab==='ambassadors');
+  if (tab==='ambassadors') { fetchAmbassadors(); fetchReferrals(); }
 }
 
 function exportCSV(){
