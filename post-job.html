@@ -226,12 +226,25 @@ footer a{color:var(--green);text-decoration:none}
         </div>
         <div class="field">
           <label>Descripción del cargo <span class="required">*</span></label>
-          <textarea id="j-description" placeholder="Describe las responsabilidades, requisitos y beneficios del cargo..."></textarea>
+          <textarea id="j-description" oninput="countWords(this)" placeholder="Describe las responsabilidades, requisitos y beneficios del cargo..."></textarea>
         </div>
         <div class="field">
           <label>URL para aplicar <span class="required">*</span></label>
           <input type="url" id="j-url" placeholder="https://empresa.com/apply o mailto:rrhh@empresa.com" />
           <div class="field-hint">Link donde los candidatos aplicarán directamente</div>
+        </div>
+
+        <div class="field" style="background:rgba(29,158,117,0.06);border:1px solid rgba(29,158,117,0.25);border-radius:12px;padding:16px">
+          <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:14px;color:#fff;font-weight:600">
+            <input type="checkbox" id="j-remote-confirm" style="width:18px;height:18px;flex-shrink:0;margin-top:2px;accent-color:var(--green)" />
+            <span>✅ Confirmo que esta vacante es <strong>100% remota</strong> — el candidato puede trabajar desde cualquier lugar de LATAM</span>
+          </label>
+          <div style="font-size:12px;color:var(--muted);margin-top:8px;margin-left:30px">Flexori es una plataforma exclusiva de trabajo remoto. Vacantes presenciales o híbridas no son elegibles.</div>
+        </div>
+
+        <div class="field" style="margin-top:4px">
+          <label>Descripción mínima del cargo <span style="color:var(--muted);font-weight:400;text-transform:none">(mínimo 80 palabras)</span></label>
+          <div id="j-desc-counter" style="font-size:11px;color:var(--muted);margin-top:4px;text-align:right">0 palabras</div>
         </div>
 
         <div id="form-error" style="display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:12px 16px;font-size:13px;color:#FCA5A5;margin-bottom:16px"></div>
@@ -262,6 +275,25 @@ const SUPABASE_ANON = ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
   'eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0',
   'XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU'].join('.');
 
+// Contador de palabras en descripción
+function countWords(el) {
+  var words = el.value.trim().split(/\s+/).filter(w => w.length > 0).length;
+  var counter = document.getElementById('j-desc-counter');
+  if (counter) {
+    counter.textContent = words + ' palabras' + (words < 80 ? ' · mínimo 80' : ' ✓');
+    counter.style.color = words >= 80 ? 'var(--green)' : 'var(--muted)';
+  }
+}
+
+// Validar que el email no sea de proveedor gratuito
+function isFreeEmail(email) {
+  var freeProviders = ['gmail.com','hotmail.com','yahoo.com','outlook.com','live.com',
+    'icloud.com','aol.com','mail.com','protonmail.com','tutanota.com',
+    'ymail.com','msn.com','hotmail.es','yahoo.es','gmail.es'];
+  var domain = email.split('@')[1] ? email.split('@')[1].toLowerCase() : '';
+  return freeProviders.indexOf(domain) !== -1;
+}
+
 async function submitJob() {
   var company = document.getElementById('j-company').value.trim();
   var email = document.getElementById('j-email').value.trim();
@@ -273,17 +305,47 @@ async function submitJob() {
   var salary = document.getElementById('j-salary').value.trim();
   var timezone = document.getElementById('j-timezone').value;
   var website = document.getElementById('j-website').value.trim();
+  var remoteConfirm = document.getElementById('j-remote-confirm').checked;
   var errEl = document.getElementById('form-error');
   var btn = document.getElementById('j-btn');
 
+  // Campos obligatorios
   if (!company || !email || !title || !type || !category || !description || !url) {
     errEl.textContent = 'Por favor completa todos los campos obligatorios.';
     errEl.style.display = 'block';
+    errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
-  if (!email.includes('@')) {
+
+  // Email válido
+  if (!email.includes('@') || !email.includes('.')) {
     errEl.textContent = 'Ingresa un email válido.';
     errEl.style.display = 'block';
+    return;
+  }
+
+  // Email corporativo — no gmail/hotmail etc.
+  if (isFreeEmail(email)) {
+    errEl.innerHTML = '📧 <strong>Se requiere email corporativo</strong> (ej: rrhh@tuempresa.com).<br><span style="font-size:13px;font-weight:400">No aceptamos Gmail, Hotmail u otros proveedores gratuitos para garantizar la autenticidad de las vacantes.</span>';
+    errEl.style.display = 'block';
+    errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  // Confirmación de modalidad remota
+  if (!remoteConfirm) {
+    errEl.innerHTML = '🌍 <strong>Debes confirmar que la vacante es 100% remota.</strong><br><span style="font-size:13px;font-weight:400">Flexori es una plataforma exclusiva de trabajo remoto. Si tu vacante es híbrida o presencial, no es elegible.</span>';
+    errEl.style.display = 'block';
+    errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  // Descripción mínima 80 palabras
+  var wordCount = description.split(/\s+/).filter(w => w.length > 0).length;
+  if (wordCount < 80) {
+    errEl.innerHTML = '📝 <strong>La descripción es muy corta</strong> (' + wordCount + ' palabras).<br><span style="font-size:13px;font-weight:400">Mínimo 80 palabras. Incluye responsabilidades, requisitos y beneficios para atraer mejores candidatos.</span>';
+    errEl.style.display = 'block';
+    errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
 
