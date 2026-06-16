@@ -185,13 +185,21 @@ input[type=password]:focus{border-color:var(--border-green)}
 <script>
 const SUPABASE_URL='https://kkkgtwripyaxgmmdsqhg.supabase.co';
 const SUPABASE_KEY=['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9','eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0','XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU'].join('.');
-const ADMIN_PASSWORD='Flexori2026!';
+// Password verificado via hash SHA-256 — no almacenado en texto plano
 
 let waitlistData=[], jobsData=[];
 
-function checkLogin(){
+async function checkLogin(){
   const pwd=document.getElementById('pwd-input').value;
-  if(pwd===ADMIN_PASSWORD){
+  // Hash SHA-256 del password — nunca comparar en texto plano
+  const encoder = new TextEncoder();
+  const data = encoder.encode(pwd);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
+  // Hash del password de admin — verificado offline
+  const VALID_HASH = '82278096f8f3dc5e52654e8b6dccb97448b2325cf67228257807a3ecd69ae12a';
+  if(hashHex === VALID_HASH){
     document.getElementById('login-screen').style.display='none';
     document.getElementById('dashboard').style.display='block';
     loadAll();
