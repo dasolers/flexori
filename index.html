@@ -731,13 +731,13 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
 
     <!-- TOP CATEGORIAS -->
     <div class="mkt-card">
-      <div class="mkt-card-title" id="mkt-cat-title">🏆 Top Categorías</div>
+      <div class="mkt-card-title" id="mkt-cat-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;margin-right:4px"><path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10v6a5 5 0 0 1-10 0V4z"></path><path d="M5 9a3 3 0 0 1-2-3V4h4"></path><path d="M19 9a3 3 0 0 0 2-3V4h-4"></path></svg>Top Categorías</div>
       <div id="chart-categories"></div>
     </div>
 
     <!-- TOP PAISES QUE CONTRATAN -->
     <div class="mkt-card">
-      <div class="mkt-card-title" id="mkt-loc-title">🌎 Dónde están los empleos</div>
+      <div class="mkt-card-title" id="mkt-loc-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;margin-right:4px"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>Dónde están los empleos</div>
       <div id="chart-locations"></div>
     </div>
 
@@ -747,13 +747,13 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
 
     <!-- HABILIDADES MAS DEMANDADAS -->
     <div class="mkt-card">
-      <div class="mkt-card-title" id="mkt-skills-title">⚡ Habilidades más demandadas</div>
+      <div class="mkt-card-title" id="mkt-skills-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="display:inline-block;vertical-align:-3px;margin-right:4px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>Habilidades más demandadas</div>
       <div id="chart-skills" style="display:flex;flex-wrap:wrap;gap:8px;padding-top:8px"></div>
     </div>
 
     <!-- TIPO DE EMPLEO -->
     <div class="mkt-card">
-      <div class="mkt-card-title" id="mkt-type-title">💼 Tipo de empleo</div>
+      <div class="mkt-card-title" id="mkt-type-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;margin-right:4px"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>Tipo de empleo</div>
       <div id="chart-types"></div>
     </div>
 
@@ -2929,6 +2929,7 @@ function checkAuthState() {
 // Check auth on load
 document.addEventListener('DOMContentLoaded', function() {
   checkAuthState();
+  initJobs();
   // Wire up "Empieza Gratis" buttons to open auth modal
   document.querySelectorAll('[data-i="nav_join"], [data-i="hero_join"]').forEach(function(btn) {
     btn.addEventListener('click', function(e) {
