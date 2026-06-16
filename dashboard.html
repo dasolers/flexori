@@ -564,9 +564,16 @@ async function loadDashboard(email, token) {
   if (savedScoreRaw) {
     try {
       var scoreData = JSON.parse(savedScoreRaw);
-      var score = typeof scoreData === 'object' ? parseInt(scoreData.score) : parseInt(savedScoreRaw);
-      var breakdownRaw = typeof scoreData === 'object' ? scoreData.breakdown : null;
-      if (score && !isNaN(score)) {
+      // Manejar todos los formatos posibles del score guardado
+      var rawVal = null;
+      if (typeof scoreData === 'object' && scoreData !== null) {
+        rawVal = scoreData.score || scoreData.total_score || scoreData.finalScore || null;
+      } else {
+        rawVal = savedScoreRaw;
+      }
+      var score = rawVal !== null && rawVal !== '' ? parseInt(rawVal) : NaN;
+      var breakdownRaw = (typeof scoreData === 'object' && scoreData !== null) ? (scoreData.breakdown || null) : null;
+      if (!isNaN(score) && score > 0 && score <= 100) {
         var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
         document.getElementById('stat-score').textContent = score;
         document.getElementById('stat-score').style.color = color;
@@ -603,9 +610,9 @@ async function loadDashboard(email, token) {
         headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + token }
       }).then(function(r){ return r.json(); }).then(function(rows){
         if (rows && rows.length > 0) {
-          var raw = rows[0].total_score || rows[0].score;
-          var score = parseInt(raw);
-          if (!isNaN(score) && score > 0) {
+          var raw = rows[0].score || rows[0].total_score || null;
+          var score = raw !== null && raw !== '' ? parseInt(raw) : NaN;
+          if (!isNaN(score) && score > 0 && score <= 100) {
             var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
             document.getElementById('stat-score').textContent = score;
             document.getElementById('stat-score').style.color = color;
