@@ -191,15 +191,15 @@ let waitlistData=[], jobsData=[];
 
 async function checkLogin(){
   const pwd=document.getElementById('pwd-input').value;
-  // Hash SHA-256 del password — nunca comparar en texto plano
   const encoder = new TextEncoder();
   const data = encoder.encode(pwd);
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   const hashHex = hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
-  // Hash del password de admin — verificado offline
   const VALID_HASH = '82278096f8f3dc5e52654e8b6dccb97448b2325cf67228257807a3ecd69ae12a';
   if(hashHex === VALID_HASH){
+    // Guardar password en sessionStorage (se borra al cerrar pestaña) para autenticar acciones de escritura
+    sessionStorage.setItem('flexori_admin_pwd', pwd);
     document.getElementById('login-screen').style.display='none';
     document.getElementById('dashboard').style.display='block';
     loadAll();
@@ -210,6 +210,7 @@ async function checkLogin(){
 }
 
 function logout(){
+  sessionStorage.removeItem('flexori_admin_pwd');
   document.getElementById('login-screen').style.display='block';
   document.getElementById('dashboard').style.display='none';
   document.getElementById('pwd-input').value='';
@@ -321,29 +322,16 @@ function toggleDetail(id){
 
 async function updateJobStatus(id, status){
   try{
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/job_postings?id=eq.${id}`,{
-      method:'PATCH',
-      headers:{
-        'Content-Type':'application/json',
-        'apikey':SUPABASE_KEY,
-        'Authorization':`Bearer ${SUPABASE_KEY}`,
-        'Prefer':'return=minimal'
-      },
-      body:JSON.stringify({status})
+    const res = await fetch('/.netlify/functions/admin-job-action', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status, adminPassword: sessionStorage.getItem('flexori_admin_pwd') })
     });
-    if (res.ok || res.status === 204) {
+    const result = await res.json();
+    if (res.ok && result.success) {
       await loadJobs();
     } else {
-      var errText = await res.text();
-      // Si falla por permisos, actualizar localmente como fallback
-      if (res.status === 401 || res.status === 403) {
-        // Actualizar UI localmente hasta que tengamos service key
-        jobsData = jobsData.map(j => j.id === id ? {...j, status} : j);
-        renderJobs();
-        alert('⚠️ Cambio aplicado localmente. Para persistir en BD, se necesita la service_role key de Supabase en Settings → API.');
-      } else {
-        alert('Error: ' + errText);
-      }
+      alert('Error: ' + (result.error || 'No se pudo actualizar'));
     }
   }catch(e){
     alert('Error de conexión: ' + e.message);
