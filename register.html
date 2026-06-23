@@ -201,7 +201,7 @@ async function submitForm() {
 
     const res = await fetch(endpoint, {
       method: 'POST',
-      headers: {'Content-Type':'application/json','apikey':SUPABASE_ANON},
+      headers: {'Content-Type':'application/json','apikey':SUPABASE_ANON,'Authorization':'Bearer ' + SUPABASE_ANON},
       body: JSON.stringify({email, password, options: {emailRedirectTo: 'https://flexori.work/dashboard.html'}})
     });
 
