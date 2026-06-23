@@ -208,7 +208,7 @@ async function submitForm() {
     const data = await res.json();
 
     if(data.error || data.error_code) {
-      let msg = data.error_description || data.message || 'Error al procesar.';
+      let msg = data.error_description || data.message || data.msg || JSON.stringify(data) || 'Error al procesar.';
       if(msg.includes('already registered')) msg = 'Este email ya tiene cuenta. Inicia sesión.';
       if(msg.includes('Invalid login')) msg = 'Email o contraseña incorrectos.';
       if(msg.includes('Password should be')) msg = 'La contraseña debe tener al menos 6 caracteres.';
