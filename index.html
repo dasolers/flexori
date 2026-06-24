@@ -1467,9 +1467,18 @@ const CATEGORY_MAP = {
 };
 
 // ── FETCH FUNCTIONS — 8 SOURCES ──
+
+// Fetch con timeout para evitar bloqueos de APIs lentas
+function fetchWithTimeout(url, options = {}, ms = 5000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  return fetch(url, { ...options, signal: controller.signal })
+    .finally(() => clearTimeout(timer));
+}
+
 async function fetchFromRemotive() {
   try {
-    const res = await fetch('https://remotive.com/api/remote-jobs?limit=100', { headers: { 'Accept': 'application/json' } });
+    const res = await fetchWithTimeout('https://remotive.com/api/remote-jobs?limit=100', { headers: { 'Accept': 'application/json' } }, 5000);
     if (!res.ok) throw new Error();
     const data = await res.json();
     return (data.jobs || []).map(j => ({ id:'rem_'+j.id, title:j.title, company:j.company_name, logo:j.company_logo||'', category:j.category||'', tags:j.tags||[], type:j.job_type||'full_time', url:j.url, date:j.publication_date, salary:j.salary||'', location:j.candidate_required_location||'Worldwide', source:'Remotive' }));
@@ -1478,7 +1487,7 @@ async function fetchFromRemotive() {
 
 async function fetchFromJobicy() {
   try {
-    const res = await fetch('https://jobicy.com/api/v2/remote-jobs?count=50', { headers: { 'Accept': 'application/json' } });
+    const res = await fetchWithTimeout('https://jobicy.com/api/v2/remote-jobs?count=50', { headers: { 'Accept': 'application/json' } }, 5000);
     if (!res.ok) throw new Error();
     const data = await res.json();
     return (data.jobs || []).map(j => ({ id:'jcy_'+j.id, title:j.jobTitle, company:j.companyName, logo:j.companyLogo||'', category:j.jobIndustry||'', tags:[j.jobType,j.jobLevel].filter(Boolean), type:j.jobType||'full_time', url:j.url, date:j.pubDate, salary:'', location:j.jobGeo||'Worldwide', source:'Jobicy' }));
@@ -1498,7 +1507,7 @@ async function fetchFromJobicyNonTech() {
 
 async function fetchFromArbeitnow() {
   try {
-    const res = await fetch('https://www.arbeitnow.com/api/job-board-api?remote=true', { headers: { 'Accept': 'application/json' } });
+    const res = await fetchWithTimeout('https://www.arbeitnow.com/api/job-board-api?remote=true', { headers: { 'Accept': 'application/json' } }, 5000);
     if (!res.ok) throw new Error();
     const data = await res.json();
     return (data.data || []).map(j => ({ id:'arb_'+j.slug, title:j.title, company:j.company_name, logo:'', category:j.tags?.[0]||'', tags:(j.tags||[]).slice(0,3), type:'full_time', url:j.url, date:new Date(j.created_at*1000).toISOString(), salary:'', location:j.location||'Remote', source:'Arbeitnow' }));
@@ -1507,7 +1516,7 @@ async function fetchFromArbeitnow() {
 
 async function fetchFromHimalayas() {
   try {
-    const res = await fetch('https://himalayas.app/jobs/api?limit=100', { headers: { 'Accept': 'application/json' } });
+    const res = await fetchWithTimeout('https://himalayas.app/jobs/api?limit=100', { headers: { 'Accept': 'application/json' } }, 5000);
     if (!res.ok) throw new Error();
     const data = await res.json();
     return (data.jobs || []).map(j => ({ id:'hm_'+j.id, title:j.title, company:j.companyName||j.company||'', logo:j.companyLogo||'', category:j.categories?j.categories[0]:'', tags:(j.categories||[]).slice(0,4), type:'full_time', url:j.applicationLink||j.url||'https://himalayas.app', date:j.createdAt||new Date().toISOString(), salary:j.salary||'', location:j.locationRestrictions?j.locationRestrictions.join(', '):'Worldwide', source:'Himalayas' }));
@@ -1517,7 +1526,7 @@ async function fetchFromHimalayas() {
 
 async function fetchFromTheMuse() {
   try {
-    const res = await fetch('https://www.themuse.com/api/public/jobs?page=1&descending=true', { headers: { 'Accept': 'application/json' } });
+    const res = await fetchWithTimeout('https://www.themuse.com/api/public/jobs?page=1&descending=true', { headers: { 'Accept': 'application/json' } }, 5000);
     if (!res.ok) throw new Error();
     const data = await res.json();
     return (data.results || []).map(j => ({ id:'tm_'+j.id, title:j.name, company:j.company?j.company.name:'', logo:'', category:j.categories&&j.categories[0]?j.categories[0].name:'', tags:(j.categories||[]).map(c=>c.name).slice(0,4), type:'full_time', url:j.refs&&j.refs.landing_page||'https://www.themuse.com', date:j.publication_date||new Date().toISOString(), salary:'', location:j.locations&&j.locations[0]?j.locations[0].name:'Flexible/Remote', source:'The Muse' }));
@@ -1560,7 +1569,7 @@ async function fetchFromAdzuna(){
   const cats=['customer services','sales','admin','marketing','accounting','hr','operations'];
   const results=await Promise.allSettled(cats.map(async cat=>{
     const url=`https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${APP_ID}&app_key=${APP_KEY}&results_per_page=15&what=${encodeURIComponent(cat)}&full_time=1&content-type=application/json`;
-    const r=await fetch(url,{headers:{Accept:'application/json'}});
+    const r=await fetchWithTimeout(url,{headers:{Accept:'application/json'}},5000);
     if(!r.ok)return [];
     const d=await r.json();
     return (d.results||[]).map(j=>{
