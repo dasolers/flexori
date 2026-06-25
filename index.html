@@ -1365,6 +1365,20 @@ setLang(lang);
 
 
 // ── MARKET INTELLIGENCE ENGINE ──
+function buildMarketIntelligenceFallback() {
+  // Mostrar datos estáticos mientras cargan los jobs
+  const cats = [['Software Dev',87],['Customer Service',64],['Marketing',52],['Sales',48],['Design',41],['Operations',38],['Finance',29]];
+  const locs = [['Worldwide',120],['USA',89],['Europe',67],['LATAM',54],['Canada',31],['UK',28],['Australia',19]];
+  const skills = [['English C1+',95],['Remote Tools',88],['Excel/Sheets',72],['Customer Service',65],['Sales',58],['Project Mgmt',51],['Copywriting',44]];
+  const maxC = cats[0][1], maxL = locs[0][1], maxS = skills[0][1];
+  const catEl = document.getElementById('chart-categories');
+  const locEl = document.getElementById('chart-locations');
+  const sklEl = document.getElementById('chart-skills');
+  if (catEl && !catEl.innerHTML) catEl.innerHTML = cats.map(([n,c]) => '<div class="mkt-bar-row"><div class="mkt-bar-label">'+n+'</div><div class="mkt-bar-bg"><div class="mkt-bar-fill" style="width:'+Math.round(c/maxC*100)+'%"></div></div><div class="mkt-bar-count">'+c+'</div></div>').join('');
+  if (locEl && !locEl.innerHTML) locEl.innerHTML = locs.map(([n,c]) => '<div class="mkt-bar-row"><div class="mkt-bar-label">'+n+'</div><div class="mkt-bar-bg"><div class="mkt-bar-fill" style="width:'+Math.round(c/maxL*100)+'%;background:linear-gradient(90deg,#1D5FA3,#1D9E75)"></div></div><div class="mkt-bar-count">'+c+'</div></div>').join('');
+  if (sklEl && !sklEl.innerHTML) sklEl.innerHTML = skills.map(([n,c]) => '<div class="mkt-bar-row"><div class="mkt-bar-label">'+n+'</div><div class="mkt-bar-bg"><div class="mkt-bar-fill" style="width:'+Math.round(c/maxS*100)+'%;background:linear-gradient(90deg,#7C3AED,#1D9E75)"></div></div><div class="mkt-bar-count">'+c+'</div></div>').join('');
+}
+
 function buildMarketIntelligence(jobs) {
   if (!jobs || jobs.length === 0) return;
   document.getElementById("mkt-total").textContent = jobs.length > 0 ? jobs.length + "+" : "300+";
@@ -1763,6 +1777,7 @@ document.addEventListener('DOMContentLoaded', () => {
       searchTimer = setTimeout(filterJobs, 350);
     });
   }
+  buildMarketIntelligenceFallback();
   setTimeout(initJobs, 500);
 });
 
