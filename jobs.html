@@ -777,6 +777,14 @@ const REG={
   asia:['asia','apac','pacific','india','singapore','japan','australia']
 };
 
+
+function fetchWithTimeout(url, options = {}, ms = 5000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  return fetch(url, { ...options, signal: controller.signal })
+    .finally(() => clearTimeout(timer));
+}
+
 async function fetchAll(){
   const [r1,r2,r3,r4,r5,r6,r7,r8]=await Promise.allSettled([
     fetchRemotive(),fetchJobicy(),fetchArbeitnow(),
@@ -801,28 +809,28 @@ async function fetchAll(){
 }
 
 async function fetchRemotive(){
-  const r=await fetch('https://remotive.com/api/remote-jobs?limit=150',{headers:{Accept:'application/json'}});
+  const r=await fetchWithTimeout('https://remotive.com/api/remote-jobs?limit=150',{headers:{Accept:'application/json'}}, 5000);
   if(!r.ok)throw new Error();
   const d=await r.json();
   return (d.jobs||[]).map(j=>({id:'rm'+j.id,title:j.title,company:j.company_name,logo:j.company_logo||'',category:j.category||'',tags:j.tags||[],type:j.job_type||'full_time',url:j.url,date:j.publication_date,salary:j.salary||'',location:j.candidate_required_location||'Worldwide',description:j.description||'',source:'Remotive'}));
 }
 
 async function fetchJobicy(){
-  const r=await fetch('https://jobicy.com/api/v2/remote-jobs?count=100');
+  const r=await fetchWithTimeout('https://jobicy.com/api/v2/remote-jobs?count=100', 5000);
   if(!r.ok)throw new Error();
   const d=await r.json();
   return (d.jobs||[]).map(j=>({id:'jc'+j.id,title:j.jobTitle,company:j.companyName,logo:j.companyLogo||'',category:j.jobIndustry||'',tags:[j.jobType,j.jobLevel].filter(Boolean),type:j.jobType||'full_time',url:j.url,date:j.pubDate||new Date().toISOString(),salary:'',location:j.jobGeo||'Worldwide',description:j.jobExcerpt||'',source:'Jobicy'}));
 }
 
 async function fetchArbeitnow(){
-  const r=await fetch('https://www.arbeitnow.com/api/job-board-api?remote=true');
+  const r=await fetchWithTimeout('https://www.arbeitnow.com/api/job-board-api?remote=true', 5000);
   if(!r.ok)throw new Error();
   const d=await r.json();
   return (d.data||[]).map(j=>({id:'an'+j.slug,title:j.title,company:j.company_name,logo:j.company_logo||'',category:'',tags:(j.tags||[]).slice(0,4),type:'full_time',url:j.url,date:j.created_at||new Date().toISOString(),salary:'',location:j.location||'Remote',description:j.description||'',source:'Arbeitnow'}));
 }
 
 async function fetchHimalayas(){
-  const r=await fetch('https://himalayas.app/jobs/api?limit=100',{headers:{Accept:'application/json'}});
+  const r=await fetchWithTimeout('https://himalayas.app/jobs/api?limit=100',{headers:{Accept:'application/json'}}, 5000);
   if(!r.ok)throw new Error();
   const d=await r.json();
   return (d.jobs||[]).map(j=>({id:'hm'+j.id,title:j.title,company:j.companyName||j.company||'',logo:j.companyLogo||'',category:j.categories?j.categories[0]:'',tags:(j.categories||[]).slice(0,4),type:'full_time',url:j.applicationLink||j.url||'https://himalayas.app',date:j.createdAt||new Date().toISOString(),salary:j.salary||'',location:j.locationRestrictions?j.locationRestrictions.join(', '):'Worldwide',description:j.description||'',source:'Himalayas'}));
@@ -830,7 +838,7 @@ async function fetchHimalayas(){
 
 
 async function fetchTheMuse(){
-  const r=await fetch('https://www.themuse.com/api/public/jobs?page=1&descending=true',{headers:{Accept:'application/json'}});
+  const r=await fetchWithTimeout('https://www.themuse.com/api/public/jobs?page=1&descending=true',{headers:{Accept:'application/json'}}, 5000);
   if(!r.ok)throw new Error();
   const d=await r.json();
   return (d.results||[]).map(j=>({id:'tm'+j.id,title:j.name,company:j.company?j.company.name:'',logo:'',category:j.categories&&j.categories[0]?j.categories[0].name:'',tags:(j.categories||[]).map(c=>c.name).slice(0,4),type:'full_time',url:j.refs&&j.refs.landing_page||'https://www.themuse.com',date:j.publication_date||new Date().toISOString(),salary:'',location:j.locations&&j.locations[0]?j.locations[0].name:'Flexible/Remote',description:j.contents||'',source:'The Muse'}));
@@ -872,7 +880,7 @@ async function fetchJobicyNonTech(){
   // Jobicy non-tech categories: admin-support, supporting, seller, accounting-finance, hr, marketing, copywriting
   const cats=['admin-support','supporting','seller','accounting-finance','hr','marketing','copywriting'];
   const results=await Promise.allSettled(cats.map(async cat=>{
-    const r=await fetch('https://jobicy.com/api/v2/remote-jobs?count=20&industry='+cat);
+    const r=await fetchWithTimeout('https://jobicy.com/api/v2/remote-jobs?count=20&industry='+cat, 5000);
     if(!r.ok)return [];
     const d=await r.json();
     return (d.jobs||[]).map(j=>({id:'jcnt'+j.id,title:j.jobTitle,company:j.companyName,logo:j.companyLogo||'',category:j.jobIndustry||cat,tags:[j.jobType,j.jobLevel].filter(Boolean),type:j.jobType||'full_time',url:j.url,date:j.pubDate||new Date().toISOString(),salary:'',location:j.jobGeo||'Worldwide',description:j.jobExcerpt||'',source:'Jobicy'}));
@@ -890,7 +898,7 @@ async function fetchAdzuna(){
   ];
   const results=await Promise.allSettled(cats.map(async cat=>{
     const url=`https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${APP_ID}&app_key=${APP_KEY}&results_per_page=20&what=${encodeURIComponent(cat.replace(/-/g,' '))}&full_time=1&content-type=application/json`;
-    const r=await fetch(url,{headers:{Accept:'application/json'}});
+    const r=await fetchWithTimeout(url,{headers:{Accept:'application/json'}},5000);
     if(!r.ok)return [];
     const d=await r.json();
     return (d.results||[]).map(j=>{
