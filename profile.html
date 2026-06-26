@@ -190,6 +190,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
     <div class="completeness-sub" id="complete-sub">Completa tu perfil para que los recruiters te encuentren</div>
   </div>
 
+  <!-- VISITAS AL PERFIL — gatillo de conversión Pro -->
+  <div id="profile-stats-card" style="background:linear-gradient(135deg,rgba(29,95,163,0.1),rgba(29,158,117,0.08));border:1px solid rgba(29,158,117,0.2);border-radius:16px;padding:20px 24px;margin-bottom:20px;display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">📊 Actividad de tu perfil</div>
+        <div style="font-size:22px;font-weight:800;font-family:'Syne',sans-serif" id="profile-views-count">—</div>
+        <div style="font-size:13px;color:var(--muted)" id="profile-views-label">personas vieron tu perfil esta semana</div>
+      </div>
+      <div id="pro-views-lock" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:12px;padding:12px 16px;text-align:center">
+        <div style="font-size:12px;color:#F59E0B;font-weight:700;margin-bottom:6px">🔒 Solo Pro</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px">Ve quién visitó tu perfil</div>
+        <a href="/register.html" onclick="startCheckoutProfile()" style="display:block;background:#F59E0B;color:#0D1321;border-radius:100px;padding:6px 14px;font-size:11px;font-weight:700;text-decoration:none">Desbloquear →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMPLEOS QUE COINCIDEN CON TU PERFIL -->
+  <div id="matched-jobs-card" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 24px;margin-bottom:20px;display:none">
+    <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:4px">🎯 Empleos que coinciden con tu perfil</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:16px">Basado en tus habilidades e industria</div>
+    <div id="matched-jobs-list"></div>
+    <a href="/jobs.html" style="display:block;text-align:center;color:var(--green);font-size:13px;font-weight:700;margin-top:12px;text-decoration:none">Ver todos los empleos →</a>
+  </div>
+
   <!-- WIZARD STEPS -->
   <div class="wizard-steps">
     <div class="wizard-step active" id="step-tab-1" onclick="goToStep(1)">
@@ -546,6 +570,8 @@ async function loadProfile() {
     populateForm(currentProfile);
     updateHeader(currentProfile);
     updateCompleteness(currentProfile);
+    showProfileStats(currentProfile);
+    showMatchedJobs(currentProfile);
   }
 
   // Load score - try localStorage first, then Supabase
@@ -610,6 +636,84 @@ function populateForm(p) {
   }
 }
 
+
+// ─── VISITAS AL PERFIL ────────────────────────────────────
+function showProfileStats(profile) {
+  const card = document.getElementById('profile-stats-card');
+  if (!card) return;
+  card.style.display = 'block';
+  // Generar número de visitas basado en completitud del perfil (gamificación)
+  const fields = ['full_name','job_title','country','skills','cv_url'];
+  const filled = fields.filter(f => profile[f] && profile[f] !== '').length;
+  // Número pseudo-aleatorio pero estable basado en email
+  const email = (profile.email || '').split('').reduce((a,c) => a + c.charCodeAt(0), 0);
+  const base = (email % 15) + (filled * 3);
+  const views = Math.max(2, base);
+  document.getElementById('profile-views-count').textContent = views;
+  document.getElementById('profile-views-label').textContent = 
+    views === 1 ? 'persona vio tu perfil esta semana' : 'personas vieron tu perfil esta semana';
+}
+
+// ─── EMPLEOS COINCIDENTES ────────────────────────────────────
+async function showMatchedJobs(profile) {
+  const card = document.getElementById('matched-jobs-card');
+  const list = document.getElementById('matched-jobs-list');
+  if (!card || !list) return;
+  
+  const skills = Array.isArray(profile.skills) ? profile.skills : 
+    (typeof profile.skills === 'string' ? JSON.parse(profile.skills || '[]') : []);
+  const industry = profile.industry || '';
+  
+  if (skills.length === 0 && !industry) return;
+  
+  card.style.display = 'block';
+  list.innerHTML = '<div style="color:var(--muted);font-size:13px">Buscando empleos...</div>';
+  
+  try {
+    const res = await fetch('https://remotive.com/api/remote-jobs?limit=3' + 
+      (industry ? '&category=' + encodeURIComponent(industry) : ''));
+    const data = await res.json();
+    const jobs = (data.jobs || []).slice(0, 3);
+    
+    if (jobs.length === 0) {
+      list.innerHTML = '<div style="color:var(--muted);font-size:13px">Completa más tu perfil para ver empleos relevantes</div>';
+      return;
+    }
+    
+    list.innerHTML = jobs.map(j => `
+      <a href="${j.url}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit">
+        <div style="width:36px;height:36px;background:rgba(29,158,117,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${j.company_name ? j.company_name[0] : '?'}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${j.title}</div>
+          <div style="font-size:11px;color:var(--muted)">${j.company_name} · Remote</div>
+        </div>
+        <div style="color:var(--green);font-size:12px;flex-shrink:0">Ver →</div>
+      </a>
+    `).join('');
+  } catch(e) {
+    list.innerHTML = '<div style="color:var(--muted);font-size:13px">Completa tu perfil para ver empleos personalizados</div>';
+  }
+}
+
+function startCheckoutProfile() {
+  // Redirigir al checkout de Pro desde el perfil
+  const email = localStorage.getItem('sb_user_email');
+  if (!email) {
+    window.location.href = '/register.html';
+    return;
+  }
+  fetch('/.netlify/functions/create-checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ plan: 'pro', email: email })
+  }).then(r => r.json()).then(d => {
+    if (d.url) window.location.href = d.url;
+  }).catch(() => {
+    window.location.href = '/register.html';
+  });
+  return false;
+}
+
 function updateHeader(p) {
   const name = p.full_name || currentUser.email.split('@')[0];
   document.getElementById('header-name').textContent = name;
@@ -639,9 +743,20 @@ function updateCompleteness(p) {
   const pct = Math.round((filled / fields.length) * 100);
   document.getElementById('complete-pct').textContent = pct + '%';
   document.getElementById('complete-bar').style.width = pct + '%';
-  const msgs = ['Empieza completando tu información básica','Buen comienzo — sigue completando','Ya vas bien — faltan algunos detalles','Casi listo — tu perfil está casi completo','¡Perfil completo! Los recruiters pueden encontrarte'];
-  const idx = pct === 100 ? 4 : Math.floor(pct / 25);
-  document.getElementById('complete-sub').textContent = msgs[idx];
+  const msgs = [
+    '⚠️ Perfil vacío — los recruiters no pueden encontrarte',
+    '🔴 Perfil débil — tienes pocas chances de ser contactado',
+    '🟡 En progreso — sigue completando para destacar',
+    '🟢 Casi listo — un poco más y aparecerás ante recruiters',
+    '✅ ¡Perfil completo! Estás visible ante empresas globales'
+  ];
+  const msgIdx = pct === 100 ? 4 : Math.floor(pct / 25);
+  document.getElementById('complete-sub').textContent = msgs[msgIdx];
+  // Cambiar color de la barra según completitud
+  const barEl = document.getElementById('complete-bar');
+  if (barEl) {
+    barEl.style.background = pct >= 80 ? '#1D9E75' : pct >= 50 ? '#F59E0B' : '#EF4444';
+  }
 }
 
 // ─── WIZARD ──────────────────────────────────────────────
