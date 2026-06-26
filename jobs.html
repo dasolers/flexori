@@ -830,10 +830,12 @@ async function fetchArbeitnow(){
 }
 
 async function fetchHimalayas(){
-  const r=await fetchWithTimeout('https://himalayas.app/jobs/api?limit=100',{headers:{Accept:'application/json'}}, 5000);
-  if(!r.ok)throw new Error();
-  const d=await r.json();
-  return (d.jobs||[]).map(j=>({id:'hm'+j.id,title:j.title,company:j.companyName||j.company||'',logo:j.companyLogo||'',category:j.categories?j.categories[0]:'',tags:(j.categories||[]).slice(0,4),type:'full_time',url:j.applicationLink||j.url||'https://himalayas.app',date:j.createdAt||new Date().toISOString(),salary:j.salary||'',location:j.locationRestrictions?j.locationRestrictions.join(', '):'Worldwide',description:j.description||'',source:'Himalayas'}));
+  try {
+    const r = await fetchWithTimeout('/.netlify/functions/jobs-himalayas', {}, 8000);
+    if(!r.ok) return [];
+    const d = await r.json();
+    return d.jobs || [];
+  } catch(e){ return []; }
 }
 
 
@@ -890,23 +892,12 @@ async function fetchJobicyNonTech(){
 
 
 async function fetchAdzuna(){
-  const APP_ID='c13f4e2a', APP_KEY='e7adff87e35fc03da08e06fcac691425';
-  // Fetch remote jobs from US market — largest volume, most open to worldwide/LATAM
-  const cats=[
-    'customer-services','sales','admin-jobs','marketing',
-    'accounting-finance','hr-jobs','trade-construction','other-general-jobs'
-  ];
-  const results=await Promise.allSettled(cats.map(async cat=>{
-    const url=`https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${APP_ID}&app_key=${APP_KEY}&results_per_page=20&what=${encodeURIComponent(cat.replace(/-/g,' '))}&full_time=1&content-type=application/json`;
-    const r=await fetchWithTimeout(url,{headers:{Accept:'application/json'}},5000);
-    if(!r.ok)return [];
-    const d=await r.json();
-    return (d.results||[]).map(j=>{
-      const salary=j.salary_min?'$'+Math.round(j.salary_min/1000)+'K–$'+Math.round(j.salary_max/1000)+'K/yr':'';
-      return {id:'az_'+j.id,title:j.title,company:j.company?j.company.display_name:'',logo:'',category:j.category?j.category.label:'',tags:[j.category?j.category.label:''].filter(Boolean),type:'full_time',url:j.redirect_url||'',date:j.created||new Date().toISOString(),salary,location:j.location?j.location.display_name:'Remote',description:j.description||'',source:'Adzuna'};
-    });
-  }));
-  return results.filter(r=>r.status==='fulfilled').flatMap(r=>r.value);
+  try {
+    const r = await fetchWithTimeout('/.netlify/functions/jobs-adzuna', {}, 8000);
+    if(!r.ok) return [];
+    const d = await r.json();
+    return d.jobs || [];
+  } catch(e){ return []; }
 }
 
 function getFallback(){
