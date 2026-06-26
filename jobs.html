@@ -1011,7 +1011,7 @@ function render(reset){
         <div class="card-logo">${j.logo?`<img src="${j.logo}" alt="${j.company}" onerror="this.parentElement.textContent='${initials(j.company)}'">`:initials(j.company)}</div>
         ${isNew?'<span class="card-new">NEW</span>':''}
       </div>
-      <div><div class="card-title">${j.title}</div><div class="card-company">${j.company} · ${j.location||'Remote'}</div></div>
+      <div><div class="card-title">${j.title}</div><div class="card-company">${j.company} · ${j.location||'Remote'}</div>${(j.location||'').toLowerCase().includes('worldwide')?'<div style="font-size:10px;color:#F59E0B;margin-top:2px">⚠️ Verifica requisitos de ubicación antes de aplicar</div>':''}</div>
       <div class="card-tags">
         ${j.salary?`<span class="tag tag-g">${j.salary}</span>`:''}
         <span class="tag tag-b">${(String(j.type||'Full-time')).replace(/_/g,' ')}</span>
@@ -1128,7 +1128,7 @@ async function init(){
         <div class="card-logo">${j.logo?`<img src="${j.logo}" alt="${j.company}" onerror="this.parentElement.textContent='${initials(j.company)}'">`:initials(j.company)}</div>
         ${isNew?'<span class="card-new">NEW</span>':''}
       </div>
-      <div><div class="card-title">${j.title}</div><div class="card-company">${j.company} · ${j.location||'Remote'}</div></div>
+      <div><div class="card-title">${j.title}</div><div class="card-company">${j.company} · ${j.location||'Remote'}</div>${(j.location||'').toLowerCase().includes('worldwide')?'<div style="font-size:10px;color:#F59E0B;margin-top:2px">⚠️ Verifica requisitos de ubicación antes de aplicar</div>':''}</div>
       <div class="card-tags">
         ${j.salary?`<span class="tag tag-g">${j.salary}</span>`:''}
         <span class="tag tag-b">${(String(j.type||'Full-time')).replace(/_/g,' ')}</span>
