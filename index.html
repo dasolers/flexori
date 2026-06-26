@@ -1725,6 +1725,7 @@ function renderJobs(reset) {
       <div>
         <div class="job-title-real">${job.title}</div>
         <div class="job-company-name">${job.company} · ${job.location || 'Remote'}</div>
+        ${(job.location || '').toLowerCase().includes('worldwide') ? '<div style="font-size:10px;color:#F59E0B;margin-top:2px">⚠️ Verifica requisitos de ubicación antes de aplicar</div>' : ''}
       </div>
       <div class="job-tags-row">
         ${job.salary ? `<span class="job-tag job-tag-green">${job.salary}</span>` : ''}
