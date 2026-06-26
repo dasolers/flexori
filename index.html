@@ -1530,6 +1530,14 @@ async function fetchFromArbeitnow() {
 
 async function fetchFromHimalayas() {
   try {
+    const res = await fetchWithTimeout('/.netlify/functions/jobs-himalayas', {}, 8000);
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    return data.jobs || [];
+  } catch(e) { return []; }
+}
+async function fetchFromHimalayas_UNUSED() {
+  try {
     const res = await fetchWithTimeout('https://himalayas.app/jobs/api?limit=100', { headers: { 'Accept': 'application/json' } }, 5000);
     if (!res.ok) throw new Error();
     const data = await res.json();
@@ -1579,19 +1587,12 @@ async function fetchFromWWR() {
 
 
 async function fetchFromAdzuna(){
-  const APP_ID='c13f4e2a', APP_KEY='e7adff87e35fc03da08e06fcac691425';
-  const cats=['customer services','sales','admin','marketing','accounting','hr','operations'];
-  const results=await Promise.allSettled(cats.map(async cat=>{
-    const url=`https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${APP_ID}&app_key=${APP_KEY}&results_per_page=15&what=${encodeURIComponent(cat)}&full_time=1&content-type=application/json`;
-    const r=await fetchWithTimeout(url,{headers:{Accept:'application/json'}},5000);
-    if(!r.ok)return [];
-    const d=await r.json();
-    return (d.results||[]).map(j=>{
-      const salary=j.salary_min?'$'+Math.round(j.salary_min/1000)+'K–$'+Math.round(j.salary_max/1000)+'K/yr':'';
-      return {id:'az_'+j.id,title:j.title,company:j.company?j.company.display_name:'',logo:'',category:j.category?j.category.label:'',tags:[j.category?j.category.label:''].filter(Boolean),type:'full_time',url:j.redirect_url||'',date:j.created||new Date().toISOString(),salary,location:j.location?j.location.display_name:'Remote',description:j.description||'',source:'Adzuna'};
-    });
-  }));
-  return results.filter(r=>r.status==='fulfilled').flatMap(r=>r.value);
+  try {
+    const res = await fetchWithTimeout('/.netlify/functions/jobs-adzuna', {}, 8000);
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    return data.jobs || [];
+  } catch(e) { return []; }
 }
 
 async function fetchJobs() {
