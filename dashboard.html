@@ -567,11 +567,25 @@ async function loadDashboard(email, token) {
       // Manejar todos los formatos posibles del score guardado
       var rawVal = null;
       if (typeof scoreData === 'object' && scoreData !== null) {
-        rawVal = scoreData.score || scoreData.total_score || scoreData.finalScore || null;
+        var sv = scoreData.score || scoreData.total_score || scoreData.finalScore || null;
+        // Si score es objeto anidado, buscar el número
+        rawVal = (typeof sv === 'number') ? sv : (typeof sv === 'string') ? sv : null;
+        // Fallback: buscar cualquier campo numérico
+        if (rawVal === null) {
+          for (var k in scoreData) {
+            if (typeof scoreData[k] === 'number' && scoreData[k] > 0 && scoreData[k] <= 100) {
+              rawVal = scoreData[k];
+              break;
+            }
+          }
+        }
+      } else if (typeof scoreData === 'number') {
+        rawVal = scoreData;
       } else {
         rawVal = savedScoreRaw;
       }
-      var score = rawVal !== null && rawVal !== '' ? parseInt(rawVal) : NaN;
+      var score = rawVal !== null && rawVal !== '' ? parseInt(rawVal) : 0;
+      if (isNaN(score)) score = 0;
       var breakdownRaw = (typeof scoreData === 'object' && scoreData !== null) ? (scoreData.breakdown || null) : null;
       if (!isNaN(score) && score > 0 && score <= 100) {
         var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
@@ -611,8 +625,9 @@ async function loadDashboard(email, token) {
       }).then(function(r){ return r.json(); }).then(function(rows){
         if (rows && rows.length > 0) {
           var raw = rows[0].score || rows[0].total_score || null;
-          var score = raw !== null && raw !== '' ? parseInt(raw) : NaN;
-          if (!isNaN(score) && score > 0 && score <= 100) {
+          var score = raw !== null && raw !== '' ? parseInt(raw) : 0;
+          if (isNaN(score)) score = 0;
+          if (score > 0 && score <= 100) {
             var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
             document.getElementById('stat-score').textContent = score;
             document.getElementById('stat-score').style.color = color;
