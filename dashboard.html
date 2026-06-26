@@ -155,6 +155,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
     </div>
   </div>
 
+  <!-- BANNER PASSPORT INCOMPLETO -->
+  <div id="passport-banner" style="display:none;background:linear-gradient(135deg,rgba(29,95,163,0.15),rgba(29,158,117,0.1));border:1px solid rgba(29,158,117,0.25);border-radius:16px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;margin-bottom:4px">🛂 Tu Remote Digital Passport está incompleto</div>
+      <div style="font-size:13px;color:var(--muted)" id="passport-banner-msg">Completa tu perfil para ser visible ante recruiters globales</div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-shrink:0">
+      <div id="passport-pct-badge" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#F59E0B">0%</div>
+      <a href="/profile.html" style="background:var(--green);color:#0D1321;border-radius:100px;padding:10px 20px;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;text-decoration:none">Completar →</a>
+    </div>
+  </div>
+
   <!-- MAIN GRID -->
   <div class="main-grid">
     <!-- LEFT: Score breakdown -->
@@ -487,6 +499,31 @@ function signOut() {
   window.location.href = '/';
 }
 
+async function loadPassportBanner(email, token) {
+  try {
+    const res = await fetch('https://kkkgtwripyaxgmmdsqhg.supabase.co/rest/v1/waitlist?email=eq.' + encodeURIComponent(email) + '&select=full_name,job_title,country,skills,cv_url,years_remote,industry', {
+      headers: { 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0.XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU', 'Authorization': 'Bearer ' + token }
+    });
+    const rows = await res.json();
+    if (!rows || !rows.length) return;
+    const p = rows[0];
+    const fields = ['full_name','job_title','country','skills','cv_url','years_remote','industry'];
+    const filled = fields.filter(f => p[f] && p[f] !== '' && !(Array.isArray(p[f]) && p[f].length === 0)).length;
+    const pct = Math.round((filled / fields.length) * 100);
+    if (pct < 100) {
+      const banner = document.getElementById('passport-banner');
+      if (banner) {
+        banner.style.display = 'flex';
+        document.getElementById('passport-pct-badge').textContent = pct + '%';
+        document.getElementById('passport-pct-badge').style.color = pct < 40 ? '#EF4444' : pct < 70 ? '#F59E0B' : '#1D9E75';
+        const msgs = ['Tu perfil está vacío — los recruiters no te pueden encontrar', 'Perfil débil — pocas chances de ser contactado', 'Ya vas bien — sigue completando tu Passport', 'Casi listo — un poco más para ser visible'];
+        const msgIdx = Math.min(3, Math.floor(pct / 25));
+        document.getElementById('passport-banner-msg').textContent = msgs[msgIdx];
+      }
+    }
+  } catch(e) {}
+}
+
 async function loadDashboard(email, token) {
   document.getElementById('dashboard-loading').style.display = 'none';
   document.getElementById('dashboard-noauth').style.display = 'none';
@@ -711,6 +748,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var email = localStorage.getItem('sb_user_email');
   if (token && email) {
     loadDashboard(email, token);
+  loadPassportBanner(email, token);
   } else {
     document.getElementById('dashboard-loading').style.display = 'none';
     document.getElementById('dashboard-noauth').style.display = 'flex';
