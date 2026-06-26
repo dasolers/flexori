@@ -90,6 +90,19 @@ footer a{color:var(--green);text-decoration:none}
   .stats{gap:24px}
 }
 </style>
+<script>
+(function(){
+  var lang = (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('flexori_lang') || (navigator.language||'es').slice(0,2);
+  if(!['es','en','fr','pt'].includes(lang)) lang='es';
+  localStorage.setItem('flexori_lang', lang);
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('[data-en]').forEach(function(el){
+      var t = el.getAttribute('data-'+lang);
+      if(t) el.textContent = t;
+    });
+  });
+})();
+</script>
 </head>
 <body>
 
