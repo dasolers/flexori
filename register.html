@@ -238,8 +238,8 @@ async function submitForm() {
           },
           body: JSON.stringify({ email: email })
         }).catch(function(){});
-        // Agregar a Resend
-        fetch('/.netlify/functions/sync-audience', {
+        // Enviar email de bienvenida + agregar a Resend
+        fetch('/.netlify/functions/welcome-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: email })
