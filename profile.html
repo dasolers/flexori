@@ -448,22 +448,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
   </div>
 
   <!-- PUBLIC HEADER CARD -->
-  <div class="public-card">
-    <div style="display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap">
-      <div class="passport-avatar" id="pub-avatar" style="width:72px;height:72px;font-size:24px">?</div>
+  <div style="background:linear-gradient(135deg,#0D1321 0%,#131B2E 50%,#0D1B2E 100%);border:1px solid rgba(29,158,117,0.3);border-radius:20px;padding:28px;margin-bottom:16px;position:relative;overflow:hidden">
+    <!-- Fondo decorativo -->
+    <div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(29,158,117,0.15),transparent);border-radius:50%"></div>
+    <div style="position:absolute;bottom:-20px;left:-20px;width:80px;height:80px;background:radial-gradient(circle,rgba(29,95,163,0.1),transparent);border-radius:50%"></div>
+    
+    <div style="display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap;position:relative">
+      <div class="passport-avatar" id="pub-avatar" style="width:80px;height:80px;font-size:28px;border:3px solid rgba(29,158,117,0.4);box-shadow:0 0 20px rgba(29,158,117,0.15)">?</div>
       <div style="flex:1;min-width:0">
-        <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px" id="pub-name">—</div>
+        <div style="font-size:10px;color:var(--green);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:4px">🛂 Remote Digital Passport</div>
+        <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;margin-bottom:4px" id="pub-name">—</div>
         <div style="color:var(--muted);font-size:14px;margin-bottom:12px" id="pub-title">—</div>
         <div style="display:flex;flex-wrap:wrap;gap:8px" id="pub-badges"></div>
       </div>
       <div style="text-align:center;flex-shrink:0">
-        <div class="score-mini">
-          <div class="score-mini-ring" id="pub-score-ring" style="border-color:var(--muted);color:var(--muted)">—</div>
-        </div>
-        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Score</div>
+        <div style="width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:20px;border:3px solid var(--green);background:rgba(29,158,117,0.1)" id="pub-score-ring">—</div>
+        <div style="font-size:10px;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-top:6px;font-weight:700">Score</div>
       </div>
     </div>
-    <div id="pub-bio" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);font-size:14px;line-height:1.6;color:var(--muted);display:none"></div>
+    <div id="pub-bio" style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);font-size:14px;line-height:1.6;color:var(--muted);display:none"></div>
+    
+    <!-- CTA para visitantes no registrados -->
+    <div id="pub-visitor-cta" style="display:none;margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);background:rgba(29,158,117,0.05);border-radius:12px;padding:16px;text-align:center">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:10px">¿Quieres crear tu propio Remote Digital Passport?</div>
+      <a href="/register.html" style="display:inline-block;background:var(--green);color:#0D1321;border-radius:100px;padding:10px 24px;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;text-decoration:none">Crear mi Passport gratis →</a>
+    </div>
   </div>
 
   <!-- INFO TABLE -->
@@ -974,6 +983,12 @@ function renderPublicView(p, userId, scoreOverride) {
   if (!p) return;
   const name = p.full_name || '—';
   document.getElementById('pub-name').textContent = name;
+  
+  // Mostrar CTA si el visitante no está logueado
+  const visitorCTA = document.getElementById('pub-visitor-cta');
+  if (visitorCTA && !localStorage.getItem('sb_access_token')) {
+    visitorCTA.style.display = 'block';
+  }
   document.getElementById('pub-avatar').textContent = name.charAt(0).toUpperCase();
   document.getElementById('pub-title').textContent = p.job_title || '—';
   document.getElementById('pub-country').textContent = p.country || '—';
