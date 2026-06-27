@@ -173,6 +173,16 @@ function buildEmailHTML(jobs, lang) {
           </div>
         </div>
       </div>
+
+      <!-- CTA DASHBOARD Y PERFIL -->
+      <div style="background:#131B2E;border:1px solid rgba(29,95,163,0.2);border-radius:16px;padding:24px;margin-top:16px;text-align:center;">
+        <div style="font-size:14px;color:#A8A69E;margin-bottom:16px;">¿Ya completaste tu Remote Digital Passport?</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <a href="https://flexori.work/dashboard.html" style="display:inline-block;background:#1D9E75;color:#0D1321;border-radius:100px;padding:10px 20px;font-size:13px;font-weight:700;text-decoration:none;">Mi Dashboard →</a>
+          <a href="https://flexori.work/profile.html" style="display:inline-block;background:rgba(29,95,163,0.15);border:1px solid rgba(29,95,163,0.3);color:#6ba3d6;border-radius:100px;padding:10px 20px;font-size:13px;font-weight:700;text-decoration:none;">Completar Perfil →</a>
+        </div>
+      </div>
+
       <p style="text-align:center;margin-top:24px;font-size:12px;color:rgba(168,166,158,0.5);">
         ${t.footer} · <a href="https://flexori.work" style="color:rgba(168,166,158,0.5);">flexori.work</a><br>
         <a href="{{{RESEND_UNSUBSCRIBE_URL}}}" style="color:rgba(168,166,158,0.4);">${t.unsub}</a>
