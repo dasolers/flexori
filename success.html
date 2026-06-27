@@ -25,29 +25,76 @@ p{font-size:15px;color:#A8A69E;line-height:1.7;margin-bottom:28px}
 .btn-sec:hover{background:rgba(29,158,117,0.1)}
 .plan-tag{font-size:12px;color:#888780;margin-top:20px}
 </style>
+<script>
+(function(){
+  var lang = (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('flexori_lang') || (navigator.language||'es').slice(0,2);
+  if(!['es','en','fr','pt'].includes(lang)) lang='es';
+  localStorage.setItem('flexori_lang', lang);
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('[data-en]').forEach(function(el){
+      var t = el.getAttribute('data-'+lang);
+      if(t) el.innerHTML = t;
+    });
+  });
+})();
+</script>
 </head>
 <body>
 <div class="card">
-  <div class="badge">✅ Pago confirmado</div>
-  <h1>¡Bienvenido a <span class="g">Flexori Pro</span>!</h1>
-  <p>Tu suscripción está activa. Ahora tienes acceso completo a todas las herramientas para acelerar tu carrera remota.</p>
+  <div class="badge"
+       data-en="Payment confirmed" data-fr="Paiement confirmé" data-pt="Pagamento confirmado">Pago confirmado</div>
+  <h1 data-en="Welcome to <span class='g'>Flexori Pro</span>!"
+      data-fr="Bienvenue sur <span class='g'>Flexori Pro</span>&nbsp;!"
+      data-pt="Bem-vindo ao <span class='g'>Flexori Pro</span>!">¡Bienvenido a <span class="g">Flexori Pro</span>!</h1>
+  <p data-en="Your subscription is active. You now have full access to all tools to accelerate your remote career."
+     data-fr="Votre abonnement est actif. Vous avez maintenant accès complet à tous les outils pour accélérer votre carrière à distance."
+     data-pt="Sua assinatura está ativa. Agora você tem acesso completo a todas as ferramentas para acelerar sua carreira remota.">Tu suscripción está activa. Ahora tienes acceso completo a todas las herramientas para acelerar tu carrera remota.</p>
 
   <div class="features">
-    <div class="feature"><div class="feature-icon">⚡</div> Score de Empleabilidad completo — las 8 dimensiones desbloqueadas</div>
-    <div class="feature"><div class="feature-icon">📄</div> CV Optimizer con IA — análisis ilimitado y reescritura profesional</div>
-    <div class="feature"><div class="feature-icon">🗺️</div> Plan de carrera de 30 días personalizado</div>
-    <div class="feature"><div class="feature-icon">🌍</div> Acceso prioritario a empleos remotos globales</div>
-    <div class="feature"><div class="feature-icon">🎓</div> Centro de Carrera Remota — todas las semanas desbloqueadas</div>
+    <div class="feature">
+      <div class="feature-icon">⚡</div>
+      <span data-en="Full Employability Score — all 8 dimensions unlocked"
+            data-fr="Score d'Employabilité complet — les 8 dimensions débloquées"
+            data-pt="Score de Empregabilidade completo — todas as 8 dimensões desbloqueadas">Score de Empleabilidad completo — las 8 dimensiones desbloqueadas</span>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📄</div>
+      <span data-en="AI CV Optimizer — unlimited analysis and professional rewrite"
+            data-fr="Optimiseur de CV IA — analyse illimitée et réécriture professionnelle"
+            data-pt="CV Optimizer com IA — análise ilimitada e reescrita profissional">CV Optimizer con IA — análisis ilimitado y reescritura profesional</span>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🗺️</div>
+      <span data-en="Personalized 30-day career plan"
+            data-fr="Plan de carrière personnalisé de 30 jours"
+            data-pt="Plano de carreira personalizado de 30 dias">Plan de carrera de 30 días personalizado</span>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🌍</div>
+      <span data-en="Priority access to global remote jobs"
+            data-fr="Accès prioritaire aux emplois à distance mondiaux"
+            data-pt="Acesso prioritário a empregos remotos globais">Acceso prioritario a empleos remotos globales</span>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🎓</div>
+      <span data-en="Remote Career Center — all weeks unlocked"
+            data-fr="Centre de Carrière à Distance — toutes les semaines débloquées"
+            data-pt="Centro de Carreira Remota — todas as semanas desbloqueadas">Centro de Carrera Remota — todas las semanas desbloqueadas</span>
+    </div>
   </div>
 
-  <a href="/dashboard.html" class="btn">Ir a mi Dashboard →</a>
-  <a href="/cv-optimizer.html" class="btn-sec">Optimizar mi CV ahora</a>
+  <a href="/dashboard.html" class="btn"
+     data-en="Go to my Dashboard →" data-fr="Aller à mon Tableau de bord →" data-pt="Ir para meu Painel →">Ir a mi Dashboard →</a>
+  <a href="/cv-optimizer.html" class="btn-sec"
+     data-en="Optimize my CV now" data-fr="Optimiser mon CV maintenant" data-pt="Otimizar meu CV agora">Optimizar mi CV ahora</a>
 
-  <p class="plan-tag">Tu plan se renueva automáticamente · Cancela cuando quieras</p>
+  <p class="plan-tag"
+     data-en="Your plan renews automatically · Cancel anytime"
+     data-fr="Votre abonnement se renouvelle automatiquement · Annulez à tout moment"
+     data-pt="Seu plano renova automaticamente · Cancele quando quiser">Tu plan se renueva automáticamente · Cancela cuando quieras</p>
 </div>
 
 <script>
-  // Redirigir automáticamente al dashboard después de 8 segundos
   setTimeout(function() {
     window.location.href = '/dashboard.html';
   }, 8000);
