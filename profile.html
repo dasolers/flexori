@@ -439,7 +439,29 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
       </div>
     </div>
 
-    <div class="form-nav" style="margin-top:8px">
+    <!-- TOGGLE PÚBLICO/PRIVADO -->
+    <div style="background:rgba(29,158,117,0.06);border:1px solid rgba(29,158,117,0.2);border-radius:14px;padding:16px 20px;margin-top:20px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:4px">🌐 Visibilidad del perfil</div>
+          <div style="font-size:12px;color:var(--muted)" id="visibility-desc">Perfil privado — solo tú puedes verlo</div>
+        </div>
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+          <span style="font-size:13px;color:var(--muted)" id="visibility-label-off">Privado</span>
+          <div style="position:relative;width:44px;height:24px" onclick="togglePublic()">
+            <input type="checkbox" id="f-is-public" style="opacity:0;position:absolute;width:100%;height:100%;cursor:pointer;margin:0">
+            <div id="toggle-track" style="position:absolute;inset:0;background:rgba(255,255,255,0.1);border-radius:100px;transition:background .2s"></div>
+            <div id="toggle-thumb" style="position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,0.3)"></div>
+          </div>
+          <span style="font-size:13px;color:var(--green);font-weight:600" id="visibility-label-on" style="display:none">Público</span>
+        </label>
+      </div>
+      <div style="margin-top:10px;padding:10px 12px;background:rgba(29,158,117,0.08);border-radius:8px;font-size:12px;color:var(--muted)">
+        💡 <strong style="color:#fff">Recomendamos mantener tu perfil público.</strong> Los recruiters y empresas en Flexori pueden encontrarte directamente y contactarte para oportunidades remotas.
+      </div>
+    </div>
+
+    <div class="form-nav" style="margin-top:16px">
       <button onclick="goToStep(3)" class="btn-sm btn-outline">← Anterior</button>
       <button onclick="saveStep(4)" class="btn-sm btn-solid" style="padding:10px 28px;font-size:14px;background:var(--blue);color:#fff" id="btn-finish">🚀 Finalizar perfil</button>
     </div>
@@ -456,6 +478,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
       <div style="font-size:13px;color:var(--muted)" id="public-view-sub">Perfil verificado por Flexori</div>
     </div>
     <div class="share-bar">
+      <span id="public-badge" style="display:none;background:rgba(29,158,117,0.12);border:1px solid rgba(29,158,117,0.3);color:var(--green);border-radius:100px;padding:5px 12px;font-size:11px;font-weight:700">🌐 Perfil Público</span>
       <button onclick="copyPublicLink()" class="btn-sm btn-outline">🔗 Compartir perfil</button>
       <button onclick="switchToEdit()" class="btn-sm btn-solid" id="edit-btn-public" style="display:none">✏️ Editar</button>
     </div>
@@ -657,6 +680,34 @@ function populateForm(p) {
     document.getElementById('upload-success').classList.add('show');
     document.getElementById('upload-filename').textContent = 'CV guardado ✓';
   }
+
+  // Visibilidad pública
+  if (p.is_public) {
+    var cb = document.getElementById('f-is-public');
+    if (cb) { cb.checked = true; updateToggleUI(true); }
+  }
+}
+
+function togglePublic() {
+  var cb = document.getElementById('f-is-public');
+  if (!cb) return;
+  updateToggleUI(cb.checked);
+}
+
+function updateToggleUI(isOn) {
+  var track = document.getElementById('toggle-track');
+  var thumb = document.getElementById('toggle-thumb');
+  var desc = document.getElementById('visibility-desc');
+  var labelOff = document.getElementById('visibility-label-off');
+  var labelOn = document.getElementById('visibility-label-on');
+  var pubBadge = document.getElementById('public-badge');
+  if (track) track.style.background = isOn ? 'var(--green)' : 'rgba(255,255,255,0.1)';
+  if (thumb) thumb.style.left = isOn ? '23px' : '3px';
+  if (desc) desc.textContent = isOn ? '¡Tu perfil es visible para recruiters y empresas en Flexori!' : 'Perfil privado — solo tú puedes verlo';
+  if (desc) desc.style.color = isOn ? 'var(--green)' : 'var(--muted)';
+  if (labelOff) labelOff.style.opacity = isOn ? '0.4' : '1';
+  if (labelOn) labelOn.style.display = isOn ? 'inline' : 'none';
+  if (pubBadge) pubBadge.style.display = isOn ? 'inline-flex' : 'none';
 }
 
 
@@ -847,8 +898,9 @@ async function saveStep(step) {
   } else if (step === 4) {
     const availability = document.getElementById('f-availability').value;
     const jobType = document.getElementById('f-jobtype').value;
+    const isPublic = document.getElementById('f-is-public') ? document.getElementById('f-is-public').checked : false;
     if (!availability) { showMsg(4,'Selecciona tu disponibilidad','err'); return; }
-    data = { availability, job_type: jobType };
+    data = { availability, job_type: jobType, is_public: isPublic };
 
     // Upload CV if pending
     if (pendingCVFile) {
@@ -998,6 +1050,10 @@ function renderPublicView(p, userId, scoreOverride) {
   const name = p.full_name || '—';
   document.getElementById('pub-name').textContent = name;
   
+  // Badge público
+  var pubBadge = document.getElementById('public-badge');
+  if (pubBadge) pubBadge.style.display = (p.is_public || isPublicView) ? 'inline-flex' : 'none';
+
   // Mostrar CTA si el visitante no está logueado
   const visitorCTA = document.getElementById('pub-visitor-cta');
   if (visitorCTA && !localStorage.getItem('sb_access_token')) {
