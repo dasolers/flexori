@@ -598,6 +598,19 @@ async function loadDashboard(email, token) {
   var name = email.split('@')[0];
   document.getElementById('user-name').textContent = name;
   document.getElementById('nav-email').textContent = email;
+  
+  // Intentar cargar el nombre real del perfil
+  try {
+    var nameRes = await fetch(SUPABASE_URL + '/rest/v1/waitlist?email=eq.' + encodeURIComponent(email) + '&select=full_name', {
+      headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + token }
+    });
+    var nameData = await nameRes.json();
+    if (nameData && nameData.length > 0 && nameData[0].full_name) {
+      var firstName = nameData[0].full_name.split(' ')[0];
+      document.getElementById('user-name').textContent = firstName;
+      document.getElementById('nav-email').textContent = nameData[0].full_name;
+    }
+  } catch(e) {}
     loadLinkedin(email, token);
     // Load ambassador stats
     try {
