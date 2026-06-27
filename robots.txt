@@ -4,6 +4,21 @@ Allow: /
 # Sitemaps
 Sitemap: https://flexori.work/sitemap.xml
 
-# Disallow admin/function paths
+# Disallow private/admin paths
 Disallow: /.netlify/
 Disallow: /api/
+Disallow: /admin.html
+Disallow: /access.html
+Disallow: /dashboard.html
+Disallow: /profile.html
+
+# Allow important pages
+Allow: /index.html
+Allow: /jobs.html
+Allow: /register.html
+Allow: /cv-optimizer.html
+Allow: /learn.html
+Allow: /ambassadors.html
+Allow: /post-job.html
+Allow: /terms.html
+Allow: /privacy.html
