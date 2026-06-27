@@ -392,6 +392,17 @@ footer{border-top:1px solid rgba(255,255,255,0.07);padding:32px 48px;
         <option value="pt" id="lang-pt">🇧🇷 Português</option>
       </select>
 
+      <!-- SALARIO MÍNIMO -->
+      <select id="f-salary-min" class="f-select" onchange="filterJobs()">
+        <option value="" id="sal-all">Any Salary</option>
+        <option value="500">00+/mes</option>
+        <option value="1000">,000+/mes</option>
+        <option value="1500">,500+/mes</option>
+        <option value="2000">,000+/mes</option>
+        <option value="3000">,000+/mes</option>
+        <option value="5000">,000+/mes</option>
+      </select>
+
       <button class="f-clear" onclick="clearFilters()" id="clear-btn-txt">✕ Clear</button>
     </div>
   </div>
@@ -966,9 +977,22 @@ function filterJobs(){
   const tp=document.getElementById('f-type').value;
   const r=document.getElementById('f-reg').value;
   const lg=document.getElementById('f-lang').value;
+  const salMin = parseInt(document.getElementById('f-salary-min').value) || 0;
   filteredJobs=allJobs.filter(j=>{
     const txt=(j.title+' '+j.company+' '+(j.tags||[]).join(' ')).toLowerCase();
-    return (!s||txt.includes(s))&&matchCat(j,c)&&matchType(j,tp)&&matchReg(j,r)&&matchLang(j,lg);
+    // Filtro de salario minimo
+    let salOk = true;
+    if (salMin > 0 && j.salary) {
+      const nums = j.salary.replace(/[^0-9]/g,' ').trim().split(/\s+/).map(Number).filter(n=>n>0);
+      if (nums.length > 0) {
+        salOk = Math.max(...nums) >= salMin;
+      } else {
+        salOk = false;
+      }
+    } else if (salMin > 0 && !j.salary) {
+      salOk = false;
+    }
+    return (!s||txt.includes(s))&&matchCat(j,c)&&matchType(j,tp)&&matchReg(j,r)&&matchLang(j,lg)&&salOk;
   });
   displayedCount=0;
   render(true);
@@ -1014,7 +1038,7 @@ function render(reset){
         <span class="tag tag-b">${(String(j.type||'Full-time')).replace(/_/g,' ')}</span>
         ${tags.map(tg=>`<span class="tag tag-gray">${tg}</span>`).join('')}
       </div>
-      <div class="card-footer"><span class="card-date">${ago(j.date)}</span><span class="card-cta">Ver →</span></div>`;
+      <div class="card-footer"><span class="card-date">${ago(j.date)}</span><span class="card-cta" style="background:var(--green);color:#0D1321;border-radius:100px;padding:4px 12px;font-weight:700">Aplicar →</span></div>`;
     grid.appendChild(el);
   });
   lb.style.display=displayedCount<filteredJobs.length?'inline-block':'none';
