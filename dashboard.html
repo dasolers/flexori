@@ -879,7 +879,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var savedScoreRaw = localStorage.getItem('flexori_score');
     if (savedScoreRaw) {
       var scoreData = JSON.parse(savedScoreRaw);
-      var score = parseInt(scoreData.score || scoreData);
+      var score = typeof scoreData === "object" && scoreData !== null ? parseInt(scoreData.score != null ? scoreData.score : scoreData.total_score) : parseInt(scoreData);
       if (score && !isNaN(score)) {
         var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
         var statEl = document.getElementById('stat-score');
@@ -1000,7 +1000,7 @@ function renderScoreTracker(historyRows, isPro) {
   if (!isPro && historyRows.length >= 1) {
     // Free: solo ve el último resultado + teaser bloqueado
     var latest = historyRows[0];
-    var score = parseInt(latest.score || latest.total_score);
+    var score = parseInt(latest.score != null ? latest.score : latest.total_score);
     var dateStr = latest.created_at ? new Date(latest.created_at).toLocaleDateString('es-ES', {day:'numeric',month:'short',year:'numeric'}) : '';
     var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
     el.innerHTML = '<div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">'
@@ -1020,12 +1020,12 @@ function renderScoreTracker(historyRows, isPro) {
   var maxBars = Math.min(historyRows.length, 6);
   for (var i = 0; i < maxBars; i++) {
     var row = historyRows[i];
-    var s = parseInt(row.score || row.total_score);
+    var s = parseInt(row.score != null ? row.score : row.total_score);
     var d = row.created_at ? new Date(row.created_at).toLocaleDateString('es-ES', {day:'numeric',month:'short'}) : 'N/A';
     var c = s >= 80 ? '#1D9E75' : s >= 60 ? '#24C48F' : s >= 40 ? '#F59E0B' : '#EF4444';
     var delta = '';
     if (i < historyRows.length - 1) {
-      var prev = parseInt(historyRows[i+1].score || historyRows[i+1].total_score);
+      var prev = parseInt(historyRows[i+1].score != null ? historyRows[i+1].score : historyRows[i+1].total_score);
       var diff = s - prev;
       if (diff > 0) delta = '<span style="font-size:11px;color:#1D9E75;margin-left:6px">+'+diff+'</span>';
       else if (diff < 0) delta = '<span style="font-size:11px;color:#EF4444;margin-left:6px">'+diff+'</span>';
@@ -1038,8 +1038,8 @@ function renderScoreTracker(historyRows, isPro) {
   }
   html += '</div>';
   if (historyRows.length > 1) {
-    var first = parseInt(historyRows[historyRows.length-1].score || historyRows[historyRows.length-1].total_score);
-    var last = parseInt(historyRows[0].score || historyRows[0].total_score);
+    var first = parseInt(historyRows[historyRows.length-1].score != null ? historyRows[historyRows.length-1].score : historyRows[historyRows.length-1].total_score);
+    var last = parseInt(historyRows[0].score != null ? historyRows[0].score : historyRows[0].total_score);
     var totalDiff = last - first;
     var diffColor = totalDiff >= 0 ? '#1D9E75' : '#EF4444';
     var diffSign = totalDiff >= 0 ? '+' : '';
