@@ -476,6 +476,14 @@ footer{border-top:1px solid var(--border);padding:32px 48px;display:flex;
 </div>
 
 <script>
+// ── AUTH CHECK ──
+(function() {
+  var token = localStorage.getItem('sb_access_token');
+  if (!token) {
+    window.location.href = '/register.html?next=cv-optimizer';
+  }
+})();
+
 // ── ESTADO ──
 let selectedFile = null;
 let analysisLang = 'es';
