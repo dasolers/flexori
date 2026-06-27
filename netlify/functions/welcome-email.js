@@ -131,7 +131,8 @@ exports.handler = async function(event, context) {
               Recibiste este email porque te registraste en <a href="https://flexori.work" style="color:#1D9E75;text-decoration:none;">flexori.work</a>
             </p>
             <p style="margin:0;font-size:12px;color:#555;text-align:center;">
-              Flexori · Remote Careers Platform · Round Rock, TX
+              Flexori · Remote Careers Platform · Round Rock, TX<br>
+              <a href="https://flexori.work/terms.html" style="color:#555;text-decoration:none;">Términos</a> · <a href="https://flexori.work/privacy.html" style="color:#555;text-decoration:none;">Privacidad</a>
             </p>
           </td>
         </tr>
