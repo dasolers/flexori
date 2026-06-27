@@ -237,6 +237,13 @@ footer a{color:var(--green);text-decoration:none}
 </footer>
 
 <script>
+// Auth check
+(function(){
+  var token = null;
+  try { token = localStorage.getItem('sb_access_token'); } catch(e){}
+  if (!token) { window.location.href = '/register.html?next=ambassadors'; }
+})();
+
 const SUPABASE_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
 const SUPABASE_ANON = ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
   'eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0',
