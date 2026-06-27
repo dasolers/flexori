@@ -2,6 +2,15 @@
 <html lang="es">
 <head>
 <script>
+// Auth check
+(function(){
+  var token = null;
+  try { token = localStorage.getItem('sb_access_token'); } catch(e){}
+  if (!token) { window.location.href = '/register.html?next=learn'; }
+})();
+</script>
+
+<script>
 (function(){
   var l = null;
   try { var p=new URLSearchParams(window.location.search); l=p.get('lang'); } catch(e){}
