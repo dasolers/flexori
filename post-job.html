@@ -101,6 +101,7 @@ footer a{color:var(--green);text-decoration:none}
       var t = el.getAttribute('data-'+lang);
       if(t) el.innerHTML = t;
     });
+    var wl = document.getElementById('word-label'); if(wl){ wl.textContent = {es:'palabras',en:'words',fr:'mots',pt:'palavras'}[lang]||'palabras'; }
     document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
       var t = el.getAttribute('data-'+lang+'-placeholder');
       if(t) el.placeholder = t;
@@ -173,9 +174,9 @@ function translateSelects(lang){
 
 <!-- STATS -->
 <div class="stats">
-  <div class="stat"><div class="stat-n">337+</div><div class="stat-l" data-en="Active users" data-fr="Utilisateurs actifs" data-pt="Usuários ativos">Usuarios activos</div></div>
+  <div class="stat"><div class="stat-n">584+</div><div class="stat-l" data-en="Active users" data-fr="Utilisateurs actifs" data-pt="Usuários ativos">Usuarios activos</div></div>
   <div class="stat"><div class="stat-n">10</div><div class="stat-l" data-en="LATAM Countries" data-fr="Pays d'Amérique latine" data-pt="Países LATAM">Países LATAM</div></div>
-  <div class="stat"><div class="stat-n">32+</div><div class="stat-l" data-en="Scores completed" data-fr="Scores complétés" data-pt="Scores concluídos">Scores completados</div></div>
+  <div class="stat"><div class="stat-n">48+</div><div class="stat-l" data-en="Scores completed" data-fr="Scores complétés" data-pt="Scores concluídos">Scores completados</div></div>
   <div class="stat"><div class="stat-n">100%</div><div class="stat-l" data-en="Verified remote" data-fr="Télétravail vérifié" data-pt="Remoto verificado">Remoto verificado</div></div>
 </div>
 
@@ -339,7 +340,7 @@ function translateSelects(lang){
         <div class="field" style="margin-top:4px">
           <label data-en="Minimum job description" data-fr="Description minimale du poste" data-pt="Descrição mínima do cargo"> <span style="color:var(--muted);font-weight:400;text-transform:none"
                data-en="(minimum 80 words)" data-fr="(minimum 80 mots)" data-pt="(mínimo 80 palavras)">(mínimo 80 palabras)</span></label>
-          <div id="j-desc-counter" style="font-size:11px;color:var(--muted);margin-top:4px;text-align:right">0 palabras</div>
+          <div id="j-desc-counter" style="font-size:11px;color:var(--muted);margin-top:4px;text-align:right">0 <span id="word-label">palabras</span></div>
         </div>
 
         <div id="form-error" style="display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:12px 16px;font-size:13px;color:#FCA5A5;margin-bottom:16px"></div>
