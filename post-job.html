@@ -95,13 +95,56 @@ footer a{color:var(--green);text-decoration:none}
   var lang = (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('flexori_lang') || (navigator.language||'es').slice(0,2);
   if(!['es','en','fr','pt'].includes(lang)) lang='es';
   localStorage.setItem('flexori_lang', lang);
+  window._lang = lang;
   document.addEventListener('DOMContentLoaded', function(){
     document.querySelectorAll('[data-en]').forEach(function(el){
       var t = el.getAttribute('data-'+lang);
       if(t) el.textContent = t;
     });
+    document.querySelectorAll('[data-en-placeholder]').forEach(function(el){
+      var t = el.getAttribute('data-'+lang+'-placeholder');
+      if(t) el.placeholder = t;
+    });
+    document.querySelectorAll('[data-en-html]').forEach(function(el){
+      var t = el.getAttribute('data-'+lang+'-html');
+      if(t) el.innerHTML = t;
+    });
+    // Traducir opciones de select dinámicamente
+    translateSelects(lang);
   });
 })();
+
+function translateSelects(lang){
+  var translations = {
+    'j-type': {
+      es: ['Selecciona...','Full-time','Part-time','Contrato','Freelance'],
+      en: ['Select...','Full-time','Part-time','Contract','Freelance'],
+      fr: ['Sélectionner...','Temps plein','Temps partiel','Contrat','Freelance'],
+      pt: ['Selecionar...','Tempo integral','Meio período','Contrato','Freelance']
+    },
+    'j-category': {
+      es: ['Selecciona...','Desarrollo de Software','Diseño','Marketing','Ventas','Soporte al Cliente','Datos / IA','Finanzas','Producto','Redacción','DevOps','Otro'],
+      en: ['Select...','Software Development','Design','Marketing','Sales','Customer Support','Data / AI','Finance','Product','Writing','DevOps','Other'],
+      fr: ['Sélectionner...','Développement logiciel','Design','Marketing','Ventes','Support client','Données / IA','Finance','Produit','Rédaction','DevOps','Autre'],
+      pt: ['Selecionar...','Desenvolvimento de Software','Design','Marketing','Vendas','Suporte ao Cliente','Dados / IA','Finanças','Produto','Redação','DevOps','Outro']
+    },
+    'j-timezone': {
+      es: ['Cualquier zona horaria','Américas (UTC-8 a UTC-3)','Europa (UTC+0 a UTC+3)','Asia/Pacífico','LATAM específico'],
+      en: ['Any timezone','Americas (UTC-8 to UTC-3)','Europe (UTC+0 to UTC+3)','Asia/Pacific','LATAM specific'],
+      fr: ['Tout fuseau horaire','Amériques (UTC-8 à UTC-3)','Europe (UTC+0 à UTC+3)','Asie/Pacifique','LATAM spécifique'],
+      pt: ['Qualquer fuso horário','Américas (UTC-8 a UTC-3)','Europa (UTC+0 a UTC+3)','Ásia/Pacífico','LATAM específico']
+    }
+  };
+  Object.keys(translations).forEach(function(id){
+    var sel = document.getElementById(id);
+    if(!sel) return;
+    var opts = sel.options;
+    var texts = translations[id][lang] || translations[id]['es'];
+    for(var i=0;i<opts.length&&i<texts.length;i++){
+      opts[i].textContent = texts[i];
+    }
+  });
+}
 </script>
 </head>
 <body>
@@ -111,49 +154,61 @@ footer a{color:var(--green);text-decoration:none}
     <div class="nav-logo-icon">F</div>
     <span class="nav-logo-text">Flexori</span>
   </a>
-  <a href="/jobs.html" class="btn-solid" style="font-size:13px;padding:8px 18px">Ver empleos</a>
+  <a href="/jobs.html" class="btn-solid" style="font-size:13px;padding:8px 18px"
+     data-en="Browse jobs" data-fr="Voir les offres" data-pt="Ver vagas">Ver empleos</a>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="badge">💼 Para Empresas</div>
-  <h1>Contrata talento remoto<br><span style="color:var(--green)">verificado de LATAM</span></h1>
-  <p class="hero-sub">Publica tu vacante y llega a miles de profesionales con Score de Empleabilidad verificado. Candidatos que ya demostraron estar listos para el trabajo remoto.</p>
+  <div class="badge"
+       data-en="For Companies" data-fr="Pour les Entreprises" data-pt="Para Empresas">Para Empresas</div>
+  <h1 data-en="Hire verified remote talent<br><span style='color:var(--green)'>from LATAM</span>"
+      data-fr="Recrutez des talents distants<br><span style='color:var(--green)'>vérifiés d'Amérique latine</span>"
+      data-pt="Contrate talentos remotos<br><span style='color:var(--green)'>verificados da LATAM</span>">Contrata talento remoto<br><span style="color:var(--green)">verificado de LATAM</span></h1>
+  <p class="hero-sub"
+     data-en="Post your job and reach thousands of professionals with a verified Employability Score. Candidates who already proved they're ready for remote work."
+     data-fr="Publiez votre offre et atteignez des milliers de professionnels avec un Score d'Employabilité vérifié. Des candidats qui ont déjà prouvé qu'ils sont prêts pour le travail à distance."
+     data-pt="Publique sua vaga e alcance milhares de profissionais com Score de Empregabilidade verificado. Candidatos que já demonstraram estar prontos para o trabalho remoto.">Publica tu vacante y llega a miles de profesionales con Score de Empleabilidad verificado. Candidatos que ya demostraron estar listos para el trabajo remoto.</p>
 </div>
 
 <!-- STATS -->
 <div class="stats">
-  <div class="stat"><div class="stat-n">337+</div><div class="stat-l">Usuarios activos</div></div>
-  <div class="stat"><div class="stat-n">10</div><div class="stat-l">Países LATAM</div></div>
-  <div class="stat"><div class="stat-n">32+</div><div class="stat-l">Scores completados</div></div>
-  <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Remoto verificado</div></div>
+  <div class="stat"><div class="stat-n">337+</div><div class="stat-l" data-en="Active users" data-fr="Utilisateurs actifs" data-pt="Usuários ativos">Usuarios activos</div></div>
+  <div class="stat"><div class="stat-n">10</div><div class="stat-l" data-en="LATAM Countries" data-fr="Pays d'Amérique latine" data-pt="Países LATAM">Países LATAM</div></div>
+  <div class="stat"><div class="stat-n">32+</div><div class="stat-l" data-en="Scores completed" data-fr="Scores complétés" data-pt="Scores concluídos">Scores completados</div></div>
+  <div class="stat"><div class="stat-n">100%</div><div class="stat-l" data-en="Verified remote" data-fr="Télétravail vérifié" data-pt="Remoto verificado">Remoto verificado</div></div>
 </div>
 
 <!-- PRICING -->
 <div class="pricing-banner">
   <div class="price-card">
-    <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Básico</div>
-    <div class="price-tag" data-en="Free" data-fr="Gratuit" data-pt="Gratis">Gratis</div>
-    <div class="price-period">por ahora · precio introductorio</div>
+    <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px"
+         data-en="Basic" data-fr="Basique" data-pt="Básico">Básico</div>
+    <div class="price-tag" data-en="Free" data-fr="Gratuit" data-pt="Grátis">Gratis</div>
+    <div class="price-period"
+         data-en="for now · intro price" data-fr="pour l'instant · prix intro" data-pt="por enquanto · preço intro">por ahora · precio introductorio</div>
     <div class="price-features">
-      <div><span style="color:var(--green)">✓</span> 1 vacante publicada</div>
-      <div><span style="color:var(--green)">✓</span> Visible 30 días</div>
-      <div><span style="color:var(--green)">✓</span> Alcance LATAM</div>
-      <div><span style="color:var(--muted)">—</span> <span style="color:var(--muted)">Filtro por Score</span></div>
+      <div><span style="color:var(--green)">✓</span> <span data-en="1 job posted" data-fr="1 offre publiée" data-pt="1 vaga publicada">1 vacante publicada</span></div>
+      <div><span style="color:var(--green)">✓</span> <span data-en="Visible 30 days" data-fr="Visible 30 jours" data-pt="Visível 30 dias">Visible 30 días</span></div>
+      <div><span style="color:var(--green)">✓</span> <span data-en="LATAM reach" data-fr="Portée LATAM" data-pt="Alcance LATAM">Alcance LATAM</span></div>
+      <div><span style="color:var(--muted)">—</span> <span style="color:var(--muted)" data-en="Score filter" data-fr="Filtre par Score" data-pt="Filtro por Score">Filtro por Score</span></div>
     </div>
-    <a href="#publicar" class="btn-solid" style="width:100%;text-align:center;display:block">Publicar gratis →</a>
+    <a href="#publicar" class="btn-solid" style="width:100%;text-align:center;display:block"
+       data-en="Post for free →" data-fr="Publier gratuitement →" data-pt="Publicar grátis →">Publicar gratis →</a>
   </div>
   <div class="price-card featured">
-    <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px" data-en="Premium" data-fr="Premium" data-pt="Premium">Premium</div>
+    <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px">Premium</div>
     <div class="price-tag" style="color:var(--green)">$99<span style="font-size:16px;font-weight:400;color:var(--muted)">/mes</span></div>
-    <div class="price-period">próximamente</div>
+    <div class="price-period"
+         data-en="coming soon" data-fr="bientôt disponible" data-pt="em breve">próximamente</div>
     <div class="price-features">
-      <div><span style="color:var(--green)">✓</span> Vacantes ilimitadas</div>
-      <div><span style="color:var(--green)">✓</span> Filtro por Score mínimo</div>
-      <div><span style="color:var(--green)">✓</span> Destacado en el feed</div>
-      <div><span style="color:var(--green)">✓</span> Analytics de candidatos</div>
+      <div><span style="color:var(--green)">✓</span> <span data-en="Unlimited jobs" data-fr="Offres illimitées" data-pt="Vagas ilimitadas">Vacantes ilimitadas</span></div>
+      <div><span style="color:var(--green)">✓</span> <span data-en="Minimum Score filter" data-fr="Filtre Score minimum" data-pt="Filtro Score mínimo">Filtro por Score mínimo</span></div>
+      <div><span style="color:var(--green)">✓</span> <span data-en="Featured in feed" data-fr="Mis en avant dans le fil" data-pt="Destaque no feed">Destacado en el feed</span></div>
+      <div><span style="color:var(--green)">✓</span> <span data-en="Candidate analytics" data-fr="Analytique des candidats" data-pt="Analytics de candidatos">Analytics de candidatos</span></div>
     </div>
-    <button disabled style="width:100%;text-align:center;display:block;background:rgba(29,158,117,0.1);color:var(--green);border:1px solid var(--border-green);border-radius:100px;padding:12px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:default">Próximamente</button>
+    <button disabled style="width:100%;text-align:center;display:block;background:rgba(29,158,117,0.1);color:var(--green);border:1px solid var(--border-green);border-radius:100px;padding:12px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:default"
+            data-en="Coming soon" data-fr="Bientôt disponible" data-pt="Em breve">Próximamente</button>
   </div>
 </div>
 
@@ -162,38 +217,46 @@ footer a{color:var(--green);text-decoration:none}
   <div class="form-card">
     <div class="form-header">
       <h2 data-en="Post your job" data-fr="Publiez votre offre" data-pt="Publique sua vaga">Publica tu vacante</h2>
-      <p>Completar toma menos de 3 minutos. Tu vacante será revisada y publicada en menos de 24 horas.</p>
+      <p data-en="Takes less than 3 minutes. Your job will be reviewed and published within 24 hours."
+         data-fr="Prend moins de 3 minutes. Votre offre sera examinée et publiée dans les 24 heures."
+         data-pt="Leva menos de 3 minutos. Sua vaga será revisada e publicada em menos de 24 horas.">Completar toma menos de 3 minutos. Tu vacante será revisada y publicada en menos de 24 horas.</p>
     </div>
     <div class="form-body">
       <div id="form-error"></div>
       <div id="job-form">
 
-        <div class="section-title" data-en="About the company" data-fr="Sur l entreprise" data-pt="Sobre a empresa">Sobre la empresa</div>
+        <div class="section-title"
+             data-en="About the company" data-fr="Sur l'entreprise" data-pt="Sobre a empresa">Sobre la empresa</div>
         <div class="field-row">
           <div class="field">
-            <label>Nombre de la empresa <span class="required">*</span></label>
-            <input type="text" id="j-company" placeholder="Ej: Acme Corp" />
+            <label data-en="Company name *" data-fr="Nom de l'entreprise *" data-pt="Nome da empresa *">Nombre de la empresa <span class="required">*</span></label>
+            <input type="text" id="j-company" placeholder="Ej: Acme Corp"
+                   data-en-placeholder data-en-placeholder="e.g. Acme Corp" data-fr-placeholder="Ex: Acme Corp" data-pt-placeholder="Ex: Acme Corp" />
           </div>
           <div class="field">
-            <label>Tu email de contacto <span class="required">*</span></label>
-            <input type="email" id="j-email" placeholder="rrhh@empresa.com" />
+            <label data-en="Your contact email *" data-fr="Votre email de contact *" data-pt="Seu email de contato *">Tu email de contacto <span class="required">*</span></label>
+            <input type="email" id="j-email" placeholder="rrhh@empresa.com"
+                   data-en-placeholder data-en-placeholder="hr@company.com" data-fr-placeholder="rh@entreprise.com" data-pt-placeholder="rh@empresa.com" />
           </div>
         </div>
         <div class="field">
-          <label>Sitio web de la empresa</label>
-          <input type="url" id="j-website" placeholder="https://empresa.com" />
+          <label data-en="Company website" data-fr="Site web de l'entreprise" data-pt="Site da empresa">Sitio web de la empresa</label>
+          <input type="url" id="j-website" placeholder="https://empresa.com"
+                 data-en-placeholder data-en-placeholder="https://company.com" data-fr-placeholder="https://entreprise.com" data-pt-placeholder="https://empresa.com" />
         </div>
 
         <hr class="divider">
-        <div class="section-title">Sobre la vacante</div>
+        <div class="section-title"
+             data-en="About the job" data-fr="Sur le poste" data-pt="Sobre a vaga">Sobre la vacante</div>
 
         <div class="field">
-          <label>Título del cargo <span class="required">*</span></label>
-          <input type="text" id="j-title" placeholder="Ej: Senior Frontend Developer" />
+          <label data-en="Job title *" data-fr="Titre du poste *" data-pt="Título do cargo *">Título del cargo <span class="required">*</span></label>
+          <input type="text" id="j-title" placeholder="Ej: Senior Frontend Developer"
+                 data-en-placeholder data-en-placeholder="e.g. Senior Frontend Developer" data-fr-placeholder="Ex: Développeur Frontend Senior" data-pt-placeholder="Ex: Desenvolvedor Frontend Sênior" />
         </div>
         <div class="field-row">
           <div class="field">
-            <label>Tipo de contrato <span class="required">*</span></label>
+            <label data-en="Contract type *" data-fr="Type de contrat *" data-pt="Tipo de contrato *">Tipo de contrato <span class="required">*</span></label>
             <select id="j-type">
               <option value="">Selecciona...</option>
               <option value="Full-time">Full-time</option>
@@ -203,7 +266,7 @@ footer a{color:var(--green);text-decoration:none}
             </select>
           </div>
           <div class="field">
-            <label>Categoría <span class="required">*</span></label>
+            <label data-en="Category *" data-fr="Catégorie *" data-pt="Categoria *">Categoría <span class="required">*</span></label>
             <select id="j-category">
               <option value="">Selecciona...</option>
               <option value="Software Development">Desarrollo de Software</option>
@@ -222,12 +285,16 @@ footer a{color:var(--green);text-decoration:none}
         </div>
         <div class="field-row">
           <div class="field">
-            <label>Salario o rango (USD)</label>
-            <input type="text" id="j-salary" placeholder="Ej: $3,000 - $5,000/mes" />
-            <div class="field-hint">Publicar el salario aumenta un 40% las aplicaciones</div>
+            <label data-en="Salary or range (USD)" data-fr="Salaire ou fourchette (USD)" data-pt="Salário ou faixa (USD)">Salario o rango (USD)</label>
+            <input type="text" id="j-salary" placeholder="Ej: $3,000 - $5,000/mes"
+                   data-en-placeholder data-en-placeholder="e.g. $3,000 - $5,000/mo" data-fr-placeholder="Ex: $3 000 - $5 000/mois" data-pt-placeholder="Ex: $3.000 - $5.000/mês" />
+            <div class="field-hint"
+                 data-en="Showing salary increases applications by 40%"
+                 data-fr="Afficher le salaire augmente les candidatures de 40%"
+                 data-pt="Mostrar o salário aumenta candidaturas em 40%">Publicar el salario aumenta un 40% las aplicaciones</div>
           </div>
           <div class="field">
-            <label>Zona horaria requerida</label>
+            <label data-en="Required timezone" data-fr="Fuseau horaire requis" data-pt="Fuso horário necessário">Zona horaria requerida</label>
             <select id="j-timezone">
               <option value="Anywhere">Cualquier zona horaria</option>
               <option value="Americas">Américas (UTC-8 a UTC-3)</option>
@@ -238,48 +305,72 @@ footer a{color:var(--green);text-decoration:none}
           </div>
         </div>
         <div class="field">
-          <label>Descripción del cargo <span class="required">*</span></label>
-          <textarea id="j-description" oninput="countWords(this)" placeholder="Describe las responsabilidades, requisitos y beneficios del cargo..."></textarea>
+          <label data-en="Job description *" data-fr="Description du poste *" data-pt="Descrição do cargo *">Descripción del cargo <span class="required">*</span></label>
+          <textarea id="j-description" oninput="countWords(this)" placeholder="Describe las responsabilidades, requisitos y beneficios del cargo..."
+                    data-en-placeholder data-en-placeholder="Describe responsibilities, requirements and benefits..."
+                    data-fr-placeholder="Décrivez les responsabilités, les exigences et les avantages..."
+                    data-pt-placeholder="Descreva as responsabilidades, requisitos e benefícios do cargo..."></textarea>
         </div>
         <div class="field">
-          <label>URL para aplicar <span class="required">*</span></label>
-          <input type="url" id="j-url" placeholder="https://empresa.com/apply o mailto:rrhh@empresa.com" />
-          <div class="field-hint">Link donde los candidatos aplicarán directamente</div>
+          <label data-en="Application URL *" data-fr="URL de candidature *" data-pt="URL para candidatura *">URL para aplicar <span class="required">*</span></label>
+          <input type="url" id="j-url" placeholder="https://empresa.com/apply o mailto:rrhh@empresa.com"
+                 data-en-placeholder data-en-placeholder="https://company.com/apply or mailto:hr@company.com"
+                 data-fr-placeholder="https://entreprise.com/apply ou mailto:rh@entreprise.com"
+                 data-pt-placeholder="https://empresa.com/apply ou mailto:rh@empresa.com" />
+          <div class="field-hint"
+               data-en="Link where candidates will apply directly"
+               data-fr="Lien où les candidats postuleront directement"
+               data-pt="Link onde os candidatos se candidatarão diretamente">Link donde los candidatos aplicarán directamente</div>
         </div>
 
         <div class="field" style="background:rgba(29,158,117,0.06);border:1px solid rgba(29,158,117,0.25);border-radius:12px;padding:16px">
           <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:14px;color:#fff;font-weight:600">
             <input type="checkbox" id="j-remote-confirm" style="width:18px;height:18px;flex-shrink:0;margin-top:2px;accent-color:var(--green)" />
-            <span>✅ Confirmo que esta vacante es <strong>100% remota</strong> — el candidato puede trabajar desde cualquier lugar de LATAM</span>
+            <span data-en="I confirm this job is 100% remote — the candidate can work from anywhere in LATAM"
+                  data-fr="Je confirme que ce poste est 100% à distance — le candidat peut travailler depuis n'importe où en Amérique latine"
+                  data-pt="Confirmo que esta vaga é 100% remota — o candidato pode trabalhar de qualquer lugar da LATAM">Confirmo que esta vacante es <strong>100% remota</strong> — el candidato puede trabajar desde cualquier lugar de LATAM</span>
           </label>
-          <div style="font-size:12px;color:var(--muted);margin-top:8px;margin-left:30px">Flexori es una plataforma exclusiva de trabajo remoto. Vacantes presenciales o híbridas no son elegibles.</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:8px;margin-left:30px"
+               data-en="Flexori is an exclusive remote work platform. In-person or hybrid jobs are not eligible."
+               data-fr="Flexori est une plateforme exclusive de travail à distance. Les postes en présentiel ou hybrides ne sont pas éligibles."
+               data-pt="Flexori é uma plataforma exclusiva de trabalho remoto. Vagas presenciais ou híbridas não são elegíveis.">Flexori es una plataforma exclusiva de trabajo remoto. Vacantes presenciales o híbridas no son elegibles.</div>
         </div>
 
         <div class="field" style="margin-top:4px">
-          <label>Descripción mínima del cargo <span style="color:var(--muted);font-weight:400;text-transform:none">(mínimo 80 palabras)</span></label>
+          <label data-en="Minimum job description" data-fr="Description minimale du poste" data-pt="Descrição mínima do cargo"> <span style="color:var(--muted);font-weight:400;text-transform:none"
+               data-en="(minimum 80 words)" data-fr="(minimum 80 mots)" data-pt="(mínimo 80 palavras)">(mínimo 80 palabras)</span></label>
           <div id="j-desc-counter" style="font-size:11px;color:var(--muted);margin-top:4px;text-align:right">0 palabras</div>
         </div>
 
         <div id="form-error" style="display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:12px 16px;font-size:13px;color:#FCA5A5;margin-bottom:16px"></div>
 
-        <button onclick="submitJob()" id="j-btn" class="btn-solid" style="width:100%;padding:14px;font-size:15px;margin-top:8px">
+        <button onclick="submitJob()" id="j-btn" class="btn-solid" style="width:100%;padding:14px;font-size:15px;margin-top:8px"
+                data-en="Post job for free →" data-fr="Publier l'offre gratuitement →" data-pt="Publicar vaga grátis →">
           Publicar vacante gratis →
         </button>
-        <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:12px">Tu vacante será revisada y publicada en menos de 24 horas.</p>
+        <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:12px"
+           data-en="Your job will be reviewed and published within 24 hours."
+           data-fr="Votre offre sera examinée et publiée dans les 24 heures."
+           data-pt="Sua vaga será revisada e publicada em menos de 24 horas.">Tu vacante será revisada y publicada en menos de 24 horas.</p>
       </div>
 
       <div id="form-success" style="display:none;text-align:center;padding:40px 0">
         <div style="font-size:56px;margin-bottom:20px">🎉</div>
-        <h3 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:10px">¡Vacante enviada!</h3>
-        <p style="font-size:14px;color:var(--muted);line-height:1.7">Tu vacante fue recibida y será revisada en menos de 24 horas.<br>Te notificaremos a <strong id="confirm-email"></strong> cuando esté publicada.</p>
-        <a href="/jobs.html" class="btn-solid" style="margin-top:24px;display:inline-block">Ver empleos publicados →</a>
+        <h3 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:10px"
+            data-en="Job submitted!" data-fr="Offre envoyée!" data-pt="Vaga enviada!">¡Vacante enviada!</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7"
+           data-en="Your job was received and will be reviewed within 24 hours.<br>We'll notify <strong id='confirm-email'></strong> when it's published."
+           data-fr="Votre offre a été reçue et sera examinée dans les 24 heures.<br>Nous vous notifierons à <strong id='confirm-email'></strong> lorsqu'elle sera publiée."
+           data-pt="Sua vaga foi recebida e será revisada em até 24 horas.<br>Notificaremos <strong id='confirm-email'></strong> quando estiver publicada.">Tu vacante fue recibida y será revisada en menos de 24 horas.<br>Te notificaremos a <strong id="confirm-email"></strong> cuando esté publicada.</p>
+        <a href="/jobs.html" class="btn-solid" style="margin-top:24px;display:inline-block"
+           data-en="Browse published jobs →" data-fr="Voir les offres publiées →" data-pt="Ver vagas publicadas →">Ver empleos publicados →</a>
       </div>
     </div>
   </div>
 </div>
 
 <footer>
-  © 2026 <a href="/">Flexori</a> · Tu GPS de carrera remota · <a href="/ambassadors.html">Programa de Embajadores</a>
+  © 2026 <a href="/">Flexori</a> · <span data-en="Your remote career GPS" data-fr="Votre GPS de carrière à distance" data-pt="Seu GPS de carreira remota">Tu GPS de carrera remota</span> · <a href="/ambassadors.html" data-en="Ambassador Program" data-fr="Programme d'Ambassadeurs" data-pt="Programa de Embaixadores">Programa de Embajadores</a>
 </footer>
 
 <script>
@@ -288,12 +379,16 @@ const SUPABASE_ANON = ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
   'eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0',
   'XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU'].join('.');
 
+var _lang = window._lang || localStorage.getItem('flexori_lang') || 'es';
+
 // Contador de palabras en descripción
 function countWords(el) {
-  var words = el.value.trim().split(/\s+/).filter(w => w.length > 0).length;
+  var words = el.value.trim().split(/\s+/).filter(function(w){ return w.length > 0; }).length;
   var counter = document.getElementById('j-desc-counter');
   if (counter) {
-    counter.textContent = words + ' palabras' + (words < 80 ? ' · mínimo 80' : ' ✓');
+    var wordLabel = {es:'palabras',en:'words',fr:'mots',pt:'palavras'}[_lang]||'palabras';
+    var minLabel = {es:'mínimo 80',en:'minimum 80',fr:'minimum 80',pt:'mínimo 80'}[_lang]||'mínimo 80';
+    counter.textContent = words + ' ' + wordLabel + (words < 80 ? ' · ' + minLabel : ' ✓');
     counter.style.color = words >= 80 ? 'var(--green)' : 'var(--muted)';
   }
 }
@@ -306,6 +401,18 @@ function isFreeEmail(email) {
   var domain = email.split('@')[1] ? email.split('@')[1].toLowerCase() : '';
   return freeProviders.indexOf(domain) !== -1;
 }
+
+var ERRORS = {
+  required: {es:'Por favor completa todos los campos obligatorios.',en:'Please fill in all required fields.',fr:'Veuillez remplir tous les champs obligatoires.',pt:'Por favor preencha todos os campos obrigatórios.'},
+  email: {es:'Ingresa un email válido.',en:'Enter a valid email.',fr:'Entrez un email valide.',pt:'Insira um email válido.'},
+  freeEmail: {es:'Se requiere email corporativo (ej: rrhh@tuempresa.com). No aceptamos Gmail, Hotmail u otros proveedores gratuitos.',en:'Corporate email required (e.g. hr@company.com). We do not accept Gmail, Hotmail or free email providers.',fr:'Email professionnel requis (ex: rh@entreprise.com). Nous n\'acceptons pas les emails gratuits.',pt:'Email corporativo necessário (ex: rh@empresa.com). Não aceitamos Gmail, Hotmail ou provedores gratuitos.'},
+  remote: {es:'Debes confirmar que la vacante es 100% remota.',en:'You must confirm this job is 100% remote.',fr:'Vous devez confirmer que ce poste est 100% à distance.',pt:'Você deve confirmar que a vaga é 100% remota.'},
+  words: {es:'La descripción es muy corta. Mínimo 80 palabras.',en:'Description is too short. Minimum 80 words.',fr:'La description est trop courte. Minimum 80 mots.',pt:'A descrição é muito curta. Mínimo 80 palavras.'},
+  send: {es:'Error al enviar. Intenta de nuevo.',en:'Error sending. Please try again.',fr:'Erreur lors de l\'envoi. Réessayez.',pt:'Erro ao enviar. Tente novamente.'},
+  conn: {es:'Error de conexión. Intenta de nuevo.',en:'Connection error. Please try again.',fr:'Erreur de connexion. Réessayez.',pt:'Erro de conexão. Tente novamente.'},
+  sending: {es:'Enviando...',en:'Sending...',fr:'Envoi en cours...',pt:'Enviando...'}
+};
+function t(key){ return (ERRORS[key]&&ERRORS[key][_lang]) || ERRORS[key]['es'] || ''; }
 
 async function submitJob() {
   var company = document.getElementById('j-company').value.trim();
@@ -322,47 +429,38 @@ async function submitJob() {
   var errEl = document.getElementById('form-error');
   var btn = document.getElementById('j-btn');
 
-  // Campos obligatorios
   if (!company || !email || !title || !type || !category || !description || !url) {
-    errEl.textContent = 'Por favor completa todos los campos obligatorios.';
+    errEl.textContent = t('required');
     errEl.style.display = 'block';
     errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
-
-  // Email válido
   if (!email.includes('@') || !email.includes('.')) {
-    errEl.textContent = 'Ingresa un email válido.';
+    errEl.textContent = t('email');
     errEl.style.display = 'block';
     return;
   }
-
-  // Email corporativo — no gmail/hotmail etc.
   if (isFreeEmail(email)) {
-    errEl.innerHTML = '📧 <strong>Se requiere email corporativo</strong> (ej: rrhh@tuempresa.com).<br><span style="font-size:13px;font-weight:400">No aceptamos Gmail, Hotmail u otros proveedores gratuitos para garantizar la autenticidad de las vacantes.</span>';
+    errEl.textContent = t('freeEmail');
     errEl.style.display = 'block';
     errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
-
-  // Confirmación de modalidad remota
   if (!remoteConfirm) {
-    errEl.innerHTML = '🌍 <strong>Debes confirmar que la vacante es 100% remota.</strong><br><span style="font-size:13px;font-weight:400">Flexori es una plataforma exclusiva de trabajo remoto. Si tu vacante es híbrida o presencial, no es elegible.</span>';
+    errEl.textContent = t('remote');
     errEl.style.display = 'block';
     errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
-
-  // Descripción mínima 80 palabras
-  var wordCount = description.split(/\s+/).filter(w => w.length > 0).length;
+  var wordCount = description.split(/\s+/).filter(function(w){ return w.length > 0; }).length;
   if (wordCount < 80) {
-    errEl.innerHTML = '📝 <strong>La descripción es muy corta</strong> (' + wordCount + ' palabras).<br><span style="font-size:13px;font-weight:400">Mínimo 80 palabras. Incluye responsabilidades, requisitos y beneficios para atraer mejores candidatos.</span>';
+    errEl.textContent = t('words') + ' (' + wordCount + ')';
     errEl.style.display = 'block';
     errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
 
-  btn.textContent = 'Enviando...';
+  btn.textContent = t('sending');
   btn.disabled = true;
   errEl.style.display = 'none';
 
@@ -375,9 +473,9 @@ async function submitJob() {
         'Prefer': 'return=minimal'
       },
       body: JSON.stringify({
-        company, email, title, type, category,
-        description, url, salary, location: timezone,
-        website, status: 'pending',
+        company: company, email: email, title: title, type: type, category: category,
+        description: description, url: url, salary: salary, location: timezone,
+        website: website, status: 'pending',
         source: 'flexori-form'
       })
     });
@@ -385,18 +483,19 @@ async function submitJob() {
     if (res.ok || res.status === 201) {
       document.getElementById('job-form').style.display = 'none';
       document.getElementById('form-success').style.display = 'block';
-      document.getElementById('confirm-email').textContent = email;
+      var confirmEl = document.getElementById('confirm-email');
+      if (confirmEl) confirmEl.textContent = email;
       try { gtag('event', 'job_posted', { event_category: 'conversion', event_label: category }); } catch(e) {}
     } else {
-      errEl.textContent = 'Error al enviar. Intenta de nuevo.';
+      errEl.textContent = t('send');
       errEl.style.display = 'block';
-      btn.textContent = 'Publicar vacante gratis →';
+      btn.textContent = {es:'Publicar vacante gratis →',en:'Post job for free →',fr:"Publier l'offre gratuitement →",pt:'Publicar vaga grátis →'}[_lang]||'Publicar vacante gratis →';
       btn.disabled = false;
     }
   } catch(err) {
-    errEl.textContent = 'Error de conexión. Intenta de nuevo.';
+    errEl.textContent = t('conn');
     errEl.style.display = 'block';
-    btn.textContent = 'Publicar vacante gratis →';
+    btn.textContent = {es:'Publicar vacante gratis →',en:'Post job for free →',fr:"Publier l'offre gratuitement →",pt:'Publicar vaga grátis →'}[_lang]||'Publicar vacante gratis →';
     btn.disabled = false;
   }
 }
