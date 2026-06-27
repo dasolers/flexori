@@ -510,7 +510,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
     <div class="hero-stats">
       <div class="hstat"><div class="hstat-n" id="jobs-stat">500<span>+</span></div><div class="hstat-l" data-i="s4">Live Jobs</div></div>
       <div class="hstat"><div class="hstat-n">180<span>+</span></div><div class="hstat-l" data-i="s2">Countries</div></div>
-      <div class="hstat"><div class="hstat-n">4</div><div class="hstat-l" data-i="s_lang">Languages</div></div>
+      <div class="hstat"><div class="hstat-n" id="members-stat">300<span>+</span></div><div class="hstat-l">Profesionales</div></div>
       <div class="hstat"><div class="hstat-n">100<span>%</span></div><div class="hstat-l" data-i="s3">Remote</div></div>
     </div>
   </div>
@@ -1362,7 +1362,29 @@ document.querySelectorAll('.diff-card,.step,.faq-item,.job-card,.company-metric'
 
 setLang(lang);
 
-
+// Cargar contador de profesionales registrados
+(async function loadMembersCount() {
+  try {
+    var membRes = await fetch('https://kkkgtwripyaxgmmdsqhg.supabase.co/rest/v1/waitlist?select=count', {
+      headers: {
+        'apikey': ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9','eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0','XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU'].join('.'),
+        'Prefer': 'count=exact',
+        'Range': '0-0'
+      }
+    });
+    var countHeader = membRes.headers.get('content-range');
+    if (countHeader) {
+      var total = parseInt(countHeader.split('/')[1]);
+      if (total > 0) {
+        var membEl = document.getElementById('members-stat');
+        if (membEl) {
+          var display = total >= 1000 ? (Math.floor(total/100)*100)+'+' : total+'+';
+          membEl.innerHTML = display.replace('+','<span>+</span>');
+        }
+      }
+    }
+  } catch(e) {}
+})();
 
 // ── MARKET INTELLIGENCE ENGINE ──
 function buildMarketIntelligenceFallback() {
