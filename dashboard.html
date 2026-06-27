@@ -137,6 +137,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;d
     <p id="greeting-sub">Bienvenido a tu dashboard de carrera remota</p>
   </div>
 
+  <script>
+  // Saludo dinámico por hora del día
+  (function() {
+    var h = new Date().getHours();
+    var greeting = h < 12 ? 'Buenos dias' : h < 19 ? 'Buenas tardes' : 'Buenas noches';
+    var msgs = [
+      greeting + ', sigue construyendo tu carrera remota.',
+      greeting + ', hay nuevos empleos esperandote.',
+      greeting + ', tu perfil remoto te espera.',
+      greeting + ', un paso mas hacia tu meta remota.'
+    ];
+    var el = document.getElementById('greeting-sub');
+    if (el) el.textContent = msgs[new Date().getDay() % msgs.length];
+  })();
+  </script>
+
   <!-- PLAN BANNER -->
   <div class="plan-banner">
     <div style="display:flex;align-items:center;gap:12px">
