@@ -101,7 +101,7 @@ footer a{color:var(--green);text-decoration:none}
       var t = el.getAttribute('data-'+lang);
       if(t) el.innerHTML = t;
     });
-    document.querySelectorAll('[data-en-placeholder]').forEach(function(el){
+    document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
       var t = el.getAttribute('data-'+lang+'-placeholder');
       if(t) el.placeholder = t;
     });
@@ -231,18 +231,18 @@ function translateSelects(lang){
           <div class="field">
             <label data-en="Company name *" data-fr="Nom de l'entreprise *" data-pt="Nome da empresa *">Nombre de la empresa <span class="required">*</span></label>
             <input type="text" id="j-company" placeholder="Ej: Acme Corp"
-                   data-en-placeholder data-en-placeholder="e.g. Acme Corp" data-fr-placeholder="Ex: Acme Corp" data-pt-placeholder="Ex: Acme Corp" />
+                   data-i18n-ph data-en-placeholder="e.g. Acme Corp" data-fr-placeholder="Ex: Acme Corp" data-pt-placeholder="Ex: Acme Corp" />
           </div>
           <div class="field">
             <label data-en="Your contact email *" data-fr="Votre email de contact *" data-pt="Seu email de contato *">Tu email de contacto <span class="required">*</span></label>
             <input type="email" id="j-email" placeholder="rrhh@empresa.com"
-                   data-en-placeholder data-en-placeholder="hr@company.com" data-fr-placeholder="rh@entreprise.com" data-pt-placeholder="rh@empresa.com" />
+                   data-i18n-ph data-en-placeholder="hr@company.com" data-fr-placeholder="rh@entreprise.com" data-pt-placeholder="rh@empresa.com" />
           </div>
         </div>
         <div class="field">
           <label data-en="Company website" data-fr="Site web de l'entreprise" data-pt="Site da empresa">Sitio web de la empresa</label>
           <input type="url" id="j-website" placeholder="https://empresa.com"
-                 data-en-placeholder data-en-placeholder="https://company.com" data-fr-placeholder="https://entreprise.com" data-pt-placeholder="https://empresa.com" />
+                 data-i18n-ph data-en-placeholder="https://company.com" data-fr-placeholder="https://entreprise.com" data-pt-placeholder="https://empresa.com" />
         </div>
 
         <hr class="divider">
@@ -252,7 +252,7 @@ function translateSelects(lang){
         <div class="field">
           <label data-en="Job title *" data-fr="Titre du poste *" data-pt="Título do cargo *">Título del cargo <span class="required">*</span></label>
           <input type="text" id="j-title" placeholder="Ej: Senior Frontend Developer"
-                 data-en-placeholder data-en-placeholder="e.g. Senior Frontend Developer" data-fr-placeholder="Ex: Développeur Frontend Senior" data-pt-placeholder="Ex: Desenvolvedor Frontend Sênior" />
+                 data-i18n-ph data-en-placeholder="e.g. Senior Frontend Developer" data-fr-placeholder="Ex: Développeur Frontend Senior" data-pt-placeholder="Ex: Desenvolvedor Frontend Sênior" />
         </div>
         <div class="field-row">
           <div class="field">
@@ -287,7 +287,7 @@ function translateSelects(lang){
           <div class="field">
             <label data-en="Salary or range (USD)" data-fr="Salaire ou fourchette (USD)" data-pt="Salário ou faixa (USD)">Salario o rango (USD)</label>
             <input type="text" id="j-salary" placeholder="Ej: $3,000 - $5,000/mes"
-                   data-en-placeholder data-en-placeholder="e.g. $3,000 - $5,000/mo" data-fr-placeholder="Ex: $3 000 - $5 000/mois" data-pt-placeholder="Ex: $3.000 - $5.000/mês" />
+                   data-i18n-ph data-en-placeholder="e.g. $3,000 - $5,000/mo" data-fr-placeholder="Ex: $3 000 - $5 000/mois" data-pt-placeholder="Ex: $3.000 - $5.000/mês" />
             <div class="field-hint"
                  data-en="Showing salary increases applications by 40%"
                  data-fr="Afficher le salaire augmente les candidatures de 40%"
@@ -307,14 +307,14 @@ function translateSelects(lang){
         <div class="field">
           <label data-en="Job description *" data-fr="Description du poste *" data-pt="Descrição do cargo *">Descripción del cargo <span class="required">*</span></label>
           <textarea id="j-description" oninput="countWords(this)" placeholder="Describe las responsabilidades, requisitos y beneficios del cargo..."
-                    data-en-placeholder data-en-placeholder="Describe responsibilities, requirements and benefits..."
+                    data-i18n-ph data-en-placeholder="Describe responsibilities, requirements and benefits..."
                     data-fr-placeholder="Décrivez les responsabilités, les exigences et les avantages..."
                     data-pt-placeholder="Descreva as responsabilidades, requisitos e benefícios do cargo..."></textarea>
         </div>
         <div class="field">
           <label data-en="Application URL *" data-fr="URL de candidature *" data-pt="URL para candidatura *">URL para aplicar <span class="required">*</span></label>
           <input type="url" id="j-url" placeholder="https://empresa.com/apply o mailto:rrhh@empresa.com"
-                 data-en-placeholder data-en-placeholder="https://company.com/apply or mailto:hr@company.com"
+                 data-i18n-ph data-en-placeholder="https://company.com/apply or mailto:hr@company.com"
                  data-fr-placeholder="https://entreprise.com/apply ou mailto:rh@entreprise.com"
                  data-pt-placeholder="https://empresa.com/apply ou mailto:rh@empresa.com" />
           <div class="field-hint"
