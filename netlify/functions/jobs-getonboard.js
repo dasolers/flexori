@@ -6,43 +6,44 @@ exports.handler = async function(event, context) {
     'Access-Control-Allow-Methods': 'GET, OPTIONS'
   };
 
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+  if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
+
+  // Palabras españolas comunes en títulos de empleo
+  const spanishWords = ['desarrollador','diseñador','gerente','analista','coordinador',
+    'asistente','ventas','soporte','atención','cliente','proyecto','español','bilingüe',
+    'ingeniero','programador','director','jefe','líder','ejecutivo','agente','técnico',
+    'consultor','especialista','arquitecto','producto','marketing','contenido','redactor',
+    'contador','finanzas','recursos','humanos','operaciones','logística','educación'];
+
+  function detectLang(title, description) {
+    const txt = (title + ' ' + (description||'')).toLowerCase();
+    if (spanishWords.some(w => txt.includes(w))) return 'es';
+    return 'en';
   }
 
   try {
-    const params = event.queryStringParameters || {};
-    const query = params.query || '';
-    const page = params.page || 1;
-
-    // Get on Board API pública — empleos remotos LATAM en español
-    const url = `https://www.getonbrd.com/api/v0/search/jobs?query=${encodeURIComponent(query)}&per_page=50&page=${page}&expand[]=company&expand[]=modality`;
+    const url = 'https://www.getonbrd.com/api/v0/search/jobs?query=&per_page=100&expand[]=company';
 
     const res = await fetch(url, {
-      headers: {
-        'Accept': 'application/json',
-        'User-Agent': 'Flexori/1.0'
-      }
+      headers: { 'Accept': 'application/json', 'User-Agent': 'Flexori/1.0' }
     });
 
-    if (!res.ok) {
-      throw new Error(`Get on Board API error: ${res.status}`);
-    }
+    if (!res.ok) throw new Error(`Get on Board API error: ${res.status}`);
 
     const data = await res.json();
     const jobs = data.data || [];
 
-    // Normalizar al formato de Flexori
     const normalized = jobs
       .filter(j => j.attributes)
       .map(j => {
         const a = j.attributes;
         const company = a.company && a.company.data ? a.company.data.attributes : {};
-        
+        const lang = detectLang(a.title || '', a.description || '');
+
         return {
           id: 'gob' + j.id,
           title: a.title || '',
-          company: company.name || a.company_name || '',
+          company: company.name || '',
           logo: company.logo_url || '',
           category: a.category_name || '',
           tags: (a.functions || []).slice(0, 4),
@@ -53,62 +54,23 @@ exports.handler = async function(event, context) {
             ? `$${a.min_salary} - $${a.max_salary}`
             : (a.min_salary ? `Desde $${a.min_salary}` : ''),
           location: a.country || 'LATAM',
-          description: a.description || a.functions || '',
+          description: (a.description || '').slice(0, 500),
           source: 'GetOnBoard',
-          language: 'es'
+          language: lang
         };
       });
 
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ jobs: normalized, total: data.meta?.total || normalized.length })
+      body: JSON.stringify({ jobs: normalized })
     };
 
   } catch (err) {
-    // Fallback: intentar con el endpoint alternativo
-    try {
-      const fallbackUrl = 'https://www.getonbrd.com/api/v0/jobs?per_page=50&expand[]=company';
-      const res = await fetch(fallbackUrl, {
-        headers: { 'Accept': 'application/json', 'User-Agent': 'Flexori/1.0' }
-      });
-      
-      if (!res.ok) throw new Error('Fallback also failed');
-      
-      const data = await res.json();
-      const jobs = (data.data || []).filter(j => j.attributes).map(j => {
-        const a = j.attributes;
-        const company = a.company && a.company.data ? a.company.data.attributes : {};
-        return {
-          id: 'gob' + j.id,
-          title: a.title || '',
-          company: company.name || '',
-          logo: company.logo_url || '',
-          category: a.category_name || '',
-          tags: [],
-          type: 'full_time',
-          url: a.applications_url || `https://www.getonbrd.com/jobs/${j.id}`,
-          date: a.published_at || new Date().toISOString(),
-          salary: '',
-          location: a.country || 'LATAM',
-          description: a.description || '',
-          source: 'GetOnBoard',
-          language: 'es'
-        };
-      });
-
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({ jobs, total: jobs.length })
-      };
-
-    } catch (err2) {
-      return {
-        statusCode: 500,
-        headers,
-        body: JSON.stringify({ error: err.message, jobs: [] })
-      };
-    }
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: err.message, jobs: [] })
+    };
   }
 };
