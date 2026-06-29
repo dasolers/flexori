@@ -781,7 +781,25 @@ const CAT={
 
 const LANG={
   en:['english','english speaking','english required','fluent english','native english','english proficiency'],
-  es:['español','spanish','habla hispana','hispanohablante','castellano','latam','latin america','hablante de español','bilingue español','bilingual spanish'],
+  es:[
+    // Idioma explícito
+    'español','spanish','habla hispana','hispanohablante','castellano',
+    'bilingual spanish','spanish bilingual','spanish speaking','spanish required',
+    'spanish fluent','fluent spanish','native spanish','spanish proficiency',
+    'hablante de español','bilingue español','bilingüe español',
+    'spanish and english','english and spanish','spanish/english',
+    // Regiones LATAM
+    'latam','latin america','latin american','america latina','latinoamerica',
+    'latinoamérica','south america','central america','hispanic',
+    // Países LATAM comunes en job descriptions
+    'colombia','mexico','méxico','argentina','chile','peru','perú',
+    'venezuela','ecuador','guatemala','costa rica','bolivia','uruguay',
+    // Roles típicos en español que aparecen traducidos
+    'soporte en español','support in spanish','customer support spanish',
+    'spanish customer','atención al cliente','servicio al cliente',
+    'ventas latam','sales latam','account executive latam',
+    'spanish market','mercado hispanohablante','hablar español'
+  ],
   fr:['français','french','francophone','france','bilingual french','french speaking'],
   pt:['português','portuguese','brazil','brasil','pt-br','portuguese speaking','bilingual portuguese']
 };
