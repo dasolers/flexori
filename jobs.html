@@ -557,7 +557,7 @@ en:{
   typeAll:"All Types",typeFt:"Full Time",typePt:"Part Time",typeCt:"Contract",typeFl:"Freelance",
   regAll:"All Regions",regWw:"Worldwide",regLa:"LATAM",regEu:"Europe",regUs:"USA / Canada",regAs:"Asia Pacific",
   langAll:"All Languages",langEn:"🇺🇸 English",langEs:"🇪🇸 Español",langFr:"🇫🇷 Français",langPt:"🇧🇷 Português",
-  clearBtn:"✕ Clear",sourceTxt:"Live · Remotive + WWR + Himalayas + The Muse + Adzuna + Arbeitnow + Jobicy",loadMore:"Load more →",
+  clearBtn:"✕ Clear",sourceTxt:"Live · Remotive + WWR + Himalayas + The Muse + Adzuna + Arbeitnow + Jobicy + GetOnBoard",loadMore:"Load more →",
   emptyTitle:"No jobs found",emptySub:"Try different filters or search terms.",
   mAbout:"About the Role",mApply:"Apply for this Position →",
   mAlertTitle:"Get alerts for jobs like this",mAlertSub:"Join Flexori free and receive personalized remote job alerts.",
@@ -583,7 +583,7 @@ es:{
   typeAll:"Todos los Tipos",typeFt:"Tiempo Completo",typePt:"Medio Tiempo",typeCt:"Contrato",typeFl:"Freelance",
   regAll:"Todas las Regiones",regWw:"Mundial",regLa:"LATAM",regEu:"Europa",regUs:"EE.UU. / Canadá",regAs:"Asia Pacífico",
   langAll:"Todos los Idiomas",langEn:"🇺🇸 Inglés",langEs:"🇪🇸 Español",langFr:"🇫🇷 Francés",langPt:"🇧🇷 Portugués",
-  clearBtn:"✕ Limpiar",sourceTxt:"En vivo · Remotive + WWR + Himalayas + The Muse + Adzuna + Arbeitnow + Jobicy",loadMore:"Ver más →",
+  clearBtn:"✕ Limpiar",sourceTxt:"En vivo · Remotive + WWR + Himalayas + The Muse + Adzuna + Arbeitnow + Jobicy + GetOnBoard",loadMore:"Ver más →",
   emptyTitle:"No se encontraron empleos",emptySub:"Prueba con otros filtros o términos de búsqueda.",
   mAbout:"Sobre el Rol",mApply:"Aplicar a esta Posición →",
   mAlertTitle:"Recibe alertas de empleos como este",mAlertSub:"Únete a Flexori gratis y recibe alertas personalizadas.",
@@ -609,7 +609,7 @@ fr:{
   typeAll:"Tous les Types",typeFt:"Temps Plein",typePt:"Temps Partiel",typeCt:"Contrat",typeFl:"Freelance",
   regAll:"Toutes les Régions",regWw:"Mondial",regLa:"Amérique Latine",regEu:"Europe",regUs:"USA / Canada",regAs:"Asie Pacifique",
   langAll:"Toutes les Langues",langEn:"🇺🇸 Anglais",langEs:"🇪🇸 Espagnol",langFr:"🇫🇷 Français",langPt:"🇧🇷 Portugais",
-  clearBtn:"✕ Effacer",sourceTxt:"En direct · Remotive + WWR + Himalayas + The Muse + Adzuna + Arbeitnow + Jobicy",loadMore:"Voir plus →",
+  clearBtn:"✕ Effacer",sourceTxt:"En direct · Remotive + WWR + Himalayas + The Muse + Adzuna + Arbeitnow + Jobicy + GetOnBoard",loadMore:"Voir plus →",
   emptyTitle:"Aucun emploi trouvé",emptySub:"Essayez d'autres filtres.",
   mAbout:"À propos du Rôle",mApply:"Postuler →",
   mAlertTitle:"Recevoir des alertes",mAlertSub:"Rejoignez Flexori gratuitement pour des alertes personnalisées.",
@@ -635,7 +635,7 @@ pt:{
   typeAll:"Todos os Tipos",typeFt:"Tempo Integral",typePt:"Meio Período",typeCt:"Contrato",typeFl:"Freelance",
   regAll:"Todas as Regiões",regWw:"Mundial",regLa:"América Latina",regEu:"Europa",regUs:"EUA / Canadá",regAs:"Ásia Pacífico",
   langAll:"Todos os Idiomas",langEn:"🇺🇸 Inglês",langEs:"🇪🇸 Espanhol",langFr:"🇫🇷 Francês",langPt:"🇧🇷 Português",
-  clearBtn:"✕ Limpar",sourceTxt:"Ao vivo · Remotive + WWR + Himalayas + The Muse + Adzuna + Arbeitnow + Jobicy",loadMore:"Ver mais →",
+  clearBtn:"✕ Limpar",sourceTxt:"Ao vivo · Remotive + WWR + Himalayas + The Muse + Adzuna + Arbeitnow + Jobicy + GetOnBoard",loadMore:"Ver mais →",
   emptyTitle:"Nenhuma vaga encontrada",emptySub:"Tente outros filtros ou termos de busca.",
   mAbout:"Sobre a Vaga",mApply:"Candidatar-se →",
   mAlertTitle:"Receber alertas de vagas",mAlertSub:"Junte-se ao Flexori gratuitamente para alertas personalizados.",
@@ -806,7 +806,7 @@ async function fetchAll(){
   const [r1,r2,r3,r4,r5,r6,r7,r8]=await Promise.allSettled([
     fetchRemotive(),fetchJobicy(),fetchArbeitnow(),
     fetchHimalayas(),fetchTheMuse(),
-    fetchWWR(),fetchJobicyNonTech(),fetchAdzuna()
+    fetchWWR(),fetchJobicyNonTech(),fetchAdzuna(),fetchGetOnBoard()
   ]);
   let jobs=[];
   [r1,r2,r3,r4,r5,r6,r7,r8].forEach(r=>{if(r.status==='fulfilled')jobs=jobs.concat(r.value);});
@@ -907,6 +907,15 @@ async function fetchJobicyNonTech(){
   return results.filter(r=>r.status==='fulfilled').flatMap(r=>r.value);
 }
 
+
+async function fetchGetOnBoard(){
+  try {
+    const r = await fetchWithTimeout('/.netlify/functions/jobs-getonboard', {}, 8000);
+    if(!r.ok) return [];
+    const d = await r.json();
+    return (d.jobs || []);
+  } catch(e){ return []; }
+}
 
 async function fetchAdzuna(){
   try {
