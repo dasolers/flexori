@@ -977,8 +977,18 @@ function matchLang(j,l){
   if(!l)return true;
   // Si el job tiene campo language explícito, usarlo directamente
   if(j.language && j.language===l) return true;
-  // GetOnBoard es siempre en español
-  if(l==='es' && j.source==='GetOnBoard') return true;
+  // GetOnBoard: verificar si el contenido es realmente en español
+  if(l==='es' && j.source==='GetOnBoard') {
+    // Detectar si el título o descripción contiene palabras en español
+    const esWords = ['desarrollador','diseñador','gerente','analista','coordinador','asistente',
+      'ventas','soporte','atención','cliente','proyecto','español','bilingüe','latam',
+      'remoto','colombia','méxico','argentina','chile','perú','remoto'];
+    const jobTxt = (j.title+' '+(j.description||'')).toLowerCase();
+    const hasSpanish = esWords.some(w => jobTxt.includes(w));
+    // También incluir si tiene LATAM en location (empleos para LATAM aunque título en inglés)
+    const isLatam = (j.location||'').toLowerCase().includes('latam');
+    return hasSpanish || isLatam;
+  }
   const kws=LANG[l]||[];
   const txt=(j.title+' '+(j.description||'').slice(0,500)+' '+(j.tags||[]).join(' ')+' '+(j.location||'')).toLowerCase();
   return kws.some(k=>txt.includes(k));
