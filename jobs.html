@@ -821,13 +821,13 @@ function fetchWithTimeout(url, options = {}, ms = 5000) {
 }
 
 async function fetchAll(){
-  const [r1,r2,r3,r4,r5,r6,r7,r8]=await Promise.allSettled([
+  const [r1,r2,r3,r4,r5,r6,r7,r8,r9]=await Promise.allSettled([
     fetchRemotive(),fetchJobicy(),fetchArbeitnow(),
     fetchHimalayas(),fetchTheMuse(),
     fetchWWR(),fetchJobicyNonTech(),fetchAdzuna(),fetchGetOnBoard()
   ]);
   let jobs=[];
-  [r1,r2,r3,r4,r5,r6,r7,r8].forEach(r=>{if(r.status==='fulfilled')jobs=jobs.concat(r.value);});
+  [r1,r2,r3,r4,r5,r6,r7,r8,r9].forEach(r=>{if(r.status==='fulfilled')jobs=jobs.concat(r.value);});
   const seen=new Set();
   const companyCounts={};
   jobs=jobs.filter(j=>{
