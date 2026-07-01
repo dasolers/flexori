@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ofrece tus Servicios Remotos — Flexori</title>
+<link rel="canonical" href="https://flexori.work/services.html"/>
+<meta name="description" content="Publica tu perfil de servicios freelance en Flexori y conecta con empresas remotas que buscan talento como el tuyo.">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#1D9E75">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#0D1321;color:#F0EEE6;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+:root{
+  --black:#0D1321;--green:#1D9E75;--green-light:#24C48F;--blue:#1D5FA3;
+  --gray:#A8A69E;--white:#F0EEE6;--surface:#131B2E;--surface2:#1A2338;
+  --green-dim:rgba(29,158,117,0.12);--border:rgba(255,255,255,0.07);
+  --border-green:rgba(29,158,117,0.25);--muted:#A8A69E;--gold:#F59E0B
+}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;
+  justify-content:space-between;padding:0 48px;height:68px;
+  background:rgba(13,19,33,0.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--green));border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#fff}
+.nav-logo-text{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.btn-solid{background:var(--green);color:var(--black);border:none;border-radius:100px;
+  padding:10px 24px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;
+  cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
+.btn-solid:hover{background:var(--green-light)}
+
+/* HERO */
+.hero{padding:110px 48px 60px;max-width:820px;margin:0 auto;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(29,158,117,0.1);
+  border:1px solid var(--border-green);border-radius:100px;padding:6px 16px;
+  font-size:12px;color:var(--green);margin-bottom:24px;font-weight:600}
+h1{font-family:'Syne',sans-serif;font-size:clamp(30px,5vw,52px);font-weight:800;
+  line-height:1.05;letter-spacing:-1.5px;margin-bottom:16px}
+.hero-sub{font-size:16px;color:var(--muted);max-width:560px;margin:0 auto 40px;line-height:1.7}
+
+/* STATS */
+.stats{display:flex;justify-content:center;gap:40px;margin-bottom:60px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-n{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--green)}
+.stat-l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+
+/* HOW IT WORKS */
+.how-it-works{max-width:760px;margin:0 auto 60px;padding:0 24px}
+.how-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;text-align:center;margin-bottom:32px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.step{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px 20px;text-align:center;position:relative}
+.step-num{width:36px;height:36px;background:linear-gradient(135deg,var(--blue),var(--green));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:#fff;margin:0 auto 14px}
+.step-icon{font-size:28px;margin-bottom:10px}
+.step h3{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:6px}
+.step p{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* FORM */
+.form-wrap{max-width:660px;margin:0 auto 80px;padding:0 24px}
+.form-card{background:var(--surface);border:1px solid var(--border-green);border-radius:20px;overflow:hidden}
+.form-header{background:linear-gradient(135deg,rgba(29,95,163,0.2),rgba(29,158,117,0.15));padding:28px 36px;border-bottom:1px solid var(--border)}
+.form-header h2{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:4px}
+.form-header p{font-size:14px;color:var(--muted)}
+.form-body{padding:36px}
+.field{margin-bottom:20px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.required{color:var(--green)}
+.field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--border-green)}
+.field select option{background:#131B2E;color:#fff}
+.field textarea{resize:vertical;min-height:120px}
+.field-hint{font-size:11px;color:var(--muted);margin-top:5px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.divider{border:none;border-top:1px solid var(--border);margin:24px 0}
+.section-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+
+/* SKILLS TAGS */
+.skills-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.skill-tag{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  border-radius:100px;padding:6px 14px;font-size:12px;cursor:pointer;transition:all .2s;user-select:none}
+.skill-tag.selected{background:rgba(29,158,117,0.15);border-color:var(--green);color:var(--green)}
+.skills-custom{margin-top:10px}
+
+/* VERIFICACIÓN */
+.verify-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.verify-field{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 14px}
+.verify-icon{font-size:18px;flex-shrink:0}
+.verify-field input{background:none;border:none;padding:0;font-size:13px;color:#fff;flex:1;outline:none}
+.verify-field input::placeholder{color:var(--muted)}
+
+/* INDICADOR DE CONFIANZA */
+.trust-bar{margin-top:16px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.trust-bar-label{font-size:12px;color:var(--muted);margin-bottom:8px;display:flex;justify-content:space-between}
+.trust-bar-track{height:6px;background:rgba(255,255,255,0.08);border-radius:100px;overflow:hidden}
+.trust-bar-fill{height:100%;border-radius:100px;transition:width .4s ease, background .4s ease;width:0%}
+.trust-badge{display:inline-flex;align-items:center;gap:6px;border-radius:100px;padding:4px 12px;font-size:11px;font-weight:700;margin-top:8px}
+
+/* AI BUTTON */
+.ai-btn{background:rgba(29,95,163,0.15);border:1px solid rgba(29,95,163,0.3);color:#7EB8F7;
+  border-radius:8px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;
+  transition:all .2s;display:inline-flex;align-items:center;gap:6px;margin-top:8px}
+.ai-btn:hover{background:rgba(29,95,163,0.25)}
+.ai-btn.loading{opacity:.6;cursor:default}
+.ai-preview{display:none;margin-top:12px;background:rgba(29,95,163,0.08);border:1px solid rgba(29,95,163,0.2);border-radius:10px;padding:14px}
+.ai-preview-text{font-size:13px;color:#C8D8F0;line-height:1.7;white-space:pre-wrap}
+.ai-preview-actions{display:flex;gap:10px;margin-top:12px}
+.ai-accept{background:var(--green);color:var(--black);border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer}
+.ai-reject{background:transparent;border:1px solid rgba(255,255,255,0.15);color:var(--muted);border-radius:8px;padding:8px 16px;font-size:12px;cursor:pointer}
+
+/* CONFIRM */
+.confirm-box{background:rgba(29,158,117,0.06);border:1px solid rgba(29,158,117,0.2);border-radius:14px;padding:18px 20px;margin-top:4px}
+.confirm-box label{display:flex;align-items:flex-start;gap:12px;cursor:pointer;font-size:14px;color:#fff;font-weight:600}
+.confirm-box input[type=checkbox]{width:18px;height:18px;flex-shrink:0;margin-top:2px;accent-color:var(--green)}
+.confirm-hint{font-size:12px;color:var(--muted);margin-top:8px;margin-left:30px}
+
+/* ERROR / SUCCESS */
+.form-error{display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:12px 16px;font-size:13px;color:#FCA5A5;margin-bottom:16px}
+.form-success{display:none;text-align:center;padding:48px 24px}
+
+footer{text-align:center;padding:40px;border-top:1px solid var(--border);font-size:13px;color:var(--muted)}
+footer a{color:var(--green);text-decoration:none}
+
+@media(max-width:600px){
+  nav{padding:0 16px}
+  .hero{padding:90px 20px 40px}
+  .steps{grid-template-columns:1fr}
+  .field-row{grid-template-columns:1fr}
+  .verify-grid{grid-template-columns:1fr}
+  .stats{gap:24px}
+}
+</style>
+<script>
+(function(){
+  var lang = (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('flexori_lang') || (navigator.language||'es').slice(0,2);
+  if(!['es','en','fr','pt'].includes(lang)) lang='es';
+  localStorage.setItem('flexori_lang', lang);
+  window._lang = lang;
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('[data-en]').forEach(function(el){
+      var t = el.getAttribute('data-'+lang);
+      if(t) el.innerHTML = t;
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
+      var t = el.getAttribute('data-'+lang+'-placeholder');
+      if(t) el.placeholder = t;
+    });
+  });
+})();
+</script>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">F</div>
+    <span class="nav-logo-text">Flexori</span>
+  </a>
+  <a href="/jobs.html" class="btn-solid" style="font-size:13px;padding:8px 18px"
+     data-en="Browse jobs" data-fr="Voir les offres" data-pt="Ver vagas">Ver empleos</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">Para Freelancers y Profesionales Independientes</div>
+  <h1>Muestra tu talento a empresas que <span style="color:var(--green)">buscan exactamente lo que ofreces</span></h1>
+  <p class="hero-sub">Publica tu perfil de servicios gratis. Las empresas te encuentran, revisan tu trabajo y te contactan directamente — sin intermediarios ni comisiones ocultas.</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="#publicar" class="btn-solid" style="padding:14px 32px;font-size:15px">Publicar mi perfil gratis →</a>
+    <a href="/jobs.html" style="border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:100px;padding:14px 28px;font-size:15px;text-decoration:none;transition:all .2s">Ver vacantes →</a>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-n">519+</div><div class="stat-l">Profesionales</div></div>
+  <div class="stat"><div class="stat-n">10</div><div class="stat-l">Países LATAM</div></div>
+  <div class="stat"><div class="stat-n">48+</div><div class="stat-l">Empresas activas</div></div>
+  <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Gratis para ti</div></div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how-it-works">
+  <h2 class="how-title">¿Cómo funciona?</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-icon">✍️</div>
+      <h3>Completa tu perfil</h3>
+      <p>Describe tus servicios, agrega tus links de portafolio y deja que la IA pula tu presentación.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-icon">🔍</div>
+      <h3>Revisamos y aprobamos</h3>
+      <p>Nuestro equipo revisa cada perfil en 24-48h para garantizar calidad y confianza en la plataforma.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-icon">🚀</div>
+      <h3>Empresas te contactan</h3>
+      <p>Tu perfil queda visible para empresas que buscan exactamente lo que ofreces. Tú recibes las oportunidades.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrap" id="publicar">
+  <div class="form-card">
+    <div class="form-header">
+      <h2>Publica tu perfil de servicios</h2>
+      <p>Gratis · Revisión en 24-48h · Sin comisiones ocultas</p>
+    </div>
+    <div class="form-body">
+      <div class="form-error" id="svc-error"></div>
+
+      <div id="svc-form">
+        <!-- SECCIÓN 1: SOBRE TI -->
+        <div class="section-title">Sobre ti</div>
+        <div class="field-row">
+          <div class="field">
+            <label>Nombre completo <span class="required">*</span></label>
+            <input type="text" id="s-name" placeholder="Ej: María García" />
+          </div>
+          <div class="field">
+            <label>Email de contacto <span class="required">*</span></label>
+            <input type="email" id="s-email" placeholder="tu@email.com" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>País <span class="required">*</span></label>
+            <select id="s-country">
+              <option value="">Selecciona...</option>
+              <option>México</option><option>Colombia</option><option>Argentina</option>
+              <option>Chile</option><option>Perú</option><option>Venezuela</option>
+              <option>Ecuador</option><option>Guatemala</option><option>Costa Rica</option>
+              <option>Bolivia</option><option>Uruguay</option><option>Paraguay</option>
+              <option>Honduras</option><option>El Salvador</option><option>Nicaragua</option>
+              <option>República Dominicana</option><option>Cuba</option><option>España</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Disponibilidad <span class="required">*</span></label>
+            <select id="s-availability">
+              <option value="">Selecciona...</option>
+              <option value="immediate">Inmediata</option>
+              <option value="2weeks">En 2 semanas</option>
+              <option value="1month">En 1 mes</option>
+              <option value="parttime">Solo tiempo parcial</option>
+            </select>
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- SECCIÓN 2: ENLACES DE VERIFICACIÓN -->
+        <div class="section-title">Enlaces de verificación</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">Agrega los links donde las empresas puedan ver tu trabajo real. No son obligatorios, pero mientras más agregues, más confianza genera tu perfil.</p>
+
+        <div class="verify-grid">
+          <div class="verify-field">
+            <span class="verify-icon">💼</span>
+            <input type="url" id="s-linkedin" placeholder="LinkedIn" oninput="updateTrust()" />
+          </div>
+          <div class="verify-field">
+            <span class="verify-icon">🐙</span>
+            <input type="url" id="s-github" placeholder="GitHub" oninput="updateTrust()" />
+          </div>
+          <div class="verify-field">
+            <span class="verify-icon">🎨</span>
+            <input type="url" id="s-behance" placeholder="Behance" oninput="updateTrust()" />
+          </div>
+          <div class="verify-field">
+            <span class="verify-icon">🌀</span>
+            <input type="url" id="s-dribbble" placeholder="Dribbble" oninput="updateTrust()" />
+          </div>
+          <div class="verify-field">
+            <span class="verify-icon">🌐</span>
+            <input type="url" id="s-portfolio" placeholder="Portafolio / Sitio web" oninput="updateTrust()" />
+          </div>
+          <div class="verify-field">
+            <span class="verify-icon">🔗</span>
+            <input type="url" id="s-other" placeholder="Otro enlace" oninput="updateTrust()" />
+          </div>
+        </div>
+
+        <!-- INDICADOR DE CONFIANZA -->
+        <div class="trust-bar" id="trust-bar">
+          <div class="trust-bar-label">
+            <span>Nivel de verificación</span>
+            <span id="trust-label" style="font-weight:700">Sin verificación</span>
+          </div>
+          <div class="trust-bar-track">
+            <div class="trust-bar-fill" id="trust-fill"></div>
+          </div>
+          <div>
+            <span class="trust-badge" id="trust-badge" style="background:rgba(255,255,255,0.05);color:var(--muted)">Sin verificación</span>
+          </div>
+          <p style="font-size:11px;color:var(--muted);margin-top:8px">Los perfiles verificados reciben hasta 3x más contactos de empresas.</p>
+        </div>
+
+        <hr class="divider">
+
+        <!-- SECCIÓN 3: SOBRE EL SERVICIO -->
+        <div class="section-title">Sobre tu servicio</div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Categoría <span class="required">*</span></label>
+            <select id="s-category">
+              <option value="">Selecciona...</option>
+              <option value="dev">Desarrollo de Software</option>
+              <option value="design">Diseño UI/UX</option>
+              <option value="marketing">Marketing Digital</option>
+              <option value="sales">Ventas / Closer / Setter</option>
+              <option value="support">Soporte / Atención al cliente</option>
+              <option value="writing">Redacción / Copywriting</option>
+              <option value="data">Datos / IA / Analytics</option>
+              <option value="va">Asistente Virtual</option>
+              <option value="video">Video / Edición / Multimedia</option>
+              <option value="finance">Finanzas / Contabilidad</option>
+              <option value="hr">Recursos Humanos</option>
+              <option value="other">Otro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Tarifa aproximada (USD)</label>
+            <input type="text" id="s-rate" placeholder="Ej: $15-25/hr o $500/proyecto" />
+            <div class="field-hint">Opcional pero aumenta un 40% las consultas recibidas</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Título de tu servicio <span class="required">*</span></label>
+          <input type="text" id="s-title" placeholder="Ej: Diseñador UX/UI especializado en apps móviles LATAM" />
+          <div class="field-hint">Sé específico — los mejores títulos dicen qué haces + para quién</div>
+        </div>
+
+        <div class="field">
+          <label>Descripción de tu servicio <span class="required">*</span></label>
+          <textarea id="s-description" oninput="countWords(this)" placeholder="Describe qué ofreces, tu experiencia, cómo trabajas y qué tipo de proyectos has hecho..."></textarea>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+            <div id="s-word-count" style="font-size:11px;color:var(--muted)">0 palabras · mínimo 60</div>
+            <button type="button" class="ai-btn" id="ai-btn" onclick="improveWithAI()">
+              ✨ Mejorar con IA
+            </button>
+          </div>
+          <!-- PREVIEW IA -->
+          <div class="ai-preview" id="ai-preview">
+            <p style="font-size:11px;color:var(--blue);margin-bottom:8px;font-weight:600">VERSIÓN MEJORADA POR IA</p>
+            <div class="ai-preview-text" id="ai-preview-text"></div>
+            <div class="ai-preview-actions">
+              <button class="ai-accept" onclick="acceptAI()">Usar esta versión</button>
+              <button class="ai-reject" onclick="rejectAI()">Mantener la mía</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- HABILIDADES -->
+        <div class="field">
+          <label>Habilidades principales</label>
+          <div class="skills-grid" id="skills-grid">
+            <!-- Generados dinámicamente según categoría -->
+          </div>
+          <input type="text" id="s-skills-custom" placeholder="Agregar habilidad personalizada (Enter para añadir)" style="margin-top:10px;font-size:13px" onkeydown="addCustomSkill(event)" />
+        </div>
+
+        <hr class="divider">
+
+        <!-- CONFIRMACIÓN -->
+        <div class="confirm-box">
+          <label>
+            <input type="checkbox" id="s-confirm" />
+            <span>Confirmo que la información que estoy publicando es real, verificable y representa genuinamente los servicios que ofrezco</span>
+          </label>
+          <div class="confirm-hint">Flexori revisa cada perfil antes de publicarlo. Perfiles falsos, engañosos o de baja calidad serán rechazados. Queremos ser una plataforma seria y confiable para todos.</div>
+        </div>
+
+        <div class="form-error" id="svc-error-bottom" style="margin-top:16px"></div>
+
+        <button onclick="submitService()" id="s-btn" class="btn-solid" style="width:100%;padding:14px;font-size:15px;margin-top:16px">
+          Publicar mi perfil gratis →
+        </button>
+        <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:12px">Tu perfil será revisado y publicado en menos de 48 horas. Te notificaremos por email.</p>
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div class="form-success" id="svc-success">
+        <div style="font-size:64px;margin-bottom:20px">🎉</div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;margin-bottom:12px">¡Perfil enviado!</h3>
+        <p style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:8px">Tu perfil está en revisión. Nuestro equipo lo evaluará en las próximas <strong style="color:#fff">24-48 horas</strong>.</p>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7">Te enviaremos un email a <strong id="svc-confirm-email" style="color:#fff"></strong> cuando quede publicado y las empresas puedan encontrarte.</p>
+        <div style="margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a href="/jobs.html" class="btn-solid">Ver empleos disponibles →</a>
+          <a href="/" style="border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:100px;padding:12px 24px;font-size:14px;text-decoration:none">Ir al inicio</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2026 <a href="/">Flexori</a> · Tu GPS de carrera remota · <a href="/ambassadors.html">Programa de Embajadores</a> · <a href="/post-job.html">Publicar vacante</a>
+</footer>
+
+<script>
+const SUPABASE_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
+const SUPABASE_ANON = ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+  'eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0',
+  'XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU'].join('.');
+
+var selectedSkills = [];
+var _lang = window._lang || 'es';
+
+// ── SKILLS POR CATEGORÍA ──
+var CATEGORY_SKILLS = {
+  dev: ['JavaScript','React','Node.js','Python','PHP','Laravel','Vue.js','TypeScript','SQL','MongoDB','AWS','Docker'],
+  design: ['Figma','Adobe XD','Illustrator','Photoshop','UI/UX','Prototyping','Branding','Webflow','After Effects'],
+  marketing: ['SEO','SEM','Google Ads','Meta Ads','Email Marketing','Content Strategy','Analytics','Copywriting','Social Media'],
+  sales: ['Cold Calling','CRM','HubSpot','Salesforce','Lead Generation','Closer','Setter','B2B','B2C','Ventas Digitales'],
+  support: ['Zendesk','Intercom','Customer Success','Chat Support','Email Support','Español','Inglés','CRM'],
+  writing: ['Copywriting','SEO Writing','Blog','Guiones','Redes Sociales','Traducción','Edición','Newsletter'],
+  data: ['Python','SQL','Power BI','Tableau','Machine Learning','Excel','Google Sheets','Data Analysis','AI Prompting'],
+  va: ['Gestión de agenda','Email','Investigación','Redes Sociales','CRM','Atención al cliente','Excel','Notion'],
+  video: ['Premiere Pro','After Effects','DaVinci Resolve','YouTube','TikTok','Reels','Motion Graphics','Podcast'],
+  finance: ['Contabilidad','Excel','QuickBooks','Facturación','Impuestos','Análisis financiero','SAP'],
+  hr: ['Reclutamiento','Onboarding','Nómina','Clima organizacional','Selección de personal'],
+  other: []
+};
+
+document.getElementById('s-category').addEventListener('change', function(){
+  renderSkills(this.value);
+});
+
+function renderSkills(cat){
+  var grid = document.getElementById('skills-grid');
+  var skills = CATEGORY_SKILLS[cat] || [];
+  grid.innerHTML = '';
+  selectedSkills = [];
+  skills.forEach(function(s){
+    var tag = document.createElement('div');
+    tag.className = 'skill-tag';
+    tag.textContent = s;
+    tag.onclick = function(){
+      tag.classList.toggle('selected');
+      if(tag.classList.contains('selected')){
+        if(!selectedSkills.includes(s)) selectedSkills.push(s);
+      } else {
+        selectedSkills = selectedSkills.filter(function(x){ return x !== s; });
+      }
+    };
+    grid.appendChild(tag);
+  });
+}
+
+function addCustomSkill(e){
+  if(e.key !== 'Enter') return;
+  var val = e.target.value.trim();
+  if(!val) return;
+  if(!selectedSkills.includes(val)) selectedSkills.push(val);
+  var grid = document.getElementById('skills-grid');
+  var tag = document.createElement('div');
+  tag.className = 'skill-tag selected';
+  tag.textContent = val;
+  tag.onclick = function(){
+    tag.classList.toggle('selected');
+    if(tag.classList.contains('selected')){
+      if(!selectedSkills.includes(val)) selectedSkills.push(val);
+    } else {
+      selectedSkills = selectedSkills.filter(function(x){ return x !== val; });
+    }
+  };
+  grid.appendChild(tag);
+  e.target.value = '';
+}
+
+// ── CONTADOR DE PALABRAS ──
+function countWords(el){
+  var words = el.value.trim().split(/\s+/).filter(function(w){ return w.length > 0; }).length;
+  var el2 = document.getElementById('s-word-count');
+  if(el2){
+    el2.textContent = words + ' palabras' + (words < 60 ? ' · mínimo 60' : ' ✓');
+    el2.style.color = words >= 60 ? 'var(--green)' : 'var(--muted)';
+  }
+}
+
+// ── INDICADOR DE CONFIANZA ──
+function updateTrust(){
+  var fields = ['s-linkedin','s-github','s-behance','s-dribbble','s-portfolio','s-other'];
+  var filled = fields.filter(function(id){ return document.getElementById(id).value.trim().length > 4; }).length;
+  var pct = Math.min(100, Math.round((filled/6)*100));
+  var fill = document.getElementById('trust-fill');
+  var label = document.getElementById('trust-label');
+  var badge = document.getElementById('trust-badge');
+  if(!fill) return;
+  fill.style.width = pct + '%';
+  if(filled === 0){
+    fill.style.background = 'rgba(255,255,255,0.2)';
+    label.textContent = 'Sin verificación';
+    badge.textContent = 'Sin verificación';
+    badge.style.background = 'rgba(255,255,255,0.05)';
+    badge.style.color = 'var(--muted)';
+  } else if(filled <= 2){
+    fill.style.background = '#F59E0B';
+    label.textContent = 'Verificación básica';
+    badge.textContent = '⚡ Verificación básica';
+    badge.style.background = 'rgba(245,158,11,0.12)';
+    badge.style.color = '#F59E0B';
+  } else {
+    fill.style.background = 'var(--green)';
+    label.textContent = 'Verificación alta';
+    badge.textContent = '✓ Verificación alta';
+    badge.style.background = 'rgba(29,158,117,0.15)';
+    badge.style.color = 'var(--green)';
+  }
+}
+
+// ── IA PARA MEJORAR DESCRIPCIÓN ──
+async function improveWithAI(){
+  var desc = document.getElementById('s-description').value.trim();
+  if(desc.length < 30){
+    alert('Escribe al menos unas líneas de tu descripción antes de mejorarla con IA.');
+    return;
+  }
+  var btn = document.getElementById('ai-btn');
+  var preview = document.getElementById('ai-preview');
+  var previewText = document.getElementById('ai-preview-text');
+  btn.textContent = '✨ Mejorando...';
+  btn.classList.add('loading');
+  btn.disabled = true;
+  try {
+    var category = document.getElementById('s-category').options[document.getElementById('s-category').selectedIndex].text || 'servicios profesionales';
+    var res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: 'Eres un experto en marketing de servicios freelance para Latinoamérica. Mejora la siguiente descripción de servicios profesionales para que sea más clara, profesional y atractiva para empresas que buscan contratar. Mantén la esencia y los datos reales que el profesional escribió, pero mejora la redacción, estructura y poder de convicción. Categoría del servicio: ' + category + '. Descripción original:\n\n' + desc + '\n\nResponde SOLO con la descripción mejorada, sin títulos ni explicaciones adicionales. Máximo 200 palabras.'
+        }]
+      })
+    });
+    var data = await res.json();
+    var improved = data.content && data.content[0] ? data.content[0].text : '';
+    if(improved){
+      previewText.textContent = improved;
+      preview.style.display = 'block';
+    } else {
+      alert('No se pudo mejorar la descripción. Intenta de nuevo.');
+    }
+  } catch(err){
+    alert('Error al conectar con la IA. Intenta de nuevo.');
+  }
+  btn.textContent = '✨ Mejorar con IA';
+  btn.classList.remove('loading');
+  btn.disabled = false;
+}
+
+function acceptAI(){
+  var text = document.getElementById('ai-preview-text').textContent;
+  document.getElementById('s-description').value = text;
+  countWords(document.getElementById('s-description'));
+  document.getElementById('ai-preview').style.display = 'none';
+}
+
+function rejectAI(){
+  document.getElementById('ai-preview').style.display = 'none';
+}
+
+// ── SUBMIT ──
+function showError(msg){
+  var err1 = document.getElementById('svc-error');
+  var err2 = document.getElementById('svc-error-bottom');
+  if(err1){ err1.textContent = msg; err1.style.display = 'block'; }
+  if(err2){ err2.textContent = msg; err2.style.display = 'block'; }
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function hideError(){
+  var err1 = document.getElementById('svc-error');
+  var err2 = document.getElementById('svc-error-bottom');
+  if(err1) err1.style.display = 'none';
+  if(err2) err2.style.display = 'none';
+}
+
+async function submitService(){
+  hideError();
+  var name = document.getElementById('s-name').value.trim();
+  var email = document.getElementById('s-email').value.trim();
+  var country = document.getElementById('s-country').value;
+  var availability = document.getElementById('s-availability').value;
+  var category = document.getElementById('s-category').value;
+  var title = document.getElementById('s-title').value.trim();
+  var description = document.getElementById('s-description').value.trim();
+  var rate = document.getElementById('s-rate').value.trim();
+  var linkedin = document.getElementById('s-linkedin').value.trim();
+  var github = document.getElementById('s-github').value.trim();
+  var behance = document.getElementById('s-behance').value.trim();
+  var dribbble = document.getElementById('s-dribbble').value.trim();
+  var portfolio = document.getElementById('s-portfolio').value.trim();
+  var other = document.getElementById('s-other').value.trim();
+  var confirm = document.getElementById('s-confirm').checked;
+  var btn = document.getElementById('s-btn');
+
+  if(!name || !email || !country || !availability || !category || !title || !description){
+    showError('Por favor completa todos los campos obligatorios.');
+    return;
+  }
+  if(!email.includes('@') || !email.includes('.')){
+    showError('Ingresa un email válido.');
+    return;
+  }
+  var wordCount = description.trim().split(/\s+/).filter(function(w){ return w.length > 0; }).length;
+  if(wordCount < 60){
+    showError('La descripción es muy corta. Mínimo 60 palabras. (' + wordCount + ' escritas)');
+    return;
+  }
+  if(!confirm){
+    showError('Debes confirmar que la información es real y verificable.');
+    return;
+  }
+
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+
+  var links = {};
+  if(linkedin) links.linkedin = linkedin;
+  if(github) links.github = github;
+  if(behance) links.behance = behance;
+  if(dribbble) links.dribbble = dribbble;
+  if(portfolio) links.portfolio = portfolio;
+  if(other) links.other = other;
+
+  var trustLevel = Object.keys(links).length === 0 ? 'none' : Object.keys(links).length <= 2 ? 'basic' : 'high';
+
+  try {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/service_profiles', {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        name, email, country, availability,
+        category, title, description, rate,
+        links: JSON.stringify(links),
+        skills: JSON.stringify(selectedSkills),
+        trust_level: trustLevel,
+        status: 'pending',
+        source: 'flexori-services-form'
+      })
+    });
+
+    if(res.ok || res.status === 201){
+      // Enviar email de confirmación
+      try {
+        await fetch('/.netlify/functions/service-submitted-email', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ name, email, title, category })
+        });
+      } catch(e){}
+
+      document.getElementById('svc-form').style.display = 'none';
+      document.getElementById('svc-success').style.display = 'block';
+      var confirmEl = document.getElementById('svc-confirm-email');
+      if(confirmEl) confirmEl.textContent = email;
+      try { gtag('event', 'service_submitted', { event_category: 'conversion', event_label: category }); } catch(e){}
+    } else {
+      showError('Error al enviar. Intenta de nuevo.');
+      btn.textContent = 'Publicar mi perfil gratis →';
+      btn.disabled = false;
+    }
+  } catch(err){
+    showError('Error de conexión. Intenta de nuevo.');
+    btn.textContent = 'Publicar mi perfil gratis →';
+    btn.disabled = false;
+  }
+}
+</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-HFYKRPJN1E');</script>
+</body>
+</html>
