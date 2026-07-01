@@ -31,8 +31,9 @@ input[type=password]:focus{border-color:var(--border-green)}
 .logout-btn:hover{border-color:var(--border-green);color:var(--white)}
 
 /* TABS */
-.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:28px}
-.tab{padding:12px 24px;cursor:pointer;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--gray);border-bottom:2px solid transparent;transition:all .2s}
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:28px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:12px 16px;cursor:pointer;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--gray);border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;flex-shrink:0}
 .tab:hover{color:var(--white)}
 .tab.active{color:var(--green);border-bottom-color:var(--green)}
 .tab-content{display:none}
