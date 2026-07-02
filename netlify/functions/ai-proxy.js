@@ -11,7 +11,23 @@ exports.handler = async function(event) {
   if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
   if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
 
-  const KEY = process.env.GEMINI_KEY || process.env.GEMINI_API_KEY;
+  let KEY = process.env.GEMINI_KEY || process.env.GEMINI_API_KEY;
+
+  // Fallback: leer la key desde Supabase app_config (protegida por RLS, solo service key)
+  if (!KEY && process.env.SUPABASE_SERVICE_KEY) {
+    try {
+      const cfgRes = await fetch(
+        'https://kkkgtwripyaxgmmdsqhg.supabase.co/rest/v1/app_config?key=eq.gemini_api_key&select=value',
+        { headers: {
+            'apikey': process.env.SUPABASE_SERVICE_KEY,
+            'Authorization': 'Bearer ' + process.env.SUPABASE_SERVICE_KEY
+        } }
+      );
+      const rows = await cfgRes.json();
+      if (Array.isArray(rows) && rows[0]) KEY = rows[0].value;
+    } catch (e) {}
+  }
+
   if (!KEY) {
     return { statusCode: 503, headers, body: JSON.stringify({ error: 'AI no configurada aún' }) };
   }
