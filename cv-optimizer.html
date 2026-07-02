@@ -696,7 +696,7 @@ Respond ONLY in this exact JSON format (no markdown, no backticks):
           : `Analyze this CV for remote work. The file is a Word document named: ${selectedFile.name}. Please provide analysis based on the filename and available context, responding in the specified JSON format.`
         }];
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('/.netlify/functions/ai-proxy', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -946,7 +946,7 @@ document.addEventListener('DOMContentLoaded', () => {
       no_score_sub: "Avec votre Score, l'analyse est 3x plus précise et personnalisée",
       get_score: 'Obtenir Score →',
       upload_title: 'Téléchargez votre CV ici',
-      upload_sub: 'Glissez-déposez votre fichier ou cliquez pour le sélectionner.<br>L'analyse prend moins de 30 secondes.',
+      upload_sub: "Glissez-déposez votre fichier ou cliquez pour le sélectionner.<br>L'analyse prend moins de 30 secondes.",
       select_file: 'Sélectionner un fichier',
       analyze_btn: 'Analyser mon CV avec IA',
       analyzing: 'Analyse de votre CV...',
