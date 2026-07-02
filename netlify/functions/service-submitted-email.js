@@ -1,4 +1,4 @@
-const RESEND_KEY = process.env.RESEND_API_KEY || 're_DHBj5dfE_9dvJ7Dr7w1a31mcMj33vA3yP';
+const RESEND_KEY = process.env.RESEND_API_KEY;
 
 exports.handler = async function(event) {
   const headers = {
