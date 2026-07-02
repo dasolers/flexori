@@ -11,7 +11,7 @@ exports.handler = async function(event) {
   if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
   if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
 
-  const KEY = process.env.GEMINI_API_KEY;
+  const KEY = process.env.GEMINI_KEY || process.env.GEMINI_API_KEY;
   if (!KEY) {
     return { statusCode: 503, headers, body: JSON.stringify({ error: 'AI no configurada aún' }) };
   }
