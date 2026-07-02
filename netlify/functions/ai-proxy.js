@@ -61,7 +61,7 @@ exports.handler = async function(event) {
 
     const payload = {
       contents: contents,
-      generationConfig: { maxOutputTokens: Math.min(body.max_tokens || 1500, 4000) }
+      generationConfig: { maxOutputTokens: Math.min(body.max_tokens || 1500, 4000), thinkingConfig: { thinkingBudget: 0 } }
     };
     if (body.system) {
       payload.system_instruction = { parts: [{ text: body.system }] };
