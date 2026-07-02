@@ -532,7 +532,7 @@ async function improveWithAI(){
   btn.disabled = true;
   try {
     var category = document.getElementById('s-category').options[document.getElementById('s-category').selectedIndex].text || 'servicios profesionales';
-    var res = await fetch('https://api.anthropic.com/v1/messages', {
+    var res = await fetch('/.netlify/functions/ai-proxy', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
