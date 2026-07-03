@@ -13,10 +13,16 @@ exports.handler = async function(event) {
 
     const categoryNames = {
       dev: 'Desarrollo de Software', design: 'Diseño UI/UX', marketing: 'Marketing Digital',
+      social: 'Community / Redes Sociales',
       sales: 'Ventas / Closer / Setter', support: 'Soporte / Atención al cliente',
       writing: 'Redacción / Copywriting', data: 'Datos / IA / Analytics',
       va: 'Asistente Virtual', video: 'Video / Edición / Multimedia',
-      finance: 'Finanzas / Contabilidad', hr: 'Recursos Humanos', other: 'Otro'
+      finance: 'Finanzas / Contabilidad', admin: 'Administración / Oficina',
+      hr: 'Recursos Humanos', pm: 'Gestión de Proyectos',
+      consulting: 'Consultoría / Negocios', legal: 'Legal / Jurídico',
+      health: 'Salud / Psicología / Bienestar', education: 'Educación / Docencia / Tutoría',
+      translation: 'Traducción / Idiomas', engineering: 'Arquitectura / Ingeniería',
+      coaching: 'Coaching / Desarrollo personal', other: 'Otro'
     };
 
     const catName = categoryNames[category] || category;

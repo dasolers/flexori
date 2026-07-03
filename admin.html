@@ -425,6 +425,17 @@ function switchTab(tab){
 async function fetchServices(){
   var body = document.getElementById('services-body');
   if (!body) return;
+  var CAT_NAMES = {
+    dev:'Desarrollo de Software', design:'Diseño UI/UX', marketing:'Marketing Digital',
+    social:'Community / Redes Sociales', sales:'Ventas / Closer / Setter',
+    support:'Soporte / Atención al cliente', writing:'Redacción / Copywriting',
+    data:'Datos / IA / Analytics', va:'Asistente Virtual', video:'Video / Edición / Multimedia',
+    finance:'Finanzas / Contabilidad', admin:'Administración / Oficina', hr:'Recursos Humanos',
+    pm:'Gestión de Proyectos', consulting:'Consultoría / Negocios', legal:'Legal / Jurídico',
+    health:'Salud / Psicología / Bienestar', education:'Educación / Docencia / Tutoría',
+    translation:'Traducción / Idiomas', engineering:'Arquitectura / Ingeniería',
+    coaching:'Coaching / Desarrollo personal', other:'Otro'
+  };
   body.innerHTML = '<div class="loading">Cargando...</div>';
   try {
     var res = await fetch('/.netlify/functions/admin-services', {
@@ -448,7 +459,7 @@ async function fetchServices(){
           '</div>' +
           '<span style="background:rgba(255,255,255,0.05);border-radius:100px;padding:4px 12px;font-size:11px;font-weight:700;color:' + statusColor + '">' + (s.status || 'pending').toUpperCase() + '</span>' +
         '</div>' +
-        '<div style="font-size:12px;color:#A8A69E;margin-bottom:8px">Categoría: <strong style="color:#fff">' + (s.category || '') + '</strong> · Tarifa: <strong style="color:#fff">' + (s.rate || 'No especificada') + '</strong> · Disponibilidad: <strong style="color:#fff">' + (s.availability || '') + '</strong> · Trust: <strong style="color:' + (s.trust_level === 'high' ? '#1D9E75' : s.trust_level === 'basic' ? '#F59E0B' : '#888') + '">' + (s.trust_level || 'none') + '</strong></div>' +
+        '<div style="font-size:12px;color:#A8A69E;margin-bottom:8px">Categoría: <strong style="color:#fff">' + (CAT_NAMES[s.category] || s.category || '') + '</strong> · Tarifa: <strong style="color:#fff">' + (s.rate || 'No especificada') + '</strong> · Disponibilidad: <strong style="color:#fff">' + (s.availability || '') + '</strong> · Trust: <strong style="color:' + (s.trust_level === 'high' ? '#1D9E75' : s.trust_level === 'basic' ? '#F59E0B' : '#888') + '">' + (s.trust_level || 'none') + '</strong></div>' +
         (linkHtml ? '<div style="margin-bottom:8px">' + linkHtml + '</div>' : '') +
         (skills.length ? '<div style="font-size:12px;color:#A8A69E;margin-bottom:12px">Skills: ' + skills.join(', ') + '</div>' : '') +
         '<details style="margin-bottom:12px"><summary style="font-size:12px;color:#A8A69E;cursor:pointer">Ver descripción</summary><p style="font-size:13px;color:#C8D8F0;line-height:1.7;margin-top:8px;padding:12px;background:rgba(255,255,255,0.03);border-radius:8px">' + (s.description || '') + '</p></details>' +

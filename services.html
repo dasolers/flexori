@@ -341,17 +341,37 @@ footer a{color:var(--green);text-decoration:none}
             <label>Categoría <span class="required">*</span></label>
             <select id="s-category">
               <option value="">Selecciona...</option>
-              <option value="dev">Desarrollo de Software</option>
-              <option value="design">Diseño UI/UX</option>
-              <option value="marketing">Marketing Digital</option>
-              <option value="sales">Ventas / Closer / Setter</option>
-              <option value="support">Soporte / Atención al cliente</option>
-              <option value="writing">Redacción / Copywriting</option>
-              <option value="data">Datos / IA / Analytics</option>
-              <option value="va">Asistente Virtual</option>
-              <option value="video">Video / Edición / Multimedia</option>
-              <option value="finance">Finanzas / Contabilidad</option>
-              <option value="hr">Recursos Humanos</option>
+              <optgroup label="Tecnología y Datos">
+                <option value="dev">Desarrollo de Software</option>
+                <option value="design">Diseño UI/UX</option>
+                <option value="data">Datos / IA / Analytics</option>
+              </optgroup>
+              <optgroup label="Marketing y Contenido">
+                <option value="marketing">Marketing Digital</option>
+                <option value="writing">Redacción / Copywriting</option>
+                <option value="video">Video / Edición / Multimedia</option>
+                <option value="social">Community / Redes Sociales</option>
+              </optgroup>
+              <optgroup label="Ventas y Atención">
+                <option value="sales">Ventas / Closer / Setter</option>
+                <option value="support">Soporte / Atención al cliente</option>
+                <option value="va">Asistente Virtual</option>
+              </optgroup>
+              <optgroup label="Negocios y Administración">
+                <option value="finance">Finanzas / Contabilidad</option>
+                <option value="admin">Administración / Oficina</option>
+                <option value="hr">Recursos Humanos</option>
+                <option value="pm">Gestión de Proyectos</option>
+                <option value="consulting">Consultoría / Negocios</option>
+                <option value="legal">Legal / Jurídico</option>
+              </optgroup>
+              <optgroup label="Profesiones y Servicios">
+                <option value="health">Salud / Psicología / Bienestar</option>
+                <option value="education">Educación / Docencia / Tutoría</option>
+                <option value="translation">Traducción / Idiomas</option>
+                <option value="engineering">Arquitectura / Ingeniería</option>
+                <option value="coaching">Coaching / Desarrollo personal</option>
+              </optgroup>
               <option value="other">Otro</option>
             </select>
           </div>
@@ -534,6 +554,7 @@ var CATEGORY_SKILLS = {
   dev: ['JavaScript','React','Node.js','Python','PHP','Laravel','Vue.js','TypeScript','SQL','MongoDB','AWS','Docker'],
   design: ['Figma','Adobe XD','Illustrator','Photoshop','UI/UX','Prototyping','Branding','Webflow','After Effects'],
   marketing: ['SEO','SEM','Google Ads','Meta Ads','Email Marketing','Content Strategy','Analytics','Copywriting','Social Media'],
+  social: ['Community Management','Instagram','TikTok','LinkedIn','Content Calendar','Reels','Copywriting','Canva','Analítica de redes'],
   sales: ['Cold Calling','CRM','HubSpot','Salesforce','Lead Generation','Closer','Setter','B2B','B2C','Ventas Digitales'],
   support: ['Zendesk','Intercom','Customer Success','Chat Support','Email Support','Español','Inglés','CRM'],
   writing: ['Copywriting','SEO Writing','Blog','Guiones','Redes Sociales','Traducción','Edición','Newsletter'],
@@ -541,7 +562,16 @@ var CATEGORY_SKILLS = {
   va: ['Gestión de agenda','Email','Investigación','Redes Sociales','CRM','Atención al cliente','Excel','Notion'],
   video: ['Premiere Pro','After Effects','DaVinci Resolve','YouTube','TikTok','Reels','Motion Graphics','Podcast'],
   finance: ['Contabilidad','Excel','QuickBooks','Facturación','Impuestos','Análisis financiero','SAP'],
+  admin: ['Excel','Gestión documental','Agenda','Facturación','Atención telefónica','Word','Google Workspace','Organización'],
   hr: ['Reclutamiento','Onboarding','Nómina','Clima organizacional','Selección de personal'],
+  pm: ['Scrum','Agile','Jira','Trello','Asana','Gestión de equipos','Notion','Planificación','Roadmaps'],
+  consulting: ['Estrategia','Análisis de negocio','Procesos','Excel','Presentaciones','Investigación de mercado','KPIs'],
+  legal: ['Derecho corporativo','Contratos','Compliance','Propiedad intelectual','Laboral','Redacción legal','Asesoría'],
+  health: ['Psicología','Terapia','Nutrición','Coaching de salud','Telemedicina','Bienestar','Escucha activa'],
+  education: ['Docencia','Tutoría','Diseño de cursos','Inglés','Matemáticas','E-learning','Moodle','Evaluación'],
+  translation: ['Inglés','Español','Portugués','Francés','Traducción','Interpretación','Subtitulado','Localización'],
+  engineering: ['AutoCAD','Revit','SketchUp','Diseño estructural','Cálculo','Planos','Project','Modelado 3D'],
+  coaching: ['Coaching','Mentoría','Desarrollo personal','Liderazgo','Comunicación','Productividad','Inteligencia emocional'],
   other: []
 };
 
@@ -776,18 +806,17 @@ async function submitService(){
     });
 
     if(res.ok || res.status === 201){
-      // Enviar email de confirmación
-      try {
-        await fetch('/.netlify/functions/service-submitted-email', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ name, email, title, category })
-        });
-      } catch(e){}
-
+      // Mostrar éxito de inmediato — no esperamos al email
       document.getElementById('svc-form').style.display = 'none';
       document.getElementById('svc-success').style.display = 'block';
       var confirmEl = document.getElementById('svc-confirm-email');
+
+      // Email de confirmación en segundo plano (no bloquea la UI)
+      fetch('/.netlify/functions/service-submitted-email', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ name, email, title, category })
+      }).catch(function(){});
       if(confirmEl) confirmEl.textContent = email;
       try { gtag('event', 'service_submitted', { event_category: 'conversion', event_label: category }); } catch(e){}
     } else {
