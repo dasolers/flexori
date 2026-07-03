@@ -244,6 +244,27 @@ footer a{color:var(--green);text-decoration:none}
     <div class="form-body">
       <div class="form-error" id="svc-error"></div>
 
+      <!-- VISTA RESUMEN: se muestra si el usuario ya tiene un perfil -->
+      <div id="svc-summary" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px">
+          <div>
+            <div id="sum-title" style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800"></div>
+            <div id="sum-cat" style="font-size:13px;color:var(--muted);margin-top:2px"></div>
+          </div>
+          <span id="sum-status" style="border-radius:100px;padding:6px 14px;font-size:12px;font-weight:700"></span>
+        </div>
+
+        <div id="sum-status-msg" style="font-size:14px;line-height:1.6;color:#C8D8F0;background:rgba(255,255,255,0.03);border-radius:12px;padding:16px;margin-bottom:20px"></div>
+
+        <!-- Tarjeta de Score / incentivo -->
+        <div id="sum-score-card" style="border:1px solid rgba(29,158,117,0.25);border-radius:14px;padding:18px;margin-bottom:20px"></div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button onclick="editProfile()" class="btn-solid" style="padding:12px 24px;font-size:14px">✏️ Editar mi perfil</button>
+          <button onclick="signOutServices()" style="background:transparent;border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:100px;padding:12px 24px;font-size:14px;cursor:pointer">Cerrar sesión</button>
+        </div>
+      </div>
+
       <div id="svc-form">
         <!-- SECCIÓN 1: SOBRE TI -->
         <div class="section-title">Sobre ti</div>
@@ -439,7 +460,7 @@ footer a{color:var(--green);text-decoration:none}
       <!-- SUCCESS STATE -->
       <div class="form-success" id="svc-success">
         <div style="font-size:64px;margin-bottom:20px">🎉</div>
-        <h3 style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;margin-bottom:12px">¡Perfil enviado!</h3>
+        <h3 id="svc-success-title" style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;margin-bottom:12px">¡Perfil enviado!</h3>
         <p style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:8px">Tu perfil está en revisión. Nuestro equipo lo evaluará en las próximas <strong style="color:#fff">24-48 horas</strong>.</p>
         <p style="font-size:14px;color:var(--muted);line-height:1.7">Te enviaremos un email a <strong id="svc-confirm-email" style="color:#fff"></strong> cuando quede publicado y las empresas puedan encontrarte.</p>
         <div style="margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
@@ -528,15 +549,157 @@ async function submitAuth(){
   }
 }
 
-// Ajusta la UI según haya sesión o no
-function applyAuthState(){
+// Ajusta la UI según haya sesión o no, y carga el perfil si existe
+var _existingProfile = null;
+
+async function applyAuthState(){
   var u = currentUser();
-  var emailInput = document.getElementById('s-email');
   var navUser = document.getElementById('nav-user');
-  if(u){
-    if(navUser){ navUser.textContent = u.email; navUser.style.display = 'inline'; }
-    if(emailInput){ emailInput.value = u.email; emailInput.readOnly = true; emailInput.style.opacity = '0.7'; }
+  var emailInput = document.getElementById('s-email');
+  if(!u){
+    if(emailInput){ /* queda editable para el flujo con login */ }
+    return;
   }
+  if(navUser){ navUser.textContent = u.email; navUser.style.display = 'inline'; }
+  if(emailInput){ emailInput.value = u.email; emailInput.readOnly = true; emailInput.style.opacity = '0.7'; }
+
+  // ¿Ya tiene un perfil de servicios?
+  try {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/service_profiles?user_id=eq.' + encodeURIComponent(u.id) + '&order=created_at.desc&limit=1&select=*', {
+      headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + u.token }
+    });
+    var rows = await res.json();
+    if(Array.isArray(rows) && rows.length > 0){
+      _existingProfile = rows[0];
+      await renderSummary(_existingProfile);
+    }
+  } catch(e){}
+}
+
+var STATUS_INFO = {
+  pending:  { label:'EN REVISIÓN', color:'#F59E0B', bg:'rgba(245,158,11,0.12)', msg:'Tu perfil está en revisión. Nuestro equipo lo evaluará en las próximas 24-48 horas. Te avisaremos por email cuando quede publicado.' },
+  approved: { label:'PUBLICADO',   color:'#1D9E75', bg:'rgba(29,158,117,0.12)', msg:'¡Tu perfil está publicado! Las empresas ya pueden encontrarte y contactarte directamente.' },
+  rejected: { label:'NO APROBADO', color:'#ef4444', bg:'rgba(239,68,68,0.12)', msg:'Tu perfil no fue aprobado en esta ocasión. Edítalo para mejorar la presentación y vuelve a enviarlo a revisión.' }
+};
+
+async function renderSummary(p){
+  document.getElementById('svc-form').style.display = 'none';
+  document.getElementById('svc-success').style.display = 'none';
+  var box = document.getElementById('svc-summary');
+  box.style.display = 'block';
+
+  document.getElementById('sum-title').textContent = p.title || 'Tu perfil de servicios';
+  var CAT_NAMES = window._CAT_NAMES || {};
+  document.getElementById('sum-cat').textContent = (CAT_NAMES[p.category] || p.category || '') + (p.country ? ' · ' + p.country : '');
+
+  var st = STATUS_INFO[p.status] || STATUS_INFO.pending;
+  var stEl = document.getElementById('sum-status');
+  stEl.textContent = st.label; stEl.style.color = st.color; stEl.style.background = st.bg;
+  document.getElementById('sum-status-msg').textContent = st.msg;
+
+  // Score: carta de presentación o incentivo
+  var score = await loadUserScore(p.email);
+  var card = document.getElementById('sum-score-card');
+  if(score && !isNaN(score) && score > 0){
+    card.style.background = 'rgba(29,158,117,0.06)';
+    card.innerHTML =
+      '<div style="display:flex;align-items:center;gap:16px">' +
+        '<div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#1D5FA3,#1D9E75);display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-weight:800;font-size:22px;color:#fff;flex-shrink:0">' + score + '</div>' +
+        '<div>' +
+          '<div style="font-weight:700;font-size:15px;margin-bottom:2px">Score de Empleabilidad: ' + score + '/100</div>' +
+          '<div style="font-size:13px;color:var(--muted)">Este score aparece en tu perfil como carta de presentación ante las empresas.</div>' +
+        '</div>' +
+      '</div>';
+  } else {
+    card.style.background = 'rgba(245,158,11,0.06)';
+    card.style.borderColor = 'rgba(245,158,11,0.25)';
+    card.innerHTML =
+      '<div style="font-weight:700;font-size:15px;margin-bottom:6px">🎯 Aún no tienes tu Score de Empleabilidad</div>' +
+      '<div style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px">Los perfiles con Score reciben hasta <strong style="color:#fff">3x más contactos</strong> de empresas. Es gratis y toma solo 3 minutos.</div>' +
+      '<a href="/profile.html" class="btn-solid" style="padding:10px 20px;font-size:13px;text-decoration:none">Obtener mi Score gratis →</a>';
+  }
+}
+
+async function loadUserScore(email){
+  var u = currentUser();
+  // localStorage primero
+  try {
+    var saved = localStorage.getItem('flexori_score');
+    if(saved){ var sd = JSON.parse(saved); var v = parseInt(sd.score || sd); if(v && !isNaN(v)) return v; }
+  } catch(e){}
+  // luego Supabase por email
+  try {
+    var em = email || (u && u.email);
+    if(!em) return null;
+    var res = await fetch(SUPABASE_URL + '/rest/v1/employability_scores?email=eq.' + encodeURIComponent(em) + '&order=created_at.desc&limit=1&select=score,total_score', {
+      headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + (u ? u.token : '') }
+    });
+    var scores = await res.json();
+    if(Array.isArray(scores) && scores.length > 0){ return parseInt(scores[0].total_score || scores[0].score); }
+  } catch(e){}
+  return null;
+}
+
+// Carga los datos del perfil existente en el formulario y lo muestra para editar
+function editProfile(){
+  var p = _existingProfile;
+  document.getElementById('svc-summary').style.display = 'none';
+  document.getElementById('svc-form').style.display = 'block';
+  if(!p) return;
+
+  document.getElementById('s-name').value = p.name || '';
+  document.getElementById('s-country').value = p.country || '';
+  document.getElementById('s-availability').value = p.availability || '';
+  document.getElementById('s-category').value = p.category || '';
+  document.getElementById('s-rate').value = p.rate || '';
+  document.getElementById('s-title').value = p.title || '';
+  document.getElementById('s-description').value = p.description || '';
+  countWords(document.getElementById('s-description'));
+
+  // Links
+  var links = {};
+  try { links = typeof p.links === 'string' ? JSON.parse(p.links) : (p.links || {}); } catch(e){}
+  ['linkedin','github','behance','dribbble','portfolio','other'].forEach(function(k){
+    var el = document.getElementById('s-' + k); if(el) el.value = links[k] || '';
+  });
+  updateTrust();
+
+  // Skills: render de la categoría y marcar las que ya tenía
+  var savedSkills = [];
+  try { savedSkills = typeof p.skills === 'string' ? JSON.parse(p.skills) : (p.skills || []); } catch(e){}
+  renderSkills(p.category || '');
+  selectedSkills = savedSkills.slice();
+  var grid = document.getElementById('skills-grid');
+  if(grid){
+    // marcar los chips existentes
+    Array.prototype.forEach.call(grid.children, function(tag){
+      if(savedSkills.includes(tag.textContent)) tag.classList.add('selected');
+    });
+    // añadir chips personalizados que no estén en la categoría
+    savedSkills.forEach(function(sk){
+      var found = Array.prototype.some.call(grid.children, function(t){ return t.textContent === sk; });
+      if(!found){
+        var tag = document.createElement('div');
+        tag.className = 'skill-tag selected'; tag.textContent = sk;
+        tag.onclick = function(){ tag.classList.toggle('selected');
+          if(tag.classList.contains('selected')){ if(!selectedSkills.includes(sk)) selectedSkills.push(sk); }
+          else { selectedSkills = selectedSkills.filter(function(x){ return x !== sk; }); } };
+        grid.appendChild(tag);
+      }
+    });
+  }
+
+  // Cambiar el botón a modo edición
+  var btn = document.getElementById('s-btn');
+  if(btn) btn.textContent = 'Guardar cambios →';
+  window.scrollTo({ top: document.getElementById('publicar').offsetTop - 20, behavior:'smooth' });
+}
+
+function signOutServices(){
+  localStorage.removeItem('sb_access_token');
+  localStorage.removeItem('sb_user_email');
+  localStorage.removeItem('sb_user_id');
+  window.location.reload();
 }
 
 // Al hacer clic en "Publicar", si no hay sesión abre el modal en vez de bajar al form
@@ -573,6 +736,18 @@ var CATEGORY_SKILLS = {
   engineering: ['AutoCAD','Revit','SketchUp','Diseño estructural','Cálculo','Planos','Project','Modelado 3D'],
   coaching: ['Coaching','Mentoría','Desarrollo personal','Liderazgo','Comunicación','Productividad','Inteligencia emocional'],
   other: []
+};
+
+window._CAT_NAMES = {
+  dev:'Desarrollo de Software', design:'Diseño UI/UX', marketing:'Marketing Digital',
+  social:'Community / Redes Sociales', sales:'Ventas / Closer / Setter',
+  support:'Soporte / Atención al cliente', writing:'Redacción / Copywriting',
+  data:'Datos / IA / Analytics', va:'Asistente Virtual', video:'Video / Edición / Multimedia',
+  finance:'Finanzas / Contabilidad', admin:'Administración / Oficina', hr:'Recursos Humanos',
+  pm:'Gestión de Proyectos', consulting:'Consultoría / Negocios', legal:'Legal / Jurídico',
+  health:'Salud / Psicología / Bienestar', education:'Educación / Docencia / Tutoría',
+  translation:'Traducción / Idiomas', engineering:'Arquitectura / Ingeniería',
+  coaching:'Coaching / Desarrollo personal', other:'Otro'
 };
 
 document.getElementById('s-category').addEventListener('change', function(){
@@ -784,39 +959,53 @@ async function submitService(){
 
   var trustLevel = Object.keys(links).length === 0 ? 'none' : Object.keys(links).length <= 2 ? 'basic' : 'high';
 
+  var isEdit = !!(_existingProfile && _existingProfile.id);
+  var payload = {
+    user_id: _u.id,
+    name: name, email: email, country: country, availability: availability,
+    category: category, title: title, description: description, rate: rate,
+    links: JSON.stringify(links),
+    skills: JSON.stringify(selectedSkills),
+    trust_level: trustLevel,
+    status: 'pending',
+    source: 'flexori-services-form'
+  };
+
   try {
-    var res = await fetch(SUPABASE_URL + '/rest/v1/service_profiles', {
-      method: 'POST',
+    var url = SUPABASE_URL + '/rest/v1/service_profiles';
+    var method = 'POST';
+    if(isEdit){
+      url += '?id=eq.' + encodeURIComponent(_existingProfile.id);
+      method = 'PATCH';
+    }
+    var res = await fetch(url, {
+      method: method,
       headers: {
         'apikey': SUPABASE_ANON,
         'Authorization': 'Bearer ' + _u.token,
         'Content-Type': 'application/json',
         'Prefer': 'return=minimal'
       },
-      body: JSON.stringify({
-        user_id: _u.id,
-        name, email, country, availability,
-        category, title, description, rate,
-        links: JSON.stringify(links),
-        skills: JSON.stringify(selectedSkills),
-        trust_level: trustLevel,
-        status: 'pending',
-        source: 'flexori-services-form'
-      })
+      body: JSON.stringify(payload)
     });
 
-    if(res.ok || res.status === 201){
+    if(res.ok || res.status === 201 || res.status === 204){
       // Mostrar éxito de inmediato — no esperamos al email
+      var successTitle = document.getElementById('svc-success-title');
+      if(successTitle) successTitle.textContent = isEdit ? '¡Cambios guardados!' : '¡Perfil enviado!';
       document.getElementById('svc-form').style.display = 'none';
+      document.getElementById('svc-summary').style.display = 'none';
       document.getElementById('svc-success').style.display = 'block';
       var confirmEl = document.getElementById('svc-confirm-email');
 
-      // Email de confirmación en segundo plano (no bloquea la UI)
-      fetch('/.netlify/functions/service-submitted-email', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ name, email, title, category })
-      }).catch(function(){});
+      // Email de confirmación en segundo plano solo en creación (no en cada edición)
+      if(!isEdit){
+        fetch('/.netlify/functions/service-submitted-email', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ name, email, title, category })
+        }).catch(function(){});
+      }
       if(confirmEl) confirmEl.textContent = email;
       try { gtag('event', 'service_submitted', { event_category: 'conversion', event_label: category }); } catch(e){}
     } else {
