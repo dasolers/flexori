@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Encuentra Talento Remoto — Flexori</title>
+<link rel="canonical" href="https://flexori.work/talent.html"/>
+<meta name="description" content="Explora perfiles verificados de profesionales remotos de LATAM. Filtra por categoría, país y disponibilidad, y contacta directamente al talento que buscas.">
+<meta name="theme-color" content="#1D9E75">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#0D1321;--green:#1D9E75;--green-light:#24C48F;--blue:#1D5FA3;
+  --gray:#A8A69E;--white:#F0EEE6;--surface:#131B2E;--surface2:#1A2338;
+  --green-dim:rgba(29,158,117,0.12);--border:rgba(255,255,255,0.07);
+  --border-green:rgba(29,158,117,0.25);--muted:#A8A69E;--gold:#F59E0B
+}
+body{background:#0D1321;color:#F0EEE6;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;
+  justify-content:space-between;padding:0 48px;height:68px;
+  background:rgba(13,19,33,0.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--green));border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#fff}
+.nav-logo-text{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff}
+.nav-links{display:flex;gap:10px;align-items:center}
+.btn-solid{background:var(--green);color:var(--black);border:none;border-radius:100px;
+  padding:10px 24px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;
+  cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
+.btn-solid:hover{background:var(--green-light)}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.15);color:#fff;
+  border-radius:100px;padding:9px 20px;font-size:13px;text-decoration:none;cursor:pointer;transition:all .2s}
+.btn-ghost:hover{border-color:var(--green)}
+
+.page{max-width:1200px;margin:0 auto;padding:100px 24px 60px}
+.hero-lbl{color:var(--green);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.hero-title{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:12px}
+.hero-title .green{color:var(--green)}
+.hero-sub{font-size:16px;color:var(--muted);max-width:640px;line-height:1.6;margin-bottom:32px}
+
+/* SEARCH + FILTERS */
+.search-box{display:flex;align-items:center;gap:12px;background:var(--surface);
+  border:1px solid var(--border);border-radius:14px;padding:6px 6px 6px 18px;margin-bottom:16px;max-width:640px}
+.search-icon{color:var(--muted);display:flex}
+.search-input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:15px;font-family:inherit;padding:10px 0}
+.search-input::placeholder{color:var(--muted)}
+.search-btn{background:var(--green);color:var(--black);border:none;border-radius:10px;padding:10px 22px;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;cursor:pointer}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:24px}
+.f-select{background:var(--surface);border:1px solid var(--border);color:#fff;
+  border-radius:10px;padding:10px 14px;font-size:13px;font-family:inherit;cursor:pointer;outline:none}
+.f-select:focus{border-color:var(--green)}
+.clear-btn{background:transparent;border:none;color:var(--muted);font-size:13px;cursor:pointer;text-decoration:underline;padding:8px}
+.count-txt{color:var(--muted);font-size:14px;margin-bottom:20px}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;transition:all .2s;display:flex;flex-direction:column}
+.card:hover{border-color:var(--border-green);transform:translateY(-2px)}
+.card-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
+.card-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--green));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:#fff;flex-shrink:0}
+.card-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;line-height:1.25;margin-bottom:3px}
+.card-meta{font-size:12.5px;color:var(--muted)}
+.card-cat{display:inline-block;background:var(--green-dim);color:var(--green);border-radius:100px;padding:3px 12px;font-size:11px;font-weight:600;margin-bottom:12px;align-self:flex-start}
+.card-desc{font-size:13.5px;color:#C8D8F0;line-height:1.6;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-skills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.skill-chip{background:rgba(255,255,255,0.05);border-radius:6px;padding:4px 9px;font-size:11px;color:var(--muted)}
+.card-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:14px;border-top:1px solid var(--border)}
+.card-rate{font-size:13px;color:#fff;font-weight:600}
+.card-score{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.score-badge{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--green));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff}
+.contact-btn{background:var(--green);color:var(--black);border:none;border-radius:8px;padding:8px 16px;font-family:'Syne',sans-serif;font-weight:700;font-size:12.5px;cursor:pointer;text-decoration:none}
+.trust-badge{font-size:11px;font-weight:600}
+.trust-high{color:var(--green)}
+.trust-basic{color:var(--gold)}
+
+.loading,.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-icon{font-size:44px;margin-bottom:14px}
+
+/* MODAL de detalle */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:500;backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;max-width:560px;width:100%;max-height:88vh;overflow-y:auto;padding:32px}
+.modal-close{float:right;background:transparent;border:none;color:var(--muted);font-size:22px;cursor:pointer;line-height:1}
+
+footer{border-top:1px solid var(--border);padding:32px 48px;text-align:center;color:var(--muted);font-size:13px;margin-top:60px}
+footer a{color:var(--green);text-decoration:none}
+
+@media(max-width:640px){
+  nav{padding:0 20px}
+  .page{padding:90px 16px 40px}
+  .search-box{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">F</div>
+    <span class="nav-logo-text">Flexori</span>
+  </a>
+  <div class="nav-links">
+    <a href="/jobs.html" class="btn-ghost">Ver empleos</a>
+    <a href="/services.html" class="btn-solid">Publicar mi perfil</a>
+  </div>
+</nav>
+
+<div class="page">
+  <p class="hero-lbl">Directorio de Talento</p>
+  <h1 class="hero-title">Encuentra al <span class="green">profesional remoto</span> que buscas.</h1>
+  <p class="hero-sub">Explora perfiles verificados de profesionales de LATAM — desarrolladores, diseñadores, contadores, asistentes, marketers y más. Filtra por lo que necesitas y contacta directamente. Sin intermediarios, sin comisiones.</p>
+
+  <!-- SEARCH -->
+  <div class="search-box">
+    <div class="search-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </div>
+    <input type="text" id="t-search" class="search-input" placeholder="Busca por título, habilidad o palabra clave..." oninput="debounceFilter()"/>
+    <button class="search-btn" onclick="applyFilters()">Buscar</button>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <select id="f-cat" class="f-select" onchange="applyFilters()">
+      <option value="">Todas las categorías</option>
+      <optgroup label="Tecnología y Datos">
+        <option value="dev">Desarrollo de Software</option>
+        <option value="design">Diseño UI/UX</option>
+        <option value="data">Datos / IA / Analytics</option>
+      </optgroup>
+      <optgroup label="Marketing y Contenido">
+        <option value="marketing">Marketing Digital</option>
+        <option value="writing">Redacción / Copywriting</option>
+        <option value="video">Video / Edición / Multimedia</option>
+        <option value="social">Community / Redes Sociales</option>
+      </optgroup>
+      <optgroup label="Ventas y Atención">
+        <option value="sales">Ventas / Closer / Setter</option>
+        <option value="support">Soporte / Atención al cliente</option>
+        <option value="va">Asistente Virtual</option>
+      </optgroup>
+      <optgroup label="Negocios y Administración">
+        <option value="finance">Finanzas / Contabilidad</option>
+        <option value="admin">Administración / Oficina</option>
+        <option value="hr">Recursos Humanos</option>
+        <option value="pm">Gestión de Proyectos</option>
+        <option value="consulting">Consultoría / Negocios</option>
+        <option value="legal">Legal / Jurídico</option>
+      </optgroup>
+      <optgroup label="Profesiones y Servicios">
+        <option value="health">Salud / Psicología / Bienestar</option>
+        <option value="education">Educación / Docencia / Tutoría</option>
+        <option value="translation">Traducción / Idiomas</option>
+        <option value="engineering">Arquitectura / Ingeniería</option>
+        <option value="coaching">Coaching / Desarrollo personal</option>
+      </optgroup>
+      <option value="other">Otro</option>
+    </select>
+
+    <select id="f-country" class="f-select" onchange="applyFilters()">
+      <option value="">Todos los países</option>
+      <option value="Argentina">Argentina</option>
+      <option value="Bolivia">Bolivia</option>
+      <option value="Chile">Chile</option>
+      <option value="Colombia">Colombia</option>
+      <option value="Costa Rica">Costa Rica</option>
+      <option value="Ecuador">Ecuador</option>
+      <option value="El Salvador">El Salvador</option>
+      <option value="Guatemala">Guatemala</option>
+      <option value="Honduras">Honduras</option>
+      <option value="México">México</option>
+      <option value="Nicaragua">Nicaragua</option>
+      <option value="Panamá">Panamá</option>
+      <option value="Paraguay">Paraguay</option>
+      <option value="Perú">Perú</option>
+      <option value="República Dominicana">República Dominicana</option>
+      <option value="Uruguay">Uruguay</option>
+      <option value="Venezuela">Venezuela</option>
+    </select>
+
+    <select id="f-avail" class="f-select" onchange="applyFilters()">
+      <option value="">Cualquier disponibilidad</option>
+      <option value="immediate">Disponible ya</option>
+      <option value="2weeks">En 2 semanas</option>
+      <option value="month">En un mes</option>
+      <option value="parttime">Medio tiempo</option>
+    </select>
+
+    <button class="clear-btn" onclick="clearFilters()">Limpiar filtros</button>
+  </div>
+
+  <div class="count-txt" id="count-txt">Cargando talento...</div>
+
+  <div class="grid" id="grid"></div>
+  <div class="loading" id="loading">Cargando perfiles...</div>
+  <div class="empty" id="empty" style="display:none">
+    <div class="empty-icon">🔍</div>
+    <div style="font-weight:700;margin-bottom:6px">No encontramos perfiles con esos filtros</div>
+    <div style="font-size:14px">Prueba con otros criterios o limpia los filtros.</div>
+  </div>
+</div>
+
+<!-- MODAL DETALLE -->
+<div class="overlay" id="detail-overlay">
+  <div class="modal" id="detail-modal"></div>
+</div>
+
+<footer>
+  © 2026 <a href="/">Flexori</a> · Tu GPS de carrera remota · <a href="/services.html">Publicar mi perfil</a> · <a href="/jobs.html">Ver empleos</a>
+</footer>
+
+<script>
+const SUPABASE_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
+const SUPABASE_ANON = ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+  'eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra2d0d3JpcHlheGdtbWRzcWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5ODgyNDEsImV4cCI6MjA5NDU2NDI0MX0',
+  'XKDKt1jAR7kCLktP19olgTuhzT9s2PkknqBWwIAkiRU'].join('.');
+
+var CAT_NAMES = {
+  dev:'Desarrollo de Software', design:'Diseño UI/UX', marketing:'Marketing Digital',
+  social:'Community / Redes Sociales', sales:'Ventas / Closer / Setter',
+  support:'Soporte / Atención al cliente', writing:'Redacción / Copywriting',
+  data:'Datos / IA / Analytics', va:'Asistente Virtual', video:'Video / Edición / Multimedia',
+  finance:'Finanzas / Contabilidad', admin:'Administración / Oficina', hr:'Recursos Humanos',
+  pm:'Gestión de Proyectos', consulting:'Consultoría / Negocios', legal:'Legal / Jurídico',
+  health:'Salud / Psicología / Bienestar', education:'Educación / Docencia / Tutoría',
+  translation:'Traducción / Idiomas', engineering:'Arquitectura / Ingeniería',
+  coaching:'Coaching / Desarrollo personal', other:'Otro'
+};
+var AVAIL_NAMES = { immediate:'Disponible ya', '2weeks':'En 2 semanas', month:'En un mes', parttime:'Medio tiempo' };
+
+var allProfiles = [];
+var filtered = [];
+
+function initials(name){
+  if(!name) return '?';
+  return name.trim().split(/\s+/).map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
+}
+function parseArr(v){ try { return typeof v==='string'?JSON.parse(v):(v||[]); } catch(e){ return []; } }
+function parseObj(v){ try { return typeof v==='string'?JSON.parse(v):(v||{}); } catch(e){ return {}; } }
+
+async function loadProfiles(){
+  try {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/service_profiles?status=eq.approved&order=created_at.desc&select=*', {
+      headers: { 'apikey': SUPABASE_ANON }
+    });
+    var data = await res.json();
+    allProfiles = Array.isArray(data) ? data : [];
+  } catch(e){ allProfiles = []; }
+  document.getElementById('loading').style.display = 'none';
+  applyFilters();
+}
+
+var _dbTimer = null;
+function debounceFilter(){ clearTimeout(_dbTimer); _dbTimer = setTimeout(applyFilters, 250); }
+
+function applyFilters(){
+  var q = (document.getElementById('t-search').value || '').toLowerCase().trim();
+  var cat = document.getElementById('f-cat').value;
+  var country = document.getElementById('f-country').value;
+  var avail = document.getElementById('f-avail').value;
+
+  filtered = allProfiles.filter(function(p){
+    if(cat && p.category !== cat) return false;
+    if(country && p.country !== country) return false;
+    if(avail && p.availability !== avail) return false;
+    if(q){
+      var hay = (p.title||'') + ' ' + (p.description||'') + ' ' + parseArr(p.skills).join(' ') + ' ' + (CAT_NAMES[p.category]||'');
+      if(hay.toLowerCase().indexOf(q) === -1) return false;
+    }
+    return true;
+  });
+
+  render();
+}
+
+function render(){
+  var grid = document.getElementById('grid');
+  var count = document.getElementById('count-txt');
+  var empty = document.getElementById('empty');
+
+  count.textContent = filtered.length + (filtered.length === 1 ? ' profesional encontrado' : ' profesionales encontrados');
+
+  if(filtered.length === 0){
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  grid.innerHTML = filtered.map(function(p, i){
+    var skills = parseArr(p.skills).slice(0, 5);
+    var skillHtml = skills.map(function(s){ return '<span class="skill-chip">'+s+'</span>'; }).join('');
+    var trustClass = p.trust_level === 'high' ? 'trust-high' : 'trust-basic';
+    var trustLabel = p.trust_level === 'high' ? '✓ Verificado' : (p.trust_level === 'basic' ? '✓ Básico' : '');
+    return '<div class="card">' +
+      '<div class="card-top">' +
+        '<div class="card-avatar">'+initials(p.name)+'</div>' +
+        '<div style="min-width:0">' +
+          '<div class="card-title">'+(p.title||'Profesional remoto')+'</div>' +
+          '<div class="card-meta">'+(p.name||'')+(p.country?' · '+p.country:'')+'</div>' +
+        '</div>' +
+      '</div>' +
+      '<span class="card-cat">'+(CAT_NAMES[p.category]||p.category||'')+'</span>' +
+      '<div class="card-desc">'+(p.description||'')+'</div>' +
+      (skillHtml ? '<div class="card-skills">'+skillHtml+'</div>' : '') +
+      '<div class="card-footer">' +
+        '<div>' +
+          (p.rate ? '<div class="card-rate">'+p.rate+'</div>' : '<div class="card-rate" style="color:var(--muted)">Tarifa a convenir</div>') +
+          (trustLabel ? '<div class="trust-badge '+trustClass+'">'+trustLabel+'</div>' : '') +
+        '</div>' +
+        '<button class="contact-btn" onclick="openDetail('+i+')">Ver perfil →</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function openDetail(i){
+  var p = filtered[i];
+  if(!p) return;
+  var links = parseObj(p.links);
+  var linkHtml = Object.keys(links).map(function(k){
+    return '<a href="'+links[k]+'" target="_blank" rel="noopener" style="color:var(--green);font-size:13px;margin-right:14px;text-decoration:none">'+k+' ↗</a>';
+  }).join('');
+  var skills = parseArr(p.skills);
+  var skillHtml = skills.map(function(s){ return '<span class="skill-chip">'+s+'</span>'; }).join('');
+
+  document.getElementById('detail-modal').innerHTML =
+    '<button class="modal-close" onclick="closeDetail()">✕</button>' +
+    '<div class="card-top" style="margin-bottom:16px">' +
+      '<div class="card-avatar" style="width:64px;height:64px;font-size:22px">'+initials(p.name)+'</div>' +
+      '<div>' +
+        '<div class="card-title" style="font-size:20px">'+(p.title||'')+'</div>' +
+        '<div class="card-meta" style="font-size:14px">'+(p.name||'')+(p.country?' · '+p.country:'')+'</div>' +
+      '</div>' +
+    '</div>' +
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">' +
+      '<span class="card-cat" style="margin:0">'+(CAT_NAMES[p.category]||p.category||'')+'</span>' +
+      (p.availability ? '<span class="card-cat" style="margin:0;background:rgba(255,255,255,0.06);color:var(--muted)">'+(AVAIL_NAMES[p.availability]||p.availability)+'</span>' : '') +
+      (p.rate ? '<span class="card-cat" style="margin:0;background:rgba(255,255,255,0.06);color:#fff">'+p.rate+'</span>' : '') +
+    '</div>' +
+    (linkHtml ? '<div style="margin-bottom:16px">'+linkHtml+'</div>' : '') +
+    '<div style="font-size:14px;color:#C8D8F0;line-height:1.7;margin-bottom:18px;white-space:pre-wrap">'+(p.description||'')+'</div>' +
+    (skillHtml ? '<div style="margin-bottom:20px"><div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600;margin-bottom:8px">Habilidades</div><div class="card-skills">'+skillHtml+'</div></div>' : '') +
+    (p.email ? '<a href="mailto:'+p.email+'?subject=Oportunidad%20a%20través%20de%20Flexori" class="btn-solid" style="width:100%;text-align:center;padding:14px">Contactar a '+(p.name?p.name.split(' ')[0]:'este profesional')+' →</a>' : '');
+
+  document.getElementById('detail-overlay').style.display = 'flex';
+}
+function closeDetail(){ document.getElementById('detail-overlay').style.display = 'none'; }
+document.getElementById('detail-overlay').addEventListener('click', function(e){ if(e.target === this) closeDetail(); });
+
+function clearFilters(){
+  document.getElementById('t-search').value = '';
+  document.getElementById('f-cat').value = '';
+  document.getElementById('f-country').value = '';
+  document.getElementById('f-avail').value = '';
+  applyFilters();
+}
+
+loadProfiles();
+</script>
+</body>
+</html>
