@@ -151,13 +151,43 @@ footer a{color:var(--green);text-decoration:none}
 </head>
 <body>
 
+<!-- AUTH MODAL (login/registro obligatorio para publicar) -->
+<div id="auth-modal" style="display:none;position:fixed;inset:0;background:rgba(5,8,16,0.85);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0D1321;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px;max-width:420px;width:100%">
+    <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:6px" id="auth-title">Inicia sesión para publicar tu perfil</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:20px" id="auth-sub">Necesitas una cuenta para crear y editar tu perfil de servicios. Así puedes volver cuando quieras y actualizarlo.</p>
+    <div class="form-error" id="auth-error" style="display:none;margin-bottom:12px"></div>
+    <div class="field" style="margin-bottom:12px">
+      <label>Email</label>
+      <input type="email" id="auth-email" placeholder="tu@email.com" />
+    </div>
+    <div class="field" style="margin-bottom:16px">
+      <label>Contraseña</label>
+      <input type="password" id="auth-password" placeholder="Mínimo 6 caracteres" />
+    </div>
+    <button onclick="submitAuth()" id="auth-btn" class="btn-solid" style="width:100%;padding:13px;font-size:15px">Iniciar sesión</button>
+    <div id="auth-success" style="display:none;text-align:center;padding:8px 0">
+      <div style="font-size:32px;margin-bottom:8px">✉️</div>
+      <div style="font-weight:700;margin-bottom:6px">Revisa tu correo</div>
+      <p style="font-size:13px;color:var(--muted)">Te enviamos un enlace de confirmación. Confírmalo y vuelve para publicar tu perfil.</p>
+    </div>
+    <p style="text-align:center;font-size:13px;color:var(--muted);margin-top:16px">
+      <span id="auth-toggle-text">¿No tienes cuenta?</span>
+      <a href="#" onclick="toggleAuthMode();return false" style="color:var(--green);font-weight:600" id="auth-toggle-link">Crear cuenta gratis</a>
+    </p>
+  </div>
+</div>
+
 <nav>
   <a href="/" class="nav-logo">
     <div class="nav-logo-icon">F</div>
     <span class="nav-logo-text">Flexori</span>
   </a>
-  <a href="/jobs.html" class="btn-solid" style="font-size:13px;padding:8px 18px"
-     data-en="Browse jobs" data-fr="Voir les offres" data-pt="Ver vagas">Ver empleos</a>
+  <div style="display:flex;gap:10px;align-items:center">
+    <span id="nav-user" style="display:none;font-size:12px;color:var(--muted)"></span>
+    <a href="/jobs.html" class="btn-solid" style="font-size:13px;padding:8px 18px"
+       data-en="Browse jobs" data-fr="Voir les offres" data-pt="Ver vagas">Ver empleos</a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -166,7 +196,7 @@ footer a{color:var(--green);text-decoration:none}
   <h1>Muestra tu talento a empresas que <span style="color:var(--green)">buscan exactamente lo que ofreces</span></h1>
   <p class="hero-sub">Publica tu perfil de servicios gratis. Las empresas te encuentran, revisan tu trabajo y te contactan directamente — sin intermediarios ni comisiones ocultas.</p>
   <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-    <a href="#publicar" class="btn-solid" style="padding:14px 32px;font-size:15px">Publicar mi perfil gratis →</a>
+    <a href="#publicar" onclick="gatePublish(event)" class="btn-solid" style="padding:14px 32px;font-size:15px">Publicar mi perfil gratis →</a>
     <a href="/jobs.html" style="border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:100px;padding:14px 28px;font-size:15px;text-decoration:none;transition:all .2s">Ver vacantes →</a>
   </div>
 </div>
@@ -414,6 +444,91 @@ const SUPABASE_ANON = ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
 var selectedSkills = [];
 var _lang = window._lang || 'es';
 
+// ── AUTH / GATE DE LOGIN ──
+var authMode = 'login'; // 'login' | 'register'
+
+function currentUser(){
+  var token = localStorage.getItem('sb_access_token');
+  var email = localStorage.getItem('sb_user_email');
+  var uid   = localStorage.getItem('sb_user_id');
+  return (token && uid) ? { token: token, email: email, id: uid } : null;
+}
+
+function openAuthModal(){ document.getElementById('auth-modal').style.display = 'flex'; }
+function closeAuthModal(){ document.getElementById('auth-modal').style.display = 'none'; }
+
+function toggleAuthMode(){
+  authMode = authMode === 'login' ? 'register' : 'login';
+  document.getElementById('auth-title').textContent = authMode === 'register' ? 'Crea tu cuenta gratis' : 'Inicia sesión para publicar tu perfil';
+  document.getElementById('auth-btn').textContent = authMode === 'register' ? 'Crear cuenta gratis' : 'Iniciar sesión';
+  document.getElementById('auth-toggle-text').textContent = authMode === 'register' ? '¿Ya tienes cuenta?' : '¿No tienes cuenta?';
+  document.getElementById('auth-toggle-link').textContent = authMode === 'register' ? 'Iniciar sesión' : 'Crear cuenta gratis';
+  document.getElementById('auth-error').style.display = 'none';
+}
+
+async function submitAuth(){
+  var email = document.getElementById('auth-email').value.trim();
+  var password = document.getElementById('auth-password').value;
+  var errEl = document.getElementById('auth-error');
+  var btn = document.getElementById('auth-btn');
+  if(!email || !password){ errEl.textContent = 'Por favor ingresa tu email y contraseña.'; errEl.style.display = 'block'; return; }
+  btn.textContent = authMode === 'register' ? 'Creando cuenta...' : 'Iniciando sesión...';
+  btn.disabled = true; errEl.style.display = 'none';
+  try {
+    var endpoint = authMode === 'register' ? SUPABASE_URL + '/auth/v1/signup' : SUPABASE_URL + '/auth/v1/token?grant_type=password';
+    var res = await fetch(endpoint, { method:'POST', headers:{ 'Content-Type':'application/json', 'apikey':SUPABASE_ANON }, body: JSON.stringify({ email: email, password: password }) });
+    var data = await res.json();
+    if(data.error || data.error_code){
+      var msg = data.error_description || data.message || 'Error.';
+      if(msg.includes('already registered')) msg = 'Este email ya tiene una cuenta. Inicia sesión.';
+      if(msg.includes('Invalid login')) msg = 'Email o contraseña incorrectos.';
+      if(msg.includes('at least 6')) msg = 'La contraseña debe tener al menos 6 caracteres.';
+      errEl.textContent = msg; errEl.style.display = 'block';
+      btn.textContent = authMode === 'register' ? 'Crear cuenta gratis' : 'Iniciar sesión'; btn.disabled = false; return;
+    }
+    if(authMode === 'register' && !data.access_token){
+      // Requiere confirmación por email
+      document.getElementById('auth-email').parentElement.style.display = 'none';
+      document.getElementById('auth-password').parentElement.style.display = 'none';
+      document.getElementById('auth-btn').style.display = 'none';
+      document.getElementById('auth-toggle-text').parentElement.style.display = 'none';
+      document.getElementById('auth-success').style.display = 'block';
+      return;
+    }
+    if(data.access_token){
+      localStorage.setItem('sb_access_token', data.access_token);
+      localStorage.setItem('sb_user_email', email);
+      localStorage.setItem('sb_user_id', (data.user && data.user.id) || '');
+      closeAuthModal();
+      applyAuthState();
+    }
+  } catch(err){
+    errEl.textContent = 'Error de conexión. Intenta de nuevo.'; errEl.style.display = 'block';
+    btn.textContent = authMode === 'register' ? 'Crear cuenta gratis' : 'Iniciar sesión'; btn.disabled = false;
+  }
+}
+
+// Ajusta la UI según haya sesión o no
+function applyAuthState(){
+  var u = currentUser();
+  var emailInput = document.getElementById('s-email');
+  var navUser = document.getElementById('nav-user');
+  if(u){
+    if(navUser){ navUser.textContent = u.email; navUser.style.display = 'inline'; }
+    if(emailInput){ emailInput.value = u.email; emailInput.readOnly = true; emailInput.style.opacity = '0.7'; }
+  }
+}
+
+// Al hacer clic en "Publicar", si no hay sesión abre el modal en vez de bajar al form
+function gatePublish(e){
+  if(!currentUser()){
+    if(e) e.preventDefault();
+    openAuthModal();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', applyAuthState);
+
 // ── SKILLS POR CATEGORÍA ──
 var CATEGORY_SKILLS = {
   dev: ['JavaScript','React','Node.js','Python','PHP','Laravel','Vue.js','TypeScript','SQL','MongoDB','AWS','Docker'],
@@ -589,6 +704,8 @@ function hideError(){
 
 async function submitService(){
   hideError();
+  var _u = currentUser();
+  if(!_u){ openAuthModal(); return; }
   var name = document.getElementById('s-name').value.trim();
   var email = document.getElementById('s-email').value.trim();
   var country = document.getElementById('s-country').value;
@@ -642,10 +759,12 @@ async function submitService(){
       method: 'POST',
       headers: {
         'apikey': SUPABASE_ANON,
+        'Authorization': 'Bearer ' + _u.token,
         'Content-Type': 'application/json',
         'Prefer': 'return=minimal'
       },
       body: JSON.stringify({
+        user_id: _u.id,
         name, email, country, availability,
         category, title, description, rate,
         links: JSON.stringify(links),
