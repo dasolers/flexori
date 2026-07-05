@@ -994,6 +994,20 @@ function renderScoreTracker(historyRows, isPro) {
   var el = document.getElementById('score-tracker-content');
   if (!el) return;
 
+  // Helper: obtiene un score numérico válido o null (nunca NaN)
+  function safeScore(row) {
+    if (!row) return null;
+    var raw = (row.score != null) ? row.score : (row.total_score != null ? row.total_score : null);
+    if (raw === null || raw === '') return null;
+    var n = parseInt(raw);
+    return (isNaN(n) || n < 0 || n > 100) ? null : n;
+  }
+
+  // Filtrar registros que no tengan un score válido (evita NaN en pantalla)
+  if (Array.isArray(historyRows)) {
+    historyRows = historyRows.filter(function(r){ return safeScore(r) !== null; });
+  }
+
   if (!historyRows || historyRows.length === 0) {
     el.innerHTML = '<div style="text-align:center;padding:20px 0"><p style="font-size:13px;color:var(--muted);margin-bottom:12px">Aún no tienes scores guardados</p><a href="/" onclick="setTimeout(function(){if(typeof openScoreModal===\'function\')openScoreModal();},500)" class="btn-sm btn-outline" style="text-decoration:none">Hacer mi Score →</a></div>';
     return;
@@ -1006,7 +1020,7 @@ function renderScoreTracker(historyRows, isPro) {
   if (!isPro && historyRows.length >= 1) {
     // Free: solo ve el último resultado + teaser bloqueado
     var latest = historyRows[0];
-    var score = parseInt(latest.score != null ? latest.score : latest.total_score);
+    var score = safeScore(latest) || 0;
     var dateStr = latest.created_at ? new Date(latest.created_at).toLocaleDateString('es-ES', {day:'numeric',month:'short',year:'numeric'}) : '';
     var color = score >= 80 ? '#1D9E75' : score >= 60 ? '#24C48F' : score >= 40 ? '#F59E0B' : '#EF4444';
     el.innerHTML = '<div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">'
@@ -1026,12 +1040,12 @@ function renderScoreTracker(historyRows, isPro) {
   var maxBars = Math.min(historyRows.length, 6);
   for (var i = 0; i < maxBars; i++) {
     var row = historyRows[i];
-    var s = parseInt(row.score != null ? row.score : row.total_score);
+    var s = safeScore(row) || 0;
     var d = row.created_at ? new Date(row.created_at).toLocaleDateString('es-ES', {day:'numeric',month:'short'}) : 'N/A';
     var c = s >= 80 ? '#1D9E75' : s >= 60 ? '#24C48F' : s >= 40 ? '#F59E0B' : '#EF4444';
     var delta = '';
     if (i < historyRows.length - 1) {
-      var prev = parseInt(historyRows[i+1].score != null ? historyRows[i+1].score : historyRows[i+1].total_score);
+      var prev = safeScore(historyRows[i+1]) || 0;
       var diff = s - prev;
       if (diff > 0) delta = '<span style="font-size:11px;color:#1D9E75;margin-left:6px">+'+diff+'</span>';
       else if (diff < 0) delta = '<span style="font-size:11px;color:#EF4444;margin-left:6px">'+diff+'</span>';
@@ -1044,8 +1058,8 @@ function renderScoreTracker(historyRows, isPro) {
   }
   html += '</div>';
   if (historyRows.length > 1) {
-    var first = parseInt(historyRows[historyRows.length-1].score != null ? historyRows[historyRows.length-1].score : historyRows[historyRows.length-1].total_score);
-    var last = parseInt(historyRows[0].score != null ? historyRows[0].score : historyRows[0].total_score);
+    var first = safeScore(historyRows[historyRows.length-1]) || 0;
+    var last = safeScore(historyRows[0]) || 0;
     var totalDiff = last - first;
     var diffColor = totalDiff >= 0 ? '#1D9E75' : '#EF4444';
     var diffSign = totalDiff >= 0 ? '+' : '';
