@@ -8,6 +8,10 @@
 [functions."weekly-jobs"]
   schedule = "0 9 * * 1"
 
+# Seguimiento a 14 días — corre todos los días a las 10:00 UTC
+[functions."followup-cron"]
+  schedule = "0 10 * * *"
+
 # ── WEBHOOK FUNCTION ──
 [functions."stripe-webhook"]
   included_files = []
