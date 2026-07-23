@@ -87,35 +87,36 @@ exports.handler = async function(event) {
 function buildEmail() {
   const item = (emoji, title, text) => `
     <tr><td style="padding:0 0 22px;">
-      <table cellpadding="0" cellspacing="0" width="100%"><tr>
+      <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
         <td width="42" valign="top" style="font-size:24px;line-height:1.2;">${emoji}</td>
         <td valign="top">
-          <div style="color:#ffffff;font-size:16px;font-weight:700;margin-bottom:4px;">${title}</div>
-          <div style="color:#C8D8F0;font-size:14px;line-height:1.6;">${text}</div>
+          <div style="color:#0D1321;font-size:16px;font-weight:bold;padding-bottom:4px;">${title}</div>
+          <div style="color:#4A5568;font-size:14px;line-height:1.6;">${text}</div>
         </td>
       </tr></table>
     </td></tr>`;
 
-  return `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#0D1321;font-family:'DM Sans',Helvetica,Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#0D1321;padding:40px 16px;"><tr><td align="center">
-<table width="580" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%;background:#131B2E;border-radius:20px;overflow:hidden;">
+  return `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light only"><meta name="supported-color-schemes" content="light only"></head>
+<body style="margin:0;padding:0;background-color:#F4F6F9;font-family:Helvetica,Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#F4F6F9" style="background-color:#F4F6F9;padding:32px 12px;"><tr><td align="center">
+<table width="580" cellpadding="0" cellspacing="0" border="0" bgcolor="#FFFFFF" style="max-width:580px;width:100%;background-color:#FFFFFF;border-radius:16px;overflow:hidden;border:1px solid #E4E8EF;">
 
-  <tr><td style="background:linear-gradient(135deg,#1D5FA3,#1D9E75);padding:38px 40px;text-align:center;">
-    <div style="font-family:'Syne',Helvetica,Arial,sans-serif;font-size:30px;font-weight:800;color:#ffffff;letter-spacing:-0.5px;">Flexori</div>
-    <div style="color:rgba(255,255,255,0.85);font-size:14px;margin-top:6px;">Tu GPS de carrera remota</div>
+  <tr><td bgcolor="#1D5FA3" style="background-color:#1D5FA3;background-image:linear-gradient(135deg,#1D5FA3,#1D9E75);padding:36px 40px;text-align:center;">
+    <div style="font-size:30px;font-weight:bold;color:#FFFFFF;letter-spacing:-0.5px;">Flexori</div>
+    <div style="color:#E8F5EF;font-size:14px;padding-top:6px;">Tu GPS de carrera remota</div>
   </td></tr>
 
-  <tr><td style="padding:40px 40px 10px;">
-    <p style="color:#ffffff;font-size:22px;font-weight:700;margin:0 0 14px;">Hola 👋</p>
-    <p style="color:#C8D8F0;font-size:15px;line-height:1.7;margin:0 0 30px;">
-      Hace un tiempo te uniste a Flexori, y queremos contarte que <strong style="color:#fff;">la plataforma cambió mucho</strong> desde entonces.
+  <tr><td style="padding:36px 40px 8px;">
+    <p style="color:#0D1321;font-size:22px;font-weight:bold;margin:0 0 14px;">Hola 👋</p>
+    <p style="color:#4A5568;font-size:15px;line-height:1.7;margin:0 0 28px;">
+      Hace un tiempo te uniste a Flexori, y queremos contarte que <strong style="color:#0D1321;">la plataforma cambió mucho</strong> desde entonces.
     </p>
-    <p style="color:#1D9E75;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 20px;">Esto es lo nuevo</p>
+    <p style="color:#1D9E75;font-size:13px;font-weight:bold;letter-spacing:1.5px;margin:0 0 20px;">ESTO ES LO NUEVO</p>
   </td></tr>
 
   <tr><td style="padding:0 40px;">
-    <table cellpadding="0" cellspacing="0" width="100%">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
       ${item('🔍','Directorio de Talento','Ahora publicas tu perfil gratis y son las empresas las que te encuentran a ti. Sin intermediarios, sin comisiones.')}
       ${item('✏️','Tu perfil, editable siempre','Créalo una vez, actualízalo cuando quieras. Agrega tus habilidades, links y portafolio.')}
       ${item('🌎','Para todas las profesiones','Ya no es solo tech. Diseño, contabilidad, marketing, asistentes virtuales, soporte, educación, salud y más.')}
@@ -123,34 +124,34 @@ function buildEmail() {
     </table>
   </td></tr>
 
-  <tr><td style="padding:6px 40px 30px;">
-    <p style="color:#C8D8F0;font-size:15px;line-height:1.7;margin:0 0 26px;">
-      Y por supuesto, <strong style="color:#fff;">empleos remotos nuevos cada día</strong> de más de 8 fuentes internacionales.
+  <tr><td style="padding:6px 40px 28px;">
+    <p style="color:#4A5568;font-size:15px;line-height:1.7;margin:0 0 26px;">
+      Y por supuesto, <strong style="color:#0D1321;">empleos remotos nuevos cada día</strong> de más de 8 fuentes internacionales.
     </p>
-    <table cellpadding="0" cellspacing="0" width="100%"><tr><td align="center">
-      <a href="https://flexori.work" style="display:inline-block;background:#1D9E75;color:#0D1321;text-decoration:none;padding:16px 40px;border-radius:100px;font-weight:700;font-size:16px;font-family:'Syne',Helvetica,Arial,sans-serif;">Entra y mira qué hay nuevo →</a>
+    <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td align="center">
+      <a href="https://flexori.work" style="display:inline-block;background-color:#1D9E75;color:#FFFFFF;text-decoration:none;padding:16px 40px;border-radius:100px;font-weight:bold;font-size:16px;">Entra y mira qué hay nuevo →</a>
     </td></tr></table>
   </td></tr>
 
   <tr><td style="padding:0 40px;">
-    <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:28px;text-align:center;">
-      <p style="color:#ffffff;font-size:17px;font-weight:700;margin:0 0 8px;">¿Nos sigues en Instagram? 📲</p>
-      <p style="color:#A8A69E;font-size:14px;line-height:1.6;margin:0 0 20px;">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td style="border-top:1px solid #E4E8EF;padding-top:28px;text-align:center;">
+      <p style="color:#0D1321;font-size:17px;font-weight:bold;margin:0 0 8px;">¿Nos sigues en Instagram? 📲</p>
+      <p style="color:#6B7280;font-size:14px;line-height:1.6;margin:0 0 20px;">
         Ahí publicamos empleos, consejos para conseguir trabajo remoto y novedades antes que nadie.
       </p>
-      <a href="https://instagram.com/flexoriwork" style="display:inline-block;border:1.5px solid #1D9E75;color:#1D9E75;text-decoration:none;padding:13px 32px;border-radius:100px;font-weight:700;font-size:15px;">→ Síguenos en @flexoriwork</a>
-    </div>
+      <a href="https://instagram.com/flexoriwork" style="display:inline-block;border:2px solid #1D9E75;color:#1D9E75;text-decoration:none;padding:12px 30px;border-radius:100px;font-weight:bold;font-size:15px;">→ Síguenos en @flexoriwork</a>
+    </td></tr></table>
   </td></tr>
 
-  <tr><td style="padding:34px 40px 40px;">
-    <p style="color:#C8D8F0;font-size:15px;line-height:1.7;margin:0 0 22px;">Gracias por ser parte de esto desde el principio 💚</p>
-    <p style="color:#ffffff;font-size:15px;font-weight:700;margin:0;">Alejandro Soler</p>
-    <p style="color:#888780;font-size:13px;margin:2px 0 0;">Fundador · Flexori</p>
+  <tr><td style="padding:32px 40px 36px;">
+    <p style="color:#4A5568;font-size:15px;line-height:1.7;margin:0 0 22px;">Gracias por ser parte de esto desde el principio 💚</p>
+    <p style="color:#0D1321;font-size:15px;font-weight:bold;margin:0;">Alejandro Soler</p>
+    <p style="color:#6B7280;font-size:13px;margin:2px 0 0;">Fundador · Flexori</p>
   </td></tr>
 
-  <tr><td style="padding:22px 40px;border-top:1px solid rgba(255,255,255,0.06);text-align:center;background:rgba(0,0,0,0.15);">
-    <p style="color:#888780;font-size:12px;margin:0 0 8px;">© 2026 Flexori · Tu GPS de carrera remota</p>
-    <a href="{{{RESEND_UNSUBSCRIBE_URL}}}" style="color:rgba(168,166,158,0.5);font-size:11px;">Darse de baja</a>
+  <tr><td bgcolor="#F9FAFC" style="background-color:#F9FAFC;padding:22px 40px;border-top:1px solid #E4E8EF;text-align:center;">
+    <p style="color:#6B7280;font-size:12px;margin:0 0 8px;">© 2026 Flexori · Tu GPS de carrera remota</p>
+    <a href="{{{RESEND_UNSUBSCRIBE_URL}}}" style="color:#9CA3AF;font-size:11px;">Darse de baja</a>
   </td></tr>
 
 </table>
