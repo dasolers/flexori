@@ -12,10 +12,10 @@
 [functions."followup-cron"]
   schedule = "0 10 * * *"
 
-# Reactivación por lotes — 20:00 UTC (3pm Colombia), después de que salgan
-# los correos de bienvenida del día, para no competir por la cuota diaria
+# Reactivación por lotes — 3 veces al día (cada 8h) a las 14:00, 22:00 y 06:00 UTC
+# Lotes pequeños (25) para no exceder el límite de 10s de las funciones de Netlify
 [functions."reactivation-batch"]
-  schedule = "0 20 * * *"
+  schedule = "0 6,14,22 * * *"
 
 # ── WEBHOOK FUNCTION ──
 [functions."stripe-webhook"]

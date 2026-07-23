@@ -7,7 +7,7 @@
 //             ?limit=50        → cambia el tamaño del lote (default 90)
 
 const CUTOFF_DATE = '2026-07-24T00:00:00Z'; // incluye a todos los registrados hasta hoy (23 jul)
-const DEFAULT_BATCH = 60; // margen amplio bajo el tope de 100/día: deja ~40 para bienvenidas y seguimientos
+const DEFAULT_BATCH = 25; // cabe en el límite de 10s de Netlify (se probó que 37 es el techo)
 
 exports.handler = async function(event) {
   const SUPABASE_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
@@ -68,8 +68,10 @@ exports.handler = async function(event) {
         statusCode: 200, headers,
         body: JSON.stringify({
           pendientes: pending,
-          dias_restantes_aprox: Math.ceil(pending / batchSize),
+          dias_restantes_aprox: Math.ceil(pending / (batchSize * 3)),
+          envios_por_dia: batchSize * 3,
           tamano_lote: batchSize,
+          corridas_por_dia: 3,
           _diagnostico: {
             total_en_waitlist: total,
             ya_enviados: yaEnviados,
@@ -94,20 +96,21 @@ exports.handler = async function(event) {
       };
     }
 
-    // Ajuste dinámico: si hoy hubo muchas inscripciones nuevas, reducimos el lote
-    // para no topar el límite diario (cada inscripción nueva = 1 correo de bienvenida)
+    // Ajuste dinámico: la función corre 3 veces al día (25 c/u = 75/día).
+    // Si hoy hubo muchas inscripciones nuevas, reducimos para no topar el límite de 100/día.
     let effectiveBatch = batchSize;
     try {
       const todayStart = new Date(); todayStart.setUTCHours(0,0,0,0);
       const todayRes = await fetch(
-        `${SUPABASE_URL}/rest/v1/waitlist?select=email&created_at=gte.${todayStart.toISOString()}&limit=200`,
+        `${SUPABASE_URL}/rest/v1/waitlist?select=email&created_at=gte.${encodeURIComponent(todayStart.toISOString())}&limit=200`,
         { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
       );
       const todayUsers = await todayRes.json();
       const newToday = Array.isArray(todayUsers) ? todayUsers.length : 0;
-      // Reservamos: 1 por inscripción nueva + 15 de colchón para seguimientos/confirmaciones
-      const reserved = newToday + 15;
-      effectiveBatch = Math.max(20, Math.min(batchSize, 100 - reserved));
+      // Presupuesto diario: 100 - (bienvenidas de hoy) - 15 de colchón, repartido en 3 corridas
+      const dailyBudget = Math.max(15, 100 - newToday - 15);
+      const perRun = Math.floor(dailyBudget / 3);
+      effectiveBatch = Math.max(10, Math.min(batchSize, perRun));
     } catch (e) { /* si falla, usamos el lote por defecto */ }
 
     // Traer el lote del día (con fallback si la columna de nombre no existe)
