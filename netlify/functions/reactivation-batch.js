@@ -6,7 +6,7 @@
 //             ?status=true     → muestra cuántos faltan (no envía)
 //             ?limit=50        → cambia el tamaño del lote (default 90)
 
-const CUTOFF_DATE = '2026-07-23T00:00:00Z'; // solo usuarios registrados antes de esta fecha
+const CUTOFF_DATE = '2026-07-24T00:00:00Z'; // incluye a todos los registrados hasta hoy (23 jul)
 const DEFAULT_BATCH = 60; // margen amplio bajo el tope de 100/día: deja ~40 para bienvenidas y seguimientos
 
 exports.handler = async function(event) {
@@ -27,7 +27,7 @@ exports.handler = async function(event) {
     // Pendientes: registrados antes del corte y sin correo de reactivación enviado
     const baseQuery = `${SUPABASE_URL}/rest/v1/waitlist`
       + `?select=email,name`
-      + `&created_at=lt.${CUTOFF_DATE}`
+      + `&created_at=lt.${encodeURIComponent(CUTOFF_DATE)}`
       + `&reactivation_sent_at=is.null`
       + `&order=created_at.asc`;
 
@@ -38,12 +38,35 @@ exports.handler = async function(event) {
       });
       const all = await countRes.json();
       const pending = Array.isArray(all) ? all.length : 0;
+
+      // Diagnóstico: total en waitlist y cuántos ya tienen marca
+      let total = 0, yaEnviados = 0;
+      try {
+        const totalRes = await fetch(`${SUPABASE_URL}/rest/v1/waitlist?select=email&limit=2000`, {
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+        });
+        const t = await totalRes.json();
+        total = Array.isArray(t) ? t.length : 0;
+
+        const sentRes = await fetch(`${SUPABASE_URL}/rest/v1/waitlist?select=email&reactivation_sent_at=not.is.null&limit=2000`, {
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+        });
+        const s = await sentRes.json();
+        yaEnviados = Array.isArray(s) ? s.length : 0;
+      } catch (e) {}
+
       return {
         statusCode: 200, headers,
         body: JSON.stringify({
           pendientes: pending,
           dias_restantes_aprox: Math.ceil(pending / batchSize),
-          tamano_lote: batchSize
+          tamano_lote: batchSize,
+          _diagnostico: {
+            total_en_waitlist: total,
+            ya_enviados: yaEnviados,
+            fecha_corte: CUTOFF_DATE,
+            respuesta_cruda: Array.isArray(all) ? `array de ${all.length}` : JSON.stringify(all).slice(0, 200)
+          }
         }, null, 2)
       };
     }
