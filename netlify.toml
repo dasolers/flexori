@@ -12,9 +12,10 @@
 [functions."followup-cron"]
   schedule = "0 10 * * *"
 
-# Reactivación por lotes — corre todos los días a las 14:00 UTC (9am Colombia)
+# Reactivación por lotes — 20:00 UTC (3pm Colombia), después de que salgan
+# los correos de bienvenida del día, para no competir por la cuota diaria
 [functions."reactivation-batch"]
-  schedule = "0 14 * * *"
+  schedule = "0 20 * * *"
 
 # ── WEBHOOK FUNCTION ──
 [functions."stripe-webhook"]

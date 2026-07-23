@@ -7,7 +7,7 @@
 //             ?limit=50        → cambia el tamaño del lote (default 90)
 
 const CUTOFF_DATE = '2026-07-23T00:00:00Z'; // solo usuarios registrados antes de esta fecha
-const DEFAULT_BATCH = 90; // dejamos margen bajo el tope de 100/día de Resend
+const DEFAULT_BATCH = 60; // margen amplio bajo el tope de 100/día: deja ~40 para bienvenidas y seguimientos
 
 exports.handler = async function(event) {
   const SUPABASE_URL = 'https://kkkgtwripyaxgmmdsqhg.supabase.co';
@@ -62,8 +62,24 @@ exports.handler = async function(event) {
       };
     }
 
+    // Ajuste dinámico: si hoy hubo muchas inscripciones nuevas, reducimos el lote
+    // para no topar el límite diario (cada inscripción nueva = 1 correo de bienvenida)
+    let effectiveBatch = batchSize;
+    try {
+      const todayStart = new Date(); todayStart.setUTCHours(0,0,0,0);
+      const todayRes = await fetch(
+        `${SUPABASE_URL}/rest/v1/waitlist?select=email&created_at=gte.${todayStart.toISOString()}&limit=200`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+      );
+      const todayUsers = await todayRes.json();
+      const newToday = Array.isArray(todayUsers) ? todayUsers.length : 0;
+      // Reservamos: 1 por inscripción nueva + 15 de colchón para seguimientos/confirmaciones
+      const reserved = newToday + 15;
+      effectiveBatch = Math.max(20, Math.min(batchSize, 100 - reserved));
+    } catch (e) { /* si falla, usamos el lote por defecto */ }
+
     // Traer el lote del día
-    const res = await fetch(baseQuery + `&limit=${batchSize}`, {
+    const res = await fetch(baseQuery + `&limit=${effectiveBatch}`, {
       headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
     });
     const users = await res.json();
@@ -116,7 +132,7 @@ exports.handler = async function(event) {
 
     return {
       statusCode: 200, headers,
-      body: JSON.stringify({ message: 'Lote enviado', enviados: sent, fallidos: failed, lote: users.length })
+      body: JSON.stringify({ message: 'Lote enviado', enviados: sent, fallidos: failed, lote_usado: effectiveBatch, encontrados: users.length })
     };
   } catch (err) {
     return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
