@@ -26,17 +26,26 @@ exports.handler = async function(event) {
   try {
     // Pendientes: registrados antes del corte y sin correo de reactivación enviado
     const baseQuery = `${SUPABASE_URL}/rest/v1/waitlist`
-      + `?select=email,name`
+      + `?select=email,full_name`
       + `&created_at=lt.${encodeURIComponent(CUTOFF_DATE)}`
       + `&reactivation_sent_at=is.null`
       + `&order=created_at.asc`;
 
     // Modo status: solo contar, no enviar
     if (params.status === 'true') {
-      const countRes = await fetch(baseQuery + '&limit=2000', {
+      let countRes = await fetch(baseQuery + '&limit=2000', {
         headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
       });
-      const all = await countRes.json();
+      let all = await countRes.json();
+
+      // Fallback si la columna de nombre no existe
+      if (!Array.isArray(all)) {
+        countRes = await fetch(
+          `${SUPABASE_URL}/rest/v1/waitlist?select=email&created_at=lt.${encodeURIComponent(CUTOFF_DATE)}&reactivation_sent_at=is.null&limit=2000`,
+          { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+        );
+        all = await countRes.json();
+      }
       const pending = Array.isArray(all) ? all.length : 0;
 
       // Diagnóstico: total en waitlist y cuántos ya tienen marca
@@ -101,11 +110,24 @@ exports.handler = async function(event) {
       effectiveBatch = Math.max(20, Math.min(batchSize, 100 - reserved));
     } catch (e) { /* si falla, usamos el lote por defecto */ }
 
-    // Traer el lote del día
-    const res = await fetch(baseQuery + `&limit=${effectiveBatch}`, {
+    // Traer el lote del día (con fallback si la columna de nombre no existe)
+    let res = await fetch(baseQuery + `&limit=${effectiveBatch}`, {
       headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
     });
-    const users = await res.json();
+    let users = await res.json();
+
+    // Si falló por columna inexistente, reintentar pidiendo solo el email
+    if (!Array.isArray(users)) {
+      const fallbackQuery = `${SUPABASE_URL}/rest/v1/waitlist`
+        + `?select=email`
+        + `&created_at=lt.${encodeURIComponent(CUTOFF_DATE)}`
+        + `&reactivation_sent_at=is.null`
+        + `&order=created_at.asc&limit=${effectiveBatch}`;
+      res = await fetch(fallbackQuery, {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+      });
+      users = await res.json();
+    }
 
     if (!Array.isArray(users) || users.length === 0) {
       return { statusCode: 200, headers, body: JSON.stringify({ message: 'No quedan usuarios pendientes. Campaña completada.', enviados: 0 }) };
@@ -116,7 +138,7 @@ exports.handler = async function(event) {
 
     for (const user of users) {
       if (!user.email) continue;
-      const firstName = (user.name || '').split(' ')[0] || '';
+      const firstName = ((user.full_name || user.name || '').trim().split(/\s+/)[0]) || '';
       try {
         const emailRes = await fetch('https://api.resend.com/emails', {
           method: 'POST',
