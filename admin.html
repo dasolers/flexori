@@ -69,6 +69,8 @@ input[type=password]:focus{border-color:var(--border-green)}
 .loading{text-align:center;padding:48px;color:var(--gray)}
 .export-btn{background:transparent;border:1px solid var(--border-green);color:var(--green);border-radius:100px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s}
 .export-btn:hover{background:var(--green-dim)}
+.del-btn{background:transparent;border:1px solid #6b2b2b;color:#e07a7a;border-radius:100px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s}
+.del-btn:hover{background:rgba(224,122,122,.12);border-color:#e07a7a}
 .action-btn{border:none;border-radius:100px;padding:4px 12px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s}
 .approve-btn{background:var(--green-dim);color:var(--green);border:1px solid var(--border-green)}
 .approve-btn:hover{background:rgba(29,158,117,0.25)}
@@ -112,6 +114,7 @@ input[type=password]:focus{border-color:var(--border-green)}
     <span class="dash-title">Dashboard</span>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
       <button class="export-btn" onclick="exportCSV()">⬇ Export Waitlist</button>
+      <button class="del-btn" onclick="deleteUserAccount()">Eliminar usuario</button>
       <button class="logout-btn" onclick="logout()">Log out</button>
     </div>
   </div>
@@ -223,6 +226,38 @@ function logout(){
   document.getElementById('login-screen').style.display='block';
   document.getElementById('dashboard').style.display='none';
   document.getElementById('pwd-input').value='';
+}
+
+async function deleteUserAccount(){
+  const email=prompt('Eliminar cuenta y datos de un usuario (solicitud de baja/GDPR).\n\nEscribe el email exacto del usuario a eliminar:');
+  if(!email) return;
+  const clean=email.trim().toLowerCase();
+  if(!clean.includes('@')){ alert('Email no válido.'); return; }
+  const confirmType=prompt('Esta acción es PERMANENTE e irreversible.\nBorra al usuario de waitlist, subscribers, scores, referidos, CV y Resend.\n\nPara confirmar, vuelve a escribir el email:');
+  if(!confirmType || confirmType.trim().toLowerCase()!==clean){ alert('El email no coincide. Cancelado.'); return; }
+  try{
+    const res=await fetch('/.netlify/functions/delete-account',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ adminPassword: sessionStorage.getItem('flexori_admin_pwd'), email: clean })
+    });
+    const data=await res.json();
+    if(res.ok && data.success){
+      const r=data.report||{};
+      alert('Usuario eliminado: '+clean+'\n\nDetalle:\n'+
+        '- waitlist: '+(r.waitlist||'-')+'\n'+
+        '- subscribers: '+(r.subscribers||'-')+'\n'+
+        '- scores: '+(r.employability_scores||'-')+'\n'+
+        '- referrals: '+(r.referrals||'-')+'\n'+
+        '- storage (CV): '+(r.storage||'-')+'\n'+
+        '- resend: '+(r.resend||'-'));
+      loadWaitlist();
+    }else{
+      alert('Error: '+(data.error||'no se pudo eliminar'));
+    }
+  }catch(e){
+    alert('Error de red: '+e.message);
+  }
 }
 
 async function loadAll(){
