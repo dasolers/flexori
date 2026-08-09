@@ -8,14 +8,15 @@
 [functions."weekly-jobs"]
   schedule = "0 9 * * 1"
 
-# Seguimiento a 14 días — corre todos los días a las 10:00 UTC
-[functions."followup-cron"]
-  schedule = "0 10 * * *"
+# Seguimiento a 14 días — PAUSADO para caber en el plan Free de Resend (100 envíos/día).
+# Reactivar quitando el # cuando se vuelva a Pro.
+# [functions."followup-cron"]
+#   schedule = "0 10 * * *"
 
-# Reactivación por lotes — 3 veces al día (cada 8h) a las 14:00, 22:00 y 06:00 UTC
-# Lotes pequeños (25) para no exceder el límite de 10s de las funciones de Netlify
-[functions."reactivation-batch"]
-  schedule = "0 6,14,22 * * *"
+# Reactivación por lotes — PAUSADO para caber en el plan Free de Resend.
+# Campaña temporal para usuarios viejos; reactivar solo si hace falta.
+# [functions."reactivation-batch"]
+#   schedule = "0 6,14,22 * * *"
 
 # ── WEBHOOK FUNCTION ──
 [functions."stripe-webhook"]
