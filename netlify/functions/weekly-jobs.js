@@ -211,14 +211,10 @@ async function notifyFailure(key, stage, detail) {
 exports.handler = async function(event, context) {
   const headers = { 'Content-Type': 'application/json' };
 
-  // Solo se envía en la ejecución programada (lunes 9:00 UTC) o manualmente con la clave de admin
-  const isScheduled = !event.httpMethod;
-  const qs = event.queryStringParameters || {};
-  const isManual = qs.manual === 'true' && !!process.env.ADMIN_PASSWORD && qs.key === process.env.ADMIN_PASSWORD;
-
-  if (!isScheduled && !isManual) {
-    return { statusCode: 403, headers, body: JSON.stringify({ error: 'Not allowed' }) };
-  }
+  // Netlify bloquea la invocación por URL de funciones programadas en producción:
+  // solo llega aquí la ejecución del horario (lunes 9:00 UTC) o el botón "Run now".
+  // (Netlify envía estas ejecuciones como POST con { next_run } en el body.)
+  console.log('weekly-jobs invocado', event.httpMethod || 'sin método', (event.body || '').slice(0, 120));
 
   const RESEND_KEY_FULL = process.env.RESEND_API_KEY_FULL;
   const rs = { 'Authorization': `Bearer ${RESEND_KEY_FULL}`, 'Content-Type': 'application/json' };
