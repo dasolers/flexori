@@ -566,7 +566,7 @@ async function applyAuthState(){
 
   // ¿Ya tiene un perfil de servicios?
   try {
-    var res = await fetch(SUPABASE_URL + '/rest/v1/service_profiles?user_id=eq.' + encodeURIComponent(u.id) + '&order=created_at.desc&limit=1&select=*', {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/service_profiles?user_id=eq.' + encodeURIComponent(u.id) + '&order=created_at.desc&limit=1&select=id,user_id,name,country,availability,category,title,description,rate,links,skills,trust_level,status,created_at', {
       headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + u.token }
     });
     var rows = await res.json();
@@ -599,7 +599,7 @@ async function renderSummary(p){
   document.getElementById('sum-status-msg').textContent = st.msg;
 
   // Score: carta de presentación o incentivo
-  var score = await loadUserScore(p.email);
+  var score = await loadUserScore((currentUser()||{}).email || p.email);
   var card = document.getElementById('sum-score-card');
   if(score && !isNaN(score) && score > 0){
     card.style.background = 'rgba(29,158,117,0.06)';
