@@ -2,6 +2,8 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HFYKRPJN1E"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-HFYKRPJN1E');</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Encuentra Talento Remoto — Flexori</title>
 <link rel="canonical" href="https://flexori.work/talent.html"/>
@@ -284,6 +286,13 @@ async function loadProfiles(){
   } catch(e){ allProfiles = []; }
   document.getElementById('loading').style.display = 'none';
   applyFilters();
+  try {
+    var pid = new URLSearchParams(location.search).get('p');
+    if(pid){
+      var idx = filtered.findIndex(function(x){ return String(x.id) === pid; });
+      if(idx > -1) openDetail(idx);
+    }
+  } catch(e){}
 }
 
 var _dbTimer = null;
