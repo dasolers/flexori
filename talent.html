@@ -273,6 +273,7 @@ function initials(name){
 }
 function esc(v){ return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
 function safeUrl(u){ u=String(u||'').trim(); return /^https?:\/\//i.test(u) ? esc(u) : ''; }
+function fmtRate(r){ var m = String(r||'').match(/^USD ([\d.,]+)(?: \/ (hora|proyecto|mes))?$/); return m ? 'US$' + m[1] + (m[2] ? ' / ' + m[2] : '') : String(r||''); }
 function parseArr(v){ try { return typeof v==='string'?JSON.parse(v):(v||[]); } catch(e){ return []; } }
 function parseObj(v){ try { return typeof v==='string'?JSON.parse(v):(v||{}); } catch(e){ return {}; } }
 
@@ -350,7 +351,7 @@ function render(){
       (skillHtml ? '<div class="card-skills">'+skillHtml+'</div>' : '') +
       '<div class="card-footer">' +
         '<div>' +
-          (p.rate ? '<div class="card-rate">'+esc(p.rate)+'</div>' : '<div class="card-rate" style="color:var(--muted)">Tarifa a convenir</div>') +
+          (p.rate ? '<div class="card-rate">'+esc(fmtRate(p.rate))+'</div>' : '<div class="card-rate" style="color:var(--muted)">Tarifa a convenir</div>') +
           (trustLabel ? '<div class="trust-badge '+trustClass+'">'+trustLabel+'</div>' : '') +
         '</div>' +
         '<button class="contact-btn" onclick="openDetail('+i+')">Ver perfil →</button>' +
@@ -381,7 +382,7 @@ function openDetail(i){
     '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">' +
       '<span class="card-cat" style="margin:0">'+(CAT_NAMES[p.category]||p.category||'')+'</span>' +
       (p.availability ? '<span class="card-cat" style="margin:0;background:rgba(255,255,255,0.06);color:var(--muted)">'+(AVAIL_NAMES[p.availability]||p.availability)+'</span>' : '') +
-      (p.rate ? '<span class="card-cat" style="margin:0;background:rgba(255,255,255,0.06);color:#fff">'+esc(p.rate)+'</span>' : '') +
+      (p.rate ? '<span class="card-cat" style="margin:0;background:rgba(255,255,255,0.06);color:#fff">'+esc(fmtRate(p.rate))+'</span>' : '') +
     '</div>' +
     (linkHtml ? '<div style="margin-bottom:16px">'+linkHtml+'</div>' : '') +
     '<div style="font-size:14px;color:#C8D8F0;line-height:1.7;margin-bottom:18px;white-space:pre-wrap">'+esc(p.description)+'</div>' +
