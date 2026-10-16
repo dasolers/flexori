@@ -398,9 +398,20 @@ footer a{color:var(--green);text-decoration:none}
             </select>
           </div>
           <div class="field">
-            <label>Tarifa aproximada (USD)</label>
-            <input type="text" id="s-rate" autocomplete="off" placeholder="Ej: $15-25/hr o $500/proyecto" />
-            <div class="field-hint">Opcional pero aumenta un 40% las consultas recibidas</div>
+            <label>Tarifa aproximada</label>
+            <input type="hidden" id="s-rate" />
+            <div style="display:flex;gap:8px">
+              <input type="number" id="s-rate-amount" min="0" step="any" inputmode="decimal" placeholder="Ej: 15" style="flex:1;min-width:0" />
+              <select id="s-rate-currency" style="width:auto">
+                <option value="USD">USD</option><option value="EUR">EUR</option><option value="ARS">ARS</option>
+                <option value="COP">COP</option><option value="MXN">MXN</option><option value="CLP">CLP</option>
+                <option value="PEN">PEN</option><option value="UYU">UYU</option>
+              </select>
+              <select id="s-rate-unit" style="width:auto">
+                <option value="hora">por hora</option><option value="proyecto">por proyecto</option><option value="mes">por mes</option>
+              </select>
+            </div>
+            <div class="field-hint">Opcional, pero los perfiles con tarifa clara reciben más consultas. Déjalo vacío si prefieres "a convenir".</div>
           </div>
         </div>
 
@@ -653,6 +664,12 @@ function editProfile(){
   document.getElementById('s-availability').value = p.availability || '';
   document.getElementById('s-category').value = p.category || '';
   document.getElementById('s-rate').value = p.rate || '';
+  var _rm = String(p.rate || '').match(/^([A-Z]{3}) ([\d.,]+) \/ (hora|proyecto|mes)$/);
+  if(_rm){
+    document.getElementById('s-rate-currency').value = _rm[1];
+    document.getElementById('s-rate-amount').value = _rm[2].replace(',', '.');
+    document.getElementById('s-rate-unit').value = _rm[3];
+  }
   document.getElementById('s-title').value = p.title || '';
   document.getElementById('s-description').value = p.description || '';
   countWords(document.getElementById('s-description'));
@@ -767,6 +784,7 @@ function renderSkills(cat){
     tag.onclick = function(){
       tag.classList.toggle('selected');
       if(tag.classList.contains('selected')){
+        if(selectedSkills.length >= 8 && !selectedSkills.includes(s)){ tag.classList.remove('selected'); alert('Máximo 8 habilidades.'); return; }
         if(!selectedSkills.includes(s)) selectedSkills.push(s);
       } else {
         selectedSkills = selectedSkills.filter(function(x){ return x !== s; });
@@ -780,6 +798,7 @@ function addCustomSkill(e){
   if(e.key !== 'Enter') return;
   var val = e.target.value.trim();
   if(!val) return;
+  if(selectedSkills.length >= 8 && !selectedSkills.includes(val)){ alert('Máximo 8 habilidades.'); return; }
   if(!selectedSkills.includes(val)) selectedSkills.push(val);
   var grid = document.getElementById('skills-grid');
   var tag = document.createElement('div');
@@ -919,7 +938,9 @@ async function submitService(){
   var category = document.getElementById('s-category').value;
   var title = document.getElementById('s-title').value.trim();
   var description = document.getElementById('s-description').value.trim();
-  var rate = document.getElementById('s-rate').value.trim();
+  var _amt = document.getElementById('s-rate-amount').value.trim();
+  var rate = _amt ? (document.getElementById('s-rate-currency').value + ' ' + _amt + ' / ' + document.getElementById('s-rate-unit').value) : '';
+  document.getElementById('s-rate').value = rate;
   var linkedin = document.getElementById('s-linkedin').value.trim();
   var github = document.getElementById('s-github').value.trim();
   var behance = document.getElementById('s-behance').value.trim();
@@ -938,6 +959,10 @@ async function submitService(){
     return;
   }
   var wordCount = description.trim().split(/\s+/).filter(function(w){ return w.length > 0; }).length;
+  if(selectedSkills.length > 8){
+    showError('Máximo 8 habilidades. Quita ' + (selectedSkills.length - 8) + ' para continuar (deja las más importantes).');
+    return;
+  }
   if(wordCount < 60){
     showError('La descripción es muy corta. Mínimo 60 palabras. (' + wordCount + ' escritas)');
     return;
