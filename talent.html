@@ -273,7 +273,7 @@ function initials(name){
 }
 function esc(v){ return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
 function safeUrl(u){ u=String(u||'').trim(); return /^https?:\/\//i.test(u) ? esc(u) : ''; }
-function fmtRate(r){ var m = String(r||'').match(/^USD ([\d.,]+)(?: \/ (hora|proyecto|mes))?$/); return m ? 'US$' + m[1] + (m[2] ? ' / ' + m[2] : '') : String(r||''); }
+function fmtRate(r){ var m = String(r||'').match(/^USD ([\d.,]+(?:-[\d.,]+)?)(?: \/ (hora|proyecto|mes|página))?$/); return m ? 'US$' + m[1] + (m[2] ? ' / ' + m[2] : '') : String(r||''); }
 function parseArr(v){ try { return typeof v==='string'?JSON.parse(v):(v||[]); } catch(e){ return []; } }
 function parseObj(v){ try { return typeof v==='string'?JSON.parse(v):(v||{}); } catch(e){ return {}; } }
 
