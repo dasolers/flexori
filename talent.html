@@ -90,6 +90,10 @@ footer a{color:var(--green);text-decoration:none}
   .page{padding:90px 16px 40px}
   .search-box{flex-wrap:wrap}
 }
+.ct-input{width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--white);font-family:inherit;font-size:14px;margin-bottom:10px;resize:vertical}
+.ct-input:focus{outline:none;border-color:var(--green)}
+.ct-err{display:none;color:#ef4444;font-size:13px;margin-bottom:10px}
+.ct-ok{display:none;color:var(--green);font-size:13.5px;line-height:1.6;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -182,7 +186,7 @@ footer a{color:var(--green);text-decoration:none}
       <option value="">Cualquier disponibilidad</option>
       <option value="immediate">Disponible ya</option>
       <option value="2weeks">En 2 semanas</option>
-      <option value="month">En un mes</option>
+      <option value="1month">En un mes</option>
       <option value="parttime">Medio tiempo</option>
     </select>
 
@@ -203,6 +207,36 @@ footer a{color:var(--green);text-decoration:none}
 <!-- MODAL DETALLE -->
 <div class="overlay" id="detail-overlay">
   <div class="modal" id="detail-modal"></div>
+</div>
+
+<!-- MODAL CONTACTO -->
+<div class="overlay" id="contact-overlay">
+  <div class="modal" id="contact-modal">
+    <button class="modal-close" onclick="closeContact()">✕</button>
+    <div id="ct-login" style="display:none">
+      <div class="card-title" style="font-size:19px;margin-bottom:6px" id="ct-login-title">Inicia sesión para contactar</div>
+      <p style="font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:16px">Es gratis. Pedimos cuenta para proteger a los profesionales del spam.</p>
+      <input type="email" id="ct-email" class="ct-input" placeholder="Tu email" autocomplete="email" />
+      <input type="password" id="ct-pass" class="ct-input" placeholder="Contraseña (mín. 6 caracteres)" autocomplete="current-password" />
+      <div class="ct-err" id="ct-login-err"></div>
+      <div class="ct-ok" id="ct-login-ok">Te enviamos un email para confirmar tu cuenta. Confírmala y vuelve aquí para enviar tu mensaje.</div>
+      <button class="btn-solid" id="ct-login-btn" onclick="ctAuth()" style="width:100%;padding:14px;cursor:pointer">Iniciar sesión</button>
+      <p style="font-size:13px;color:var(--muted);text-align:center;margin-top:14px"><span id="ct-toggle-text">¿No tienes cuenta?</span> <a href="#" onclick="ctToggle();return false" style="color:var(--green)" id="ct-toggle-link">Crear cuenta gratis</a></p>
+    </div>
+    <div id="ct-form" style="display:none">
+      <div class="card-title" style="font-size:19px;margin-bottom:6px">Escribe a <span id="ct-to-name"></span></div>
+      <p style="font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:16px">Le llegará tu mensaje por email desde Flexori. Si responde, te escribirá directamente a <strong id="ct-from" style="color:#fff"></strong>.</p>
+      <input type="text" id="ct-name" class="ct-input" placeholder="Tu nombre o empresa" maxlength="80" />
+      <textarea id="ct-msg" class="ct-input" rows="6" maxlength="2000" placeholder="Cuéntale qué necesitas: el proyecto, plazos y presupuesto aproximado."></textarea>
+      <div class="ct-err" id="ct-err"></div>
+      <button class="btn-solid" id="ct-send" onclick="ctSend()" style="width:100%;padding:14px;cursor:pointer">Enviar mensaje →</button>
+    </div>
+    <div id="ct-done" style="display:none;text-align:center;padding:12px 0">
+      <div style="font-size:44px;margin-bottom:10px">✉️</div>
+      <div class="card-title" style="font-size:19px;margin-bottom:8px">¡Mensaje enviado!</div>
+      <p style="font-size:14px;color:var(--muted);line-height:1.6">Si le interesa, te responderá directamente a tu email.</p>
+    </div>
+  </div>
 </div>
 
 <footer>
@@ -226,7 +260,7 @@ var CAT_NAMES = {
   translation:'Traducción / Idiomas', engineering:'Arquitectura / Ingeniería',
   coaching:'Coaching / Desarrollo personal', other:'Otro'
 };
-var AVAIL_NAMES = { immediate:'Disponible ya', '2weeks':'En 2 semanas', month:'En un mes', parttime:'Medio tiempo' };
+var AVAIL_NAMES = { immediate:'Disponible ya', '2weeks':'En 2 semanas', '1month':'En un mes', month:'En un mes', parttime:'Medio tiempo' };
 
 var allProfiles = [];
 var filtered = [];
@@ -235,12 +269,14 @@ function initials(name){
   if(!name) return '?';
   return name.trim().split(/\s+/).map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
 }
+function esc(v){ return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function safeUrl(u){ u=String(u||'').trim(); return /^https?:\/\//i.test(u) ? esc(u) : ''; }
 function parseArr(v){ try { return typeof v==='string'?JSON.parse(v):(v||[]); } catch(e){ return []; } }
 function parseObj(v){ try { return typeof v==='string'?JSON.parse(v):(v||{}); } catch(e){ return {}; } }
 
 async function loadProfiles(){
   try {
-    var res = await fetch(SUPABASE_URL + '/rest/v1/service_profiles?status=eq.approved&order=created_at.desc&select=*', {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/service_profiles?status=eq.approved&order=created_at.desc&select=id,name,country,availability,category,title,description,rate,links,skills,trust_level,created_at', {
       headers: { 'apikey': SUPABASE_ANON }
     });
     var data = await res.json();
@@ -289,23 +325,23 @@ function render(){
 
   grid.innerHTML = filtered.map(function(p, i){
     var skills = parseArr(p.skills).slice(0, 5);
-    var skillHtml = skills.map(function(s){ return '<span class="skill-chip">'+s+'</span>'; }).join('');
+    var skillHtml = skills.map(function(s){ return '<span class="skill-chip">'+esc(s)+'</span>'; }).join('');
     var trustClass = p.trust_level === 'high' ? 'trust-high' : 'trust-basic';
     var trustLabel = p.trust_level === 'high' ? '✓ Verificado' : (p.trust_level === 'basic' ? '✓ Básico' : '');
     return '<div class="card">' +
       '<div class="card-top">' +
         '<div class="card-avatar">'+initials(p.name)+'</div>' +
         '<div style="min-width:0">' +
-          '<div class="card-title">'+(p.title||'Profesional remoto')+'</div>' +
-          '<div class="card-meta">'+(p.name||'')+(p.country?' · '+p.country:'')+'</div>' +
+          '<div class="card-title">'+esc(p.title||'Profesional remoto')+'</div>' +
+          '<div class="card-meta">'+esc(p.name)+(p.country?' · '+esc(p.country):'')+'</div>' +
         '</div>' +
       '</div>' +
       '<span class="card-cat">'+(CAT_NAMES[p.category]||p.category||'')+'</span>' +
-      '<div class="card-desc">'+(p.description||'')+'</div>' +
+      '<div class="card-desc">'+esc(p.description)+'</div>' +
       (skillHtml ? '<div class="card-skills">'+skillHtml+'</div>' : '') +
       '<div class="card-footer">' +
         '<div>' +
-          (p.rate ? '<div class="card-rate">'+p.rate+'</div>' : '<div class="card-rate" style="color:var(--muted)">Tarifa a convenir</div>') +
+          (p.rate ? '<div class="card-rate">'+esc(p.rate)+'</div>' : '<div class="card-rate" style="color:var(--muted)">Tarifa a convenir</div>') +
           (trustLabel ? '<div class="trust-badge '+trustClass+'">'+trustLabel+'</div>' : '') +
         '</div>' +
         '<button class="contact-btn" onclick="openDetail('+i+')">Ver perfil →</button>' +
@@ -319,29 +355,29 @@ function openDetail(i){
   if(!p) return;
   var links = parseObj(p.links);
   var linkHtml = Object.keys(links).map(function(k){
-    return '<a href="'+links[k]+'" target="_blank" rel="noopener" style="color:var(--green);font-size:13px;margin-right:14px;text-decoration:none">'+k+' ↗</a>';
+    var u=safeUrl(links[k]); if(!u) return ''; return '<a href="'+u+'" target="_blank" rel="noopener" style="color:var(--green);font-size:13px;margin-right:14px;text-decoration:none">'+esc(k)+' ↗</a>';
   }).join('');
   var skills = parseArr(p.skills);
-  var skillHtml = skills.map(function(s){ return '<span class="skill-chip">'+s+'</span>'; }).join('');
+  var skillHtml = skills.map(function(s){ return '<span class="skill-chip">'+esc(s)+'</span>'; }).join('');
 
   document.getElementById('detail-modal').innerHTML =
     '<button class="modal-close" onclick="closeDetail()">✕</button>' +
     '<div class="card-top" style="margin-bottom:16px">' +
       '<div class="card-avatar" style="width:64px;height:64px;font-size:22px">'+initials(p.name)+'</div>' +
       '<div>' +
-        '<div class="card-title" style="font-size:20px">'+(p.title||'')+'</div>' +
-        '<div class="card-meta" style="font-size:14px">'+(p.name||'')+(p.country?' · '+p.country:'')+'</div>' +
+        '<div class="card-title" style="font-size:20px">'+esc(p.title)+'</div>' +
+        '<div class="card-meta" style="font-size:14px">'+esc(p.name)+(p.country?' · '+esc(p.country):'')+'</div>' +
       '</div>' +
     '</div>' +
     '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">' +
       '<span class="card-cat" style="margin:0">'+(CAT_NAMES[p.category]||p.category||'')+'</span>' +
       (p.availability ? '<span class="card-cat" style="margin:0;background:rgba(255,255,255,0.06);color:var(--muted)">'+(AVAIL_NAMES[p.availability]||p.availability)+'</span>' : '') +
-      (p.rate ? '<span class="card-cat" style="margin:0;background:rgba(255,255,255,0.06);color:#fff">'+p.rate+'</span>' : '') +
+      (p.rate ? '<span class="card-cat" style="margin:0;background:rgba(255,255,255,0.06);color:#fff">'+esc(p.rate)+'</span>' : '') +
     '</div>' +
     (linkHtml ? '<div style="margin-bottom:16px">'+linkHtml+'</div>' : '') +
-    '<div style="font-size:14px;color:#C8D8F0;line-height:1.7;margin-bottom:18px;white-space:pre-wrap">'+(p.description||'')+'</div>' +
+    '<div style="font-size:14px;color:#C8D8F0;line-height:1.7;margin-bottom:18px;white-space:pre-wrap">'+esc(p.description)+'</div>' +
     (skillHtml ? '<div style="margin-bottom:20px"><div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600;margin-bottom:8px">Habilidades</div><div class="card-skills">'+skillHtml+'</div></div>' : '') +
-    (p.email ? '<a href="mailto:'+p.email+'?subject=Oportunidad%20a%20través%20de%20Flexori" class="btn-solid" style="width:100%;text-align:center;padding:14px">Contactar a '+(p.name?p.name.split(' ')[0]:'este profesional')+' →</a>' : '');
+    '<button class="btn-solid" onclick="openContact('+i+')" style="width:100%;text-align:center;padding:14px;cursor:pointer">Contactar a '+esc(p.name?p.name.split(' ')[0]:'este profesional')+' →</button>';
 
   document.getElementById('detail-overlay').style.display = 'flex';
 }
@@ -354,6 +390,100 @@ function clearFilters(){
   document.getElementById('f-country').value = '';
   document.getElementById('f-avail').value = '';
   applyFilters();
+}
+
+// ── CONTACTO (login obligatorio, el email del profesional nunca llega al navegador) ──
+var _ctIdx = null, _ctMode = 'login';
+function ctUser(){
+  var t = localStorage.getItem('sb_access_token'), e = localStorage.getItem('sb_user_email');
+  return t ? { token: t, email: e || '' } : null;
+}
+function ctShow(id){ ['ct-login','ct-form','ct-done'].forEach(function(x){ document.getElementById(x).style.display = x===id ? 'block' : 'none'; }); }
+function openContact(i){
+  _ctIdx = i;
+  var p = filtered[i]; if(!p) return;
+  closeDetail();
+  document.getElementById('ct-to-name').textContent = p.name ? p.name.split(' ')[0] : 'este profesional';
+  var u = ctUser();
+  if(u){ document.getElementById('ct-from').textContent = u.email; document.getElementById('ct-err').style.display='none'; ctShow('ct-form'); }
+  else ctShow('ct-login');
+  document.getElementById('contact-overlay').style.display = 'flex';
+  if (typeof gtag === 'function') gtag('event', 'talent_contact_open', { category: p.category || '' });
+}
+function closeContact(){ document.getElementById('contact-overlay').style.display = 'none'; }
+document.getElementById('contact-overlay').addEventListener('click', function(e){ if(e.target === this) closeContact(); });
+function ctToggle(){
+  _ctMode = _ctMode === 'login' ? 'register' : 'login';
+  var reg = _ctMode === 'register';
+  document.getElementById('ct-login-title').textContent = reg ? 'Crea tu cuenta gratis' : 'Inicia sesión para contactar';
+  document.getElementById('ct-login-btn').textContent = reg ? 'Crear cuenta gratis' : 'Iniciar sesión';
+  document.getElementById('ct-toggle-text').textContent = reg ? '¿Ya tienes cuenta?' : '¿No tienes cuenta?';
+  document.getElementById('ct-toggle-link').textContent = reg ? 'Iniciar sesión' : 'Crear cuenta gratis';
+  document.getElementById('ct-login-err').style.display = 'none';
+}
+async function ctAuth(){
+  var email = document.getElementById('ct-email').value.trim();
+  var pass = document.getElementById('ct-pass').value;
+  var err = document.getElementById('ct-login-err'), btn = document.getElementById('ct-login-btn');
+  var reg = _ctMode === 'register';
+  err.style.display = 'none';
+  if(!email || !pass){ err.textContent = 'Ingresa tu email y contraseña.'; err.style.display = 'block'; return; }
+  btn.disabled = true; btn.textContent = reg ? 'Creando cuenta...' : 'Iniciando sesión...';
+  try {
+    var url = SUPABASE_URL + (reg ? '/auth/v1/signup' : '/auth/v1/token?grant_type=password');
+    var body = { email: email, password: pass };
+    if(reg) body.options = { emailRedirectTo: 'https://flexori.work/talent.html' };
+    var res = await fetch(url, { method:'POST', headers:{ 'Content-Type':'application/json', 'apikey': SUPABASE_ANON }, body: JSON.stringify(body) });
+    var data = await res.json();
+    if(data.error || data.error_code || data.code >= 400){
+      var msg = data.error_description || data.msg || data.message || 'Error.';
+      if(msg.indexOf('already registered') > -1) msg = 'Este email ya tiene cuenta. Inicia sesión.';
+      if(msg.indexOf('Invalid login') > -1) msg = 'Email o contraseña incorrectos.';
+      if(msg.indexOf('at least 6') > -1) msg = 'La contraseña debe tener al menos 6 caracteres.';
+      if(msg.indexOf('not confirmed') > -1) msg = 'Confirma tu email primero (revisa tu bandeja de entrada).';
+      err.textContent = msg; err.style.display = 'block';
+    } else if(data.access_token){
+      localStorage.setItem('sb_access_token', data.access_token);
+      localStorage.setItem('sb_user_email', email);
+      localStorage.setItem('sb_user_id', (data.user && data.user.id) || '');
+      openContact(_ctIdx);
+    } else if(reg){
+      document.getElementById('ct-login-ok').style.display = 'block';
+    }
+  } catch(e){ err.textContent = 'Error de conexión. Intenta de nuevo.'; err.style.display = 'block'; }
+  btn.disabled = false; btn.textContent = reg ? 'Crear cuenta gratis' : 'Iniciar sesión';
+}
+async function ctSend(){
+  var p = filtered[_ctIdx], u = ctUser();
+  var err = document.getElementById('ct-err'), btn = document.getElementById('ct-send');
+  var name = document.getElementById('ct-name').value.trim();
+  var msg = document.getElementById('ct-msg').value.trim();
+  err.style.display = 'none';
+  if(!u){ ctShow('ct-login'); return; }
+  if(!name){ err.textContent = 'Escribe tu nombre o el de tu empresa.'; err.style.display = 'block'; return; }
+  if(msg.length < 30){ err.textContent = 'El mensaje es muy corto (mínimo 30 caracteres).'; err.style.display = 'block'; return; }
+  btn.disabled = true; btn.textContent = 'Enviando...';
+  try {
+    var res = await fetch('/.netlify/functions/contact-talent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + u.token },
+      body: JSON.stringify({ profile_id: p.id, sender_name: name, message: msg })
+    });
+    var data = {}; try { data = await res.json(); } catch(e){}
+    if(res.status === 401){
+      localStorage.removeItem('sb_access_token');
+      document.getElementById('ct-login-err').textContent = 'Tu sesión expiró. Inicia sesión de nuevo.';
+      document.getElementById('ct-login-err').style.display = 'block';
+      ctShow('ct-login');
+    } else if(!res.ok){
+      err.textContent = data.error || 'No pudimos enviar el mensaje. Intenta de nuevo.'; err.style.display = 'block';
+    } else {
+      ctShow('ct-done');
+      document.getElementById('ct-msg').value = '';
+      if (typeof gtag === 'function') gtag('event', 'talent_contact_sent', { category: p.category || '' });
+    }
+  } catch(e){ err.textContent = 'Error de conexión. Intenta de nuevo.'; err.style.display = 'block'; }
+  btn.disabled = false; btn.textContent = 'Enviar mensaje →';
 }
 
 loadProfiles();
