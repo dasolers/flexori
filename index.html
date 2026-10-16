@@ -145,6 +145,9 @@ h1{font-family:'Syne',sans-serif;font-size:clamp(36px,4vw,60px);font-weight:800;
   line-height:1.05;letter-spacing:-1px;margin-bottom:18px}
 h1 .g{color:var(--green)}
 .hero-sub{font-size:16px;color:var(--gray);max-width:460px;line-height:1.75;margin-bottom:32px}
+.btn-jobs{display:inline-flex !important;align-items:center;justify-content:center;gap:8px;background:rgba(29,158,117,0.12);border:1.5px solid rgba(29,158,117,0.5);border-radius:100px;padding:12px 26px;color:#1D9E75 !important;font-family:'DM Sans',sans-serif !important;font-size:15px;font-weight:600;text-decoration:none !important;transition:all .2s}
+.btn-jobs:hover{background:rgba(29,158,117,0.22);border-color:#1D9E75}
+.nav-logo,.nav-logo:visited{color:#fff}
 .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px}
 .hero-ctas .btn-solid,.hero-ctas .btn-outline{padding:12px 26px;font-size:15px}
 .hero-stats{display:flex}
@@ -509,7 +512,7 @@ footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;
     <div class="hero-ctas">
       <button id="score-cta-btn" onclick="openScoreModal()" class="btn-solid" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;padding:12px 26px;font-size:15px">&#9889; <span data-i="cta_score">Get My Free Score</span></button>
       <a href="/register.html" class="btn-outline" style="padding:12px 26px;font-size:15px" data-i="cta_join">Join Free →</a>
-      <a href="/jobs.html" style="display:inline-flex;align-items:center;gap:8px;background:rgba(29,158,117,0.12);border:1.5px solid rgba(29,158,117,0.5);border-radius:100px;padding:12px 26px;color:#1D9E75;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(29,158,117,0.22)';this.style.borderColor='#1D9E75'" onmouseout="this.style.background='rgba(29,158,117,0.12)';this.style.borderColor='rgba(29,158,117,0.5)'" data-i="cta_jobs">Browse Jobs →</a>
+      <a href="/jobs.html" class="btn-jobs" data-i="cta_jobs">Browse Jobs →</a>
     </div>
     <div class="hero-stats">
       <div class="hstat"><div class="hstat-n" id="jobs-stat">500<span>+</span></div><div class="hstat-l" data-i="s4">Live Jobs</div></div>
