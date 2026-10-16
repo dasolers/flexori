@@ -192,75 +192,90 @@ function buildEmailHTML(jobs, lang) {
   };
 }
 
-exports.handler = async function(event, context) {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json'
-  };
-
-  // Aceptar: llamada scheduled de Netlify, lunes, o ?manual=true
-  const isScheduled = !event.httpMethod; // Netlify scheduled functions no tienen httpMethod
-  const isMonday = new Date().getDay() === 1;
-  const isManual = event.queryStringParameters?.manual === 'true';
-
-  if (!isScheduled && !isMonday && !isManual) {
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({ message: 'Not Monday. Use ?manual=true to force.' })
-    };
-  }
-
+async function notifyFailure(key, stage, detail) {
+  // Avisa a hola@flexori.work si el envío semanal falla, para que no pase en silencio
   try {
-    const RESEND_KEY_FULL = process.env.RESEND_API_KEY_FULL;
-
-    // Obtener empleos operativos
-    const jobs = await fetchOperativeJobs();
-
-    // Crear y enviar Broadcast directo a la audiencia
-    const emailContent = buildEmailHTML(jobs, 'es');
-
-    const broadcastRes = await fetch('https://api.resend.com/broadcasts', {
+    await fetch('https://api.resend.com/emails', {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${RESEND_KEY_FULL}`,
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        audience_id: AUDIENCE_ID,
-        from: 'Flexori <hola@flexori.work>',
-        subject: emailContent.subject,
-        html: emailContent.html,
-        send: true
+        from: 'Flexori Alertas <hola@flexori.work>',
+        to: 'hola@flexori.work',
+        subject: '⚠️ Falló el email semanal de empleos',
+        html: `<p>El envío semanal falló en la etapa: <strong>${stage}</strong>.</p><pre style="white-space:pre-wrap;font-size:12px">${String(JSON.stringify(detail, null, 2)).replace(/</g, '&lt;')}</pre><p>Revisa Netlify → Logs → Functions → weekly-jobs y Resend → Broadcasts.</p>`
       })
     });
+  } catch (e) { console.error('notifyFailure error', e); }
+}
 
-    const broadcastData = await broadcastRes.json();
+exports.handler = async function(event, context) {
+  const headers = { 'Content-Type': 'application/json' };
 
-    if (broadcastData.error) {
-      return {
-        statusCode: 500,
-        headers,
-        body: JSON.stringify({ error: broadcastData.error, details: broadcastData })
-      };
+  // Solo se envía en la ejecución programada (lunes 9:00 UTC) o manualmente con la clave de admin
+  const isScheduled = !event.httpMethod;
+  const qs = event.queryStringParameters || {};
+  const isManual = qs.manual === 'true' && !!process.env.ADMIN_PASSWORD && qs.key === process.env.ADMIN_PASSWORD;
+
+  if (!isScheduled && !isManual) {
+    return { statusCode: 403, headers, body: JSON.stringify({ error: 'Not allowed' }) };
+  }
+
+  const RESEND_KEY_FULL = process.env.RESEND_API_KEY_FULL;
+  const rs = { 'Authorization': `Bearer ${RESEND_KEY_FULL}`, 'Content-Type': 'application/json' };
+
+  try {
+    const jobs = await fetchOperativeJobs();
+    if (!jobs || jobs.length === 0) {
+      await notifyFailure(RESEND_KEY_FULL, 'obtener empleos', { message: 'No se obtuvieron empleos' });
+      return { statusCode: 500, headers, body: JSON.stringify({ error: 'No jobs fetched' }) };
+    }
+    const emailContent = buildEmailHTML(jobs, 'es');
+    const fecha = new Date().toISOString().slice(0, 10);
+
+    // 1. Crear el broadcast (segment_id es el nombre actual; audience_id como respaldo)
+    const base = {
+      name: `Empleos semanales ${fecha}`,
+      from: 'Flexori <hola@flexori.work>',
+      subject: emailContent.subject,
+      html: emailContent.html
+    };
+    let createRes = await fetch('https://api.resend.com/broadcasts', {
+      method: 'POST', headers: rs, body: JSON.stringify({ ...base, segment_id: AUDIENCE_ID })
+    });
+    let created = await createRes.json();
+    if (!createRes.ok || !created.id) {
+      console.warn('segment_id falló, reintentando con audience_id', created);
+      createRes = await fetch('https://api.resend.com/broadcasts', {
+        method: 'POST', headers: rs, body: JSON.stringify({ ...base, audience_id: AUDIENCE_ID })
+      });
+      created = await createRes.json();
+    }
+    if (!createRes.ok || !created.id) {
+      console.error('Error creando broadcast', created);
+      await notifyFailure(RESEND_KEY_FULL, 'crear broadcast', created);
+      return { statusCode: 500, headers, body: JSON.stringify({ error: 'create failed', details: created }) };
     }
 
+    // 2. Enviarlo explícitamente (antes quedaba en borrador)
+    const sendRes = await fetch(`https://api.resend.com/broadcasts/${created.id}/send`, {
+      method: 'POST', headers: rs, body: JSON.stringify({})
+    });
+    const sent = await sendRes.json().catch(() => ({}));
+    if (!sendRes.ok || sent.error || sent.statusCode >= 400) {
+      console.error('Error enviando broadcast', created.id, sent);
+      await notifyFailure(RESEND_KEY_FULL, 'enviar broadcast ' + created.id, sent);
+      return { statusCode: 500, headers, body: JSON.stringify({ error: 'send failed', broadcast_id: created.id, details: sent }) };
+    }
+
+    console.log('Broadcast enviado', created.id, jobs.length, 'empleos');
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({
-        success: true,
-        broadcast_id: broadcastData.id,
-        jobs_shown: jobs.map(j => j.title),
-        message: 'Weekly email broadcast sent successfully'
-      })
+      body: JSON.stringify({ success: true, broadcast_id: created.id, jobs_shown: jobs.map(j => j.title) })
     };
-
-  } catch(err) {
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: err.message })
-    };
+  } catch (err) {
+    console.error('weekly-jobs error', err);
+    await notifyFailure(RESEND_KEY_FULL, 'excepción', { message: err.message });
+    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
   }
 };
